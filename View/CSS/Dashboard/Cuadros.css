@@ -1,0 +1,128 @@
+.ContenedorCuadros{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 2vw;
+    row-gap: 3vw;
+}
+
+/*Estilo de Ordenes*/
+.CuadroOrdenes{
+    padding: 0;
+    margin: 0;
+    background-color: rgb(85, 179, 255);
+    box-shadow: 2px 2px 3px rgb(117, 117, 117);
+    grid-column-start: 1;
+    grid-column-end:3;
+}
+
+.cuadro_hijo01{
+    display: grid;
+    grid-template-columns:2fr 1fr;
+    align-items: center;
+    padding: 1vw;
+    margin: 0;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    font-size: small;
+    user-select: none;
+}
+
+.cuadro_hijo01 div:last-child{
+    display: grid;
+    align-items:start;
+}
+
+.cuadro_hijo01 h2{
+    opacity: 1;
+}
+
+.cuadro_hijo01 div:last-child{
+    display: grid;
+    justify-items: end;
+}
+.cuadro_hijo01 div:last-child img{
+    width: 5vw;
+    opacity: 0.2;
+}
+
+.CuadroOrdenes .cuadro_hijo02{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-weight: 400;
+    background-color: rgb(48, 162, 255);
+    width: 100%;
+    padding: 0.2vw;
+}
+
+/*Estilo Tasa de Rebotes*/
+.CuadroTasaRebote{
+    padding: 0;
+    margin: 0;
+    background-color: rgb(50, 199, 74);
+    box-shadow: 2px 2px 3px rgb(117, 117, 117);
+}
+
+.CuadroTasaRebote .cuadro_hijo02{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-weight: 400;
+    background-color: rgb(37, 175, 78);
+    width: 100%;
+    padding: 0.2vw;
+}
+
+
+/*Cuadro del numero de Usuarios Registrados*/
+.CuadroRegistrados{
+    padding: 0;
+    margin: 0;
+    background-color: rgb(212, 105, 34);
+    box-shadow: 2px 2px 3px rgb(117, 117, 117);
+}
+
+.CuadroRegistrados .cuadro_hijo02{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-weight: 400;
+    background-color: rgb(194, 100, 37);
+    width: 100%;
+    padding: 0.2vw;
+}
+
+/*Estilo del numero de visitantes*/
+.CuadroVisitantes{
+    padding: 0;
+    margin: 0;
+    background-color: rgb(194, 24, 24); 
+    box-shadow: 2px 2px 3px rgb(117, 117, 117);
+    grid-column-start: 1;
+    grid-column-end: 2.5;
+}
+
+.CuadroVisitantes .cuadro_hijo02{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-weight: 400;
+    background-color: rgb(173, 15, 15);
+    width: 100%;
+    padding: 0.2vw;
+}
+
+h2{
+    user-select: none;
+}
+
+a:hover{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+a:visited{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+a{
+    color: rgb(255, 255, 255); 
+    font-weight: 400;
+}

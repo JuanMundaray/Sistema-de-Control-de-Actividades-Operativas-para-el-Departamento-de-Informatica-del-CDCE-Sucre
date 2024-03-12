@@ -1,0 +1,78 @@
+#menuLateral{
+    margin-top:109px;
+    background-color: rgb(255, 255, 255);
+    width: 250px;
+    position: fixed;
+    left: 0;
+    height: 100%;
+	box-shadow: 1px 1px 2px 1px #9c9c9c;
+	z-index: 2;
+}
+/* menu */
+
+/*item iniciales del menu*/
+#menuLateral ul{
+	list-style:none;
+	margin: 0;
+	padding: 0;
+
+}
+
+/* enlaces del menu */
+#menuLateral ul a{
+	display:block;
+	font-size:15px;
+	font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	text-decoration: none;
+	font-weight: 600;
+	color:#000000;
+	padding: 15px;
+	opacity: 0.7;
+}
+
+/* items del menu */
+#menuLateral li{
+	display:block;
+	float: none;
+	margin:0px;
+	padding:0px;
+	float:none;
+}
+/* efecto al pasar el ratón por los items del menu */
+#menuLateral ul li:hover{
+	background:rgb(219, 219, 219);
+
+}
+
+#menuLateral ul ul{
+	display:none;
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+}
+
+#menuLateral ul ul a{
+	width:100%;
+	font-size:small;
+	display:inline-block;
+	padding: 12px;
+
+
+}
+
+#menuLateral ul li:hover> ul{
+	display:block;
+}
+
+#menuLateral ul ul li{
+	display:block;
+	width: 100%;
+
+}
+
+
+/*Marca la pagina en la que estas en el menu deslizante*/
+.marca{
+	background:rgb(219, 219, 219);
+}
+

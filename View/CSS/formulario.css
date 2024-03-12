@@ -1,0 +1,45 @@
+.div_input_form{
+    margin-bottom: 20px;
+    padding-left: 5px;
+
+}
+
+.input_submit{
+    float: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-width: 100px;
+    max-width: 200px;
+}
+
+.form_login{
+    background-color: rgb(255, 255, 255);
+    padding: 2vw;
+    padding-top: 1vw;
+    margin: auto;
+    min-width: 500px;
+    max-width: 40vw;
+    border-radius: 10px;
+    margin-top: 15vh;
+}
+
+.form_login h1{
+    display: flex;
+    justify-content: center;
+}
+
+
+.form_login .input_form{
+    margin-bottom: 20px;
+    padding-left: 5px;
+
+}
+.form_button{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.formulario label{
+    font-weight: 600;
+}

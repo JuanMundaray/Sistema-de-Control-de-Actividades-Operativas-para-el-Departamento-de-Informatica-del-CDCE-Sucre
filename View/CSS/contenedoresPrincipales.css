@@ -1,0 +1,99 @@
+@import url(Variables.css);
+:root{
+    --FondoLetra:'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--ColorFondo);
+}
+
+body{
+    display: flex;
+    background-color: var(--ColorFondo);
+}
+
+main{
+    position: relative;
+    margin: 3vw;
+    margin-left: 300px;
+    margin-top: 150px;
+    width: 100vw;
+}
+
+label{
+    padding-left: 0px !important;
+    user-select: none;
+}
+
+.titleh1{
+    font-size: 2.5vw;
+    font-family: var(--FondoLetra);
+    font-weight: 600;
+    user-select: none;
+    padding:1vw 0vw 1vw 0vw;
+    opacity: 0.8;
+}
+
+.titleh2{
+
+    margin-bottom: 40px;
+    padding:15px;
+    background-color: var(--ColorTitulo);
+    color: rgb(255, 255, 255);
+    font-weight:700;
+    font-size:x-large;
+    user-select: none;
+
+}
+
+.contenedorPrincipal{
+    background-color: rgb(255, 255, 255);
+    margin: 0;
+    min-width: 800px;
+}
+
+.secciones{
+    padding: 0px 40px 10px 40px;
+
+}
+
+.table_default th{
+
+    text-align: center;
+    user-select: none;
+
+}
+
+.table_default{
+    margin-top: 30px;
+}
+
+.table_default td{
+    text-align: center;
+    font-size: medium;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+}
+
+.scroll{
+    min-width: 200px;
+    max-width: 1000px;
+    max-height: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    margin-bottom: 2vw;
+}
+
+.navbar .form-control{
+    display: inline;
+    width: auto;
+}
+
+.navbar{
+    margin-bottom: 20px;
+}
+
+.center_elem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
