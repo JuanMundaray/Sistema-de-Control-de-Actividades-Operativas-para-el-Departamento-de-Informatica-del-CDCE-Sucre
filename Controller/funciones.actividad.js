@@ -4,39 +4,19 @@ $(document).ready(function(){
         let ok=confirm("¿Esta seguro de Modificar esta actividad?");
         if(ok){
             let id=$("#id").val();
-            let nombre=$("#nombre").val();
-            let codigo=$("#codigo").val();
-            let tipo=$("#tipo").val();
-            let fecha=$("#fecha").val();
             let observacion=$("#observacion").val();
-            let dep_receptor=$("#dep_receptor").val();
-            let dep_emisor=$("#dep_emisor").val();
-            let nom_responsable=$("#nom_responsable").val();
-            let ape_responsable=$("#ape_responsable").val();
-            let ced_responsable=$("#ced_responsable").val();
-            let nom_atendido=$("#nom_atendido").val();
-            let ape_atendido=$("#ape_atendido").val();
-            let ced_atendido=$("#ced_atendido").val();
+            let informe=$("#informe").val();
+            let estado=$("#estado").val();
             $.ajax({
                 type:"POST",
                 url:"../controller/controllerActividad.php",
                 data:`option=modificar&id=${id}
-                &nombre=${nombre}
-                &codigo=${codigo}
-                &tipo=${tipo}
-                &fecha=${fecha}
                 &observacion=${observacion}
-                &dep_receptor=${dep_receptor}
-                &dep_emisor=${dep_emisor}
-                &nom_responsable=${nom_responsable}
-                &ape_responsable=${ape_responsable}
-                &ced_responsable=${ced_responsable}
-                &nom_atendido=${nom_atendido}
-                &ape_atendido=${ape_atendido}
-                &ced_atendido=${ced_atendido}`,
+                &informe=${informe}
+                &estado=${estado}`,
                 dataType:'text',
                 success:function(msg){
-                        alert("Actividad Modificada","Notificacion");
+                        alert("Actividad Modificada");
                         location.href="actividades-registradas.php";
                 },
                 error:function(jqXHR,textStatus,errorThrown){

@@ -4,23 +4,7 @@ $(document).ready(function(){
     filtrar_estado();
 
 });
-    
 
-function eliminar(id){
-    let ok=confirm("¿Seguro que desea eliminar esta actividad?");
-    if(ok){
-        $.ajax({
-            type:"POST",
-            url:"../controller/controllerActividad.php",
-            data:"option=eliminar&id="+id,
-            dataType:'json',
-            success:function(msg){
-                alert("Actividad Eliminada Exitosamente");
-                location.href="actividades-registradas.php";
-            }
-    });
-    }
-}
 
 function filtrar_estado(){//Esta funcion hace que las actividades aparezcan segun si se selecciono en cierto cuadro de select si quiere que se muestren las completadas o las que estan en proceso
     $("#filt_completadas").click(function(){
@@ -39,22 +23,6 @@ function filtrar_estado(){//Esta funcion hace que las actividades aparezcan segu
 
 }
 
-
-function paginacion(fil_query){//Esta funcion hace posible la paginacion de los registros de una consulta
-    //fil_query se refiere al arreglo que contiene las filas de la consulta sql
-    let contador=0;
-    let num_paginas=(fil_query.length)/2;
-    for(i=1;i<=num_paginas;i++){
-        setNumeroPaginas(i);
-    }
-
-    function setNumeroPaginas(numero){
-        $("#num_paginas").append(
-            `<li class="page-item"><a class="page-link" href="${numero}">${numero}</a></li>`
-        )
-    }
-}
-
 function getActividades(){
     $.ajax({
 
@@ -67,11 +35,14 @@ function getActividades(){
             
             msg.forEach(function(elemento){
                 if(elemento['estado']=="Iniciada"){
-                    var btn_estilo="btn-success";
-                }if(elemento['estado']=="Proceso"){
+                    var btn_estilo="btn-primary";
+                }if(elemento['estado']=="PROCESO"){
                     var btn_estilo="btn-warning";
-                }if(elemento['estado']=="Completada"){
+                }if(elemento['estado']=="COMPLETADA"){
                     var btn_estilo="btn-success";
+                }
+                if(elemento['estado']=="SUSPENDIDA"){
+                    var btn_estilo="btn-danger";
                 }
     
                 //Dibujar la Tabla de Actividades por medio del DOM de JavaScripts 
@@ -88,14 +59,50 @@ function getActividades(){
                 <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
                 <td>${elemento['ced_atendido']}</td>
                 <td><button class="btn ${btn_estilo}">${elemento['estado']}</button></td>
-                <td>${elemento['observacion']}</td>
                     
                 <td>
                     <a href="editar-actividad.php?id=${elemento['id']}"><button class="btn btn-outline-secondary">Modificar</button></a>
                 </td>
-                <td><button class="btn btn-outline-danger" onclick="eliminar(${elemento['id']})">Eliminar</button></td></tr>`);
+
+                <td><button class="btn btn-outline-danger" onclick="eliminarActividad(${elemento['id']})">Eliminar</button></td>
+                
+                <td>
+                    <a href="detalles-actividad.php?id=${elemento['id']}"><button class="btn btn-outline-info">Ver Detalles</button></a>
+                </td></tr>
+                `);
             });
         }
 
     });
+}
+
+function eliminarActividad(id){
+    let ok=confirm("¿Seguro que desea eliminar esta actividad?");
+    if(ok){
+        $.ajax({
+            type:"POST",
+            url:"../controller/controllerActividad.php",
+            data:"option=eliminar&id="+id,
+            dataType:'json',
+            success:function(msg){
+                alert("Actividad Eliminada Exitosamente");
+            }
+    });
+    location.reload();
+    }
+}
+
+function paginacion(fil_query){//Esta funcion hace posible la paginacion de los registros de una consulta
+    //fil_query se refiere al arreglo que contiene las filas de la consulta sql
+    let contador=0;
+    let num_paginas=(fil_query.length)/2;
+    for(i=1;i<=num_paginas;i++){
+        setNumeroPaginas(i);
+    }
+
+    function setNumeroPaginas(numero){
+        $("#num_paginas").append(
+            `<li class="page-item"><a class="page-link" href="${numero}">${numero}</a></li>`
+        )
+    }
 }

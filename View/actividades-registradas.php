@@ -13,7 +13,7 @@
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
         <script src="../Controller/controller_js/ajax.actividades.js"></script>
         <script src="../Controller/funciones.actividad.js"></script>
-        <script src="../Controller/autocompletar.js"></script>
+        <script src="JS/autocompletar_actividad.js"></script>
         <script src="JS/menu_desplegable-administrador.js"></script>
         <title>Actividades Registradas</title>
         
@@ -66,8 +66,7 @@
                                 <th><label>Funcionario Atendido</label></th>
                                 <th><label>Cedula del Funcionario Atendido</label></th>
                                 <th><label>Estado</label></th>
-                                <th><label>Observacion</label></th>
-                                <th colspan="2"><label>Accion</label></th>
+                                <th colspan="3"><label>Accion</label></th>
                             </tr>
                             
                         </table>

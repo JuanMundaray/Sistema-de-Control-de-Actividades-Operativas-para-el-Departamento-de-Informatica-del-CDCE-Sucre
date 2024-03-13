@@ -21,25 +21,26 @@
         <h1 class="titleh1">Petición de Actividad</h1>
         <div class="contenedorPrincipal">
 
-            <form class="formulario" method="post">
+            <form class="formulario" method="post" action="../Controller/controllerPeticion.php">
                     <h2 class="titleh2">Realizar Petición de Actividad</h2>
                     <section class="secciones row">
                         
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Nombre de Petición:</label>
-                            <input class="col-md-12 form-control" type="text" name="nom_peticion" id="nom_peticion" placeholder="Nombre identificativo" required>
+                            <input class="col-md-12 form-control" type="text" name="nombre_peticion" id="nombre_peticion" placeholder="Nombre identificativo" required>
                         </div>
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Deparatamento que realiza la Petición:</label>
-                            <select class="col-md-12 form-select" type="text" name="dep_peticion" id="dep_peticion" required>
+                            <select class="col-md-12 form-select" type="text" name="departamento_peticion" id="departamento_peticion" required>
                                 <option value="DEPARTAMENTO DE SALUD">Departamento de Salud</option>
-
                             </select>
                         </div>
                         <div class="col-md-12 div_input_form">
                             <label class="col-md-12 form-label">Detalles de la Petición:</label>
-                            <textarea class="col-md-12 form-control" name="detalles" id="detalles" placeholder="Se especifica con detalle como desea que se realice alguna actividad..." style="min-height: 200px;" required></textarea>
+                            <textarea class="col-md-12 form-control" name="detalles_peticion" id="detalles_peticion" placeholder="Se especifica con detalle como desea que se realice alguna actividad..." style="min-height: 200px;" required></textarea>
                         </div>
+                        <input type="hidden" value="Ramon" name="nombre_usuario" id="nombre_usuario">
+                        <input type="hidden" value="crear_peticion" name="option" id="option">
                         <div class="col-md-12 form_button">
                             <input type="submit" class="btn btn-primary col-md-2" value="Crear Petición" name="crear_peticion" id="crear_peticion">
                         </div>

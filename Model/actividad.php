@@ -16,13 +16,15 @@ class actividad{
     private $ced_responsable;
     private $estado;
     private $observacion;
+    private $informe;
     private $db;
     private $orden='desc';
     
     public function __construct()
     {
         $this->observacion="";
-        $this->estado="Iniciada";
+        $this->informe="";
+        $this->estado="INICIADA";
     }
 
     
@@ -82,41 +84,22 @@ class actividad{
     {
         $resultado = false;
         try{
-            $codigo = $this->codigo;
-            $nombre = $this->nombre;
-            $dep_receptor = $this->dep_receptor;
-            $dep_emisor = $this->dep_emisor;
-            $tipo = $this->tipo;
-            $fecha=$this->fecha;
-            $nom_atendido = $this->nom_atendido;
-            $ape_atendido = $this->ape_atendido;
-            $ced_atendido = $this->ced_atendido;
+            $estado=$this->estado;
             $observacion=$this->observacion;
-            $nom_responsable = $this->nom_responsable;
-            $ape_responsable = $this->ape_responsable;
-            $ced_responsable = $this->ced_responsable;
+            $informe=$this->informe;
             $id=$this->id;
             $db = DataBase::getInstance();
             $consulta = "UPDATE actividades.actividad
-            SET codigo=:codigo, nombre=:nombre, tipo=:tipo, dep_receptor=:dep_receptor, dep_emisor=:dep_emisor, 
-            nom_atendido=:nom_atendido, ape_atendido=:ape_atendido,
-            ced_atendido=:ced_atendido, observacion=:observacion, 
-            nom_responsable=:nom_responsable, ape_responsable=:ape_responsable,
-            ced_responsable=:ced_responsable
+            SET estado=:estado,observacion=:observacion,informe=:informe
             WHERE id='$id'";
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":codigo"=>$codigo,":nombre"=>$nombre,
-            ":tipo"=>$tipo,
-            ":dep_receptor"=>$dep_receptor,
-            ":dep_emisor"=>$dep_emisor,":nom_atendido"=>$nom_atendido,
-            ":ape_atendido"=>$ape_atendido,":ced_atendido"=>$ced_atendido,
-            ":observacion"=>$observacion,":nom_responsable"=>$nom_responsable,
-            ":ape_responsable"=>$ape_responsable,":ced_responsable"=>$ced_responsable));
+            $resultadoPDO->execute(array(":observacion"=>$observacion,":informe"=>$informe,":estado"=>$estado));
             $resultadoPDO->closeCursor();                   
         }
         catch(Exception $objeto){
             $resultado = false;
             echo $objeto->getLine();
+            echo $objeto->getMessage();
         }
         return $resultado; 
     }
@@ -136,6 +119,7 @@ class actividad{
         }catch(Exception $e){
             $resultado=false;
             echo $e->getLine();
+            echo $e->getMessage();
         }
     }
 
@@ -187,7 +171,8 @@ class actividad{
         try{
             $id=$this->id;
             $db = DataBase::getInstance();            
-            $consulta = "Select * from actividades.actividad where id=:id";
+            $consulta = "SELECT * FROM actividades.actividad INNER JOIN actividades.tipo_actividad
+            ON actividad.tipo=tipo_actividad.id_tipo WHERE id=:id";
             $resultadoPDO=$db->prepare($consulta);
             $resultadoPDO->execute(array(':id'=>$id));
             $resultado = $resultadoPDO->fetchAll();
@@ -291,6 +276,10 @@ class actividad{
     public function setID($id)
     {
         $this->id = trim($id);
+    }
+    public function setInforme($informe)
+    {
+        $this->informe = trim($informe);
     }
 
 

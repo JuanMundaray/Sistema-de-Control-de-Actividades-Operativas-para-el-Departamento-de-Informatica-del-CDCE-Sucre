@@ -86,31 +86,13 @@ switch($option){
 
     case 'modificar':
         $actividad=new actividad();
-        $codigo=$_REQUEST['codigo'];
-        $nombre=$_REQUEST['nombre'];
-        $tipo=$_REQUEST['tipo'];
-        $dep_receptor=$_REQUEST['dep_receptor'];
-        $dep_emisor=$_REQUEST['dep_emisor'];
         $observacion=$_REQUEST['observacion'];
-        $nom_responsable=$_REQUEST['nom_responsable'];
-        $ape_responsable=$_REQUEST['ape_responsable'];
-        $ced_responsable=$_REQUEST['ced_responsable'];
-        $nom_atendido=$_REQUEST['nom_atendido'];
-        $ape_atendido=$_REQUEST['ape_atendido'];
-        $ced_atendido=$_REQUEST['ced_atendido'];
         $id=$_REQUEST['id'];
-        $actividad->setCodigo($codigo);
-        $actividad->setNombre(strtoupper($nombre));
-        $actividad->setTipo($tipo);
-        $actividad->setdep_receptor($dep_receptor);
-        $actividad->setDep_emisor($dep_emisor);
+        $informe=$_REQUEST['informe'];
+        $estado=$_REQUEST['estado'];
+        $actividad->setEstado(strtoupper($estado));
         $actividad->setObservacion($observacion);
-        $actividad->setNom_responsable(strtoupper($nom_responsable));
-        $actividad->setApe_responsable(strtoupper($ape_responsable));
-        $actividad->setCed_responsable($ced_responsable);
-        $actividad->setNom_atendido(strtoupper($nom_atendido));
-        $actividad->setApe_atendido(strtoupper($ape_atendido));
-        $actividad->setCed_atendido($ced_atendido);
+        $actividad->setInforme($informe);
         $actividad->setID($id);
         $resultado=$actividad->modificar();
         break;

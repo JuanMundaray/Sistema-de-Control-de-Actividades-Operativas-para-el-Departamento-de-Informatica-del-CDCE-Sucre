@@ -11,7 +11,6 @@
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Controller/controller_js/ajax.actividades.js"></script>
         <script src="../Controller/funciones.actividad.js"></script>
-        <script src="../Controller/autocompletar.js"></script>
         <script src="JS/menu_desplegable-login.js"></script>
         <title>Actividades Registradas</title>
     </head>

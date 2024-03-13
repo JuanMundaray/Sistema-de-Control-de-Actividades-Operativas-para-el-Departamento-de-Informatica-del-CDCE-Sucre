@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS actividades.tipo_actividad(codigo_tipo character varying(100) COLLATE pg_catalog."default",id_tipo serial NOT NULL,nombre_tipo character varying(100) COLLATE pg_catalog."default",PRIMARY KEY (id_tipo));
