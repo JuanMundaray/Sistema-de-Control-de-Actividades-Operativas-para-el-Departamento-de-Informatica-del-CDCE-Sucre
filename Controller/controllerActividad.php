@@ -39,7 +39,7 @@ switch($option){
     break;
 
 
-    case 'ver':
+    case 'obtener':
         $actividad=new actividad();
         $resultado=$actividad->obtener();
         if($resultado){

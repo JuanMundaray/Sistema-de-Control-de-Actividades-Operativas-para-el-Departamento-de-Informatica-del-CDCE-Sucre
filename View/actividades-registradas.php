@@ -11,8 +11,8 @@
         <link rel="stylesheet" href="../Framework/jquery-ui-1.13.2.custom/jquery-ui.css" type="text/css">
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-        <script src="../Controller/controller_js/ajax.actividades.js"></script>
-        <script src="../Controller/funciones.actividad.js"></script>
+        <script src="JS/ajax.actividades.js"></script>
+        <script src="JS/funciones.actividad.js"></script>
         <script src="JS/autocompletar_actividad.js"></script>
         <script src="JS/menu_desplegable-administrador.js"></script>
         <title>Actividades Registradas</title>

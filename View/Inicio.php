@@ -9,8 +9,6 @@
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         <script src="../Framework/jquery-3.6.3.min.js"></script>
-        <script src="../Controller/controller_js/ajax.actividades.js"></script>
-        <script src="../Controller/funciones.actividad.js"></script>
         <script src="JS/menu_desplegable-login.js"></script>
         <title>Actividades Registradas</title>
     </head>

@@ -2,7 +2,7 @@
 require_once('DataBase.php');
 class peticion{
     private $id_peticion;
-    private $nombre_usuario;
+    private $usuario;
     private $nombre_peticion;
     private $departamento_peticion;
     private $detalles_peticion;
@@ -20,22 +20,22 @@ class peticion{
     {
         $resultado = false;
         try{
-            $nombre_usuario = $this->nombre_usuario;
+            $usuario = $this->usuario;
             $nombre_peticion = $this->nombre_peticion;
             $departamento_peticion = $this->departamento_peticion;
             $detalles_peticion = $this->detalles_peticion;
             $fecha_peticion = $this->fecha_peticion;
             $db = DataBase::getInstance();
             $consulta = "INSERT INTO actividades.peticiones(
-            nombre_usuario,nombre_peticion,
+            usuario,nombre_peticion,
             departamento_peticion,detalles_peticion,
             fecha_peticion)
               VALUES (
-            :nombre_usuario,:nombre_peticion,
+            :usuario,:nombre_peticion,
             :departamento_peticion,:detalles_peticion,
             :fecha_peticion)";
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":nombre_usuario"=>$nombre_usuario,":nombre_peticion"=>$nombre_peticion,
+            $resultadoPDO->execute(array(":usuario"=>$usuario,":nombre_peticion"=>$nombre_peticion,
             ":departamento_peticion"=>$departamento_peticion, ":detalles_peticion"=>$detalles_peticion,
             ":fecha_peticion"=>$fecha_peticion));
             $resultado = $resultadoPDO->rowCount();
@@ -49,11 +49,50 @@ class peticion{
 
         return $resultado; 
     }
-    
-    
-    public function setNombre_usuario($nombre_usuario)
+
+    public function obtener()
     {
-        $this->nombre_usuario = trim($nombre_usuario);
+        $resultado = false;
+        try{
+            $orden=$this->orden;
+            $db = DataBase::getInstance();            
+            $consulta = "SELECT * FROM actividades.peticiones ORDER BY id_peticion $orden";
+            $resultadoPDO = $db->query($consulta);
+            $resultado = $resultadoPDO->fetchAll();
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            $resultado = $objeto->getMessage();
+        }
+        
+        return $resultado; 
+    }
+
+    public function eliminar()
+    {
+        $resultado = false;
+        try{
+            $id_peticion=$this->id_peticion;
+            $db=DataBase::getInstance();
+            $consulta="DELETE from actividades.peticiones where id_peticion=:id_peticion";
+            $resultadoPDO = $db->prepare($consulta);
+            $resultadoPDO->execute(array(':id_peticion'=>$id_peticion));
+            $resultado=$resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();
+
+        }catch(Exception $e){
+            $resultado=false;
+            echo $e->getMessage();
+        }
+    }
+    
+    public function setId_peticion($id_peticion)
+    {
+        $this->id_peticion = trim($id_peticion);
+    }
+    public function setUsuario($usuario)
+    {
+        $this->usuario = trim($usuario);
     }
     public function setNombre_peticion($nombre_peticion)
     {

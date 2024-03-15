@@ -28,7 +28,7 @@ function getActividades(){
 
         type:"POST",
         url:"../controller/controllerActividad.php",
-        data:"option=ver",
+        data:"option=obtener",
         dataType:'json',
         success:function(msg){
             paginacion(msg);

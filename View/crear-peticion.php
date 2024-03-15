@@ -39,7 +39,7 @@
                             <label class="col-md-12 form-label">Detalles de la Petición:</label>
                             <textarea class="col-md-12 form-control" name="detalles_peticion" id="detalles_peticion" placeholder="Se especifica con detalle como desea que se realice alguna actividad..." style="min-height: 200px;" required></textarea>
                         </div>
-                        <input type="hidden" value="Ramon" name="nombre_usuario" id="nombre_usuario">
+                        <input type="hidden" value=1 name="usuario" id="usuario">
                         <input type="hidden" value="crear_peticion" name="option" id="option">
                         <div class="col-md-12 form_button">
                             <input type="submit" class="btn btn-primary col-md-2" value="Crear Petición" name="crear_peticion" id="crear_peticion">

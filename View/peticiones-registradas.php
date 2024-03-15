@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="../Framework/jquery-ui-1.13.2.custom/jquery-ui.css" type="text/css">
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
+        <script src="JS/ajax.peticiones.js"></script>
         <script src="JS/menu_desplegable-administrador.js"></script>
         <title>Actividades Registradas</title>
         
@@ -37,7 +38,7 @@
                             </form>
                     </nav>
                     <div class="scroll">
-                        <table id="tabla_actividades" class="table table-bordered table-responsive text-nowrap table_default">
+                        <table id="tabla_peticiones" class="table table-bordered table-responsive text-nowrap table_default">
                             <tr>
                                 <th><label>Nombre de Peticion</label></th>
                                 <th><label>Usuario que registro la peticion</label></th>

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-    <script src="../Controller/controller_js/ajax.tipo_actividad.js"></script>
+    <script src="JS/ajax.tipo_actividad.js"></script>
     <script src="JS/menu_desplegable-administrador.js"></script>
     
 

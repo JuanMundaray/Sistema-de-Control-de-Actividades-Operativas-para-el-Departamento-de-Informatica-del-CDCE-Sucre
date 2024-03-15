@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="../Controller/funciones.actividad.js"></script>
+    <script src="JS/funciones.actividad.js"></script>
+    <script src="JS/validar_form.js"></script>
     <script src="JS/menu_desplegable-administrador.js"></script>
     <script>
             $(document).ready(function(){
@@ -30,7 +31,7 @@
         <h1 class="titleh1">Registrar Actividad</h1>
         <div class="contenedorPrincipal">
 
-            <form class="formulario" method="post" action="../Controller/controllerActividad.php">
+            <form class="form_registrar_actividad" id="form_registrar_actividad" method="post" action="../Controller/controllerActividad.php">
                     <h2 class="titleh2">Datos de Registro</h2>
                     <section class="secciones row">
                         

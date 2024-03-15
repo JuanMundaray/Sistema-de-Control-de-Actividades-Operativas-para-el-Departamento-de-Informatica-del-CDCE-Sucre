@@ -15,7 +15,7 @@ centinela=true;
 				<a href='tipo-actividad.php'>Tipos de Actividad</a>
 			</li>
 			<li>
-				<a href='Actividades-Registradas.php'>Actividades Registradas</a>
+				<a href='actividades-registradas.php'>Actividades Registradas</a>
 			</li>
 			<li>
 				<a href='administrar-sistema.php'>Administrar Sistema</a>
