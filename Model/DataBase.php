@@ -21,7 +21,6 @@ class DataBase
 			{
 				echo $e->getMessage();
 				self::$instance=null;
-				 throw new Exception('Error al conectarse al servidor de BD',0);
 			}
 		}
 		return self::$instance;

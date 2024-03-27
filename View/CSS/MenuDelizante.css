@@ -76,3 +76,13 @@
 	background:rgb(219, 219, 219);
 }
 
+@media screen and (max-width: 600px){
+	#menuLateral{
+		width:150px;
+	}
+	#menuLateral ul a{
+		display:block;
+		font-size:10px;
+	}
+	
+}

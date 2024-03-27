@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
 
     <link rel="stylesheet" href="CSS/Dashboard/Cuadros.css" type="text/css">
+    <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="JS/menu_desplegable.js"></script>
+    <script src="JS/ajax.dashboard.js"></script>
 
 </head>
 <?php
@@ -23,26 +25,26 @@
         <h1 class="titleh1">Administrar - Dashboard</h1>
         <section class="seccionDashboard">
             <h2>Dashboard</h2>
-            <div class="ContenedorCuadros">
+            <div class="row">
 
                 <!--Cuadro que coloca el numero de ordenes-->
-                <div class="CuadroOrdenes">
+                <div class="CuadroOrdenes col-md-4 bloque_dashboard">
                     <div class="cuadro_hijo01">
                         <div>
-                            <h2>150</h2>
-                            <p>New Order</p>
+                            <h2 id="num_actividades"></h2>
+                            <p>Actividades Registradas</p>
                         </div>
                         <div>
                             <img src="../View/Resources/png/512/bag.png">
                         </div>
                     </div>
                     <div class="cuadro_hijo02">
-                        <label>More Info</label>
+                        <label><a href="actividades-registradas.php">Más Información</a></label>
                     </div>
                 </div>
 
                 <!--Cuadro que coloca el numero de ordenes-->
-                <div class="CuadroTasaRebote">
+                <div class="CuadroTasaRebote col-md-4 bloque_dashboard">
                     <div class="cuadro_hijo01">
                         <div>
                             <h2>53%</h2>
@@ -59,7 +61,7 @@
 
                 
                 <!--Cuadro de numero Usuarios Registrados-->
-                <div class="CuadroRegistrados">
+                <div class="CuadroRegistrados col-md-3 bloque_dashboard">
                     <div class="cuadro_hijo01">
                         <div>
                             <h2>66</h2>
@@ -75,7 +77,7 @@
                 </div>
 
                 <!--Cuadro que coloca el numero de ordenes-->
-                <div class="CuadroVisitantes">
+                <div class="CuadroVisitantes col-md-5 bloque_dashboard">
                     <div class="cuadro_hijo01">
                         <div>
                             <h2>89</h2>

@@ -10,9 +10,6 @@ $resultado=$actividad->autocompletar();
 if($resultado){
     $resultado=json_encode($resultado);
     echo $resultado;
-}else{
-    $resultado=json_encode($resultado);
-    echo $resultado;
 }
 
 ?>

@@ -10,16 +10,33 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="JS/funciones.actividad.js"></script>
-    <script src="JS/validar_form.js"></script>
+    <script src="JS/ajax.actividades.funciones.js"></script>
+    <script src="JS/validar.registrar_actividad.js"></script>
     <script src="JS/menu_desplegable-administrador.js"></script>
     <script>
-            $(document).ready(function(){
-                var timestamp=new Date().getTime();
-                var codigo=timestamp.toString(36);
-                codigo+=Math.floor(Math.random()*10000000000000000);
-                $("#codigo").val(codigo);
-            })
+        $(document).ready(function(){
+            var timestamp=new Date().getTime();
+            var codigo=timestamp.toString(36);
+            codigo+=Math.floor(Math.random()*10000000000000000);
+            $("#codigo").val(codigo);
+        });
+            
+    
+        $.ajax({
+            type:"POST",
+            url:"../Controller/controllerTipo_actividad.php",
+            data:{option:"obtener"},
+            dataType:'json',
+            success:function(msg){
+                msg.forEach(function(elemento){
+                    let tipo=$("#tipo");
+                    tipo.append("<option value='"+elemento['id_tipo']+"'>"+elemento["nombre_tipo"]+"</option>");
+                });
+            },
+            error:function(jqXHR,textStatus,errorThrown){
+                alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+            }
+        });
     </script>
 </head>
 <?php
@@ -56,13 +73,16 @@
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Departamento Emisor:</label>
-                            <input class="col-md-12 form-control" required type="text" name="dep_emisor" id="dep_emisor">
+                            <select class="col-md-12 form-select" name="dep_emisor" id="dep_emisor">
+                                <option value="DEPARTAMENTO DE RECURSOS HUMANOS">DEPARTAMENTO DE RECURSOS HUMANOS</option>
+                                <option value="DEPARTAMENTO DE SALUD">DEPARTAMENTO DE SALUD</option>
+                            </select>
                         </div>
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Departamento Receptor:</label>
                             <select class="col-md-12 form-select" name="dep_receptor" id="dep_receptor">
-                                <option value="DEPARTAMENTO DE INFORMATICA">Departamento de Informatica</option>
+                                <option value="DEPARTAMENTO DE SALUD">DEPARTAMENTO DE SALUD</option>
                             </select>
                         </div>
 
@@ -90,7 +110,7 @@
 
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Cedula del Responsable:</label>
-                                <input class="col-md-12 form-control" required type="text" name="ced_responsable" id="ced_responsable" minlength="8" maxlength="11">
+                                <input class="col-md-12 form-control" required type="text" name="ced_responsable" id="ced_responsable" minlength="10" maxlength="11">
                             </div>
                         </div>
                         
@@ -105,12 +125,12 @@
                             </div>
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Cedula del Funcionario Atendido:</label>
-                                <input class="col-md-12 form-control" type="text" minlength="8" maxlength="11" name="ced_atendido" id="ced_atendido" required>
+                                <input class="col-md-12 form-control" type="text" minlength="10" maxlength="11" name="ced_atendido" id="ced_atendido" required>
                             </div>
                         </div>
                         <input type="hidden" value="guardar" name="option" id="option">
-                        <div class="col-md-12 ">
-                            <center><input type="submit" class="btn btn-primary col-md-4" value="Registrar Actividad" name="guardar_actividad" id="guardar_actividad"></center>
+                        <div class="col-md-12 form_button">
+                            <input type="submit" class="btn btn-primary col-md-4" value="Registrar Actividad" name="guardar_actividad" id="guardar_actividad">
                         </div>
 
                     </section>

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="JS/menu_desplegable-administrador.js"></script>
-    <script src="JS/funciones.actividad.js"></script>
+    <script src="JS/ajax.actividades.funciones.js"></script>
     <script src="JS/ajax.editarActividad.js"></script>
 </head>
 <?php
@@ -46,12 +46,13 @@
                                 <label class="col-md-12 form-label">Informe:</label>
                                 <textarea class="col-md-12 form-control" name="informe" id="informe"></textarea>
                         </div>
-                        <div class="col-md-12 div_input_form">
+                        
+                        <div class="col-md-12 div_input_form" id="div_estado">
                                 <label class="col-md-12 form-label">Estado:</label>
                                 <select class="form-select" id="estado" name="estado">
-                                    <option value="proceso">Proceso (60%)</option>
-                                    <option value="completada">Completada (100%)</option>
-                                    <option value="suspendida">Suspender</option>
+                                    <option value="PROCESO" id="select_proceso">PROCESO (60%)</option>
+                                    <option value="COMPLETADA" id="select_completada">COMPLETADA (100%)</option>
+                                    <option value="SUSPENDIDA" id="select_suspendida">SUSPENDIDA</option>
                                 </select>
                         </div>
                         
@@ -104,8 +105,8 @@
                             </div>
                         </div>
                         <input type="hidden" value="modificar" name="option" id="option">
-                        <div class="col-md-12 ">
-                            <center><input type="button" class=" input_submit btn btn-primary col-md-4" value="Modificar Actividad" name="modificar_actividad" id="modificar_actividad"></center>
+                        <div class="col-md-12 form_button">
+                            <input type="button" class=" input_submit btn btn-primary col-md-4" value="Modificar Actividad" name="modificar_actividad" id="modificar_actividad">
                         </div>
 
                     </section>

@@ -97,3 +97,7 @@ label{
     justify-content: center;
     align-items: center;
 }
+
+.tamano_boton{
+    width: 120px;
+}

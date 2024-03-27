@@ -27,72 +27,66 @@
 
             <h2 class="titleh2">Detalles de la Actividad</h2>
             <section class="secciones row">
+                <input class="col-md-12 form-control" type="hidden" readonly name="id" id="id" value="<?php echo $_REQUEST['id'];?>">
                 <div class="col-md-6 div_input_form">
-                    <label class="col-md-12 form-label">ID:</label>
-                    <input class="col-md-12 form-control" type="text" readonly name="id" id="id" value="<?php echo $_REQUEST['id'];?>">
+                    <label class="col-md-12 form-label"><strong >Codigo de Registro:</strong></label>
+                    <p id="codigo"></p>
                 </div>
                 <div class="col-md-6 div_input_form">
-                    <label class="col-md-12 form-label">Codigo de Registro:</label>
-                    <p class="form-control" id="codigo"></p>
-                </div>
-                <div class="col-md-6 div_input_form">
-                    <label class="col-md-12 form-label">Nombre de Actividad:</label>
-                    <p class="form-control" id="nombre"></p>
+                    <label class="col-md-12 form-label"><strong >Nombre de Actividad:</strong></label>
+                    <p id="nombre"></p>
                 </div>
 
                 <div class="col-md-6 div_input_form">
-                    <label class="col-md-12 form-label">Departamento Emisor:</label>
-                    <p class="form-control" id="dep_emisor"></p>
+                    <label class="col-md-12 form-label"><strong >Departamento Emisor:</strong></label>
+                    <p id="dep_emisor"></p>
+                </div>
+
+                <div class="col-md-6 div_input_form">
+                    <label class="col-md-12 form-label"><strong >Departamento Receptor:</strong></label>
+                    <p id="dep_receptor"></p>
+                </div>
+
+                <div class="col-md-6 div_input_form">
+                    <label class="col-md-12 form-label"><strong >Estado:</strong></label>
+                    <p id="estado"></p>
                 </div>
                 <div class="col-md-6 div_input_form">
-                    <label class="col-md-12 form-label">Departamento Receptor:</label>
-                    <select class="col-md-12 form-control" name="dep_receptor" id="dep_receptor">
-                        <option value="DEPARTAMENTO DE INFORMATICA">Departamento de Informatica</option>
-                    </select>
-                </div>
-                <div class="col-md-6 div_input_form">
-                    <label class="col-md-12 form-label">Tipo de Actividad:</label>
-                    <input type="text" class="col-md-12 form-control" name="tipo" id="tipo">
+                    <label class="col-md-12 form-label"><strong >Tipo de Actividad:</strong></label>
+                    <p id="tipo"></p>
                 </div>
 
                 <div class="col-md-12 div_input_form">
-                        <label class="col-md-12 form-label">Observacion:</label>
-                        <textarea class="col-md-12 form-control" name="observacion" id="observacion"></textarea>
+                        <label class="col-md-12 form-label"><strong >Observacion:</strong></label>
+                        <p id="observacion"></p>
+                </div>
+                <div class="col-md-12 div_input_form" id="div_informe">
+                    <label class="col-md-12 form-label"><strong >Informe:</strong></label>
+                        <p id="informe"></p>
                 </div>
                 <div class="col-md-12 div_input_form">
-                        <label class="col-md-12 form-label">Informe:</label>
-                        <textarea class="col-md-12 form-control" name="informe" id="informe"></textarea>
+                    <label class="col-md-12 form-label"><strong >Evidencia:</strong></label>
+                        <p id="evidencia"></p>
                 </div>
-                <div class="col-md-6 ">
-                    <div class="col-md-12 div_input_form">
-                        <label class="col-md-12 form-label">Nombre del responsable:</label>
-                        <input class="col-md-12 form-control" type="text" name="nom_responsable" id="nom_responsable">
-                    </div>
-                    
-                    <div class="col-md-12 div_input_form">
-                        <label class="col-md-12 form-label">Apellido del responsable:</label>
-                        <input class="col-md-12 form-control" type="text" name="ape_responsable" id="ape_responsable">
-                    </div>
 
-                    <div class="col-md-12 div_input_form">
-                        <label class="col-md-12 form-label">Cedula del Responsable:</label>
-                        <input class="col-md-12 form-control" type="text" name="ced_responsable" id="ced_responsable" maxlength="9">
-                    </div>
+                <div class="col-md-6 div_input_form">
+                    <label class="col-md-12 form-label"><strong >Nombre del responsable:</strong></label>
+                    <p id="nom_responsable"></p>
                 </div>
-                
-                <div class="col-md-6">
-                    <div class="col-md-12 div_input_form">
-                        <label class="col-md-12 form-label">Nombre del Funcionario Atendido:</label>
-                        <input class="col-md-12 form-control" type="text" name="nom_atendido" id="nom_atendido">
-                    </div>
-                    <div class="col-md-12 div_input_form">
-                        <label class="col-md-12 form-label">Apellido del Funcionario Atendido:</label>
-                        <input class="col-md-12 form-control" type="text" name="ape_atendido" id="ape_atendido">
-                    </div>
-                    <div class="col-md-12 div_input_form">
-                        <label class="col-md-12 form-label">Cedula del Funcionario Atendido:</label>
-                        <input class="col-md-12 form-control" type="text" name="ced_atendido" id="ced_atendido">
-                    </div>
+
+                <div class="col-md-6 div_input_form">
+                    <label class="col-md-12 form-label"><strong >Cedula del Responsable:</strong></label>
+                    <p id="ced_responsable"></p>
+                </div>
+
+                <div class="col-md-6 div_input_form">
+                    <label class="col-md-12 form-label"><strong >Nombre del Funcionario Atendido:</strong></label>
+                    <p id="nom_atendido"></p>
+                </div>
+
+                <div class="col-md-6 div_input_form">
+                    <label class="col-md-12 form-label"><strong >Cedula del Funcionario Atendido:</strong></label>
+                    <p id="ced_atendido"></p>
                 </div>
                 <input type="hidden" value="modificar" name="option" id="option">
 

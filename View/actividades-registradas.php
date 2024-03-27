@@ -9,20 +9,20 @@
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         <link rel="stylesheet" href="../Framework/jquery-ui-1.13.2.custom/jquery-ui.css" type="text/css">
+        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
         <script src="JS/ajax.actividades.js"></script>
-        <script src="JS/funciones.actividad.js"></script>
-        <script src="JS/autocompletar_actividad.js"></script>
+        <script src="JS/ajax.actividades.funciones.js"></script>
+        <script src="JS/ajax.actividades.autocompletar.js"></script>
         <script src="JS/menu_desplegable-administrador.js"></script>
         <title>Actividades Registradas</title>
-        
+
     </head>
     <?php
             require_once("Plantillas/Plantilla_cabecera.php");
-        ?>
-    <body>
-        
+    ?>
+    <body>  
         
         <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
 
@@ -33,24 +33,47 @@
                 <section class="secciones">
                     <a href="registrar-actividad.php"><button class="btn btn-primary" >Registrar Actividad</button></a>
                     <!--Barra de Busqueda-->
-                    <nav class="navbar navbar-light ">
+                    <nav class="navbar navbar-light row">
                             <form class="form-inline">
-                                    <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="dasa" id="data_busq" name="data_busq">
-                                    
-                                    <input type="button" class="btn btn-outline-primary" id="buscar_act" value="Buscar">
+                                <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" id="data_busq" name="data_busq">
+                                
+                                <input type="button" class="btn btn-outline-primary" id="buscar_act" value="Buscar">
                             </form>
+
+                            <form class="form-inline">
+                                <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
+                                
+                                <input type="button" class="btn btn-outline-primary" id="buscar_act_fecha" value="Buscar">
+                            </form>
+                            <form class="form-inline">
+                                <input class="form-control" type="search" placeholder="Buscar por Codigo..." aria-label="Search" id="data_busq_codigo" name="data_busq_codigo">
+                                
+                                <input type="button" class="btn btn-outline-primary" id="buscar_act_codigo" value="Buscar">
+                            </form>
+                            
                     </nav>
 
                     <nav class="row">
                         <div class="col-md-2">
                             <label class="form-label">Ver solo las:</label>
-                            <select class="form-select">
-                                    <option id="filt_iniciada">Iniciadas</option>
-                                    <option id="filt_proceso">En Proceso</option>
-                                    <option id="filt_completadas">Completadas</option>
-                                    <option id="filt_suspendida">Suspendidas</option>
+                            <select class="form-select" id="estado_filt">
+                                    <option id="filt_iniciada" value="INICIADA">Iniciadas</option>
+                                    <option id="filt_proceso" value="PROCESO">En Proceso</option>
+                                    <option id="filt_completada" value="COMPLETADA">Completadas</option>
+                                    <option id="filt_suspendida" value="SUSPENDIDA">Suspendidas</option>
                             </select>
-                        </div>        
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Numero de Resultados:</label>
+                            <select class="form-select" id="num_resultados">
+                                    <option onclick="getActividades()" value="5">5</option>
+                                    <option onclick="getActividades()" value="20">20</option>
+                                    <option onclick="getActividades()" value="50">50</option>
+                                    <option onclick="getActividades()" value="100">100</option>
+                            </select>
+                        </div>
+
                     </nav>
                     <div class="scroll">
                         <table id="tabla_actividades" class="table table-bordered table-responsive text-nowrap table_default">
@@ -71,8 +94,7 @@
                             
                         </table>
                     </div>
-
-
+                    
                     <nav>
                         <ul class="pagination" id="num_paginas">
                         </ul>

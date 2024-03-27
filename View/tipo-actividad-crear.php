@@ -12,15 +12,7 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="JS/menu_desplegable.js"></script>
-    <script src="JS/ajax.tipo_actividad.js"></script>
-    <script>
-            $(document).ready(function(){
-                var timestamp=new Date().getTime();
-                var codigoRandom=timestamp.toString(36);
-                codigoRandom+=Math.floor(Math.random()*10000000000000000);
-                $("#codigo").val(codigoRandom);
-            })
-    </script>
+    <script src="JS/ajax.tipo_actividad.funciones.js"></script>
 </head>
 <?php
     require_once("Plantillas/Plantilla_cabecera.php");
@@ -33,14 +25,9 @@
             <h2 class="titleh2">Crear Tipo de Actividad</h2>
             <section class="secciones row">
                 <form class="formulario row" method="post">    
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label class="col-md-7 form-label">Tipo de Actividad a Registrar:</label>
                         <input class="col-md-7 form-control" type="text" name="nombre_tipo" id="nombre_tipo" require maxlength="100">
-                    </div>
-
-                    <div class="col-md-6 div_input_form">
-                        <label class="col-md-7 form-label">Código de Tipo de Actividad:</label>
-                        <input class="col-md-7 form-control" type="text" readonly name="codigo" id="codigo">
                     </div>
                     <input class="col-md-7" type="hidden" value="crear" name="option" id="option">
                     <div class="col-md-12 form_button">

@@ -12,6 +12,7 @@
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
         <script src="JS/ajax.peticiones.js"></script>
+        <script src="JS/ajax.peticiones.funciones.js"></script>
         <script src="JS/menu_desplegable-administrador.js"></script>
         <title>Actividades Registradas</title>
         
@@ -32,10 +33,22 @@
                     <!--Barra de Busqueda-->
                     <nav class="navbar navbar-light ">
                             <form class="form-inline">
-                                    <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="dasa" id="data_busq" name="data_busq">
+                                    <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="dasa" id="data_busq_peticion" name="data_busq_peticion">
                                     
-                                    <input type="button" class="btn btn-outline-primary" id="buscar_act" value="Buscar">
+                                    <input type="button" class="btn btn-outline-primary" id="buscar_peticion" value="Buscar">
                             </form>
+                    </nav>
+
+                    <nav class="row">
+                        <div class="col-md-3">
+                            <label class="form-label">Numero de Resultados:</label>
+                            <select class="form-select" id="num_resultados">
+                                    <option onclick="getPeticiones()" value="5">5</option>
+                                    <option onclick="getPeticiones()" value="20">20</option>
+                                    <option onclick="getPeticiones()" value="50">50</option>
+                                    <option onclick="getPeticiones()" value="100">100</option>
+                            </select>
+                        </div>
                     </nav>
                     <div class="scroll">
                         <table id="tabla_peticiones" class="table table-bordered table-responsive text-nowrap table_default">
@@ -49,6 +62,10 @@
                             
                         </table>
                     </div>
+                    <nav>
+                        <ul class="pagination" id="num_paginas">
+                        </ul>
+                    </nav>
                 <section>
             </div>
         </main>

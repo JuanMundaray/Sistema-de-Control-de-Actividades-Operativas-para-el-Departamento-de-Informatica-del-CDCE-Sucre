@@ -3,7 +3,6 @@ require_once('DataBase.php');
 class tipo_actividad{
     private $id_tipo;
     private $nombre_tipo;
-    private $codigo_tipo;
     private $orden='asc';
     
     public function __construct(){}
@@ -12,12 +11,11 @@ class tipo_actividad{
     {
         $resultado = false;
         try{
-            $codigo_tipo = $this->codigo_tipo;
             $nombre_tipo = $this->nombre_tipo;
             $db = DataBase::getInstance();
-            $consulta = "INSERT INTO actividades.tipo_actividad(codigo_tipo,nombre_tipo) VALUES (:codigo,:nombre)";
+            $consulta = "INSERT INTO actividades.tipo_actividad(nombre_tipo) VALUES (:nombre)";
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":codigo"=>$codigo_tipo,":nombre"=>$nombre_tipo));
+            $resultadoPDO->execute(array(":nombre"=>$nombre_tipo));
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();            
         }
@@ -28,14 +26,25 @@ class tipo_actividad{
         return $resultado; 
     }
 
-    public function obtener()
+    public function obtener($pagina=false,$num_resultados=false)
     {
         $resultado = false;
         try{
-            $orden=$this->orden;
-            $db = DataBase::getInstance();         
-            $consulta = "Select * from actividades.tipo_actividad order by id_tipo $orden";
-            $resultadoPDO = $db->query($consulta);
+            $db = DataBase::getInstance();  
+            if($pagina){
+                $punto_inicio=($pagina-1)*$num_resultados;
+                $orden=$this->orden;       
+                $consulta = "SELECT * FROM actividades.tipo_actividad ORDER BY id_tipo $orden
+                LIMIT $num_resultados OFFSET $punto_inicio";
+
+                $resultadoPDO = $db->query($consulta);
+            }
+            
+            else{
+                $consulta = "SELECT * FROM actividades.tipo_actividad ORDER BY id_tipo";
+                $resultadoPDO = $db->query($consulta);
+            }
+            
             $resultado = $resultadoPDO->fetchAll();
             $resultadoPDO->closeCursor();                        
         }
@@ -52,7 +61,6 @@ class tipo_actividad{
         $resultado = false;
         try{
             $nombre_tipo=$this->nombre_tipo;
-            $codigo_tipo=$this->codigo_tipo;
             $db = DataBase::getInstance();            
             $consulta = "SELECT * FROM actividades.tipo_actividad WHERE nombre_tipo LIKE '%$nombre_tipo%'";
             $resultadoPDO = $db->query($consulta);
@@ -66,20 +74,39 @@ class tipo_actividad{
         
         return $resultado; 
     }
-    
-    
-    public function setCodigo_tipo($codigo_tipo)
+
+    public function getNumRegistros($condicion=false,$data_busq=null)
     {
-        $this->codigo_tipo = trim($codigo_tipo);
+        $resultado = false;
+        try{
+            $db = DataBase::getInstance();
+            if($condicion){
+                $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $condicion='$data_busq'";
+                $resultadoPDO = $db->query($consulta);
+            }
+            else{
+                $consulta = "SELECT * FROM actividades.tipo_actividad";
+                $resultadoPDO = $db->query($consulta);
+            }
+            $resultado = $resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
+        }
+        
+        return $resultado; 
     }
+    
     public function setNombre_tipo($nombre_tipo)
     {
         $this->nombre_tipo = trim($nombre_tipo);
     }
 
-    public function setID($id)
+    public function setID($id_tipo)
     {
-        $this->id_tipo = trim($id);
+        $this->id_tipo = trim($id_tipo);
     }
 
 

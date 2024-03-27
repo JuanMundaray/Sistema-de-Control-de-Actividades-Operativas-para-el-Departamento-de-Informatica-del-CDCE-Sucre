@@ -23,7 +23,7 @@
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
         <h1 class="titleh1">Tipo de Actividad</h1>
-        <div class="contenedorPrincipal">    
+        <div class="contenedorPrincipal">
         <h2 class="titleh2">Tipos de Actividad</h2>
             <section class="secciones">
                 
@@ -40,17 +40,27 @@
                         </form>
                     </nav>
 
+                    
+                    <div class="col-md-3">
+                            <label class="form-label">Numero de Resultados:</label>
+                            <select class="form-select" id="num_resultados">
+                                    <option onclick="getTipoActividad()" value="5">5</option>
+                                    <option onclick="getTipoActividad()" value="20">20</option>
+                                    <option onclick="getTipoActividad()" value="50">50</option>
+                                    <option onclick="getTipoActividad()" value="100">100</option>
+                            </select>
+                    </div>
+
 <!--Tabla que muestra los tipos de actividad que existen-->
                 <div class="scroll">
                     <table id="tabla_tipo_actividad" class="table table-bordered table-responsive text-nowrap table_default">
-                        <tr>
-                            <th><label>ID</label></th>
-                            <th><label>Codigo de Actividad</label></th>
-                            <th><label>Tipo de Actividad</label></th>
-                        </tr>
+                        <!--Datos que mostrara la tabla actividades gracias a ajax.tipo_actividad.js-->
                     </table>
                 </div>
-                    <p>Pagina 1-1</p>
+                    <nav>
+                        <ul class="pagination" id="num_paginas">
+                        </ul>
+                    </nav>
                 </div>
             </section>
         </div>

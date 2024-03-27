@@ -24,6 +24,9 @@ centinela=true;
 				<a href='crear-peticion.php'>Hacer Petición de Actividad</a>
 			</li>
 			<li>
+				<a href='peticiones-registradas.php'>Lista de Peticiones</a>
+			</li>
+			<li>
 				<a href='#'>Salir</a>
 			</li>
 		</ul>`;

@@ -1,9 +1,4 @@
-.ContenedorCuadros{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    column-gap: 2vw;
-    row-gap: 3vw;
-}
+
 
 /*Estilo de Ordenes*/
 .CuadroOrdenes{
@@ -125,4 +120,9 @@ a:visited{
 a{
     color: rgb(255, 255, 255); 
     font-weight: 400;
+}
+
+.bloque_dashboard{
+    margin-right: 2vw;
+    margin-bottom: 5vh;
 }

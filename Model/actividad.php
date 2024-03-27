@@ -6,7 +6,7 @@ class actividad{
     private $nombre;
     private $dep_receptor;
     private $dep_emisor;
-    private $tipo;
+    private $id_tipo;
     private $fecha;
     private $nom_atendido;
     private $ape_atendido;
@@ -18,7 +18,7 @@ class actividad{
     private $observacion;
     private $informe;
     private $db;
-    private $orden='desc';
+    private $orden='asc';
     
     public function __construct()
     {
@@ -36,7 +36,7 @@ class actividad{
             $nombre = $this->nombre;
             $dep_receptor = $this->dep_receptor;
             $dep_emisor = $this->dep_emisor;
-            $tipo = $this->tipo;
+            $id_tipo = $this->id_tipo;
             $fecha=$this->fecha;
             $nom_atendido = $this->nom_atendido;
             $ape_atendido = $this->ape_atendido;
@@ -49,21 +49,21 @@ class actividad{
             $db = DataBase::getInstance();
             $consulta = "INSERT INTO actividades.actividad(
             codigo,nombre,
-            tipo,fecha,
+            id_tipo,fecha,
             dep_receptor,dep_emisor, nom_atendido,
             ape_atendido,ced_atendido,
             observacion,nom_responsable,
             ape_responsable, ced_responsable,estado)
               VALUES (
             :codigo,:nombre,
-            :tipo,:fecha,
+            :id_tipo,:fecha,
             :dep_receptor,:dep_emisor,:nom_atendido,
             :ape_atendido,:ced_atendido,
             :observacion,:nom_responsable,
             :ape_responsable,:ced_responsable,:estado)";
             $resultadoPDO = $db->prepare($consulta);
             $resultadoPDO->execute(array(":codigo"=>$codigo,":nombre"=>$nombre,
-            ":tipo"=>$tipo, ":fecha"=>$fecha,
+            ":id_tipo"=>$id_tipo, ":fecha"=>$fecha,
             ":dep_receptor"=>$dep_receptor,
             ":dep_emisor"=>$dep_emisor,":nom_atendido"=>$nom_atendido,
             ":ape_atendido"=>$ape_atendido,":ced_atendido"=>$ced_atendido,
@@ -74,7 +74,6 @@ class actividad{
         }
         catch(Exception $objeto){
             $resultado = false;
-            echo $objeto->getLine();
             echo $objeto->getMessage();
         }
         return $resultado; 
@@ -95,10 +94,9 @@ class actividad{
             $resultadoPDO = $db->prepare($consulta);
             $resultadoPDO->execute(array(":observacion"=>$observacion,":informe"=>$informe,":estado"=>$estado));
             $resultadoPDO->closeCursor();                   
-        }
+        } 
         catch(Exception $objeto){
             $resultado = false;
-            echo $objeto->getLine();
             echo $objeto->getMessage();
         }
         return $resultado; 
@@ -116,43 +114,80 @@ class actividad{
             $resultado=$resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();
 
-        }catch(Exception $e){
-            $resultado=false;
-            echo $e->getLine();
-            echo $e->getMessage();
         }
+        catch(Exception $objeto){
+            $resultado = false;
+            echo $objeto->getMessage();
+        }
+        return $resultado;
     }
 
-    public function obtener()
+    public function getActividades($pagina,$num_resultados)
     {
         $resultado = false;
         try{
-            $orden=$this->orden;
-            $db = DataBase::getInstance();            
+            $NumRegistros=$this->getNumRegistros();
+            $total_paginas=ceil($NumRegistros/$num_resultados);
+            $punto_inicio=($pagina-1)*$num_resultados;
+
+            $db = DataBase::getInstance();  
+            $orden=$this->orden;       
             $consulta = "SELECT * FROM actividades.actividad
             INNER JOIN actividades.tipo_actividad
-            ON actividad.tipo=tipo_actividad.id_tipo
-            ORDER BY id $orden";
+            ON actividad.id_tipo=tipo_actividad.id_tipo
+            ORDER BY id $orden 
+            LIMIT $num_resultados OFFSET $punto_inicio";
+
             $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->fetchAll();
-            $resultadoPDO->closeCursor();                        
+            $resultadoPDO->closeCursor();              
         }
         catch(Exception $objeto){
-            
+            echo $objeto->getMessage();
             $resultado = false;
         }
         
         return $resultado; 
     }
-    public function buscar($parametro)
+    public function buscar($parametro,$data_busq,$pagina,$num_resultados)
     {
         $resultado = false;
         try{
-            $nombre=$this->nombre;
+            $punto_inicio=($pagina-1)*$num_resultados;
+
+            $data_busq=$data_busq;
+            $db = DataBase::getInstance();
+            
+            $consulta = "SELECT * FROM actividades.actividad 
+            INNER JOIN actividades.tipo_actividad
+            ON actividad.id_tipo=tipo_actividad.id_tipo 
+            WHERE $parametro ILIKE '$data_busq%' 
+            LIMIT $num_resultados OFFSET $punto_inicio";
+
+            $resultadoPDO = $db->query($consulta);
+            $resultado = $resultadoPDO->fetchAll();
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            $resultado = false;
+            echo $objeto->getMessage();
+        }
+        
+        return $resultado; 
+    }
+
+    public function buscarExacta($parametro,$data_busq,$pagina,$num_resultados)
+    {
+        $resultado = false;
+        try{
+            $punto_inicio=($pagina-1)*$num_resultados;
+            $data_busq=$data_busq;
+
             $db = DataBase::getInstance();            
             $consulta = "SELECT * FROM actividades.actividad 
             INNER JOIN actividades.tipo_actividad
-            ON actividad.tipo=tipo_actividad.id_tipo WHERE $parametro LIKE '$nombre%' ";
+            ON actividad.id_tipo=tipo_actividad.id_tipo WHERE $parametro='$data_busq' LIMIT $num_resultados OFFSET $punto_inicio";
+
             $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->fetchAll();
             $resultadoPDO->closeCursor();                        
@@ -172,7 +207,7 @@ class actividad{
             $id=$this->id;
             $db = DataBase::getInstance();            
             $consulta = "SELECT * FROM actividades.actividad INNER JOIN actividades.tipo_actividad
-            ON actividad.tipo=tipo_actividad.id_tipo WHERE id=:id";
+            ON actividad.id_tipo=tipo_actividad.id_tipo WHERE id=:id";
             $resultadoPDO=$db->prepare($consulta);
             $resultadoPDO->execute(array(':id'=>$id));
             $resultado = $resultadoPDO->fetchAll();
@@ -193,9 +228,9 @@ class actividad{
         try{
             $nombre=$this->nombre;
             $db = DataBase::getInstance();            
-            $consulta = "Select * from actividades.actividad 
+            $consulta = "SELECT * FROM actividades.actividad 
             INNER JOIN actividades.tipo_actividad
-            on actividad.tipo=tipo_actividad.id_tipo where nombre ilike '%$nombre%'";
+            ON actividad.id_tipo=tipo_actividad.id_tipo WHERE nombre ILIKE '$nombre%'";
             $resultadoPDO = $db->query($consulta);
             while($data=$resultadoPDO->fetch(PDO::FETCH_ASSOC)){
                 $resultado[]=$data['nombre'];
@@ -206,6 +241,37 @@ class actividad{
         catch(Exception $objeto){
             $resultado = false;
             echo $objeto->getMessage();
+        }
+        
+        return $resultado; 
+    }
+
+    public function getNumRegistros($condicion=false,$data_busq=false)
+    {
+        $resultado = false;
+        try{
+            $db = DataBase::getInstance();
+            if(($condicion)){
+                if($condicion=="fecha"){
+                    $consulta = "SELECT * FROM actividades.actividad WHERE $condicion='$data_busq'";
+                    $resultadoPDO = $db->query($consulta);
+                }
+                if($condicion!="fecha"){
+                    $consulta = "SELECT * FROM actividades.actividad WHERE $condicion ILIKE '$data_busq%' ";
+                    $resultadoPDO = $db->query($consulta);
+                }
+            }
+            
+            else{
+                $consulta = "SELECT * FROM actividades.actividad";
+                $resultadoPDO = $db->query($consulta);
+            }
+            $resultado = $resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
         }
         
         return $resultado; 
@@ -229,9 +295,9 @@ class actividad{
         $this->dep_emisor = trim($dep_emisor);
     }
 
-    public function setTipo($tipo)
+    public function setId_tipo($id_tipo)
     {
-        $this->tipo = trim($tipo);
+        $this->id_tipo = trim($id_tipo);
     }
     public function setNom_atendido($nom_atendido)
     {
