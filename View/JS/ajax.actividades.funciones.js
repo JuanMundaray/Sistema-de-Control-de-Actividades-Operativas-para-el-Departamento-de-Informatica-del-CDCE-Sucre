@@ -31,36 +31,6 @@ $(document).ready(function(){
         buscarActividades(data,"codigo");
     });
     
-    $("#modificar_actividad").click(function(){//Boton de Modificar Actividad-------------------------------
-        let ok=confirm("¿Esta seguro de Modificar esta actividad?");
-        if(ok){
-                let id=$("#id").val();
-                let observacion=$("#observacion").val();
-                let informe=$("#informe").val();
-                let estado=$("#estado").val();
-                $.ajax({
-                    type:"POST",
-                    url:"../Controller/controllerActividad.php",
-                    data:`option=modificar&id=${id}
-                    &observacion=${observacion}
-                    &informe=${informe}
-                    &estado=${estado}`,
-                    dataType:'text',
-                    success:function(msg){
-                            alert("Actividad Modificada");
-                            location.href="actividades-registradas.php";
-                    },
-                    error:function(jqXHR,textStatus,errorThrown){
-                        alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
-                    }
-                });
-            }
-        else{
-            alert("Actividad No Modificada","Notificacion");
-            location.href="actividades-registradas.php";
-        }
-    });
-    
 });
 
 function eliminarActividad(id){
@@ -129,9 +99,23 @@ function RellenarTablaActividades(msg){
         <th><label>Funcionario Atendido</label></th>
         <th><label>Cedula del Funcionario Atendido</label></th>
         <th><label>Estado</label></th>
-        <th colspan="3"><label>Accion</label></th>
+        <th><label>Accion</label></th>
     </tr>`);
-    msg.forEach(function(elemento){ 
+    msg.forEach(function(elemento){
+        let accion;
+
+        if(elemento['estado']=='COMPLETADA'){
+            accion=`
+            <li><a class="dropdown-item" href="detalles-actividad.php?id=${elemento['id']}">Ver Detalles</a></li>`
+        }
+        else{
+            accion=`<li><a class="dropdown-item" href="editar-actividad.php?id=${elemento['id']}">Modificar</a></li>
+
+            <li><button class="dropdown-item" onclick="eliminarActividad(${elemento['id']})">Eliminar</button></li>
+
+            <li><a class="dropdown-item" href="detalles-actividad.php?id=${elemento['id']}">Ver Detalles</a></li>`
+        }
+
         let btn_estilo=estilo_btn(elemento['estado']);
         tabla.append(`<tr>
         <td>${elemento['fecha']}</td>
@@ -145,12 +129,16 @@ function RellenarTablaActividades(msg){
         <td>${elemento['ced_atendido']}</td>
         <td><button class="btn ${btn_estilo} tamano_boton">${elemento['estado']}</button></td>
         <td>
-            <a href="editar-actividad.php?id=${elemento['id']}"><button class="btn btn-outline-secondary">Modificar</button></a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                    Seleccione...
+                </button>
+                <ul class="dropdown-menu dropdown-menu-lg-end">
+                    ${accion}    
+                </ul>
+            </div>
         </td>
-
-        <td><button class="btn btn-outline-danger" onclick="eliminarActividad(${elemento['id']})">Eliminar</button></td>
-
-        <td><a href="detalles-actividad.php?id=${elemento['id']}"><button class="btn btn-outline-secondary">Ver Detalles</button></a></td></tr>`);
+        </tr>`);
     });
     tabla.append("</tbody>");
 }

@@ -6,6 +6,7 @@ centinela=true;
 		nav_aside.innerHTML=`
 		<ul>
 			<li>
+				<i class="bi-key" style="font-size: 2rem; color: black;opacity:0.8;"></i>
 				<a href='Dashboard.php'>Dashboard</a>
 			</li>
 			<li>

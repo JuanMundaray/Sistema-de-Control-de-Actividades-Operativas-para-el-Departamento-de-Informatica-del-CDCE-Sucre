@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
+    <link rel="stylesheet" href="CSS/dashboard.css" type="text/css">
 
-    <link rel="stylesheet" href="CSS/Dashboard/Cuadros.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="JS/menu_desplegable.js"></script>
+    <script src="Plantillas/menu_desplegable-administrador.js"></script>
     <script src="JS/ajax.dashboard.js"></script>
 
 </head>
@@ -25,71 +25,117 @@
         <h1 class="titleh1">Administrar - Dashboard</h1>
         <section class="seccionDashboard">
             <h2>Dashboard</h2>
-            <div class="row">
 
-                <!--Cuadro que coloca el numero de ordenes-->
-                <div class="CuadroOrdenes col-md-4 bloque_dashboard">
-                    <div class="cuadro_hijo01">
-                        <div>
-                            <h2 id="num_actividades"></h2>
-                            <p>Actividades Registradas</p>
-                        </div>
-                        <div>
-                            <img src="../View/Resources/png/512/bag.png">
-                        </div>
-                    </div>
-                    <div class="cuadro_hijo02">
-                        <label><a href="actividades-registradas.php">Más Información</a></label>
-                    </div>
-                </div>
+            <div class="container">
 
-                <!--Cuadro que coloca el numero de ordenes-->
-                <div class="CuadroTasaRebote col-md-4 bloque_dashboard">
-                    <div class="cuadro_hijo01">
-                        <div>
-                            <h2>53%</h2>
-                            <p>Tasa de Rebote</p>
-                        </div>
-                        <div>
-                            <img src="../View/Resources/png/512/podium.png">
-                        </div>
-                    </div>
-                    <div class="cuadro_hijo02">
-                        More Info
-                    </div>
-                </div>
+                <div class="row row-cols-3">
+                    <!--Cuadro que muestra el Actividades Registradas-->
+                    <div class="CuadroActividadesRegistradas col bloque_dashboard">
+                        <div class="cuadro_hijo01">
 
-                
-                <!--Cuadro de numero Usuarios Registrados-->
-                <div class="CuadroRegistrados col-md-3 bloque_dashboard">
-                    <div class="cuadro_hijo01">
-                        <div>
-                            <h2>66</h2>
-                            <p>Usuarios Registrados</p>
-                        </div>
-                        <div>
-                            <img src="../View/Resources/png/512/person-add.png">
-                        </div>
-                    </div>
-                    <div class="cuadro_hijo02">
-                        More Info
-                    </div>
-                </div>
+                            <div>
+                                <h2 id="num_actividades">0</h2>
+                                <p>Actividades Registradas</p>
+                            </div>
 
-                <!--Cuadro que coloca el numero de ordenes-->
-                <div class="CuadroVisitantes col-md-5 bloque_dashboard">
-                    <div class="cuadro_hijo01">
-                        <div>
-                            <h2>89</h2>
-                            <p>Numero de Visitantes</p>
+                            <div>
+                                <img src="../View/Resources/png/512/bag.png">
+                            </div>
+
                         </div>
-                        <div>
-                            <img src="../View/Resources/png/512/pie-graph.png">
+
+                        <div class="LineaFinal">
+                            <a href="actividades-registradas.php">Más Información</a>
                         </div>
+
                     </div>
-                    <div class="cuadro_hijo02">
-                        <a href="lista-usuarios">Mas informacion</a>
+
+                    <!--Cuadro que muestra el Actividades Iniciadas-->
+                    <div class="CuadroActividadesIniciadas col-md-3 bloque_dashboard" style="background-color:rgb(50, 199, 74);">
+
+                        <div class="cuadro_hijo01">
+
+                            <div>
+                                <h2 id="num_actividades_iniciadas">0</h2>
+                                <p>Actividades Iniciadas</p>
+                            </div>
+
+                            <div>
+                                <img src="../View/Resources/png/512/podium.png">
+                            </div>
+                        </div>
+
+                        <div class="LineaFinal"  style="background-color:rgb(37, 175, 78);">
+                            <a href="actividades-registradas.php">Más Información</a>
+                        </div>
+
                     </div>
+
+                    <!--Cuadro que muestra el Actividades en Proceso-->
+                    <div class="CuadroActividadesProceso col-md-3 bloque_dashboard">
+
+                        <div class="cuadro_hijo01">
+
+                            <div>
+                                <h2 id="num_actividades_proceso">0</h2>
+                                <p>Actividades en Proceso</p>
+                            </div>
+
+                            <div>
+                                <img src="../View/Resources/png/512/clock.png">
+                            </div>
+
+                        </div>
+
+                        <div class="LineaFinal">
+                            <a href="actividades-registradas.php">Más Información</a>
+                        </div>
+                        
+                    </div> 
+
+                    <!--Cuadro que muestra el Actividades Suspendidas-->
+                    <div class="CuadroActividadesSuspendidas col-md-5 bloque_dashboard">
+
+                        <div class="cuadro_hijo01">
+
+                            <div>
+                                <h2 id="num_actividades_suspendidas">0</h2>
+                                <p>Actividades Suspendidas</p>
+                            </div>
+
+                            <div>
+                                <img src="../View/Resources/png/512/pie-graph.png">
+                            </div>
+
+                        </div>
+
+                        <div class="LineaFinal">
+                            <a href="lista-usuarios">Mas informacion</a>
+                        </div>
+                        
+                    </div> 
+
+                    <!--Cuadro de numero Usuarios Registrados-->
+                    <div class="CuadroUsuariosRegistrados col bloque_dashboard">
+
+                        <div class="cuadro_hijo01">
+
+                            <div>
+                                <h2>66</h2>
+                                <p>Usuarios Registrados</p>
+                            </div>
+                            
+                            <div>
+                                <img src="../View/Resources/png/512/person-add.png">
+                            </div>
+                        </div>
+
+                        <div class="LineaFinal">
+                            <a href="lista-usuarios">Mas informacion</a>
+                        </div>
+
+                    </div>
+                    
                 </div>
             </div>
 

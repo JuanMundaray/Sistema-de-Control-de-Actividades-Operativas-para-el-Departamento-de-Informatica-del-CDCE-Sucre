@@ -15,7 +15,7 @@
         <script src="JS/ajax.actividades.js"></script>
         <script src="JS/ajax.actividades.funciones.js"></script>
         <script src="JS/ajax.actividades.autocompletar.js"></script>
-        <script src="JS/menu_desplegable-administrador.js"></script>
+        <script src="Plantillas/menu_desplegable-administrador.js"></script>
         <title>Actividades Registradas</title>
 
     </head>
@@ -34,18 +34,19 @@
                     <a href="registrar-actividad.php"><button class="btn btn-primary" >Registrar Actividad</button></a>
                     <!--Barra de Busqueda-->
                     <nav class="navbar navbar-light row">
-                            <form class="form-inline">
+                            <form class="form-inline col">
                                 <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" id="data_busq" name="data_busq">
                                 
                                 <input type="button" class="btn btn-outline-primary" id="buscar_act" value="Buscar">
                             </form>
 
-                            <form class="form-inline">
+                            <form class="form-inline col">
                                 <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
                                 
                                 <input type="button" class="btn btn-outline-primary" id="buscar_act_fecha" value="Buscar">
                             </form>
-                            <form class="form-inline">
+
+                            <form class="form-inline col">
                                 <input class="form-control" type="search" placeholder="Buscar por Codigo..." aria-label="Search" id="data_busq_codigo" name="data_busq_codigo">
                                 
                                 <input type="button" class="btn btn-outline-primary" id="buscar_act_codigo" value="Buscar">
@@ -93,6 +94,7 @@
                             </tr>
                             
                         </table>
+                        
                     </div>
                     
                     <nav>
@@ -102,8 +104,7 @@
                     <div class="row center_elem">
                         <div class="col-md-6 center_elem">
                             <button class="btn btn-danger">Exportar a PDF</button>
-                            
-                            <button class="btn btn-success">Exportar a EXCEL</button>
+                            <button class="btn btn-success" name="export_data">Exportar a EXCEL</button>
                         <div>
                     </div>
                 <section>

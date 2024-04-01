@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         
-        <script src="JS/menu_desplegable-administrador.js"></script>
+        <script src="Plantillas/menu_desplegable-administrador.js"></script>
         <title>Document</title>
     </head>
     <?php

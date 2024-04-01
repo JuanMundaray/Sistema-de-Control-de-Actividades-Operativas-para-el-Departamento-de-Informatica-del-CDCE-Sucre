@@ -10,6 +10,10 @@ switch($option){
         $nombre_tipo=$_REQUEST['nombre_tipo'];
         $tipo_actividad->setNombre_tipo(strtoupper($nombre_tipo));
         $resultado=$tipo_actividad->crear();
+        if($resultado){
+            header("location:../View/actividades-registradas.php");
+            exit();
+        }
     break;
 
 

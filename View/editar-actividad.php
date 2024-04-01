@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="JS/menu_desplegable-administrador.js"></script>
+    <script src="Plantillas/menu_desplegable-administrador.js"></script>
     <script src="JS/ajax.actividades.funciones.js"></script>
     <script src="JS/ajax.editarActividad.js"></script>
 </head>
@@ -26,7 +26,7 @@
         <h1 class="titleh1">Editar Actividad</h1>
         <div class="contenedorPrincipal">
 
-            <form class="formulario" method="post">
+            <form class="formulario needs-validation" method="post" action="../Controller/controllerActividad.php" novalidate>
                     <h2 class="titleh2">Datos de la Actividad</h2>
                     <section class="secciones row">
                         <input type="hidden" value="modificar" name="option">
@@ -44,16 +44,25 @@
                         </div>
                         <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Informe:</label>
-                                <textarea class="col-md-12 form-control" name="informe" id="informe"></textarea>
+                                <textarea class="col-md-12 form-control" name="informe" id="informe" placeholder="Informe sobre la realizacion de esta Actividad" required></textarea>
+
+                                <div class="invalid-feedback">
+                                    *Este Campo es Obligatorio
+                                </div>
                         </div>
                         
                         <div class="col-md-12 div_input_form" id="div_estado">
                                 <label class="col-md-12 form-label">Estado:</label>
-                                <select class="form-select" id="estado" name="estado">
+                                <select class="form-select" id="estado" name="estado" required>
+                                    <option selected disabled value="">Seleccione...</option>
                                     <option value="PROCESO" id="select_proceso">PROCESO (60%)</option>
                                     <option value="COMPLETADA" id="select_completada">COMPLETADA (100%)</option>
                                     <option value="SUSPENDIDA" id="select_suspendida">SUSPENDIDA</option>
                                 </select>
+
+                                <div class="invalid-feedback">
+                                    *Seleccione un Estado de Actividad Válido
+                                </div>
                         </div>
                         
                         <div class="col-md-6 div_input_form">
@@ -106,10 +115,12 @@
                         </div>
                         <input type="hidden" value="modificar" name="option" id="option">
                         <div class="col-md-12 form_button">
-                            <input type="button" class=" input_submit btn btn-primary col-md-4" value="Modificar Actividad" name="modificar_actividad" id="modificar_actividad">
+                            <input type="submit" class=" input_submit btn btn-primary col-md-4" value="Modificar Actividad" name="modificar_actividad" id="modificar_actividad">
                         </div>
 
                     </section>
+                    
+                    <script src="JS/validar.formularios.js"></script>
             </form>
         </div>
     </main>

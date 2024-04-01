@@ -7,13 +7,5 @@ $(document).ready(function(){
         var valor=$(this).val();
         $(this).val(valor.replace(/\D/g,""));
     });
-
-    $("#guardar_actividad").click(function(){
-        if($("#nombre").val==""){
-            alert("Debe Ingresar Un nombre");
-            return false;
-        }
-
-    });
     
 });

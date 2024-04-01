@@ -1,7 +1,11 @@
 $(document).ready(function(){
-    num_actividad();
+    setTimeout(num_actividad,0);
+    setTimeout(num_actividades_iniciadas,0);
+    setTimeout(num_actividades_suspendidas,0);
+    setTimeout(num_actividades_proceso,0);
 
 });
+
 function num_actividad(){
 
     let num_actividades;
@@ -22,4 +26,70 @@ function num_actividad(){
     });
 
     $("#num_actividades").html(num_actividades);
+}
+
+function num_actividades_iniciadas(){
+
+    let num_resultados;
+
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{option:'contarRegistros',data_busq:"INICIADA",parametro_busq:"estado"},
+        dataType:'json',
+        success:function(msg){
+            num_resultados=msg;
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
+    $("#num_actividades_iniciadas").html(num_resultados);
+    
+}
+
+function num_actividades_suspendidas(){
+
+    let num_resultados;
+
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{option:'contarRegistros',data_busq:"SUSPENDIDA",parametro_busq:"estado"},
+        dataType:'json',
+        success:function(msg){
+            num_resultados=msg;
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
+    $("#num_actividades_suspendidas").html(num_resultados);
+    
+}
+
+function num_actividades_proceso(){
+
+    let num_resultados;
+
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{option:'contarRegistros',data_busq:"PROCESO",parametro_busq:"estado"},
+        dataType:'json',
+        success:function(msg){
+            num_resultados=msg;
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
+    $("#num_actividades_proceso").html(num_resultados);
+    
 }

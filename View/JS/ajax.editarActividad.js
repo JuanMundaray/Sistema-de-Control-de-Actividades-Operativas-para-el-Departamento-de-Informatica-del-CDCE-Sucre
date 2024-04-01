@@ -32,7 +32,6 @@ $(document).ready(function(){
                 let dep_receptor=$("#dep_receptor").val(elemento["dep_receptor"]);
                 let dep_emisor=$("#dep_emisor").val(elemento["dep_emisor"]);
                 let tipo=$("#tipo").val(elemento["nombre_tipo"]);
-                let estado=$("#estado").val(elemento["estado"]);
                 let nom_responsable=$("#nom_responsable").val(elemento["nom_responsable"]);
                 let ape_responsable=$("#ape_responsable").val(elemento["ape_responsable"]);
                 let ced_responsable=$("#ced_responsable").val(elemento["ced_responsable"]);

@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="JS/menu_desplegable.js"></script>
-    <script src="JS/ajax.tipo_actividad.funciones.js"></script>
+    
+    <script src="Plantillas/menu_desplegable-administrador.js"></script>
 </head>
 <?php
     require_once("Plantillas/Plantilla_cabecera.php");
@@ -24,15 +24,22 @@
         <div class="contenedorPrincipal">    
             <h2 class="titleh2">Crear Tipo de Actividad</h2>
             <section class="secciones row">
-                <form class="formulario row" method="post">    
-                    <div class="col-md-12">
+                <form class="needs-validation formulario row" method="post" action="../Controller/controllerTipo_actividad.php" novalidate>    
+                    <div class="col-md-7 div_input_form">
                         <label class="col-md-7 form-label">Tipo de Actividad a Registrar:</label>
-                        <input class="col-md-7 form-control" type="text" name="nombre_tipo" id="nombre_tipo" require maxlength="100">
+                        <input class="col-md-7 form-control" type="text" name="nombre_tipo" id="nombre_tipo" required maxlength="100">
+                        <div class="invalid-feedback">
+                            *Este Campo no puede esta vacío
+                        </div>
                     </div>
+
                     <input class="col-md-7" type="hidden" value="crear" name="option" id="option">
+                    
                     <div class="col-md-12 form_button">
-                        <input type="button" class="btn btn-primary col-md-3" value="Crear Tipo de Actividad" id="crear_tipo_act">
+                        <input type="submit" class="btn btn-primary col-md-3" value="Crear Tipo de Actividad" id="crear_tipo_act">
                     </div>
+
+                    <script src="JS/validar.formularios.js"></script>
                 </form>
             </section>
         </div>

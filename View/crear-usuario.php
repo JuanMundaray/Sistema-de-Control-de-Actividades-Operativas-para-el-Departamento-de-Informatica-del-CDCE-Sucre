@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="../Framework/bootstrap-icons-1.11.1/bootstrap-icons.min.css" type="text/css">
     <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
     <link rel="stylesheet" href="CSs/formulario.css" type="text/css">
@@ -23,10 +24,12 @@
 
             <form class="formulario" method="post">
                     <section id="secciones" class="secciones row">
-
                         <div class="col-md-10 div_input_form">
                             <label class="col-md-12 form-label">Nombre de Usuario:</label>
                             <input type="text"class="input_form col-md-12 form-control" name="username" id="username" placeholder="Nombre de Usuario">
+                            <i class="bi-key" style="font-size: 2rem; color: black;opacity:0.8;"></i>
+                            
+                            
                         </div>
                         <div class="col-md-10 div_input_form">
                             <label class="col-md-12 form-label">Contraseña:</label>
