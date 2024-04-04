@@ -17,7 +17,6 @@ class actividad{
     private $estado;
     private $observacion;
     private $informe;
-    private $db;
     private $orden='asc';
     
     public function __construct()

@@ -19,7 +19,6 @@ header{
 }
 
 .logo-ZEED{
-    margin: 0;
     padding: 0;
     height: 100%;
 }
@@ -52,7 +51,7 @@ header{
     margin: 0;
     padding: 0;
     padding: 2px;
-    padding-left: 2vw;
+    padding-left: 0.1vw;
 }
 
 .Parte-Inferior-Cabecera h3{
@@ -60,8 +59,15 @@ header{
     position: relative;
     top: 0;
     padding: 0;
+    margin-right: 20px;
     margin-top: 4px;
     color: aliceblue;
-    font-size: 35px;
+    font-size: 2.3rem;
     font-weight: 600;
+}
+
+@media screen and (max-width: 490px){
+	.logo-zamora200{
+        display: none;
+    }
 }

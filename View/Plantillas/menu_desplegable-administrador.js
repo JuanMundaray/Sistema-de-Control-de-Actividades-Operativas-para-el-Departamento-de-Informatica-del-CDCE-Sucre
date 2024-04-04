@@ -6,29 +6,75 @@ centinela=true;
 		nav_aside.innerHTML=`
 		<ul>
 			<li>
-				<i class="bi-key" style="font-size: 2rem; color: black;opacity:0.8;"></i>
-				<a href='Dashboard.php'>Dashboard</a>
+				<div>
+					<a class="row" href='Dashboard.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-briefcase.png" class="icons-menudeslizante"></figure>
+						<span class="col">Dashboard</span>
+					</a>
+				</div>
 			</li>
+
 			<li>
-				<a href='registrar-actividad.php'>Registrar Actividad</a>
+				<div>
+					<a class="row" href='registrar-actividad.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/archive.png" class="icons-menudeslizante"></figure>
+						<span class="col">Registrar Actividad</span>
+					</a>
+				</div>
 			</li>
+
 			<li>
-				<a href='tipo-actividad.php'>Tipos de Actividad</a>
+				<div>
+					<a class="row" href='tipo-actividad.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-pricetags.png" class="icons-menudeslizante"></figure>
+						<span class="col">Tipos de Actividad</span>
+					</a>
+				</div>
 			</li>
+
 			<li>
-				<a href='actividades-registradas.php'>Actividades Registradas</a>
+				<div>
+					<a class="row" href='actividades-registradas.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-paper.png" class="icons-menudeslizante"></figure>
+						<span class="col">Actividades Registradas</span>
+					</a>
+				</div>
 			</li>
+
 			<li>
-				<a href='administrar-sistema.php'>Administrar Sistema</a>
+				<div>
+					<a class="row" href='control-sistema.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-settings-strong.png" class="icons-menudeslizante"></figure>
+						<span class="col">Opciones Administrador</span>
+					</a>
+				</div>
 			</li>
+
 			<li>
-				<a href='crear-peticion.php'>Hacer Petición de Actividad</a>
+				<div>
+					<a class="row" href='crear-peticion.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-compose.png" class="icons-menudeslizante"></figure>
+						<span class="col">Hacer Petición de Actividad</span>
+					</a>
+				</div>
 			</li>
+
 			<li>
-				<a href='peticiones-registradas.php'>Lista de Peticiones</a>
+				<div>
+					<a class="row" href='peticiones-registradas.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-box.png" class="icons-menudeslizante"></figure>
+						<span class="col">Lista de Peticiones</span>
+					</a>
+				</div>
 			</li>
+
 			<li>
-				<a href='#'>Salir</a>
+				<div>
+					<a class="row" href='#'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-close.png" class="icons-menudeslizante"></figure>
+						<span class="col">Salir</span>
+					</a>
+				</div>
 			</li>
 		</ul>`;
 			boton_desplegar=document.querySelector("#boton_despliegue");

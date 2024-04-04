@@ -7,7 +7,6 @@ class peticion{
     private $departamento_peticion;
     private $detalles_peticion;
     private $fecha_peticion;
-    private $db;
     private $orden='asc';
     
     public function __construct()

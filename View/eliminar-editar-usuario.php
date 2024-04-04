@@ -1,7 +1,7 @@
     <!DOCTYPE html>
     <html lang="es">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8"><link rel="icon" href="../favicon.ico" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.css" type="text/css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">

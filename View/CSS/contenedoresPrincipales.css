@@ -32,8 +32,6 @@ label{
 }
 
 .titleh2{
-
-    margin-bottom: 40px;
     padding:15px;
     background-color: var(--ColorTitulo);
     color: rgb(255, 255, 255);
@@ -50,7 +48,7 @@ label{
 }
 
 .secciones{
-    padding: 0px 40px 10px 40px;
+    padding: 40px 40px 10px 40px;
 
 }
 
@@ -92,7 +90,7 @@ label{
     margin-bottom: 20px;
 }
 
-.center_elem{
+.center-element{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,4 +98,9 @@ label{
 
 .tamano_boton{
     width: 120px;
+}
+
+.tabla-control-sistema a{
+    text-decoration: none;
+    margin-left: 10px;
 }

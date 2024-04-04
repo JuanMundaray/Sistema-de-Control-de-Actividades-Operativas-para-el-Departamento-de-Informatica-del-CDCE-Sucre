@@ -6,10 +6,21 @@ centinela=true;
 		nav_aside.innerHTML=`
 		<ul>
             <li>
-                <a href='Inicio.php'>Página de Inicio</a>
+				<div>
+					<a class="row" href='Inicio.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/social-buffer.png" class="icons-menudeslizante"></figure>
+						<span class="col">Página de Inicio</span>
+					</a>
+				</div>
             </li>
+
 			<li>
-				<a href='login.php'>Iniciar Sesion</a>
+				<div>
+					<a class="row" href='login.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/log-in.png" class="icons-menudeslizante"></figure>
+						<span class="col">Iniciar Sesion</span>
+					</a>
+				</div>
 			</li>
 		</ul>`;
 			boton_desplegar=document.querySelector("#boton_despliegue");
