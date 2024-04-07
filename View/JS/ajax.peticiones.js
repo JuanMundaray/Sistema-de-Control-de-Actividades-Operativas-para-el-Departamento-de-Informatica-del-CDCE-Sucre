@@ -73,25 +73,49 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
 
 function RellenarTablaPeticiones(msg){
     let tabla=$("#tabla_peticiones");
-            tabla.empty();
-            tabla.append(`<tbody><tr>
-                <th><label>Nombre de Peticion</label></th>
-                <th><label>Usuario que registro la peticion</label></th>
-                <th><label>Departamento de la Peticion</label></th>
-                <th><label>Fecha de la Peticion</label></th>
-                <th colspan="1"><label>Accion</label></th>
+    let tipo_usuario=$('#tipo_usuario').val();
+            
+            
+    if(tipo_usuario!="invitado"){
+        tabla.empty();
+        tabla.append(`<tbody><tr>
+            <th><label>Nombre de Peticion</label></th>
+            <th><label>Usuario que registro la peticion</label></th>
+            <th><label>Departamento de la Peticion</label></th>
+            <th><label>Fecha de la Peticion</label></th>
+            <th colspan="1"><label>Accion</label></th>
+        </tr>`);
+        msg.forEach(function(elemento){
+            //Dibujar la Tabla de Peticiones por medio del DOM de JavaScripts 
+            
+            tabla.append(`<tr>
+            <td>${elemento['nombre_peticion']}</td>
+            <td>${elemento['nombre_usuario']}</td>
+            <td>${elemento['departamento_peticion']}</td>
+            <td>${elemento['fecha_peticion']}</td>
+            <td><button class="btn btn-danger" onclick="eliminarPeticion(${elemento['id_peticion']})">Rechazar</button></td>
             </tr>`);
-            msg.forEach(function(elemento){
-                //Dibujar la Tabla de Peticiones por medio del DOM de JavaScripts 
-                
-                tabla.append(`<tr>
-                <td>${elemento['nombre_peticion']}</td>
-                <td>${elemento['nombre_usuario']}</td>
-                <td>${elemento['departamento_peticion']}</td>
-                <td>${elemento['fecha_peticion']}</td>
+        });
+        tabla.append("</tbody>");
+    }else{
+        tabla.empty();
+        tabla.append(`<tbody><tr>
+            <th><label>Nombre de Peticion</label></th>
+            <th><label>Usuario que registro la peticion</label></th>
+            <th><label>Departamento de la Peticion</label></th>
+            <th><label>Fecha de la Peticion</label></th>
+        </tr>`);
+        msg.forEach(function(elemento){
+            //Dibujar la Tabla de Peticiones por medio del DOM de JavaScripts 
+            
+            tabla.append(`<tr>
+            <td>${elemento['nombre_peticion']}</td>
+            <td>${elemento['nombre_usuario']}</td>
+            <td>${elemento['departamento_peticion']}</td>
+            <td>${elemento['fecha_peticion']}</td>
+            </tr>`);
+        });
+        tabla.append("</tbody>");
 
-                <td><button class="btn btn-danger" onclick="eliminarPeticion(${elemento['id_peticion']})">Rechazar</button></td>
-                </tr>`)
-            });
-            tabla.append("</tbody>");
+    }
 }

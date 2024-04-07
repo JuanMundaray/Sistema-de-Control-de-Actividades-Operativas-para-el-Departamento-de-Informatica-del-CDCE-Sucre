@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
+    <?php
+        session_start();
+        if(isset($_SESSION["tipo_usuario"])){
+            if($_SESSION["tipo_usuario"]=="invitado"){
+                echo '<script src="Plantillas/menu_desplegable-invitado.js"></script>';
+            }
+            if($_SESSION["tipo_usuario"]=="estandar"){
+                echo '<script src="Plantillas/menu_desplegable-estandar.js"></script>';
+            }
+            if($_SESSION["tipo_usuario"]=="administrador"){
+                echo '<script src="Plantillas/menu_desplegable-administrador.js"></script>';
+            }
+        }
+        else{
+            header("Location:../Index");
+            exit();
+        }
+        require_once("Plantillas/Plantilla_cabecera.php");
+    ?>
     <meta charset="UTF-8"><link rel="icon" href="../favicon.ico" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,15 +30,10 @@
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/dashboard.css" type="text/css">
-
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="Plantillas/menu_desplegable-administrador.js"></script>
     <script src="JS/ajax.dashboard.js"></script>
 
 </head>
-<?php
-    require_once("Plantillas/Plantilla_cabecera.php");
-?>
 <body>
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
@@ -121,7 +136,7 @@
                         <div class="cuadro_hijo01">
 
                             <div>
-                                <h2>66</h2>
+                                <h2 id="num_usuarios">0</h2>
                                 <p>Usuarios Registrados</p>
                             </div>
                             

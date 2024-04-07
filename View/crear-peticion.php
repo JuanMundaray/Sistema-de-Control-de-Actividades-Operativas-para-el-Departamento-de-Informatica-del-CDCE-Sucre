@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php
+        session_start();
+        if(isset($_SESSION["tipo_usuario"])){
+            if($_SESSION["tipo_usuario"]=="invitado"){
+                echo '<script src="Plantillas/menu_desplegable-invitado.js"></script>';
+            }
+            if($_SESSION["tipo_usuario"]=="estandar"){
+                echo '<script src="Plantillas/menu_desplegable-estandar.js"></script>';
+            }
+            if($_SESSION["tipo_usuario"]=="administrador"){
+                echo '<script src="Plantillas/menu_desplegable-administrador.js"></script>';
+            }
+        }
+        else{
+            header("Location:../Index");
+            exit();
+        }
+    ?>
     <meta charset="UTF-8"><link rel="icon" href="../favicon.ico" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +28,6 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="Plantillas/menu_desplegable-administrador.js"></script>
     <title>Hacer Peticion</title>
 </head>
 <?php
@@ -39,7 +56,7 @@
                             <label class="col-md-12 form-label">Deparatamento que realiza la Petición:</label>
                             <select class="col-md-12 form-select" type="text" name="departamento_peticion" id="departamento_peticion" required>
                                 <option selected disabled value="">Seleccione...</option>
-                                <option value="DEPARTAMENTO DE SALUD">Departamento de Salud</option>
+                                <option value="<?php echo $_SESSION["id_departamento"] ?>"><?php echo $_SESSION["nombre_departamento"] ?></option>
                             </select>
 
                             <div class="invalid-feedback">
@@ -56,12 +73,12 @@
                             </div>
                         </div>
 
-                        <input type="hidden" value=1 name="usuario" id="usuario">
+                        <input type="hidden" value=<?php echo $_SESSION["id_usuario"] ?> name="usuario" id="usuario">
                         <input type="hidden" value="crear_peticion" name="option" id="option">
 
                         <div class="col-md-12 form_button">
                             <input type="submit" class="btn btn-primary col-md-2" value="Crear Petición" name="crear_peticion" id="crear_peticion">
-                        </div>
+                        </div>>
                     </section>
 
                     <script src="JS/validar.formularios.js"></script>

@@ -2,7 +2,7 @@
 require_once('DataBase.php');
 class historial_actividad{
 
-    private $orden='asc';
+    private $orden='DESC';
 
     public function getHistorial_actividades($pagina,$num_resultados)
     {

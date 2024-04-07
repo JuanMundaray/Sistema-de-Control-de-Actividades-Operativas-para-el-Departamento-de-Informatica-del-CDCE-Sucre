@@ -8,12 +8,25 @@
         <div class="raya"></div>
 
         <div class="Parte-Inferior-Cabecera">
+
             <div style="display: flex; margin-left: 20px;">
                 <h3>CDCE-SUCRE</h3>
                 <img id="boton_despliegue" src="Resources/png/512/navicon.png" width="60px" height="60px">
             </div>
-                <img class="Mover-Izquierda" src="Resources/png/512/person.png" width="50px" height="50px">
 
+            <div class="Mover-Derecha">
+                <img style="margin:0; padding:0;" src="Resources/png/512/person.png" 
+                width=<?php if(isset($_SESSION["nombre_usuario"])){ echo "40px";}else{echo "50px";} ?> 
+                height=<?php if(isset($_SESSION["nombre_usuario"])){ echo "40px";}else{echo "50px";} ?>>
+                <p style="margin:0; font-size: 10px; text-align: center;">
+                    <?php
+                        if(isset($_SESSION["nombre_usuario"])){
+                            echo $_SESSION["nombre_usuario"];
+                        }
+                    ?>
+                </p>
+            </div>
+            
         </div>
     </div>
 </header>

@@ -1,6 +1,25 @@
     <!DOCTYPE html>
     <html lang="es">
     <head>
+        <?php
+            session_start();
+            if(isset($_SESSION["tipo_usuario"])){
+                if($_SESSION["tipo_usuario"]=="estandar"){
+                    echo '<script src="Plantillas/menu_desplegable-estandar.js"></script>';
+                }
+                if($_SESSION["tipo_usuario"]=="administrador"){
+                    echo '<script src="Plantillas/menu_desplegable-administrador.js"></script>';
+                }
+                if($_SESSION["tipo_usuario"]=="invitado"){
+                    header("Location:./Dashboard.php");
+                    exit();
+                }
+            }
+            else{
+                header("Location:../Index");
+                exit();
+            }
+        ?>
         <link rel="icon" href="../favicon.ico" />
         <meta charset="UTF-8"><link rel="icon" href="../favicon.ico" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +37,6 @@
         <script src="JS/ajax.actividades.js"></script>
         <script src="JS/ajax.actividades.funciones.js"></script>
         <script src="JS/ajax.actividades.autocompletar.js"></script>
-        <script src="Plantillas/menu_desplegable-administrador.js"></script>
         <title>Actividades Registradas</title>
 
     </head>
@@ -91,12 +109,21 @@
                         <table id="tabla_actividades" class="table table-bordered table-responsive text-nowrap table_default">
                             <!--La tabla se rellena por medio de el archivo ajax.actividades.funciones.js-->
                         </table>
-                        
                     </div>
+                    <div>
+                        <nav>
+                            <ul class="pagination" id="num_paginas">
+                            </ul>
+                        </nav>
+                    </div>
+
                     <div class="row center-element">
                         <div class="col-md-6 center-element">
                             <button class="btn btn-danger">Exportar a PDF</button>
-                            <button class="btn btn-success" name="export_data">Exportar a EXCEL</button>
+                            <form action="../Controller/controllerActividad.php">
+                                <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
+                                <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
+                            </form>
                         <div>
                     </div>
                 <section>

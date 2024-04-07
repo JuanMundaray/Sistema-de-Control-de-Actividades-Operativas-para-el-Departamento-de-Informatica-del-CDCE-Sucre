@@ -9,12 +9,24 @@
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         
-        <script src="JS/menu_desplegable.js"></script>
+        <script src="./Plantillas/menu_desplegable-administrador.js"></script>
         <title>Document</title>
     </head>
     <?php
-            require_once("Plantillas/Plantilla_cabecera.php");
-        ?>
+        session_start();
+        
+        if(isset($_SESSION["tipo_usuario"])){
+            if(($_SESSION["tipo_usuario"]!="administrador")){
+                header("Location:./Dashboard.php");
+                exit();
+            }
+        }else{
+            header("Location:../Index");
+            exit();
+        }
+
+        require_once("Plantillas/Plantilla_cabecera.php");
+    ?>
     <body>
         
         

@@ -17,7 +17,20 @@
     <script src="Plantillas/menu_desplegable-administrador.js"></script>
 </head>
 <?php
+            session_start();
+
+            if(isset($_SESSION["tipo_usuario"])){
+                if(($_SESSION["tipo_usuario"]=="invitado")){
+                    header("Location:./Dashboard.php");
+                    exit();
+                }
+            }else{
+                header("Location:../Index");
+                exit();
+            }
+            
             require_once("Plantillas/Plantilla_cabecera.php");
+
             if(!isset($_REQUEST['id'])){
                 header("location:actividades-registradas.php");
             }
@@ -59,17 +72,12 @@
                     <p id="tipo"></p>
                 </div>
 
-                <div class="col-md-12 div_input_form">
-                        <label class="col-md-12 form-label"><strong >Observacion:</strong></label>
-                        <p id="observacion"></p>
+                <div class="col-md-12 div_input_form" id="div_observacion">
+                    <!--Lo agrega js en caso de que este campo tenga informacion-->
                 </div>
+
                 <div class="col-md-12 div_input_form" id="div_informe">
-                    <label class="col-md-12 form-label"><strong >Informe:</strong></label>
-                        <p id="informe"></p>
-                </div>
-                <div class="col-md-12 div_input_form">
-                    <label class="col-md-12 form-label"><strong >Evidencia:</strong></label>
-                        <p id="evidencia"></p>
+                    <!--Lo agrega js en caso de que este campo tenga informacion-->
                 </div>
 
                 <div class="col-md-6 div_input_form">
@@ -90,6 +98,10 @@
                 <div class="col-md-6 div_input_form">
                     <label class="col-md-12 form-label"><strong >Cedula del Funcionario Atendido:</strong></label>
                     <p id="ced_atendido"></p>
+                </div>
+
+                <div class="col-md-12 div_input_form" id=evidencia>
+                    <!--Lo agrega js en caso de que este campo tenga informacion-->
                 </div>
                 <input type="hidden" value="modificar" name="option" id="option">
 

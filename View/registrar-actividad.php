@@ -5,7 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Actividad</title>
+    <?php
+            
+        session_start();
+        if(isset($_SESSION["tipo_usuario"])){
+            if($_SESSION["tipo_usuario"]=="estandar"){
+                echo '<script src="Plantillas/menu_desplegable-estandar.js"></script>';
+            }
+            if($_SESSION["tipo_usuario"]=="administrador"){
+                echo '<script src="Plantillas/menu_desplegable-administrador.js"></script>';
+            }
+            if(($_SESSION["tipo_usuario"]=="invitado")){
+                header("Location:./Dashboard.php");
+                exit();
+            }
+        }
+        else{
+            header("Location:../Index");
+            exit();
+        }
 
+        require_once("Plantillas/Plantilla_cabecera.php");
+        ?>
     <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
@@ -14,8 +35,8 @@
     <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="JS/ajax.actividades.funciones.js"></script>
     <script src="JS/validar.registrar_actividad.js"></script>
-    <script src="Plantillas/menu_desplegable-administrador.js"></script>
     <script>
+
         $(document).ready(function(){
             var timestamp=new Date().getTime();
             var codigo=timestamp.toString(36);
@@ -39,10 +60,27 @@
                 alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
             }
         });
+        
+        $.ajax({
+            type:"POST",
+            url:"../Controller/controllerDepartamentos.php",
+            data:{option:"obtener"},
+            dataType:'json',
+            success:function(msg){
+                msg.forEach(function(elemento){
+                    let dep_emisor=$("#dep_emisor");
+                    dep_emisor.append("<option value='"+elemento['nombre_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
+                    let dep_receptor=$("#dep_receptor");
+                    dep_receptor.append("<option value='"+elemento['nombre_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
+                });
+            },
+            error:function(jqXHR,textStatus,errorThrown){
+                alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+            }
+        });
     </script>
 </head>
 <?php
-            require_once("Plantillas/Plantilla_cabecera.php");
         ?>
 <body>
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
@@ -77,20 +115,18 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6 div_input_form"> 
+                        <!--<div class="col-md-6 div_input_form"> 
                             <label class="col-md-12 form-label">Fecha de Registro:</label>
                             <input class="col-md-12 form-control" required type="date" name="fecha" id="fecha" placeholder="Fecha de Registro">
                             <div class="invalid-feedback">
                                 Seleccione una Fecha Válida
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Departamento Emisor:</label>
                             <select class="col-md-12 form-select" name="dep_emisor" id="dep_emisor" required>
                                 <option selected disabled value="">Seleccione...</option>
-                                <option value="DEPARTAMENTO DE RECURSOS HUMANOS">DEPARTAMENTO DE RECURSOS HUMANOS</option>
-                                <option value="DEPARTAMENTO DE SALUD">DEPARTAMENTO DE SALUD</option>
                             </select>
                             <div class="invalid-feedback">
                                 Elija un Departamento Valido
@@ -101,7 +137,6 @@
                             <label class="col-md-12 form-label">Departamento Receptor:</label>
                             <select class="col-md-12 form-select" name="dep_receptor" id="dep_receptor" required>
                                 <option selected disabled value="">Seleccione...</option>
-                                <option value="DEPARTAMENTO DE SALUD">DEPARTAMENTO DE SALUD</option>
                             </select>
                             <div class="invalid-feedback">
                                 Elija un Departamento Valido

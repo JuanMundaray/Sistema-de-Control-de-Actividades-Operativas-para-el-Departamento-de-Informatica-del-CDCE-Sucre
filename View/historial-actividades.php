@@ -15,8 +15,20 @@
         <title>Document</title>
     </head>
     <?php
-            require_once("Plantillas/Plantilla_cabecera.php");
-        ?>
+        session_start();
+
+        if((isset($_SESSION["tipo_usuario"]))){
+            if(($_SESSION["tipo_usuario"]!="administrador")){
+                header("Location:./Dashboard.php");
+                exit();
+            }
+        }else{
+            header("Location:../Index");
+            exit();
+        }
+
+        require_once("Plantillas/Plantilla_cabecera.php");
+    ?>
     <body>
         
         

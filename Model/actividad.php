@@ -17,12 +17,14 @@ class actividad{
     private $estado;
     private $observacion;
     private $informe;
-    private $orden='asc';
+    private $evidencia;
+    private $orden='DESC';
     
     public function __construct()
     {
         $this->observacion="";
         $this->informe="";
+        $this->evidencia="";
         $this->estado="INICIADA";
     }
 
@@ -85,13 +87,18 @@ class actividad{
             $estado=$this->estado;
             $observacion=$this->observacion;
             $informe=$this->informe;
+            $evidencia=$this->evidencia;
             $id=$this->id;
             $db = DataBase::getInstance();
             $consulta = "UPDATE actividades.actividad
-            SET estado=:estado,observacion=:observacion,informe=:informe
+            SET estado=:estado,observacion=:observacion,informe=:informe,
+            evidencia=:evidencia
             WHERE id='$id'";
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":observacion"=>$observacion,":informe"=>$informe,":estado"=>$estado));
+            $resultadoPDO->execute(array(":observacion"=>$observacion,
+            ":informe"=>$informe,
+            ":estado"=>$estado,
+            ":evidencia"=>$evidencia));
             $resultadoPDO->closeCursor();                   
         } 
         catch(Exception $objeto){
@@ -125,16 +132,15 @@ class actividad{
     {
         $resultado = false;
         try{
-            $NumRegistros=$this->getNumRegistros();
-            $total_paginas=ceil($NumRegistros/$num_resultados);
             $punto_inicio=($pagina-1)*$num_resultados;
 
             $db = DataBase::getInstance();  
             $orden=$this->orden;       
-            $consulta = "SELECT * FROM actividades.actividad
-            INNER JOIN actividades.tipo_actividad
+            $consulta = "SELECT *
+            FROM actividades.actividad
+            LEFT JOIN actividades.tipo_actividad
             ON actividad.id_tipo=tipo_actividad.id_tipo
-            ORDER BY id $orden 
+            ORDER BY fecha $orden 
             LIMIT $num_resultados OFFSET $punto_inicio";
 
             $resultadoPDO = $db->query($consulta);
@@ -158,7 +164,7 @@ class actividad{
             $db = DataBase::getInstance();
             
             $consulta = "SELECT * FROM actividades.actividad 
-            INNER JOIN actividades.tipo_actividad
+            LEFT JOIN actividades.tipo_actividad
             ON actividad.id_tipo=tipo_actividad.id_tipo 
             WHERE $parametro ILIKE '$data_busq%' 
             LIMIT $num_resultados OFFSET $punto_inicio";
@@ -184,7 +190,7 @@ class actividad{
 
             $db = DataBase::getInstance();            
             $consulta = "SELECT * FROM actividades.actividad 
-            INNER JOIN actividades.tipo_actividad
+            LEFT JOIN actividades.tipo_actividad
             ON actividad.id_tipo=tipo_actividad.id_tipo WHERE $parametro='$data_busq' LIMIT $num_resultados OFFSET $punto_inicio";
 
             $resultadoPDO = $db->query($consulta);
@@ -205,7 +211,7 @@ class actividad{
         try{
             $id=$this->id;
             $db = DataBase::getInstance();            
-            $consulta = "SELECT * FROM actividades.actividad INNER JOIN actividades.tipo_actividad
+            $consulta = "SELECT * FROM actividades.actividad LEFT JOIN actividades.tipo_actividad
             ON actividad.id_tipo=tipo_actividad.id_tipo WHERE id=:id";
             $resultadoPDO=$db->prepare($consulta);
             $resultadoPDO->execute(array(':id'=>$id));
@@ -228,7 +234,7 @@ class actividad{
             $nombre=$this->nombre;
             $db = DataBase::getInstance();            
             $consulta = "SELECT * FROM actividades.actividad 
-            INNER JOIN actividades.tipo_actividad
+            LEFT JOIN actividades.tipo_actividad
             ON actividad.id_tipo=tipo_actividad.id_tipo WHERE nombre ILIKE '$nombre%'";
             $resultadoPDO = $db->query($consulta);
             while($data=$resultadoPDO->fetch(PDO::FETCH_ASSOC)){
@@ -345,6 +351,9 @@ class actividad{
     public function setInforme($informe)
     {
         $this->informe = trim($informe);
+    }
+    public function setEvidencia($evidencia){
+        $this->evidencia = trim($evidencia);
     }
 
 

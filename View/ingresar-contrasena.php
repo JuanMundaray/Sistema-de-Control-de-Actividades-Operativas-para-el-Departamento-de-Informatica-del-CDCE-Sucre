@@ -11,6 +11,18 @@
     <script src="JS/menu_desplegable.js"></script>
 </head>
 <?php
+            session_start();
+            
+            if(isset($_SESSION["tipo_usuario"])){
+                if(($_SESSION["tipo_usuario"]=="administrador")||($_SESSION["tipo_usuario"]=="estandar")){
+                    header("Location:./Dashboard.php");
+                    exit();
+                }
+            }else{
+                header("Location:../Index");
+                exit();
+            }
+
             require_once("Plantillas/Plantilla_cabecera.php");
         ?>
 <body>

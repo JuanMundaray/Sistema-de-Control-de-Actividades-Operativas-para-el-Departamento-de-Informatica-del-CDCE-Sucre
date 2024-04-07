@@ -6,12 +6,13 @@ $option=$_REQUEST['option'];
 switch($option){
 
     case 'crear_peticion':
+        date_default_timezone_set('America/Lima');
         $peticion=new peticion();
         $usuario=$_REQUEST['usuario'];
         $nombre_peticion=$_REQUEST['nombre_peticion'];
         $departamento_peticion=$_REQUEST['departamento_peticion'];
         $detalles_peticion=$_REQUEST['detalles_peticion'];
-        $peticion->setNombre_peticion($nombre_peticion);
+        $peticion->setNombre_peticion(strtoupper($nombre_peticion));
         $peticion->setId_Usuario($usuario);
         $peticion->setDepartamento_peticion($departamento_peticion);
         $peticion->setDetalles_peticion($detalles_peticion);

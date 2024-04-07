@@ -4,7 +4,7 @@ $(document).ready(function(){
         $("#div_estado").before(`
         <div class="col-md-12 div_input_form" id="div_evidencia">
             <label class="col-md-12 form-label">Evidencia:</label>
-            <input class="form-control" type="file" name="evidencia" id="evidencia" required>
+            <input class="form-control" type="file" size=100 name="evidencia" id="evidencia" required>
         </div>
         `);
     });

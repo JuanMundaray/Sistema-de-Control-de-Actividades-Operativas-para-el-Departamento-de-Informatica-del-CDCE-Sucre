@@ -15,6 +15,18 @@
     <script src="Plantillas/menu_desplegable-administrador.js"></script>
 </head>
 <?php
+        session_start();
+        
+        if(isset($_SESSION["tipo_usuario"])){
+            if(($_SESSION["tipo_usuario"]=="invitado")){
+                header("Location:./Dashboard.php");
+                exit();
+            }
+        }else{
+            header("Location:../Index");
+            exit();
+        }
+
     require_once("Plantillas/Plantilla_cabecera.php");
 ?>
 <body>

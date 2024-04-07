@@ -17,6 +17,18 @@
 
 </head>
 <?php
+    session_start();
+    
+    if(isset($_SESSION["tipo_usuario"])){
+        if(($_SESSION["tipo_usuario"]!="administrador")){
+            header("Location:./Dashboard.php");
+            exit();
+        }
+    }else{
+        header("Location:../Index");
+        exit();
+    }
+
     require_once("Plantillas/Plantilla_cabecera.php");
 ?>
 <body>
@@ -57,6 +69,7 @@
                         <!--Datos que mostrara la tabla actividades gracias a ajax.tipo_actividad.js-->
                     </table>
                 </div>
+                <div>
                     <nav>
                         <ul class="pagination" id="num_paginas">
                         </ul>

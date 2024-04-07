@@ -1,0 +1,1 @@
+create table actividades.historial_usuario(id_usuario integer,nombre_usuario varchar(100), nombre varchar(100), cedula varchar(15),contrasena varchar(100),tipo_usuario varchar(100),fecha_creacion date, id_departamento integer,primary key(id_usuario));

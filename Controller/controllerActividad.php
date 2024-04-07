@@ -6,13 +6,13 @@ $option=$_REQUEST['option'];
 switch($option){
 
     case 'guardar':
+        date_default_timezone_set('America/Lima');
         $actividad=new actividad();
         $codigo=$_REQUEST['codigo'];
         $nombre=$_REQUEST['nombre'];
         $id_tipo=$_REQUEST['tipo'];
         $dep_receptor=$_REQUEST['dep_receptor'];
         $dep_emisor=$_REQUEST['dep_emisor'];
-        $fecha=$_REQUEST['fecha'];
         $observacion=$_REQUEST['observacion'];
         $nom_responsable=$_REQUEST['nom_responsable'];
         $ape_responsable=$_REQUEST['ape_responsable'];
@@ -25,7 +25,7 @@ switch($option){
         $actividad->setId_tipo($id_tipo);
         $actividad->setDep_receptor($dep_receptor);
         $actividad->setDep_emisor($dep_emisor);
-        $actividad->setfecha($fecha);
+        $actividad->setfecha(date("Y-m-d"));
         $actividad->setObservacion($observacion);
         $actividad->setNom_responsable(strtoupper($nom_responsable));
         $actividad->setApe_responsable(strtoupper($ape_responsable));
@@ -105,6 +105,16 @@ switch($option){
         $id=$_REQUEST['id'];
         $informe=$_REQUEST['informe'];
         $estado=$_REQUEST['estado'];
+        if(isset($_FILES['evidencia'])){
+            $nombre_file=$_FILES["evidencia"]['name'];
+            $tipo_file=$_FILES["evidencia"]["type"];
+            $file_size=$_FILES["evidencia"]["size"];
+            //Ruta de destino donde se guardara el archivo en el servidor
+            $ruta_destino=$_SERVER['DOCUMENT_ROOT'].'/intranet/uploads_sca_cdce/';
+            //mover la imagen a la carpeta de destino
+            move_uploaded_file($_FILES['evidencia']['tmp_name'],$ruta_destino.$nombre_file);
+            $actividad->setEvidencia(($nombre_file));
+        }
         $actividad->setEstado(strtoupper($estado));
         $actividad->setObservacion($observacion);
         $actividad->setInforme($informe);
@@ -112,24 +122,49 @@ switch($option){
         $resultado=$actividad->modificar();
         break;
 
-    case 'contarRegistros':
-        $actividad=new actividad();
+        case 'contarRegistros':
+            $actividad=new actividad();
 
-        if((isset($_REQUEST['data_busq']))&&(isset($_REQUEST['parametro_busq']))){
-            //resultado sera todos los registros de la tabla segun la condicion en el where
-            $data_busq=$_REQUEST['data_busq'];
-            $parametro_busq=$_REQUEST['parametro_busq'];
-            $resultado=$actividad->getNumRegistros($parametro_busq,$data_busq);
-        }
-        else{//resultado sera todos los registros de la tabla
-            $resultado=$actividad->getNumRegistros();
-        }
-        
-        if($resultado){
-            $resultado=json_encode($resultado);
-            echo $resultado;
-        }
-    break;
+            if((isset($_REQUEST['data_busq']))&&(isset($_REQUEST['parametro_busq']))){
+                //resultado sera todos los registros de la tabla segun la condicion en el where
+                $data_busq=$_REQUEST['data_busq'];
+                $parametro_busq=$_REQUEST['parametro_busq'];
+                $resultado=$actividad->getNumRegistros($parametro_busq,$data_busq);
+            }
+            else{//resultado sera todos los registros de la tabla
+                $resultado=$actividad->getNumRegistros();
+            }
+            
+            if($resultado){
+                $resultado=json_encode($resultado);
+                echo $resultado;
+            }
+        break;
+
+        case 'exportarExcel':
+            require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
+            require_once("../Model/configurarBD.php");
+
+            date_default_timezone_set('America/Lima');
+            $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
+            
+            $export->connect();
+
+            $campos=array(
+                'id'=>'ID'
+            );
+
+            $export->query("SELECT * FROM actividades.actividad");
+            
+            
+
+            $export->to_excel();
+            $tabla=$export->build_table($campos);
+            $export->download();
+            if ($dbhex = $export->get_error()) {
+                die($dbhex->getMessage());
+              }
+        break;
 }
 
 ?>

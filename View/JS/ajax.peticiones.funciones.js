@@ -4,8 +4,6 @@ $(document).ready(function(){
         buscarPeticiones(data,"nombre_peticion");
 
     });
-
-    
 });
 
 function buscarPeticiones(data_busq,parametro_busq,pagina=1){
@@ -23,7 +21,7 @@ function buscarPeticiones(data_busq,parametro_busq,pagina=1){
 
         },
         error:function(jqXHR,textStatus,errorThrown){
-            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+            alert("Sin Resultados");
         }
 
     });

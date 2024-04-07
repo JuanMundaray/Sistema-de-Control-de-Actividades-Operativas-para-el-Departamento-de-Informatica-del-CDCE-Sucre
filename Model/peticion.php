@@ -7,7 +7,7 @@ class peticion{
     private $departamento_peticion;
     private $detalles_peticion;
     private $fecha_peticion;
-    private $orden='asc';
+    private $orden='ASC';
     
     public function __construct()
     {
@@ -52,14 +52,14 @@ class peticion{
     {
         $resultado = false;
         try{
-            $NumRegistros=$this->getNumRegistros();
-            $total_paginas=ceil($NumRegistros/$num_resultados);
             $punto_inicio=($pagina-1)*$num_resultados;
 
             $orden=$this->orden;
             $db = DataBase::getInstance();            
-            $consulta = "SELECT * FROM actividades.peticiones 
-            ORDER BY id_peticion $orden 
+            $consulta = "SELECT * FROM actividades.peticiones
+            LEFT JOIN actividades.usuario
+            ON peticiones.id_usuario=usuario.id_usuario
+            ORDER BY id_peticion $orden
             LIMIT $num_resultados OFFSET $punto_inicio";
             $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->fetchAll();
@@ -89,6 +89,7 @@ class peticion{
             $resultado = false;
             echo $objeto->getMessage();
         }
+        return $resultado;
     }
 
     public function buscar($parametro,$data_busq,$pagina,$num_resultados)
@@ -102,7 +103,9 @@ class peticion{
             $orden=$this->orden;
             $data_busq=$data_busq;
             $db = DataBase::getInstance();
-            $consulta = "SELECT * FROM actividades.peticiones 
+            $consulta = "SELECT * FROM actividades.peticiones
+            LEFT JOIN actividades.usuario
+            ON peticiones.id_usuario=usuario.id_usuario
             WHERE $parametro ILIKE '$data_busq%'
             LIMIT $num_resultados OFFSET $punto_inicio";
 

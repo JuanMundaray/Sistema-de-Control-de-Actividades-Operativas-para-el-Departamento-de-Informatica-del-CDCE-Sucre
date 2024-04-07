@@ -13,7 +13,19 @@
     <title>Control del Sistema</title>
 </head>
 <?php
-            require_once("Plantillas/Plantilla_cabecera.php");
+        session_start();
+        
+        if(isset($_SESSION["tipo_usuario"])){
+            if(($_SESSION["tipo_usuario"]!="administrador")){
+                header("Location:./Dashboard.php");
+                exit();
+            }
+        }else{
+            header("Location:../Index");
+            exit();
+        }
+
+        require_once("Plantillas/Plantilla_cabecera.php");
         ?>
 <body>
     
@@ -38,9 +50,6 @@
                     </tr>
                     <tr>
                         <td><a href="historial-actividades.php">Historial de Actividades</a></td>
-                    </tr>
-                    <tr>
-                        <td>Salir</td>
                     </tr>
                 </table>
             </section>

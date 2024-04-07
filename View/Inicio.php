@@ -16,6 +16,11 @@
         <script src="./Plantillas/menu_desplegable-login.js"></script>
     </head>
     <?php
+            session_start();
+            if(isset($_SESSION['nombre_usuario'])){  
+                header('location:./Dashboard.php');
+                exit();
+            }
             require_once("Plantillas/Plantilla_cabecera.php");
         ?>
     <body>

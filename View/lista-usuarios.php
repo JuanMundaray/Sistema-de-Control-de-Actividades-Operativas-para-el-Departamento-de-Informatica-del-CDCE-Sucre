@@ -12,12 +12,26 @@
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         
-        <script src="JS/menu_desplegable.js"></script>
+        <script src="../Framework/jquery-3.6.3.min.js"></script>
+        <script src="./JS/ajax.usuarios.js"></script>
+        <script src="./Plantillas/menu_desplegable-administrador.js"></script>
         <title>Document</title>
     </head>
     <?php
-            require_once("Plantillas/Plantilla_cabecera.php");
-        ?>
+        session_start();
+        
+        if(isset($_SESSION["tipo_usuario"])){
+            if(($_SESSION["tipo_usuario"]!="administrador")){
+                header("Location:./Dashboard.php");
+                exit();
+            }
+        }else{
+            header("Location:../Index");
+            exit();
+        }
+
+        require_once("Plantillas/Plantilla_cabecera.php");
+    ?>
     <body>
         
         
@@ -27,7 +41,8 @@
             <h1 class="titleh1">Usuarios</h1>
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Lista de Usuarios</h2>
-                <section class="secciones">
+                <section class="secciones row gy-4">
+                    
                     <!--Barra de Busqueda-->
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <div class="collapse navbar-collapse row" id="navbarSupportedContent">
@@ -40,25 +55,30 @@
                             </form>
                         </div>
                     </nav>
+
+                    <!--Numero de Resultados de las Usuarios-->
+                    <div class="col-md-3">
+                        <label class="form-label">Numero de Resultados:</label>
+                        <select class="form-select" id="num_resultados">
+                                <option onclick="getUsuarios()" value="5">5</option>
+                                <option onclick="getUsuarios()" value="20">20</option>
+                                <option onclick="getUsuarios()" value="50">50</option>
+                                <option onclick="getUsuarios()" value="100">100</option>
+                        </select>
+                    </div>
                     
-                        <table class="table table-bordered table-responsive">
-                            <tr>
-                                <th scope="col" class="align-middle"><label>ID de Usuario</label></th>
-                                <th scope="col" class="align-middle"><label>Nombre de Usuario</label></th>
-                                <th scope="col" class="align-middle"><label>E-mail</label></th>
-                                <th scope="col" class="align-middle"><label>Telefono</label></th>
-                                
-                            <tr>
-                                <td>hola</td>
-                                <td>hola</td>
-                                <td>hola</td>
-                                <td>hola</td>
-                            </tr>
-                            
+                    <div class="scroll">
+                        <table id="tabla_usuarios" class="table table-bordered table-responsive text-nowrap table_default">
+                            <!--Tabla que sera rellenada por medio de js-->
                         </table>
-                        <div>
-                            <p>Pagina 1-1</p>
-                        </div>
+                    </div>
+
+                    <div>
+                        <nav>
+                            <ul class="pagination" id="num_paginas">
+                            </ul>
+                        </nav>
+                    </div>
                 <section>
             </div>
         </main>

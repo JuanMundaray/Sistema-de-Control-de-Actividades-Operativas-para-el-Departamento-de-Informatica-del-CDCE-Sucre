@@ -17,7 +17,13 @@
         <title>Actividades Registradas</title>
     </head>
     <?php
+        session_start();
+        if(isset($_SESSION['nombre_usuario'])){  
+            header('location:./Dashboard.php');
+            exit();
+        }
             require_once("Plantillas/Plantilla_cabecera.php");
+            
         ?>
     <body>
         
@@ -26,29 +32,38 @@
 
         <main class="center-edit">
             <section class="secciones">
-                    <form class="form_login row" method="post">
-                        <h1 class="titleh1">Ingresar al Sistema</h1>
+                <form class="form_login needs-validation" method="post" action="../Controller/controllerUsuario.php" novalidate>
+                    <h1 class="titleh1">Ingresar al Sistema</h1>
+                    <div class="row gy-4">
                         <div class="col-md-12">
                             <label class="form-label">Nombre de Usuario:</label>
-                            <input class="col-md-12 form-control input_form" type="text" name="username" id="username">
+                            <input class="col-md-12 form-control" type="text" name="username" id="username" placeholder="Nombre de Usuario" required>
+                            <div class="invalid-feedback">
+                                *Este Campo no puede esta vacío
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <label class="form">Contraseña:</label>
-                            <input class="col-md-12 form-control input_form" type="text" name="password" id="password">
+                            <input class="col-md-12 form-control" type="password" name="password" id="password" placeholder="********" minlength="4" required>
+                            <div class="invalid-feedback">
+                                *Contraseña Incorrecta. Debe ingresar minimo 4 digitos
+                            </div>
+                            <?php
+                                if(isset($_GET["incorrecto"])){
+                                    echo '<span style="color: red; font-size:14px">*Este usuario no corresponde con la contraseña ingresada</span>';
+                                }
+                            ?>
                         </div>
+                        
+                        <input type="hidden" value="login" name="option">
+
                         <div class="col-md-12 form_button">
                             <input class="col-md-4 btn btn-primary" type="submit" name="login" id="login" value="Login">
                         </div>
-                        
-                    </form>
+                    </div>
+                    <script src="JS/validar.formularios.js"></script>
+                </form>
             <section>
         </main>
-        <!-- <footer class="main-footer">
-         To the right
-        <div class="pull-right hidden-xs">
-          <?php echo $dptoweb;?>
-        </div>
-        <strong>Copyright &copy; <!?php echo copyrigth3_app; ?> <a href="<!?php echo copyrigth2_app; ?>" target='_blank'><!?php echo copyrigth1_app; ?></a>.</strong> Todos los Derechos Reservados.
-      </footer>-->
     </body>
 </html>

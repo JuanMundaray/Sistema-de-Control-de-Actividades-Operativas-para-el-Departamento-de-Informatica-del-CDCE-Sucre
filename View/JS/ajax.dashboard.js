@@ -3,6 +3,7 @@ $(document).ready(function(){
     setTimeout(num_actividades_iniciadas,0);
     setTimeout(num_actividades_suspendidas,0);
     setTimeout(num_actividades_proceso,0);
+    setTimeout(num_usuarios,0);
 
 });
 
@@ -91,5 +92,27 @@ function num_actividades_proceso(){
 
     });
     $("#num_actividades_proceso").html(num_resultados);
+    
+}
+
+function num_usuarios(){
+
+    let num_resultados;
+
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerUsuario.php",
+        data:{option:'contarRegistros'},
+        dataType:'json',
+        success:function(msg){
+            num_resultados=msg;
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
+    $("#num_usuarios").html(num_resultados);
     
 }
