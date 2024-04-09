@@ -18,6 +18,7 @@ class actividad{
     private $observacion;
     private $informe;
     private $evidencia;
+    private $id_usuario;
     private $orden='DESC';
     
     public function __construct()
@@ -47,6 +48,9 @@ class actividad{
             $ape_responsable = $this->ape_responsable;
             $ced_responsable = $this->ced_responsable;
             $estado=$this->estado;
+            $id_usuario = $this->id_usuario;
+            $evidencia = $this->evidencia;
+            $informe = $this->informe;
             $db = DataBase::getInstance();
             $consulta = "INSERT INTO actividades.actividad(
             codigo,nombre,
@@ -54,14 +58,16 @@ class actividad{
             dep_receptor,dep_emisor, nom_atendido,
             ape_atendido,ced_atendido,
             observacion,nom_responsable,
-            ape_responsable, ced_responsable,estado)
+            ape_responsable, ced_responsable,estado,id_usuario,
+            evidencia,informe)
               VALUES (
             :codigo,:nombre,
             :id_tipo,:fecha,
             :dep_receptor,:dep_emisor,:nom_atendido,
             :ape_atendido,:ced_atendido,
             :observacion,:nom_responsable,
-            :ape_responsable,:ced_responsable,:estado)";
+            :ape_responsable,:ced_responsable,:estado,
+            :id_usuario,:evidencia,:informe)";
             $resultadoPDO = $db->prepare($consulta);
             $resultadoPDO->execute(array(":codigo"=>$codigo,":nombre"=>$nombre,
             ":id_tipo"=>$id_tipo, ":fecha"=>$fecha,
@@ -69,7 +75,8 @@ class actividad{
             ":dep_emisor"=>$dep_emisor,":nom_atendido"=>$nom_atendido,
             ":ape_atendido"=>$ape_atendido,":ced_atendido"=>$ced_atendido,
             ":observacion"=>$observacion,":nom_responsable"=>$nom_responsable,
-            ":ape_responsable"=>$ape_responsable,":ced_responsable"=>$ced_responsable, ":estado"=>$estado));
+            ":ape_responsable"=>$ape_responsable,":ced_responsable"=>$ced_responsable,
+            ":estado"=>$estado,":id_usuario"=>$id_usuario,":evidencia"=>$evidencia,":informe"=>$informe));
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();            
         }
@@ -99,7 +106,7 @@ class actividad{
             ":informe"=>$informe,
             ":estado"=>$estado,
             ":evidencia"=>$evidencia));
-            $resultadoPDO->closeCursor();                   
+            $resultadoPDO->closeCursor();             
         } 
         catch(Exception $objeto){
             $resultado = false;
@@ -154,7 +161,7 @@ class actividad{
         
         return $resultado; 
     }
-    public function buscar($parametro,$data_busq,$pagina,$num_resultados)
+    public function buscar($columna,$data_busq,$useLIKE=true,$pagina=false,$num_resultados=false)
     {
         $resultado = false;
         try{
@@ -162,36 +169,46 @@ class actividad{
 
             $data_busq=$data_busq;
             $db = DataBase::getInstance();
-            
-            $consulta = "SELECT * FROM actividades.actividad 
-            LEFT JOIN actividades.tipo_actividad
-            ON actividad.id_tipo=tipo_actividad.id_tipo 
-            WHERE $parametro ILIKE '$data_busq%' 
-            LIMIT $num_resultados OFFSET $punto_inicio";
+            $orden=$this->orden;
 
-            $resultadoPDO = $db->query($consulta);
-            $resultado = $resultadoPDO->fetchAll();
-            $resultadoPDO->closeCursor();                        
-        }
-        catch(Exception $objeto){
-            $resultado = false;
-            echo $objeto->getMessage();
-        }
-        
-        return $resultado; 
-    }
+            if($pagina==true){
+                $punto_inicio=($pagina-1)*$num_resultados;   
 
-    public function buscarExacta($parametro,$data_busq,$pagina,$num_resultados)
-    {
-        $resultado = false;
-        try{
-            $punto_inicio=($pagina-1)*$num_resultados;
-            $data_busq=$data_busq;
+                if($useLIKE==false){    
+                    $consulta = "SELECT * FROM actividades.actividad 
+                    LEFT JOIN actividades.tipo_actividad
+                    ON actividad.id_tipo=tipo_actividad.id_tipo 
+                    WHERE $columna='$data_busq' 
+                    ORDER BY fecha $orden 
+                    LIMIT $num_resultados OFFSET $punto_inicio";
+                }
+                
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.actividad 
+                    LEFT JOIN actividades.tipo_actividad
+                    ON actividad.id_tipo=tipo_actividad.id_tipo 
+                    WHERE $columna ILIKE '$data_busq%' 
+                    ORDER BY fecha $orden 
+                    LIMIT $num_resultados OFFSET $punto_inicio";
+                }
+            }
 
-            $db = DataBase::getInstance();            
-            $consulta = "SELECT * FROM actividades.actividad 
-            LEFT JOIN actividades.tipo_actividad
-            ON actividad.id_tipo=tipo_actividad.id_tipo WHERE $parametro='$data_busq' LIMIT $num_resultados OFFSET $punto_inicio";
+            if($pagina==false){
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.actividad 
+                    LEFT JOIN actividades.tipo_actividad
+                    ON actividad.id_tipo=tipo_actividad.id_tipo 
+                    WHERE $columna='$data_busq' 
+                    ORDER BY fecha $orden";
+                }
+                if($useLIKE==false){
+                    $consulta = "SELECT * FROM actividades.actividad 
+                    LEFT JOIN actividades.tipo_actividad
+                    ON actividad.id_tipo=tipo_actividad.id_tipo 
+                    WHERE $columna ILIKE '$data_busq%' 
+                    ORDER BY fecha $orden";
+                }
+            }
 
             $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->fetchAll();
@@ -251,26 +268,23 @@ class actividad{
         return $resultado; 
     }
 
-    public function getNumRegistros($condicion=false,$data_busq=false)
+    public function getNumRegistros($columna=false,$data_busq=false,$useLIKE=true)
     {
         $resultado = false;
         try{
             $db = DataBase::getInstance();
-            if(($condicion)){
-                if($condicion=="fecha"){
-                    $consulta = "SELECT * FROM actividades.actividad WHERE $condicion='$data_busq'";
-                    $resultadoPDO = $db->query($consulta);
-                }
-                if($condicion!="fecha"){
-                    $consulta = "SELECT * FROM actividades.actividad WHERE $condicion ILIKE '$data_busq%' ";
-                    $resultadoPDO = $db->query($consulta);
+
+            if($columna){
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.actividad WHERE $columna ILIKE'$data_busq%'";
+                }else{
+                    $consulta = "SELECT * FROM actividades.actividad WHERE $columna='$data_busq'";
                 }
             }
-            
             else{
                 $consulta = "SELECT * FROM actividades.actividad";
-                $resultadoPDO = $db->query($consulta);
             }
+            $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();                        
         }
@@ -354,6 +368,9 @@ class actividad{
     }
     public function setEvidencia($evidencia){
         $this->evidencia = trim($evidencia);
+    }
+    public function setId_usuario($id_usuario){
+        $this->id_usuario = trim($id_usuario);
     }
 
 

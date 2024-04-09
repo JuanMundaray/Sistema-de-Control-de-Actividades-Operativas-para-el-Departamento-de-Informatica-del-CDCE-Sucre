@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="JS/ajax.actividades.funciones.js"></script>
+    <script src="JS/ajax.actividades/ajax.actividades.funciones.js"></script>
     <script src="JS/validar.registrar_actividad.js"></script>
     <script>
 
@@ -42,8 +42,22 @@
             var codigo=timestamp.toString(36);
             codigo+=Math.floor(Math.random()*10000000000000000);
             $("#codigo").val(codigo);
-        });
             
+            //obtener fecha actual
+            objeto_fecha=new Date();
+            let ano=objeto_fecha.getFullYear();
+            let dia=objeto_fecha.getDate();
+            if(dia<10){
+                dia='0'+dia;
+            }
+            let mes=objeto_fecha.getMonth()+1;
+            if(mes<10){
+                mes='0'+mes;
+            }
+            
+            $("#fecha").val(ano+'-'+mes+'-'+dia);
+            
+        });
     
         $.ajax({
             type:"POST",
@@ -115,13 +129,10 @@
                             </div>
                         </div>
 
-                        <!--<div class="col-md-6 div_input_form"> 
+                        <div class="col-md-6 div_input_form"> 
                             <label class="col-md-12 form-label">Fecha de Registro:</label>
-                            <input class="col-md-12 form-control" required type="date" name="fecha" id="fecha" placeholder="Fecha de Registro">
-                            <div class="invalid-feedback">
-                                Seleccione una Fecha Válida
-                            </div>
-                        </div>-->
+                            <input class="col-md-12 form-control" disabled type="date" name="fecha" id="fecha" placeholder="Fecha de Registro">
+                        </div>
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Departamento Emisor:</label>
@@ -199,6 +210,8 @@
                             </div>
                         </div>
                         <input type="hidden" value="guardar" name="option" id="option">
+                        <input type="hidden" value="<?PHP echo $_SESSION['id_usuario'] ?>" name="id_usuario" id="id_usuario">
+
                         <div class="col-md-12 form_button">
                             <input type="submit" class="btn btn-primary col-md-4" value="Registrar Actividad" name="guardar_actividad" id="guardar_actividad">
                         </div>

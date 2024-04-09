@@ -59,6 +59,8 @@ class peticion{
             $consulta = "SELECT * FROM actividades.peticiones
             LEFT JOIN actividades.usuario
             ON peticiones.id_usuario=usuario.id_usuario
+            LEFT JOIN actividades.departamentos
+            ON peticiones.departamento_peticion=departamentos.id_departamento
             ORDER BY id_peticion $orden
             LIMIT $num_resultados OFFSET $punto_inicio";
             $resultadoPDO = $db->query($consulta);
@@ -96,8 +98,6 @@ class peticion{
     {
         $resultado = false;
         try{
-            $NumRegistros=$this->getNumRegistros($parametro,$data_busq);
-            $total_paginas=ceil($NumRegistros/$num_resultados);
             $punto_inicio=($pagina-1)*$num_resultados;
 
             $orden=$this->orden;

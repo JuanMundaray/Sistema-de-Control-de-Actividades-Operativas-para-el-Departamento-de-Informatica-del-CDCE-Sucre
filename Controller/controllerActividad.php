@@ -20,6 +20,7 @@ switch($option){
         $nom_atendido=$_REQUEST['nom_atendido'];
         $ape_atendido=$_REQUEST['ape_atendido'];
         $ced_atendido=$_REQUEST['ced_atendido'];
+        $id_usuario=$_REQUEST['id_usuario'];
         $actividad->setCodigo($codigo);
         $actividad->setNombre(strtoupper($nombre));
         $actividad->setId_tipo($id_tipo);
@@ -33,6 +34,7 @@ switch($option){
         $actividad->setNom_atendido(strtoupper($nom_atendido));
         $actividad->setApe_atendido(strtoupper($ape_atendido));
         $actividad->setCed_atendido($ced_atendido);
+        $actividad->setId_usuario($id_usuario);
         $resultado=$actividad->guardar();
         if($resultado){
             header("location:../View/actividades-registradas.php");
@@ -63,21 +65,29 @@ switch($option){
 
     case 'buscar':
         $data_busq=$_REQUEST['data_busq'];
-        $parametro_busq=$_REQUEST['parametro_busq'];
+        $columna=$_REQUEST['columna'];
         $actividad=new actividad();
         
-        //-----------------paginacion
-        $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
-        $num_resultados=$_REQUEST['num_resultados'];
-        //-----------------paginacion
-
-        if(($parametro_busq=='fecha') || ($parametro_busq=='fecha')){
-            $resultado=$actividad->buscarExacta($parametro_busq,$data_busq,$pagina,$num_resultados);
+        //Comprueba si useLIKE existe
+        if(isset($_REQUEST['useLIKE'])){
+            //Combierte el string false al valor booleano false
+            //esta variable es para decidir si usar o no ILIKE en la consulta
+            if($_REQUEST['useLIKE']=='false'){
+                $useLIKE=false;
+            }
+            else{
+                $useLIKE=true;
+            }
         }
 
-        else{
-            $resultado=$actividad->buscar($parametro_busq,$data_busq,$pagina,$num_resultados);
+        //-----------------paginacion
+        if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
+            $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
+            $num_resultados=$_REQUEST['num_resultados'];
         }
+        //-----------------paginacion
+
+        $resultado=$actividad->buscar($columna,$data_busq,$useLIKE,$pagina,$num_resultados);
 
         if($resultado){
             $resultado=json_encode($resultado);
@@ -124,19 +134,30 @@ switch($option){
 
         case 'contarRegistros':
             $actividad=new actividad();
+        
+            if(isset($_REQUEST['useLIKE'])){
+                if($_REQUEST['useLIKE']=='false'){
+                    $useLIKE=false;
+                }
+                else{
+                    $useLIKE=true;
+                }
+            }
 
-            if((isset($_REQUEST['data_busq']))&&(isset($_REQUEST['parametro_busq']))){
+            if((isset($_REQUEST['data_busq']))&&(isset($_REQUEST['columna']))){
                 //resultado sera todos los registros de la tabla segun la condicion en el where
                 $data_busq=$_REQUEST['data_busq'];
-                $parametro_busq=$_REQUEST['parametro_busq'];
-                $resultado=$actividad->getNumRegistros($parametro_busq,$data_busq);
+                $columna=$_REQUEST['columna'];
+                $resultado=$actividad->getNumRegistros($columna,$data_busq,$useLIKE);
             }
             else{//resultado sera todos los registros de la tabla
                 $resultado=$actividad->getNumRegistros();
             }
-            
+
             if($resultado){
                 $resultado=json_encode($resultado);
+                echo $resultado;
+            }else{
                 echo $resultado;
             }
         break;
@@ -151,16 +172,35 @@ switch($option){
             $export->connect();
 
             $campos=array(
-                'id'=>'ID'
+                'id'=>'ID',
+                'codigo'=>'codigo',
+                'nombre'=>'nombre',
+                'fecha'=>'fecha',
+                'nombre_tipo'=>'tipo_actividad',
+                'dep_emisor'=>'Departamento Emisor',
+                'dep_receptor'=>'Departamento Receptor',
+                'nom_atendido'=>'Nombre del Funcionario Atendido',
+                'ape_atendido'=>'Apellido del Funcionario Atendido',
+                'ced_atendido'=>'Cedula del Funcionario Atendido',
+                'nom_responsable'=>'Nombre del Responsable de la Actividad',
+                'ape_responsable'=>'Apellido del Responsable de la Actividad',
+                'ced_responsable'=>'Cedula del Responsable de la Actividad',
+                'estado'=>'Estado'
             );
 
-            $export->query("SELECT * FROM actividades.actividad");
-            
-            
+            $export->query("SELECT * FROM actividades.actividad
+            INNER JOIN actividades.tipo_actividad
+            ON actividad.id_tipo=tipo_actividad.id_tipo");
 
+            // Formato MS Excel
             $export->to_excel();
+
+            // Construir tabla de datos
             $tabla=$export->build_table($campos);
+            
+            // Descargar archivo .xls
             $export->download();
+
             if ($dbhex = $export->get_error()) {
                 die($dbhex->getMessage());
               }

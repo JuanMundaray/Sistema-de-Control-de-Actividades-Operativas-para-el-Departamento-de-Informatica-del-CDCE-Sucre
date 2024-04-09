@@ -80,6 +80,19 @@
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>
+
+                    <div class="row center-element">
+                        <div class="col-md-6 center-element">
+                            
+                            <button class="btn btn-danger">Exportar a PDF</button>
+
+                            <form action="../Controller/controllerPeticion.php">
+                                <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
+                                <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
+                            </form>
+                        <div>
+                    </div>
+
                 <section>
             </div>
         </main>

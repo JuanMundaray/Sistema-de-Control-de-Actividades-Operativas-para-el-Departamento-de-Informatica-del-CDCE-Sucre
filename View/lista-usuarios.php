@@ -11,9 +11,10 @@
         <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
-        
+
+        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js"></script>
         <script src="../Framework/jquery-3.6.3.min.js"></script>
-        <script src="./JS/ajax.usuarios.js"></script>
+        <script src="./JS/ajax.usuarios/ajax.usuarios.js"></script>
         <script src="./Plantillas/menu_desplegable-administrador.js"></script>
         <title>Document</title>
     </head>
@@ -48,8 +49,8 @@
                         <div class="collapse navbar-collapse row" id="navbarSupportedContent">
                             <form class="form-inline row">
                                 <div class="row col-md-4">
-                                    <input class="form-control col-md-4" type="search" placeholder="Buscar Usuario..." aria-label="Search">
-                                    <button class="btn btn-primary col-md-3" type="submit">Buscar</button>
+                                    <input class="form-control col-md-4" type="search" placeholder="Buscar Usuario..." aria-label="Search" name="nombre_usuario" id="nombre_usuario">
+                                    <input type="button" class="btn btn-primary col-md-3" id="buscar_nombre_usuario" value="Buscar">
                                 </div>
                             
                             </form>
@@ -79,15 +80,16 @@
                             </ul>
                         </nav>
                     </div>
+
+                    <div style="text-align: center;">
+                        <form action="../Controller/controllerUsuario.php">
+                            <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
+                            <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
+                        </form>
+                    </div>
+
                 <section>
             </div>
         </main>
-        <!-- <footer class="main-footer">
-         To the right
-        <div class="pull-right hidden-xs">
-          <?php echo $dptoweb;?>
-        </div>
-        <strong>Copyright &copy; <!?php echo copyrigth3_app; ?> <a href="<!?php echo copyrigth2_app; ?>" target='_blank'><!?php echo copyrigth1_app; ?></a>.</strong> Todos los Derechos Reservados.
-      </footer>-->
     </body>
 </html>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="JS/ajax.actividades.verDetalles.js"></script>
+    <script src="JS/ajax.actividades/ajax.actividades.verDetalles.js"></script>
     <script src="Plantillas/menu_desplegable-administrador.js"></script>
 </head>
 <?php

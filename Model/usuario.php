@@ -50,7 +50,6 @@ class usuario
     {
         $resultado = false;
         try{
-			$nombre_usuario = $this->nombre_usuario;
             $contrasena = $this->contrasena;
             $tipo_usuario = $this->tipo_usuario;
             $nombre = $this->nombre;
@@ -59,14 +58,15 @@ class usuario
             $id_usuario=$this->id_usuario;
             $db = DataBase::getInstance();
             $consulta = "UPDATE actividades.usuario
-            SET nombre_usuario=:nombre_usuario,contrasena=:contrasena,
+            SET contrasena=:contrasena,
             tipo_usuario=:tipo_usuario,nombre=:nombre,cedula=:cedula,
             id_departamento=:id_departamento
           	WHERE id_usuario='$id_usuario'";
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":nombre_usuario"=>$nombre_usuario,
-            ":contrasena"=>$contrasena,":tipo_usuario"=>$tipo_usuario,":nombre"=>$nombre,
+            $resultadoPDO->execute(array(":contrasena"=>$contrasena,
+            ":tipo_usuario"=>$tipo_usuario,":nombre"=>$nombre,
             ":cedula"=>$cedula,":id_departamento"=>$departamento));
+            $resultado=$resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();                   
         } 
         catch(Exception $objeto){
@@ -81,13 +81,18 @@ class usuario
         $resultado = false;
         try{
             $id_usuario=$this->id_usuario;
-            $db=DataBase::getInstance();
-            $consulta="DELETE FROM actividades.usuario WHERE id_usuario=:id_usuario";
-            $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(':id_usuario'=>$id_usuario));
-            $resultado=$resultadoPDO->rowCount();
-            $resultadoPDO->closeCursor();
-
+            session_start();
+            if($_SESSION["id_usuario"]!=$id_usuario){
+                $db=DataBase::getInstance();
+                $consulta="DELETE FROM actividades.usuario WHERE id_usuario=:id_usuario";
+                $resultadoPDO = $db->prepare($consulta);
+                $resultadoPDO->execute(array(':id_usuario'=>$id_usuario));
+                $resultado=$resultadoPDO->rowCount();
+                $resultadoPDO->closeCursor();
+            }
+            if($_SESSION["id_usuario"]==$id_usuario){
+                $resultado=array(0);
+            }
         }
         catch(Exception $objeto){
             $resultado = false;
@@ -96,12 +101,22 @@ class usuario
         return $resultado;
     }
 
-    public function getNumRegistros()
+    public function getNumRegistros($columna=false,$data_busq=false,$useLIKE=true)
     {
         $resultado = false;
         try{
-            $db = DataBase::getInstance();      
-            $consulta = "SELECT * FROM actividades.usuario";
+            $db = DataBase::getInstance();
+            
+            if($columna){
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.usuario WHERE $columna ILIKE '$data_busq%'";
+                }else{
+                    $consulta = "SELECT * FROM actividades.usuario WHERE $columna=$data_busq";
+                }
+            }     
+            else{
+                $consulta = "SELECT * FROM actividades.usuario";
+            }
             $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();                        
@@ -140,70 +155,58 @@ class usuario
         return $resultado; 
     }
 
-    public function buscar_usuario($parametro,$data_busq)
+    public function buscar_usuario($columna,$data_busq,$useLIKE=true,$pagina=false,$num_resultados=false)
     {
         $resultado = false;
         try{
             $data_busq=$data_busq;
             $db = DataBase::getInstance();
-            $consulta = "SELECT * FROM actividades.usuario 
-            INNER JOIN actividades.departamento
-            ON usuario.id_departamento=departamento.id_usuario WHERE $parametro LIKE '$data_busq%'";
-            $resultadoPDO = $db->query($consulta);
-            $resultado = $resultadoPDO->fetchAll();
-            $resultadoPDO->closeCursor();                        
-        }
-        catch(Exception $objeto){
-            $resultado = false;
-            echo $objeto->getMessage();
-        }
-        
-        return $resultado; 
-    }
-
-    public function buscar_usuario_tipo($data_busq)
-    {
-        $resultado = false;
-        try{
-            $data_busq=$data_busq;
-            $db = DataBase::getInstance();            
-            $consulta = "SELECT * FROM actividades.usuario 
-            INNER JOIN actividades.departamento
-            ON usuario.id_departamento=departamento.id_usuario WHERE tipo_usuario='$data_busq'";
-            $resultadoPDO = $db->query($consulta);
-            $resultado = $resultadoPDO->fetchAll();
-            $resultadoPDO->closeCursor();                        
-        }
-        catch(Exception $objeto){
-            $resultado = false;
-            echo $objeto->getMessage();
-        }
-        
-        return $resultado; 
-    }
-
-    public function buscar_usuario_id()
-    {
-        $resultado = false;
-        try{
-            $id_usuario=$this->id_usuario;
-            $db = DataBase::getInstance();            
-            $consulta = "SELECT * FROM actividades.usuario 
-            INNER JOIN actividades.departamento
-            ON usuario.id_departamento=departamento.id_usuario WHERE id_usuario=:id_usuario";
-            $resultadoPDO=$db->prepare($consulta);
-            $resultadoPDO->execute(array(':id_usuario'=>$id_usuario));
-            $resultado = $resultadoPDO->fetchAll();
-            $resultadoPDO->closeCursor();                        
-        }
-        catch(Exception $objeto){
             
+            if($pagina==true){
+
+                $punto_inicio=($pagina-1)*$num_resultados;  
+
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.usuario 
+                    INNER JOIN actividades.departamentos
+                    ON usuario.id_departamento=departamentos.id_departamento WHERE $columna ILIKE '$data_busq%'
+                    LIMIT $num_resultados OFFSET $punto_inicio";
+                }
+                if($useLIKE==false){
+                    $consulta = "SELECT * FROM actividades.usuario 
+                    INNER JOIN actividades.departamentos
+                    ON usuario.id_departamento=departamentos.id_departamento WHERE $columna='$data_busq'
+                    LIMIT $num_resultados OFFSET $punto_inicio";
+                }
+            }
+
+            if($pagina==false){
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.usuario 
+                    INNER JOIN actividades.departamentos
+                    ON usuario.id_departamento=departamentos.id_departamento
+                    WHERE $columna ILIKE '$data_busq%'";
+                }
+                if($useLIKE==false){
+                    $consulta = "SELECT * FROM actividades.usuario 
+                    INNER JOIN actividades.departamentos
+                    ON usuario.id_departamento=departamentos.id_departamento 
+                    WHERE $columna='$data_busq'";
+                }
+            }
+
+            $resultadoPDO = $db->query($consulta);
+            $resultado = $resultadoPDO->fetchAll();
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
             $resultado = false;
             echo $objeto->getMessage();
         }
         
         return $resultado; 
     }
+
 
     public function autocompletar_nombre()
     {

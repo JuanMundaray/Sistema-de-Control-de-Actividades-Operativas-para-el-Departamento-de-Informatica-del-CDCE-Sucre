@@ -91,7 +91,7 @@ function RellenarTablaPeticiones(msg){
             tabla.append(`<tr>
             <td>${elemento['nombre_peticion']}</td>
             <td>${elemento['nombre_usuario']}</td>
-            <td>${elemento['departamento_peticion']}</td>
+            <td>${elemento['nombre_departamento']}</td>
             <td>${elemento['fecha_peticion']}</td>
             <td><button class="btn btn-danger" onclick="eliminarPeticion(${elemento['id_peticion']})">Rechazar</button></td>
             </tr>`);
@@ -111,7 +111,7 @@ function RellenarTablaPeticiones(msg){
             tabla.append(`<tr>
             <td>${elemento['nombre_peticion']}</td>
             <td>${elemento['nombre_usuario']}</td>
-            <td>${elemento['departamento_peticion']}</td>
+            <td>${elemento['nombre_departamento']}</td>
             <td>${elemento['fecha_peticion']}</td>
             </tr>`);
         });

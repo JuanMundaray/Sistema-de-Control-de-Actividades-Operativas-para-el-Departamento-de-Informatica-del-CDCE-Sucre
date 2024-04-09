@@ -3,6 +3,7 @@
 require_once("../Model/tipo_actividad.php");
 
 $option=$_REQUEST['option'];
+
 switch($option){
 
     case 'crear':
@@ -34,23 +35,54 @@ switch($option){
             echo $resultado;
         }
     break;
+
     case 'buscar':
-        $data_busq=$_REQUEST['data_busq'];
         $tipo_actividad=new tipo_actividad();
-        $tipo_actividad->setNombre_tipo(strtoupper($data_busq));
-        $resultado=$tipo_actividad->buscar();
+        $columna=$_REQUEST['columna'];
+        $data_busq=$_REQUEST['data_busq'];
+        
+        //Comprueba si useLIKE existe
+        if(isset($_REQUEST['useLIKE'])){
+            //Combierte el string false al valor booleano false
+            //esta variable es para decidir si usar o no ILIKE en la consulta
+            if($_REQUEST['useLIKE']=='false'){
+                $useLIKE=false;
+            }
+            else{
+                $useLIKE=true;
+            }
+        }
+
+        //-----------------paginacion
+        if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
+            $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
+            $num_resultados=$_REQUEST['num_resultados'];
+        }
+        //-----------------paginacion
+
+        $resultado=$tipo_actividad->buscar($columna,$data_busq,$useLIKE,$pagina,$num_resultados);
         $resultado=json_encode($resultado);
         echo $resultado;
+
     break;
 
     case 'contarRegistros':
         $tipo_actividad=new tipo_actividad();
+        
+        if(isset($_REQUEST['useLIKE'])){
+            if($_REQUEST['useLIKE']=='false'){
+                $useLIKE=false;
+            }
+            else{
+                $useLIKE=true;
+            }
+        }
 
-        if((isset($_REQUEST['data_busq']))&&(isset($_REQUEST['parametro_busq']))){
+        if((isset($_REQUEST['data_busq']))&&(isset($_REQUEST['columna']))){
             //resultado sera todos los registros de la tabla segun la condicion en el where
             $data_busq=$_REQUEST['data_busq'];
-            $parametro_busq=$_REQUEST['parametro_busq'];
-            $resultado=$tipo_actividad->getNumRegistros($parametro_busq,$data_busq);
+            $columna=$_REQUEST['columna'];
+            $resultado=$tipo_actividad->getNumRegistros($columna,$data_busq,$useLIKE);
         }
         else{//resultado sera todos los registros de la tabla
             $resultado=$tipo_actividad->getNumRegistros();
@@ -61,7 +93,6 @@ switch($option){
             echo $resultado;
         }
     break;
-        
 
 }
 

@@ -37,13 +37,10 @@
             <section>
                 <table class="table tabla-control-sistema">
                     <tr>
-                        <td><a href="lista-usuarios.php">Lista de Usuarios</a></td>
+                        <td><a href="lista-usuarios.php">Administrar Usuarios</a></td>
                     </tr>
                     <tr>
                         <td><a href="crear-usuario">Crear Usuarios</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="eliminar-editar-usuario.php">Eliminar/Editar Usuarios</a></td>
                     </tr>
                     <tr>
                         <td><a href="historial-usuarios.php">Historial de Usuarios</a></td>

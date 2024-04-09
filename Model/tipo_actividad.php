@@ -3,7 +3,7 @@ require_once('DataBase.php');
 class tipo_actividad{
     private $id_tipo;
     private $nombre_tipo;
-    private $orden='asc';
+    private $orden='ASC';
     
     public function __construct(){}
 
@@ -13,9 +13,9 @@ class tipo_actividad{
         try{
             $nombre_tipo = $this->nombre_tipo;
             $db = DataBase::getInstance();
-            $consulta = "INSERT INTO actividades.tipo_actividad(nombre_tipo) VALUES (:nombre)";
+            $consulta = "INSERT INTO actividades.tipo_actividad(nombre_tipo) VALUES (:nombre_tipo)";
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":nombre"=>$nombre_tipo));
+            $resultadoPDO->execute(array(":nombre_tipo"=>$nombre_tipo));
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();            
         }
@@ -56,13 +56,40 @@ class tipo_actividad{
         return $resultado; 
     }
 
-    public function buscar()
+    public function buscar($columna,$data_busq,$useLIKE=true,$pagina=false,$num_resultados=false)
     {
         $resultado = false;
         try{
-            $nombre_tipo=$this->nombre_tipo;
-            $db = DataBase::getInstance();            
-            $consulta = "SELECT * FROM actividades.tipo_actividad WHERE nombre_tipo LIKE '%$nombre_tipo%'";
+            $orden=$this->orden;
+            $data_busq=$data_busq;
+            $columna=$columna;
+
+
+            $db = DataBase::getInstance();
+            if($pagina==true){
+                $punto_inicio=($pagina-1)*$num_resultados;   
+
+                if($useLIKE==false){    
+                    
+                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna=$data_busq 
+                    ORDER BY id_tipo $orden LIMIT $num_resultados OFFSET $punto_inicio";
+                }
+                
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna ILIKE '$data_busq%' 
+                    ORDER BY id_tipo $orden LIMIT $num_resultados OFFSET $punto_inicio";
+                }
+            }
+
+            if($pagina==false){
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna ILIKE '$data_busq%'";
+                }
+                if($useLIKE==false){
+                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna='$data_busq'";
+                }
+            }
+
             $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->fetchAll();
             $resultadoPDO->closeCursor();                        
@@ -75,19 +102,22 @@ class tipo_actividad{
         return $resultado; 
     }
 
-    public function getNumRegistros($condicion=false,$data_busq=null)
+    public function getNumRegistros($columna=false,$data_busq=false,$useLIKE=true)
     {
         $resultado = false;
         try{
             $db = DataBase::getInstance();
-            if($condicion){
-                $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $condicion='$data_busq'";
-                $resultadoPDO = $db->query($consulta);
+            if($columna){
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna ILIKE'$data_busq%'";
+                }else{
+                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna='$data_busq'";
+                }
             }
             else{
                 $consulta = "SELECT * FROM actividades.tipo_actividad";
-                $resultadoPDO = $db->query($consulta);
             }
+            $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();                        
         }
@@ -95,7 +125,6 @@ class tipo_actividad{
             echo $objeto->getMessage();
             $resultado = false;
         }
-        
         return $resultado; 
     }
     

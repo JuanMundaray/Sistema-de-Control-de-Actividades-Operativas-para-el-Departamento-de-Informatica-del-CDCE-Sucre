@@ -15,8 +15,8 @@
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-        <script src="JS/ajax.actividades.invitado.js"></script>
-        <script src="JS/ajax.actividades.autocompletar.js"></script>
+        <script src="JS/ajax.actividades/ajax.actividades.invitado.js"></script>
+        <script src="JS/ajax.actividades/ajax.actividades.autocompletar.js"></script>
         <script src="./Plantillas/menu_desplegable-invitado.js"></script>
         <title>Actividades Registradas</title>
 

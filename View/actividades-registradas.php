@@ -34,9 +34,9 @@
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-        <script src="JS/ajax.actividades.js"></script>
-        <script src="JS/ajax.actividades.funciones.js"></script>
-        <script src="JS/ajax.actividades.autocompletar.js"></script>
+        <script src="JS/ajax.actividades/ajax.actividades.js"></script>
+        <script src="JS/ajax.actividades/ajax.actividades.funciones.js"></script>
+        <script src="JS/ajax.actividades/ajax.actividades.autocompletar.js"></script>
         <title>Actividades Registradas</title>
 
     </head>
@@ -69,7 +69,7 @@
                         <form class="form-inline col">
                             <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
                             
-                            <button class="btn btn-outline-primary" role="button" id="buscar_act_fecha">Buscar</button>
+                            <input type="button" class="btn btn-outline-primary" id="buscar_act_fecha" value="Buscar">
                         </form>
 
                         <form class="form-inline col">
@@ -84,6 +84,7 @@
                         <div class="col-md-2">
                             <label class="form-label">Ver solo las:</label>
                             <select class="form-select" id="estado_filt">
+                                    <option onclick="getActividades()">Todas</option>
                                     <option id="filt_iniciada" value="INICIADA">Iniciadas</option>
                                     <option id="filt_proceso" value="PROCESO">En Proceso</option>
                                     <option id="filt_completada" value="COMPLETADA">Completadas</option>
@@ -107,7 +108,20 @@
                     <!--La tabla-->
                     <div class="scroll">
                         <table id="tabla_actividades" class="table table-bordered table-responsive text-nowrap table_default">
-                            <!--La tabla se rellena por medio de el archivo ajax.actividades.funciones.js-->
+                        <tr>
+                            <th><label>Fecha de Registro</label></th>
+                            <th><label>Actividad</label></th>
+                            <th><label>Tipo de Actividad</label></th>
+                            <th><label>Departamento Receptor</label></th>
+                            <th><label>Departamento Emisor</label></th>
+                            <th><label>Nombre del Responsable</label></th>
+                            <th><label>Cedula del Responsable</label></th>
+                            <th><label>Funcionario Atendido</label></th>
+                            <th><label>Cedula del Funcionario Atendido</label></th>
+                            <th><label>Estado</label></th>
+                            <th><label>Accion</label></th>
+                        </tr>
+                        <!--La tabla se rellena por medio de el archivo ajax.actividades.funciones.js-->
                         </table>
                     </div>
                     <div>
@@ -119,7 +133,9 @@
 
                     <div class="row center-element">
                         <div class="col-md-6 center-element">
+                            
                             <button class="btn btn-danger">Exportar a PDF</button>
+
                             <form action="../Controller/controllerActividad.php">
                                 <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
                                 <input type="submit" class="btn btn-success" value="Exportar a EXCEL">

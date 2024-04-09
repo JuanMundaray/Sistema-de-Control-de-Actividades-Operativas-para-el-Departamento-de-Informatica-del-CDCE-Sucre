@@ -3,6 +3,7 @@ $(document).ready(function(){
         let estado=$("#estado_filt").val();
         buscarActividades(estado,"estado");
     });
+
     $("#filt_iniciada").click(function(){
         let estado=$("#estado_filt").val();
         buscarActividades(estado,"estado");
@@ -11,22 +12,25 @@ $(document).ready(function(){
         let estado=$("#estado_filt").val();
         buscarActividades(estado,"estado");
     });
-    $("#filt_completada").click(function(){
+    $("#filt_completada").click(function(){ 
         let estado=$("#estado_filt").val();
         buscarActividades(estado,"estado");
     });
     
-    $("#buscar_act").click(function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
+    $("#buscar_act").click(function(){ 
+        //Funcion ajax para buscar una actividad por su nombre
         let data=$("#data_busq").val();
         buscarActividades(data,"nombre");
 
     });
 
-    $("#buscar_act_fecha").click(function(){
+    $("#buscar_act_fecha").click(function(){ 
+        //Funcion ajax para buscar una actividad por su fecha de registro
         let data=$("#data_busq_fecha").val();
-        buscarActividades(data,"fecha");
+        buscarActividades(data,"fecha",false);
     });
-    $("#buscar_act_codigo").click(function(){
+    $("#buscar_act_codigo").click(function(){ 
+        //Funcion ajax para buscar una actividad por su codigo
         let data=$("#data_busq_codigo").val();
         buscarActividades(data,"codigo");
     });
@@ -49,18 +53,20 @@ function eliminarActividad(id){
     }
 }
 
-function buscarActividades(data_busq,parametro_busq,pagina=1){
+function buscarActividades(data_busq,columna,useLIKE=true,pagina=1){
 
     let num_resultados=$("#num_resultados").val();
     $.ajax({
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:{option:"buscar",data_busq:data_busq,parametro_busq:parametro_busq,num_resultados:num_resultados,pagina:pagina},
+        data:{option:"buscar",data_busq:data_busq,columna:columna,
+        num_resultados:num_resultados,
+        pagina:pagina,useLIKE:useLIKE},
         dataType:'json',
         success:function(msg){
 
             RellenarTablaActividades(msg);
-            paginacionBusqueda(num_resultados,data_busq,parametro_busq);
+            paginacion(num_resultados,data_busq,columna,useLIKE);
 
         },
         error:function(jqXHR,textStatus,errorThrown){
@@ -143,14 +149,23 @@ function RellenarTablaActividades(msg){
     tabla.append("</tbody>");
 }
 
-function paginacionBusqueda(num_resultados,data_busq,parametro_busq){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+function paginacion(num_resultados,data_busq=false,columna=false,useLIKE=true){
+    //Esta funcion hace apararecerlos botones para paginar los registros obtenidos
 
     let num_filas;
+
+    if(data_busq!=false){
+        data_ajax={option:'contarRegistros',data_busq:data_busq,columna:columna,useLIKE:useLIKE};
+    }
+    else{
+        data_ajax={option:'contarRegistros'};
+    }
+
     $.ajax({
         async:false,
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:{option:'contarRegistros',data_busq:data_busq,parametro_busq:parametro_busq},
+        data:data_ajax,
         dataType:'json',
         success:function(msg){
             num_filas=msg;
@@ -163,13 +178,34 @@ function paginacionBusqueda(num_resultados,data_busq,parametro_busq){//Esta func
 
     let num_paginas=Math.ceil((num_filas)/(num_resultados));
     $("#num_paginas").empty();
-    for(let i=1;i<=num_paginas;i++){
-        setNumeroPaginas(i);
+
+    if(data_busq!=false){
+        for(let i=1;i<=num_paginas;i++){
+            setNumeroPaginas(i,data_busq,columna,useLIKE);
+        }
+    }
+    else{
+        for(let i=1;i<=num_paginas;i++){
+            setNumeroPaginas(i);
+        }
     }
     
-    function setNumeroPaginas(numero){
-        $("#num_paginas").append(
-            `<li class="page-item"><a class="page-link" href='#' onclick="buscarActividades('${data_busq}','${parametro_busq}',${numero})"'>${numero}</a></li>`
-        )
+    function setNumeroPaginas(numero,data_busq=false,columna=false,useLIKE=true){
+
+        if(data_busq!=false){
+            $("#num_paginas").append(
+                `<li class="page-item">
+                    <a class="page-link" href='#' 
+                    onclick="buscarActividades('${data_busq}','${columna}',${useLIKE},${numero})"'>
+                        ${numero}
+                    </a>
+                </li>`
+            )
+        }
+        else{
+            $("#num_paginas").append(
+                `<li class="page-item"><a class="page-link" href='#' onclick="getActividades(${numero})"'>${numero}</a></li>`
+            )
+        }
     }
 }

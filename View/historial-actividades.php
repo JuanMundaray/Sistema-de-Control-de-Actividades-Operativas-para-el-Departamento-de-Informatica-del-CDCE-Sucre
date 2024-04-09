@@ -11,7 +11,7 @@
 
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="Plantillas/menu_desplegable-administrador.js"></script>
-        <script src="JS/ajax.historial_actividades.js"></script>
+        <script src="JS/ajax.actividades/ajax.historial_actividades.js"></script>
         <title>Document</title>
     </head>
     <?php
@@ -63,13 +63,13 @@
                         </ul>
                     </nav>
 
-                    <div>
-                        <div style="text-align: center;">
-                            <button class="btn btn-danger">Exportar a PDF</button>
-                            
-                            <button class="btn btn-success">Exportar a EXEL</button>
-                        </div>
+                    <div style="text-align: center;">
+                        <form action="../Controller/controllerHistorialActividades.php">
+                            <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
+                            <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
+                        </form>
                     </div>
+
                 <section>
             </div>
         </main>

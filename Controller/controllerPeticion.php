@@ -81,6 +81,43 @@ switch($option){
         echo $resultado;
     break;
 
+    case 'exportarExcel':
+        require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
+        require_once("../Model/configurarBD.php");
+
+        date_default_timezone_set('America/Lima');
+        $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
+        
+        $export->connect();
+
+        $campos=array(
+            'id_peticion'=>'ID',
+            'nombre_peticion'=>'Nombre de Peticion',
+            'nombre_departamento'=>'Departamento',
+            'fecha_peticion'=>'Fecha de Creacion',
+            'nombre_usuario'=>'Nombre de Usuario del Reponsable'
+        );
+
+        $export->query("SELECT * FROM actividades.peticiones
+        LEFT JOIN actividades.usuario
+        ON peticiones.id_usuario=usuario.id_usuario
+        LEFT JOIN actividades.departamentos
+        ON peticiones.departamento_peticion=departamentos.id_departamento");
+
+        // Formato MS Excel
+        $export->to_excel();
+
+        // Construir tabla de datos
+        $tabla=$export->build_table($campos);
+        
+        // Descargar archivo .xls
+        $export->download();
+
+        if ($dbhex = $export->get_error()) {
+            die($dbhex->getMessage());
+          }
+    break;
+
 }
 
 ?>
