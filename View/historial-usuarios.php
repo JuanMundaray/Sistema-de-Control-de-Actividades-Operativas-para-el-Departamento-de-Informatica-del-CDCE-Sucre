@@ -11,7 +11,7 @@
 
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="Plantillas/menu_desplegable-administrador.js"></script>
-        <script src="JS/ajax.usuarios/ajax.historial_usuarios.js"></script>
+        <script src="JS/js.usuarios/ajax.historial_usuarios.js"></script>
         <title>Historial de Usuarios</title>
     </head>
     <?php
@@ -39,16 +39,28 @@
                 <h2 class="titleh2">Historial de Usuarios</h2>
                 <section class="secciones">
                     <!--Barra de Busqueda-->
+                    <nav class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <form>
+                                    <label class="form-label">Buscar Por Nombre de Usuario:</label>
+                                    <input class="form-control" type="text" id="buscar_nombre_usuario">
+                                </form>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label">Numero de Resultados:</label>
+                                <select class="form-select" id="num_resultados">
+                                        <option onclick="getHistorialUsuarios()" value="5">5</option>
+                                        <option onclick="getHistorialUsuarios()" value="20">20</option>
+                                        <option onclick="getHistorialUsuarios()" value="50">50</option>
+                                        <option onclick="getHistorialUsuarios()" value="100">100</option>
+                                </select>
+                            </div>
 
-                    <div class="col-md-3">
-                            <label class="form-label">Numero de Resultados:</label>
-                            <select class="form-select" id="num_resultados">
-                                    <option onclick="getHistorialUsuarios()" value="5">5</option>
-                                    <option onclick="getHistorialUsuarios()" value="20">20</option>
-                                    <option onclick="getHistorialUsuarios()" value="50">50</option>
-                                    <option onclick="getHistorialUsuarios()" value="100">100</option>
-                            </select>
                         </div>
+                    </nav>
+                    
                     <!--Tabla del Historial-->
                     <div class="scroll">
                         <table id="tabla_historial_usuarios" class="table table-bordered table-responsive text-nowrap table_default">

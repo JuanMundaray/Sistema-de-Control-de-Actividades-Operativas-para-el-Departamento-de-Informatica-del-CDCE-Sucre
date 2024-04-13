@@ -1,16 +1,21 @@
 $(document).ready(function(){
         
+    $('#buscar_nombre_usuario').on('input',function(){
+        //Funcion ajax para buscar un usuario por su nombre
+        let data=$("#buscar_nombre_usuario").val();
+        buscarUsuarioHistorial(data,"nombre_usuario",true);
+    });
     getHistorialUsuarios();//Se Dibujan todas las actividades registradas en la tabla de actividades
 
 });
 
 function getHistorialUsuarios(pagina=1){
 
-    let num_resultados=$("#num_resultados").val();
+    let num_resultados=$('#num_resultados').val();
 
     $.ajax({
         type:"POST",
-        url:"../Controller/controllerHistorialUsuario.php",
+        url:"../Controller/controllerUsuario.php",
         data:{option:'obtener',pagina:pagina,num_resultados:num_resultados},
         dataType:'json',
         success:function(msg){
@@ -29,8 +34,8 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
     $.ajax({
         async:false,
         type:"POST",
-        url:"../Controller/controllerHistorialUsuario.php",
-        data:{option:'contarRegistros'},
+        url:"../Controller/controllerUsuario.php",
+        data:{option:'contarRegistrosHistorial'},
         dataType:'json',
         success:function(msg){
             num_filas=msg;
@@ -49,7 +54,7 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
     
     function setNumeroPaginas(numero){
         $("#num_paginas").append(
-            `<li class="page-item"><a class="page-link" href='#' onclick="getHistorialActividades(${numero})"'>${numero}</a></li>`
+            `<li class="page-item"><a class="page-link" href='#tabla_historial_usuarios' onclick="getHistorialUsuarios(${numero})"'>${numero}</a></li>`
         )
     }
 }
@@ -72,7 +77,7 @@ function RellenarTablaHistorialUsuarios(msg){
         tabla.append(`<tr>
         <td>${elemento['id_usuario']}</td>
         <td>${elemento['nombre_usuario']}</td>
-        <td>${elemento['nombre']}</td>
+        <td>${elemento['nombre_personal']} ${elemento['apellido_personal']}</td>
         <td>${elemento['cedula']}</td>
         <td>${elemento['nombre_departamento']}</td>
         <td>${elemento['tipo_usuario']}</td>
@@ -80,4 +85,27 @@ function RellenarTablaHistorialUsuarios(msg){
         </tr>`);
     });
     tabla.append("</tbody>");
+}
+
+function buscarUsuarioHistorial(data_busq,columna,useLIKE=true,pagina=1){
+
+    let num_resultados=$("#num_resultados").val();
+    
+    $.ajax({
+        type:"POST",
+        url:"../Controller/controllerUsuario.php",
+        data:{option:"buscar",data_busq:data_busq,columna:columna,
+        num_resultados:num_resultados,
+        pagina:pagina,useLIKE:useLIKE},
+        dataType:'json',
+        success:function(msg){
+            RellenarTablaHistorialUsuarios(msg);
+            paginacion(num_resultados,data_busq,columna,useLIKE);
+
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("Sin Resultados");
+        }
+
+    });
 }

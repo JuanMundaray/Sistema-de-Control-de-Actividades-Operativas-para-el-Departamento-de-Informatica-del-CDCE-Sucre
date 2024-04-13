@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="./Plantillas/menu_desplegable-administrador.js"></script>
-    <script src="./JS/ajax.usuarios/ajax.usuarios.editar.js"></script>
+    <script src="./JS/js.usuarios/ajax.usuarios.editar.js"></script>
     <title>Editar Usuario</title>
 </head>
     <script>
@@ -71,6 +71,15 @@
                         <div class="col-md-10 div_input_form">
                             <label class="col-md-12 form-label">Nombre:</label>
                             <input type="text"class=" input_form col-md-12 form-control" name="nombre" id="nombre" placeholder="Nombre" required>
+
+                            <div class="invalid-feedback">
+                                *Este Campo no Puede Estar Vacío
+                            </div>
+                        </div>
+
+                        <div class="col-md-10 div_input_form">
+                            <label class="col-md-12 form-label">Apellido:</label>
+                            <input type="text"class=" input_form col-md-12 form-control" name="apellido" id="apellido" placeholder="Nombre" required>
 
                             <div class="invalid-feedback">
                                 *Este Campo no Puede Estar Vacío

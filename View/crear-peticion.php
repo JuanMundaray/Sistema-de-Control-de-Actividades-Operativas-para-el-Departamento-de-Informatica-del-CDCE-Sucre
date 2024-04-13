@@ -7,11 +7,9 @@
             if($_SESSION["tipo_usuario"]=="invitado"){
                 echo '<script src="Plantillas/menu_desplegable-invitado.js"></script>';
             }
-            if($_SESSION["tipo_usuario"]=="estandar"){
-                echo '<script src="Plantillas/menu_desplegable-estandar.js"></script>';
-            }
-            if($_SESSION["tipo_usuario"]=="administrador"){
-                echo '<script src="Plantillas/menu_desplegable-administrador.js"></script>';
+            else{
+                header("Location:./Dashboard.php");
+                exit();
             }
         }
         else{
@@ -28,6 +26,7 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
+    <script src="./JS/js.peticiones/ajax.crear_peticion.js"></script>
     <title>Hacer Peticion</title>
 </head>
 <?php
@@ -38,6 +37,9 @@
     <main>
         <h1 class="titleh1">Petición de Actividad</h1>
         <div class="contenedorPrincipal">
+            <!--id del usuario con sesion activa-->
+            <input type="hidden" value="<?PHP echo $_SESSION['id_usuario']; ?>" id="id_usuario_sesion">
+            <!--id del usuario con sesion activa-->
 
             <form class="formulario needs-validation" method="post" action="../Controller/controllerPeticion.php" novalidate>
                     <h2 class="titleh2">Realizar Petición de Actividad</h2>
@@ -56,7 +58,17 @@
                             <label class="col-md-12 form-label">Deparatamento que realiza la Petición:</label>
                             <select class="col-md-12 form-select" type="text" name="departamento_peticion" id="departamento_peticion" required>
                                 <option selected disabled value="">Seleccione...</option>
-                                <option value="<?php echo $_SESSION["id_departamento"] ?>"><?php echo $_SESSION["nombre_departamento"] ?></option>
+                            </select>
+
+                            <div class="invalid-feedback">
+                                *Seleccione un Departamento Válido
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 div_input_form">
+                            <label class="col-md-12 form-label">Tipo de Actividad:</label>
+                            <select class="col-md-12 form-select" type="text" name="tipo_actividad" id="tipo_actividad" required>
+                                <option selected disabled value="">Seleccione...</option>
                             </select>
 
                             <div class="invalid-feedback">
@@ -72,8 +84,8 @@
                                 *Este Campo es Obligatorio
                             </div>
                         </div>
+                        <input type="hidden" value="<?PHP echo $_SESSION['id_usuario']; ?>" name="id_usuario">
 
-                        <input type="hidden" value=<?php echo $_SESSION["id_usuario"] ?> name="usuario" id="usuario">
                         <input type="hidden" value="crear_peticion" name="option" id="option">
 
                         <div class="col-md-12 form_button">

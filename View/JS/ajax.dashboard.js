@@ -37,7 +37,7 @@ function num_actividades_iniciadas(){
         async:false,
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:{option:'contarRegistros',data_busq:"INICIADA",parametro_busq:"estado"},
+        data:{option:'contarRegistros',data_busq:"INICIADA",parametro_busq:"estado_actividad"},
         dataType:'json',
         success:function(msg){
             num_resultados=msg;
@@ -59,7 +59,7 @@ function num_actividades_suspendidas(){
         async:false,
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:{option:'contarRegistros',data_busq:"SUSPENDIDA",parametro_busq:"estado"},
+        data:{option:'contarRegistros',data_busq:"SUSPENDIDA",parametro_busq:"estado_actividad"},
         dataType:'json',
         success:function(msg){
             num_resultados=msg;
@@ -81,7 +81,7 @@ function num_actividades_proceso(){
         async:false,
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:{option:'contarRegistros',data_busq:"PROCESO",parametro_busq:"estado"},
+        data:{option:'contarRegistros',data_busq:"PROCESO",parametro_busq:"estado_actividad"},
         dataType:'json',
         success:function(msg){
             num_resultados=msg;

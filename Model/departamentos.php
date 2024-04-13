@@ -12,20 +12,15 @@ class departamento{
         $resultado = false;
         try{
             $db = DataBase::getInstance();
+            $orden=$this->orden; 
+                  
+            $consulta = "SELECT * FROM actividades.departamentos ORDER BY id_departamento $orden";
+
             if($pagina){
                 $punto_inicio=($pagina-1)*$num_resultados;
-                $orden=$this->orden;       
-                $consulta = "SELECT * FROM actividades.departamentos ORDER BY id_departamento $orden
-                LIMIT $num_resultados OFFSET $punto_inicio";
-
-                $resultadoPDO = $db->query($consulta);
+                $consulta.=" LIMIT $num_resultados OFFSET $punto_inicio";
             }
-            
-            else{
-                $consulta = "SELECT * FROM actividades.departamentos ORDER BY id_departamento";
-                $resultadoPDO = $db->query($consulta);
-            }
-            
+            $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->fetchAll();
             $resultadoPDO->closeCursor();                        
         }
@@ -37,14 +32,24 @@ class departamento{
         return $resultado; 
     }
     
-    public function setNombre_departamento($nombre_departamento)
+    public function setNombreDepartamento($nombre_departamento)
     {
         $this->nombre_departamento = trim($nombre_departamento);
     }
 
-    public function setId_departamento($id_departamento)
+    public function setIdDepartamento($id_departamento)
     {
         $this->id_departamento = trim($id_departamento);
+    }
+    
+    public function getNombreDepartamento()
+    {
+        return $this->nombre_departamento;
+    }
+
+    public function getIdDepartamento()
+    {
+        return $this->id_departamento;
     }
 
 

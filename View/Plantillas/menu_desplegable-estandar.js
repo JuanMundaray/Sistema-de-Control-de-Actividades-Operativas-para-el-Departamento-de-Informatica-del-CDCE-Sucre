@@ -22,21 +22,20 @@ centinela=true;
 					</a>
 				</div>
 			</li>
-
+			
+			<li>
+				<div>
+					<a class="row" href='actividades-registradas-propias.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-briefcase.png" class="icons-menudeslizante"></figure>
+						<span class="col">Mis Actividades Registradas</span>
+					</a>
+				</div>
+			</li>
 			<li>
 				<div>
 					<a class="row" href='actividades-registradas.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-paper.png" class="icons-menudeslizante"></figure>
 						<span class="col">Actividades Registradas</span>
-					</a>
-				</div>
-			</li>
-
-			<li>
-				<div>
-					<a class="row" href='crear-peticion.php'>
-						<figure class="col-md-1"><img src="./Resources/png/512/ios7-compose.png" class="icons-menudeslizante"></figure>
-						<span class="col">Hacer Petición de Actividad</span>
 					</a>
 				</div>
 			</li>

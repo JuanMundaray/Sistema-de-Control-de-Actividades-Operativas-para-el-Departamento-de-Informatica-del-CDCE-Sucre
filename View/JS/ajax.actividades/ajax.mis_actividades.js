@@ -1,22 +1,24 @@
 $(document).ready(function(){
         
-    getHistorialActividades();//Se Dibujan todas las actividades registradas en la tabla de actividades
+    getActividades();//Se Dibujan todas las actividades registradas en la tabla de actividades
     tipo_usuario_sesion=$('#tipo_usuario_sesion').val();
     
     $("#buscar_actividad_boton").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
-        getHistorialActividades();
+        getActividades();
     });
 
 });
 
-function getHistorialActividades(pagina=1){
+function getActividades(pagina=1){
 
     let num_resultados=$("#num_resultados").val();
     let codigo_actividad=$("#data_busq_codigo").val();
     let nombre_actividad=$("#data_busq_nombre").val();
     let fecha_registro=$("#data_busq_fecha").val();
     let estado_actividad=$("#estado_actividad").val();
+    let id_usuario_responsable=$("#id_usuario_sesion").val();
+
 
     $.ajax({
         type:"POST",
@@ -29,7 +31,7 @@ function getHistorialActividades(pagina=1){
             nombre_actividad:nombre_actividad,
             fecha_registro:fecha_registro,
             estado_actividad:estado_actividad,
-            todas:true
+            id_usuario_responsable:id_usuario_responsable
         },
         dataType:'json',
         success:function(msg){
@@ -56,13 +58,10 @@ function RellenarTablaActividades(msg){
         if(elemento=="SUSPENDIDA"){
             var btn_estilo="btn-danger";
         }
-        if(elemento=="ELIMINADA"){
-            var btn_estilo="btn-danger";
-        }
         return btn_estilo;
     }
 
-    let tabla=$("#tabla_historial_actividades");
+    let tabla=$("#tabla_actividades");
     tabla.empty();
     tabla.append(`<tbody><tr>
             <th><label>Fecha de Registro</label></th>
@@ -75,12 +74,26 @@ function RellenarTablaActividades(msg){
             <th><label>Funcionario Atendido</label></th>
             <th><label>Cedula del Funcionario Atendido</label></th>
             <th><label>Estado</label></th>
+            <th><label>Accion</label></th>
         </tr>`);
 
 
 
     msg.forEach(function(elemento){
         //Estas son los botones de accion que estaran disponibles segun si la actividad a sido completada o no
+        let accion;
+
+        if(elemento['estado_actividad']=='COMPLETADA'){
+            accion=`
+            <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['id']}">Ver Detalles</a></li>`
+        }
+        else{
+            accion=`<li><a class="dropdown-item" href="editar-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Modificar</a></li>
+
+            <li><button class="dropdown-item" onclick="eliminarActividad('${elemento['codigo_actividad']}')">Eliminar</button></li>
+
+            <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
+        }
 
         let btn_estilo=estilo_btn(elemento['estado_actividad']);
         tabla.append(`<tr>
@@ -93,7 +106,18 @@ function RellenarTablaActividades(msg){
         <td>${elemento['cedula']}</td> 
         <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
         <td>${elemento['ced_atendido']}</td>
-        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['estado_actividad']}</button></td>`);
+        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['estado_actividad']}</button></td>
+        <td>
+            <div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                    Seleccione...
+                </button>
+                <ul class="dropdown-menu dropdown-menu-lg-end">
+                    ${accion}    
+                </ul>
+            </div>
+        </td>
+        </tr>`);
     tabla.append("</tbody>");
     });
 }
@@ -109,7 +133,7 @@ function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos 
 
     function setNumeroPaginas(numero){
         $("#num_paginas").append(
-            `<li class="page-item"><a class="page-link" href='#tabla_historial_actividades' onclick="getActividades(${numero})"'>${numero}</a></li>`
+            `<li class="page-item"><a class="page-link" href='#tabla_actividades' onclick="getActividades(${numero})"'>${numero}</a></li>`
         )
     }
 }

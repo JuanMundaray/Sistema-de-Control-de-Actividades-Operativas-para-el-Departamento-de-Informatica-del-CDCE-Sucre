@@ -44,7 +44,7 @@ label{
 .contenedorPrincipal{
     background-color: rgb(255, 255, 255);
     margin: 0;
-    min-width: 800px;
+    width: 75vw;
 }
 
 .secciones{
@@ -79,6 +79,7 @@ label{
     overflow-y: auto;
     scroll-behavior: smooth;
     margin-bottom: 2vw;
+    padding-bottom: 5vw;
 }
 
 .navbar .form-control{
@@ -98,9 +99,24 @@ label{
 
 .tamano_boton{
     width: 120px;
+    margin: 0;
 }
 
 .tabla-control-sistema a{
     text-decoration: none;
     margin-left: 10px;
+}
+
+@media screen and (max-width: 1300px){
+    .contenedorPrincipal{
+        width: 70vw;
+    }
+	
+}
+
+@media screen and (max-width: 800px){
+    .contenedorPrincipal{
+        width:60vw;
+    }
+	
 }

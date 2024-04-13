@@ -34,8 +34,7 @@
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-        <script src="JS/ajax.actividades/ajax.actividades.js"></script>
-        <script src="JS/ajax.actividades/ajax.actividades.autocompletar.js"></script>
+        <script src="JS/ajax.actividades/ajax.mis_actividades.js"></script>
         <title>Actividades Registradas</title>
 
     </head>
@@ -43,16 +42,11 @@
     <?php
         require_once("Plantillas/Plantilla_cabecera.php");
     ?>
-
     <body>  
         
         <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
 
         <main>
-            <!--id del usuario que tienen abierta la sesion-->
-            <input type="hidden" value="<?PHP echo $_SESSION['tipo_usuario']?>" id="tipo_usuario_sesion">
-            <!----------------------------------------------->
-
             <h1 class="titleh1">Actividades Registradas</h1>
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Actividades Registradas</h2>
@@ -61,47 +55,46 @@
                     <!--Link a la Pagina de Registrar Actividades-->
                     <a href="registrar-actividad.php"><button class="btn btn-primary" >Registrar Actividad</button></a>
                     
+                    
                     <!--Barra de Busqueda-->
                     
-                    <nav class="navbar navbar-light container" id="mostrarSolo">
-                        <div class="form-inline row">
-                            <div class="col-md-12 row">
-                                <div class="col-3">
-                                    <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" id="data_busq_nombre" name="data_busq_nombre">
-                                </div>
-                                <div class="col-3">
-                                    <input style="width: 100%;" class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
-                                </div>
-                                <div class="col-3">
-                                    <input class="form-control" type="search" placeholder="Buscar por Codigo..." aria-label="Search" id="data_busq_codigo" name="data_busq_codigo">
-                                </div>
-                                <button class="col-1 btn btn-primary" id="buscar_actividad_boton">Buscar</button>
+                    <nav class="navbar navbar-light container gy-9" id="mostrarSolo">
+                        <div class="row">
+                            <input type="hidden" value="<?php echo $_SESSION['id_usuario'] ?>" id="id_usuario_sesion">
+                            <div class="col">
+                                <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" id="data_busq_nombre" name="data_busq_nombre">
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="search" placeholder="Buscar por Codigo..." aria-label="Search" id="data_busq_codigo" name="data_busq_codigo">
                             </div>
 
-                            <div class="col row gy-3">
-                                <div class="col-4">
-                                    <label class="form-label">Filtrar Por estado:</label>
-                                    <select class="form-select" id="estado_actividad">
-                                            <option value="">Todas</option>
-                                            <option value="INICIADA">Iniciadas</option>
-                                            <option value="PROCESO">En Proceso</option>
-                                            <option value="COMPLETADA">Completadas</option>
-                                            <option value="SUSPENDIDA">Suspendidas</option>
-                                    </select>
-                                </div>
-                                <!--Numero de Resultados de las actividades-->
-                                <div class=col-4>
-                                    <label class="form-label">Numero de Resultados:</label>
-                                    <select class="form-select" id="num_resultados">
-                                            <option onclick="getActividades()" value="5">5</option>
-                                            <option onclick="getActividades()" value="20">20</option>
-                                            <option onclick="getActividades()" value="50">50</option>
-                                            <option onclick="getActividades()" value="100">100</option>
-                                    </select>
-                                </div>
+                            <div class="col">
+                                <select class="form-select" id="estado_actividad">
+                                        <option value="">Todas</option>
+                                        <option value="INICIADA">Iniciadas</option>
+                                        <option value="PROCESO">En Proceso</option>
+                                        <option value="COMPLETADA">Completadas</option>
+                                        <option value="SUSPENDIDA">Suspendidas</option>
+                                </select>
                             </div>
+
+                            <!--Numero de Resultados de las actividades-->
+                            <div class=col>
+                                <select class="form-select" id="num_resultados">
+                                        <option onclick="getActividades()" value="5">5</option>
+                                        <option onclick="getActividades()" value="20">20</option>
+                                        <option onclick="getActividades()" value="50">50</option>
+                                        <option onclick="getActividades()" value="100">100</option>
+                                </select>
+                            </div>
+                            <button class="col-1 btn btn-primary" id="buscar_actividad_boton">Buscar</button>
                         </div>
                     </nav>
+                    <!--Fin Barra de Busqueda-->
+                    
 
                     <!--La tabla-->
                     <div class="scroll">

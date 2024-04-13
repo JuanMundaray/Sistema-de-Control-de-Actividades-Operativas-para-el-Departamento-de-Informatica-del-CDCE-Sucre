@@ -38,7 +38,6 @@ function buscarUsuario(data_busq,columna,useLIKE=true,pagina=1){
         pagina:pagina,useLIKE:useLIKE},
         dataType:'json',
         success:function(msg){
-
             RellenarTablaUsuario(msg);
             paginacion(num_resultados,data_busq,columna,useLIKE);
 
@@ -129,27 +128,31 @@ function RellenarTablaUsuario(msg){
         <th><label>Accion</label></th>
     </tr>`);
     msg.forEach(function(elemento){
-        tabla.append(`<tr>
-        <td>${elemento['id_usuario']}</td>
-        <td>${elemento['nombre_usuario']}</td>
-        <td>${elemento['nombre']}</td>
-        <td>${elemento['cedula']}</td>
-        <td>${elemento['nombre_departamento']}</td>
-        <td>${elemento['tipo_usuario']}</td>
-        <td>${elemento['fecha_creacion']}</td>
-        <td>
-            <div class="btn-group">
-                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                    Seleccione...
-                </button>
+        if(elemento['marca_existencia']==true){
 
-                <ul class="dropdown-menu dropdown-menu-lg-end">
-                    <li><button class="dropdown-item" onclick="eliminarUsuario(${elemento['id_usuario']})">Eliminar Usuario</button></li>
-                    <li><a class="dropdown-item" href="editar-usuario.php?id_usuario=${elemento['id_usuario']}">Editar Usuario</a></li>
-                </ul>
-            </div>
-        </td>
-        </tr>`);
+            tabla.append(`<tr>
+            <td>${elemento['id_usuario']}</td>
+            <td>${elemento['nombre_usuario']}</td>
+            <td>${elemento['nombre_personal']} ${elemento['apellido_personal']}</td>
+            <td>${elemento['cedula']}</td>
+            <td>${elemento['nombre_departamento']}</td>
+            <td>${elemento['tipo_usuario']}</td>
+            <td>${elemento['fecha_creacion']}</td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                        Seleccione...
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-lg-end">
+                        <li><button class="dropdown-item" onclick="eliminarUsuario(${elemento['id_usuario']})">Eliminar Usuario</button></li>
+                        <li><a class="dropdown-item" href="editar-usuario.php?id_usuario=${elemento['id_usuario']}">Editar Usuario</a></li>
+                    </ul>
+                </div>
+            </td>
+            </tr>`);
+
+        }
     });
     tabla.append("</tbody>");
 }

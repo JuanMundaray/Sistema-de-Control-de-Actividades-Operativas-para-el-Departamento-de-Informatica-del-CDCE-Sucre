@@ -30,64 +30,26 @@ class tipo_actividad{
     {
         $resultado = false;
         try{
-            $db = DataBase::getInstance();  
-            if($pagina){
-                $punto_inicio=($pagina-1)*$num_resultados;
-                $orden=$this->orden;       
-                $consulta = "SELECT * FROM actividades.tipo_actividad ORDER BY id_tipo $orden
-                LIMIT $num_resultados OFFSET $punto_inicio";
-
-                $resultadoPDO = $db->query($consulta);
-            }
-            
-            else{
-                $consulta = "SELECT * FROM actividades.tipo_actividad ORDER BY id_tipo";
-                $resultadoPDO = $db->query($consulta);
-            }
-            
-            $resultado = $resultadoPDO->fetchAll();
-            $resultadoPDO->closeCursor();                        
-        }
-        catch(Exception $objeto){
-            
-            $resultado = false;
-        }
-        
-        return $resultado; 
-    }
-
-    public function buscar($columna,$data_busq,$useLIKE=true,$pagina=false,$num_resultados=false)
-    {
-        $resultado = false;
-        try{
             $orden=$this->orden;
-            $data_busq=$data_busq;
-            $columna=$columna;
-
-
+            $nombre_tipo=$this->nombre_tipo;
+            $id_tipo=$this->id_tipo;
             $db = DataBase::getInstance();
-            if($pagina==true){
-                $punto_inicio=($pagina-1)*$num_resultados;   
 
-                if($useLIKE==false){    
-                    
-                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna=$data_busq 
-                    ORDER BY id_tipo $orden LIMIT $num_resultados OFFSET $punto_inicio";
-                }
-                
-                if($useLIKE==true){
-                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna ILIKE '$data_busq%' 
-                    ORDER BY id_tipo $orden LIMIT $num_resultados OFFSET $punto_inicio";
-                }
+            $consulta = "SELECT * FROM actividades.tipo_actividad WHERE 1=1";
+
+            if(!empty($nombre_tipo)){
+                $consulta .=" AND nombre_tipo ILIKE '$nombre_tipo%'";
             }
 
-            if($pagina==false){
-                if($useLIKE==true){
-                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna ILIKE '$data_busq%'";
-                }
-                if($useLIKE==false){
-                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna='$data_busq'";
-                }
+            if(!empty($id_tipo)){
+                $consulta .=" AND id_tipo=$id_tipo";
+            }
+
+            if($pagina==true){
+
+                $punto_inicio=($pagina-1)*$num_resultados;
+
+                $consulta.=" ORDER BY id_tipo $orden LIMIT $num_resultados OFFSET $punto_inicio";
             }
 
             $resultadoPDO = $db->query($consulta);
@@ -99,43 +61,27 @@ class tipo_actividad{
             echo $objeto->getMessage();
         }
         
-        return $resultado; 
-    }
-
-    public function getNumRegistros($columna=false,$data_busq=false,$useLIKE=true)
-    {
-        $resultado = false;
-        try{
-            $db = DataBase::getInstance();
-            if($columna){
-                if($useLIKE==true){
-                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna ILIKE'$data_busq%'";
-                }else{
-                    $consulta = "SELECT * FROM actividades.tipo_actividad WHERE $columna='$data_busq'";
-                }
-            }
-            else{
-                $consulta = "SELECT * FROM actividades.tipo_actividad";
-            }
-            $resultadoPDO = $db->query($consulta);
-            $resultado = $resultadoPDO->rowCount();
-            $resultadoPDO->closeCursor();                        
-        }
-        catch(Exception $objeto){
-            echo $objeto->getMessage();
-            $resultado = false;
-        }
         return $resultado; 
     }
     
-    public function setNombre_tipo($nombre_tipo)
+    public function setNombreTipo($nombre_tipo)
     {
         $this->nombre_tipo = trim($nombre_tipo);
     }
 
-    public function setID($id_tipo)
+    public function setIDTipo($id_tipo)
     {
         $this->id_tipo = trim($id_tipo);
+    }
+    
+    public function getNombreTipo()
+    {
+        return $this->nombre_tipo;
+    }
+
+    public function getIDTipo()
+    {
+        return $this->id_tipo;
     }
 
 

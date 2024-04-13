@@ -13,7 +13,6 @@
                 <h3>CDCE-SUCRE</h3>
                 <img id="boton_despliegue" src="Resources/png/512/navicon.png" width="60px" height="60px">
             </div>
-
             <div class="Mover-Derecha">
                 <img style="margin:0; padding:0;" src="Resources/png/512/person.png" 
                 width=<?php if(isset($_SESSION["nombre_usuario"])){ echo "40px";}else{echo "50px";} ?> 

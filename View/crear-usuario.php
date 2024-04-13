@@ -11,32 +11,11 @@
     <link rel="stylesheet" href="CSs/formulario.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
+    <script src="./JS/js.usuarios/js.registrar_usuario.js"></script>
     <script src="./Plantillas/menu_desplegable-administrador.js"></script>
     <title>Crear Usuario</title>
 </head>
     <script>
-        $(document).ready(function(){
-            $("#cedula").on('input',function(){
-                var valor=$(this).val();
-                $(this).val(valor.replace(/\D/g,""));
-            });
-        })
-        
-        $.ajax({
-            type:"POST",
-            url:"../Controller/controllerDepartamentos.php",
-            data:{option:"obtener"},
-            dataType:'json',
-            success:function(msg){
-                msg.forEach(function(elemento){
-                    let departamento=$("#departamento");
-                    departamento.append("<option value='"+elemento['id_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
-                });
-            },
-            error:function(jqXHR,textStatus,errorThrown){
-                alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
-            }
-        });
     </script>
 <?php
     session_start();

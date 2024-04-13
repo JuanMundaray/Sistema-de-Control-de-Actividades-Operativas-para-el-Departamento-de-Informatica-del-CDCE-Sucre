@@ -31,6 +31,15 @@ centinela=true;
 					</a>
 				</div>
 			</li>
+			
+			<li>
+				<div>
+					<a class="row" href='actividades-registradas-propias.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-briefcase.png" class="icons-menudeslizante"></figure>
+						<span class="col">Mis Actividades Registradas</span>
+					</a>
+				</div>
+			</li>
 
 			<li>
 				<div>
@@ -46,15 +55,6 @@ centinela=true;
 					<a class="row" href='control-sistema.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-settings-strong.png" class="icons-menudeslizante"></figure>
 						<span class="col">Opciones Administrador</span>
-					</a>
-				</div>
-			</li>
-
-			<li>
-				<div>
-					<a class="row" href='crear-peticion.php'>
-						<figure class="col-md-1"><img src="./Resources/png/512/ios7-compose.png" class="icons-menudeslizante"></figure>
-						<span class="col">Hacer Petición de Actividad</span>
 					</a>
 				</div>
 			</li>

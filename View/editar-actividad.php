@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="Plantillas/menu_desplegable-administrador.js"></script>
-    <script src="JS/ajax.actividades.funciones.js"></script>
-    <script src="JS/ajax.editarActividad.js"></script>
+    <script src="JS/ajax.actividades/ajax.editarActividad.js"></script>
 </head>
 <?php
             session_start();
@@ -31,7 +30,7 @@
             }
 
             require_once("Plantillas/Plantilla_cabecera.php");
-            if(!isset($_REQUEST['id'])){
+            if(!isset($_REQUEST['codigo_actividad'])){
                 header("location:actividades-registradas.php");
             }
 ?>
@@ -46,12 +45,8 @@
                     <section class="secciones row">
                         <input type="hidden" value="modificar" name="option">
                         <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">ID:</label>
-                            <input class="col-md-12 form-control" type="text" readonly name="id" id="id" value="<?php echo $_REQUEST['id'];?>">
-                        </div>
-                        <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Codigo de Registro:</label>
-                            <input class="col-md-12 form-control" type="text" readonly name="codigo" id="codigo">
+                            <input class="col-md-12 form-control" value="<?php echo $_REQUEST['codigo_actividad'];?>" type="text" readonly name="codigo_actividad" id="codigo_actividad">
                         </div>
                         <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Observacion:</label>

@@ -33,72 +33,15 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="JS/ajax.actividades/ajax.actividades.funciones.js"></script>
+    <script src="js/ajax.actividades/js.registrar_actividad.js"></script>
     <script src="JS/validar.registrar_actividad.js"></script>
-    <script>
-
-        $(document).ready(function(){
-            var timestamp=new Date().getTime();
-            var codigo=timestamp.toString(36);
-            codigo+=Math.floor(Math.random()*10000000000000000);
-            $("#codigo").val(codigo);
-            
-            //obtener fecha actual
-            objeto_fecha=new Date();
-            let ano=objeto_fecha.getFullYear();
-            let dia=objeto_fecha.getDate();
-            if(dia<10){
-                dia='0'+dia;
-            }
-            let mes=objeto_fecha.getMonth()+1;
-            if(mes<10){
-                mes='0'+mes;
-            }
-            
-            $("#fecha").val(ano+'-'+mes+'-'+dia);
-            
-        });
-    
-        $.ajax({
-            type:"POST",
-            url:"../Controller/controllerTipo_actividad.php",
-            data:{option:"obtener"},
-            dataType:'json',
-            success:function(msg){
-                msg.forEach(function(elemento){
-                    let tipo=$("#tipo");
-                    tipo.append("<option value='"+elemento['id_tipo']+"'>"+elemento["nombre_tipo"]+"</option>");
-                });
-            },
-            error:function(jqXHR,textStatus,errorThrown){
-                alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
-            }
-        });
-        
-        $.ajax({
-            type:"POST",
-            url:"../Controller/controllerDepartamentos.php",
-            data:{option:"obtener"},
-            dataType:'json',
-            success:function(msg){
-                msg.forEach(function(elemento){
-                    let dep_emisor=$("#dep_emisor");
-                    dep_emisor.append("<option value='"+elemento['nombre_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
-                    let dep_receptor=$("#dep_receptor");
-                    dep_receptor.append("<option value='"+elemento['nombre_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
-                });
-            },
-            error:function(jqXHR,textStatus,errorThrown){
-                alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
-            }
-        });
-    </script>
 </head>
 <?php
         ?>
 <body>
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
+        <input type="hidden" value="<?PHP echo $_SESSION['id_usuario'] ?>" name="id_usuario_sesion" id="id_usuario_sesion">
         <h1 class="titleh1">Registrar Actividad</h1>
         <div class="contenedorPrincipal">
 
@@ -108,12 +51,12 @@
                         
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Codigo de Registro:</label>
-                            <input class="col-md-12 form-control" readonly type="text" name="codigo" id="codigo">
+                            <input class="col-md-12 form-control" readonly type="text" name="codigo_actividad" id="codigo_actividad">
                         </div>
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Nombre de Actividad:</label>
-                            <input class="col-md-12 form-control" type="text" name="nombre" id="nombre" required>
+                            <input class="col-md-12 form-control" type="text" name="nombre_actividad" id="nombre_actividad" required>
                             <div class="invalid-feedback">
                                 Este Campo no puede esta vacío
                             </div>
@@ -121,7 +64,7 @@
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Tipo de Actividad:</label>
-                                <select class="col-md-12 input_form form-select" required name="tipo" id="tipo">
+                                <select class="col-md-12 input_form form-select" required name="id_tipo_actividad" id="id_tipo_actividad">
                             <option selected disabled value="">Seleccione...</option>
                             </select>
                             <div class="invalid-feedback">
@@ -131,7 +74,7 @@
 
                         <div class="col-md-6 div_input_form"> 
                             <label class="col-md-12 form-label">Fecha de Registro:</label>
-                            <input class="col-md-12 form-control" disabled type="date" name="fecha" id="fecha" placeholder="Fecha de Registro">
+                            <input class="col-md-12 form-control" disabled type="date" name="fecha_registro" id="fecha_registro" placeholder="Fecha de Registro">
                         </div>
 
                         <div class="col-md-6 div_input_form">
@@ -169,7 +112,7 @@
                         <div class="col-md-6 div_input_form">
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Nombre del responsable:</label>
-                                <input class="col-md-12 form-control" required type="text" name="nom_responsable" id="nom_responsable">
+                                <input class="col-md-12 form-control" disabled type="text"id="nom_responsable">
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
                                 </div>
@@ -177,7 +120,7 @@
                             
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Apellido del responsable:</label>
-                                <input class="col-md-12 form-control" required type="text" name="ape_responsable" id="ape_responsable">
+                                <input class="col-md-12 form-control" disabled type="text" id="ape_responsable">
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
                                 </div>
@@ -185,7 +128,7 @@
 
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Cedula del Responsable:</label>
-                                <input class="col-md-12 form-control" required type="text" name="ced_responsable" id="ced_responsable" minlength="10" maxlength="11">
+                                <input class="col-md-12 form-control" disabled type="text" id="ced_responsable" minlength="10" maxlength="11">
                             </div>
                         </div>
                         
@@ -206,11 +149,11 @@
                             </div>
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Cedula del Funcionario Atendido:</label>
-                                <input class="col-md-12 form-control" type="text" minlength="10" maxlength="11" name="ced_atendido" id="ced_atendido" required>
+                                <input class="col-md-12 form-control" type="text" maxlength="10" name="ced_atendido" id="ced_atendido" required>
                             </div>
                         </div>
                         <input type="hidden" value="guardar" name="option" id="option">
-                        <input type="hidden" value="<?PHP echo $_SESSION['id_usuario'] ?>" name="id_usuario" id="id_usuario">
+                        <input type="hidden" value="<?PHP echo $_SESSION['id_usuario'] ?>" name="id_usuario_responsable" id="id_usuario_responsable">
 
                         <div class="col-md-12 form_button">
                             <input type="submit" class="btn btn-primary col-md-4" value="Registrar Actividad" name="guardar_actividad" id="guardar_actividad">

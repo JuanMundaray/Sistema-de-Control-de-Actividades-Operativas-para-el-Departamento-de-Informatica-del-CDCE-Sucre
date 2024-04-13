@@ -2,13 +2,13 @@ $(document).ready(function(){
     $.ajax({
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:`option=buscarId&data_busq=${$("#id").val()}`,
+        data:`option=buscarCodigo&codigo_actividad=${$("#codigo_actividad").val()}`,
         dataType:'json',
         success:function(msg){
             console.log(msg);
             msg.forEach(function(elemento){
-                let codigo=$("#codigo").append(elemento["codigo"]);
-                let nombre=$("#nombre").append(elemento["nombre"]);
+                let codigo=$("#codigo_actividad").append(elemento["codigo_actividad"]);
+                let nombre=$("#nombre_actividad").append(elemento["nombre_actividad"]);
                 let dep_receptor=$("#dep_receptor").append(elemento["dep_receptor"]);
                 let dep_emisor=$("#dep_emisor").append(elemento["dep_receptor"]);
                 let tipo=$("#tipo").append(elemento["nombre_tipo"]);
@@ -31,9 +31,9 @@ $(document).ready(function(){
                     div_evidencia.append('<label class="col-md-12 form-label"><strong >Evidencia:</strong></label>');
                     div_evidencia.append(`<img id="imagen_evidencia" src='../../intranet/uploads_sca_cdce/${elemento["evidencia"]}' width="400px" height="300px">`);
                 }
-                let estado=$("#estado").append(elemento["estado"]);
-                let nom_responsable=$("#nom_responsable").append(`${elemento["nom_responsable"]} ${elemento["ape_responsable"]}`);
-                let ced_responsable=$("#ced_responsable").append(elemento["ced_responsable"]);
+                let estado=$("#estado_actividad").append(elemento["estado_actividad"]);
+                let nom_responsable=$("#nom_responsable").append(`${elemento["nombre_personal"]} ${elemento["apellido_responsable"]}`);
+                let ced_responsable=$("#ced_responsable").append(elemento["cedula"]);
                 let nom_atendido=$("#nom_atendido").append(`${elemento["nom_atendido"]} ${elemento["ape_atendido"]}`);
                 let ced_atendido=$("#ced_atendido").append(elemento["ced_atendido"]);
 

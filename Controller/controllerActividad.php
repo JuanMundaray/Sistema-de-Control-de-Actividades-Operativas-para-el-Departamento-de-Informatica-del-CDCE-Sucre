@@ -8,33 +8,27 @@ switch($option){
     case 'guardar':
         date_default_timezone_set('America/Lima');
         $actividad=new actividad();
-        $codigo=$_REQUEST['codigo'];
-        $nombre=$_REQUEST['nombre'];
-        $id_tipo=$_REQUEST['tipo'];
+        $codigo_actividad=$_REQUEST['codigo_actividad'];
+        $nombre_actividad=$_REQUEST['nombre_actividad'];
+        $id_tipo_actividad=$_REQUEST['id_tipo_actividad'];
         $dep_receptor=$_REQUEST['dep_receptor'];
         $dep_emisor=$_REQUEST['dep_emisor'];
         $observacion=$_REQUEST['observacion'];
-        $nom_responsable=$_REQUEST['nom_responsable'];
-        $ape_responsable=$_REQUEST['ape_responsable'];
-        $ced_responsable=$_REQUEST['ced_responsable'];
         $nom_atendido=$_REQUEST['nom_atendido'];
         $ape_atendido=$_REQUEST['ape_atendido'];
         $ced_atendido=$_REQUEST['ced_atendido'];
-        $id_usuario=$_REQUEST['id_usuario'];
-        $actividad->setCodigo($codigo);
-        $actividad->setNombre(strtoupper($nombre));
-        $actividad->setId_tipo($id_tipo);
-        $actividad->setDep_receptor($dep_receptor);
-        $actividad->setDep_emisor($dep_emisor);
-        $actividad->setfecha(date("Y-m-d"));
+        $id_usuario_responsable=$_REQUEST['id_usuario_responsable'];
+        $actividad->setCodigoActividad($codigo_actividad);
+        $actividad->setNombreActividad(strtoupper($nombre_actividad));
+        $actividad->setIdTipo($id_tipo_actividad);
+        $actividad->setDepReceptor($dep_receptor);
+        $actividad->setDepEmisor($dep_emisor);
+        $actividad->setfechaRegistro(date("Y-m-d"));
         $actividad->setObservacion($observacion);
-        $actividad->setNom_responsable(strtoupper($nom_responsable));
-        $actividad->setApe_responsable(strtoupper($ape_responsable));
-        $actividad->setCed_responsable($ced_responsable);
-        $actividad->setNom_atendido(strtoupper($nom_atendido));
-        $actividad->setApe_atendido(strtoupper($ape_atendido));
-        $actividad->setCed_atendido($ced_atendido);
-        $actividad->setId_usuario($id_usuario);
+        $actividad->setNomAtendido(strtoupper($nom_atendido));
+        $actividad->setApeAtendido(strtoupper($ape_atendido));
+        $actividad->setCedAtendido($ced_atendido);
+        $actividad->setIdUsuario($id_usuario_responsable);
         $resultado=$actividad->guardar();
         if($resultado){
             header("location:../View/actividades-registradas.php");
@@ -45,61 +39,50 @@ switch($option){
 
     case 'obtener':
         $actividad=new actividad();
+
+        if(isset($_REQUEST['nombre_actividad'])){
+            $actividad->setNombreActividad($_REQUEST['nombre_actividad']);
+        }
+        if(isset($_REQUEST['codigo_actividad'])){
+            $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+        }
+        if(isset($_REQUEST['estado_actividad'])){
+            $actividad->setEstadoActividad($_REQUEST['estado_actividad']);
+        }
+        if(isset($_REQUEST['fecha_registro'])){
+            $actividad->setfechaRegistro($_REQUEST['fecha_registro']);
+        }
+        if(isset($_REQUEST['id_usuario_responsable'])){
+            $actividad->setIdUsuario($_REQUEST['id_usuario_responsable']);
+        }
+        if(isset($_REQUEST['todas'])){
+            $todas=true;
+        }else{
+            $todas=false;
+        }
         //-----------------paginacion
         $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
         $num_resultados=$_REQUEST['num_resultados'];
         //-----------------paginacion
-        $resultado=$actividad->getActividades($pagina,$num_resultados);
-        if($resultado){
-            $resultado=json_encode($resultado);
-            echo $resultado;
-        }
+        $resultado=$actividad->ObtenerActividades($pagina,$num_resultados,$todas);
+
+        $resultado=json_encode($resultado);
+        echo $resultado;
     break;
 
     case 'eliminar':
-        $id=$_REQUEST['id'];
+        $codigo_actividad=$_REQUEST['codigo_actividad'];
         $actividad=new actividad();
-        $actividad->setID($id);
+        $actividad->setCodigoActividad($codigo_actividad);
         $resultado=$actividad->eliminar();
+        echo json_encode($resultado);
     break;
 
-    case 'buscar':
-        $data_busq=$_REQUEST['data_busq'];
-        $columna=$_REQUEST['columna'];
+    case 'buscarCodigo':
+        $codigo_actividad=$_REQUEST['codigo_actividad'];
         $actividad=new actividad();
-        
-        //Comprueba si useLIKE existe
-        if(isset($_REQUEST['useLIKE'])){
-            //Combierte el string false al valor booleano false
-            //esta variable es para decidir si usar o no ILIKE en la consulta
-            if($_REQUEST['useLIKE']=='false'){
-                $useLIKE=false;
-            }
-            else{
-                $useLIKE=true;
-            }
-        }
-
-        //-----------------paginacion
-        if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
-            $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
-            $num_resultados=$_REQUEST['num_resultados'];
-        }
-        //-----------------paginacion
-
-        $resultado=$actividad->buscar($columna,$data_busq,$useLIKE,$pagina,$num_resultados);
-
-        if($resultado){
-            $resultado=json_encode($resultado);
-            echo $resultado;
-        }
-    break;
-
-    case 'buscarId':
-        $data_busq=$_REQUEST['data_busq'];
-        $actividad=new actividad();
-        $actividad->setID($data_busq);
-        $resultado=$actividad->buscarId();
+        $actividad->setCodigoActividad($codigo_actividad);
+        $resultado=$actividad->buscarCodigo();
         if($resultado){
             $resultado=json_encode($resultado);
             echo $resultado;
@@ -112,7 +95,7 @@ switch($option){
     case 'modificar':
         $actividad=new actividad();
         $observacion=$_REQUEST['observacion'];
-        $id=$_REQUEST['id'];
+        $codigo_actividad=$_REQUEST['codigo_actividad'];
         $informe=$_REQUEST['informe'];
         $estado=$_REQUEST['estado'];
         if(isset($_FILES['evidencia'])){
@@ -125,11 +108,16 @@ switch($option){
             move_uploaded_file($_FILES['evidencia']['tmp_name'],$ruta_destino.$nombre_file);
             $actividad->setEvidencia(($nombre_file));
         }
-        $actividad->setEstado(strtoupper($estado));
+        $actividad->setEstadoActividad(strtoupper($estado));
         $actividad->setObservacion($observacion);
         $actividad->setInforme($informe);
-        $actividad->setID($id);
+        $actividad->setCodigoActividad($codigo_actividad);
         $resultado=$actividad->modificar();
+
+        if($resultado){
+            header("location:../View/actividades-registradas.php");
+            exit();
+        }
         break;
 
         case 'contarRegistros':
@@ -172,17 +160,16 @@ switch($option){
             $export->connect();
 
             $campos=array(
-                'id'=>'ID',
-                'codigo'=>'codigo',
-                'nombre'=>'nombre',
+                'codigo_actividad'=>'codigo_actividad',
+                'nombre_actividad'=>'nombre_actividad',
                 'fecha'=>'fecha',
                 'nombre_tipo'=>'tipo_actividad',
                 'dep_emisor'=>'Departamento Emisor',
                 'dep_receptor'=>'Departamento Receptor',
-                'nom_atendido'=>'Nombre del Funcionario Atendido',
+                'nom_atendido'=>'nombre_actividad del Funcionario Atendido',
                 'ape_atendido'=>'Apellido del Funcionario Atendido',
                 'ced_atendido'=>'Cedula del Funcionario Atendido',
-                'nom_responsable'=>'Nombre del Responsable de la Actividad',
+                'nom_responsable'=>'nombre_actividad del Responsable de la Actividad',
                 'ape_responsable'=>'Apellido del Responsable de la Actividad',
                 'ced_responsable'=>'Cedula del Responsable de la Actividad',
                 'estado'=>'Estado'
@@ -190,7 +177,7 @@ switch($option){
 
             $export->query("SELECT * FROM actividades.actividad
             INNER JOIN actividades.tipo_actividad
-            ON actividad.id_tipo=tipo_actividad.id_tipo");
+            ON actividad.id_tipo_actividad=tipo_actividad.id_tipo_actividad");
 
             // Formato MS Excel
             $export->to_excel();

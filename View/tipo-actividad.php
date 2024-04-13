@@ -9,10 +9,9 @@
     <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
-    
     <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-    <script src="JS/JS.tipo_actividad/ajax.tipo_actividad.js"></script>
+    <script src="JS/js.tipo_actividad/ajax.tipo_actividad.js"></script>
     <script src="Plantillas/menu_desplegable-administrador.js"></script>
     
 
@@ -49,26 +48,24 @@
                     <nav class="navbar navbar-expand-lg navbar-light barra_navegacion row">
                         <form class="form col row">
                             <label class="form-label col-12">Buscar Por Nombre:</label>
-                            <input class="form-control col-8" type="search" placeholder="Buscar Tipo de  Actividad..." id="data_busq" name="data_busq">
-                            <input type="button" class="btn btn-primary col-3" id="buscar_tipo_act" value="Buscar">
+                            <input class="form-control col-8" type="search" placeholder="Buscar Tipo de  Actividad..." id="data_busq_nombre" name="data_busq_nombre">
                         </form>
                         
                         <form class="form col row">
                             <label class="form-label col-12">Buscar Por Id:</label>
                             <input class="form-control col-10" type="search" placeholder="Buscar Por ID..." id="data_busq_id" name="data_busq_id">
-                            <input type="button" class="btn btn-primary col-3" id="buscar_id" value="Buscar">
                         </form>
-
                     
                         <div class="col-md-3">
                                 <label class="form-label">Numero de Resultados:</label>
                                 <select class="form-select" id="num_resultados">
-                                        <option onclick="getTipoActividad()" value="5">5</option>
-                                        <option onclick="getTipoActividad()" value="20">20</option>
-                                        <option onclick="getTipoActividad()" value="50">50</option>
-                                        <option onclick="getTipoActividad()" value="100">100</option>
+                                        <option value="5">5</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
                                 </select>
                         </div>
+                        <button class="btn btn-primary col" id="buscar_nombre_boton">Buscar</button>
                     </nav>
 
 <!--Tabla que muestra los tipos de actividad que existen-->

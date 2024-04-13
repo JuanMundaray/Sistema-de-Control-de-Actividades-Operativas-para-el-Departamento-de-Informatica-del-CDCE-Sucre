@@ -31,7 +31,7 @@
             
             require_once("Plantillas/Plantilla_cabecera.php");
 
-            if(!isset($_REQUEST['id'])){
+            if(!isset($_REQUEST['codigo_actividad'])){
                 header("location:actividades-registradas.php");
             }
 ?>
@@ -43,14 +43,14 @@
 
             <h2 class="titleh2">Detalles de la Actividad</h2>
             <section class="secciones row">
-                <input class="col-md-12 form-control" type="hidden" readonly name="id" id="id" value="<?php echo $_REQUEST['id'];?>">
+                <input class="col-md-12 form-control" type="hidden" readonly name="codigo_actividad" id="codigo_actividad" value="<?php echo $_REQUEST['codigo_actividad'];?>">
                 <div class="col-md-6 div_input_form">
                     <label class="col-md-12 form-label"><strong >Codigo de Registro:</strong></label>
-                    <p id="codigo"></p>
+                    <p id="codigo_actividad"><?php echo $_REQUEST['codigo_actividad'];?></p>
                 </div>
                 <div class="col-md-6 div_input_form">
                     <label class="col-md-12 form-label"><strong >Nombre de Actividad:</strong></label>
-                    <p id="nombre"></p>
+                    <p id="nombre_actividad"></p>
                 </div>
 
                 <div class="col-md-6 div_input_form">
@@ -65,7 +65,7 @@
 
                 <div class="col-md-6 div_input_form">
                     <label class="col-md-12 form-label"><strong >Estado:</strong></label>
-                    <p id="estado"></p>
+                    <p id="estado_actividad"></p>
                 </div>
                 <div class="col-md-6 div_input_form">
                     <label class="col-md-12 form-label"><strong >Tipo de Actividad:</strong></label>

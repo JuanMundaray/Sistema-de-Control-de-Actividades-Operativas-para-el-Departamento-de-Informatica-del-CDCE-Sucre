@@ -7,10 +7,17 @@ class usuario
 	private $nombre_usuario;
 	private $contrasena;
 	private $tipo_usuario;
-	private $nombre;
+	private $nombre_personal;
+	private $apellido_personal;
 	private $cedula;
-	private $departamento;
+	private $departamento_usuario;
     private $fecha_creacion;
+    private $marca_existencia;
+
+    public function __construct()
+    {
+        $this->marca_existencia=true;
+    }
 
 	public function guardar_usuario()
     {
@@ -19,29 +26,52 @@ class usuario
             $nombre_usuario = $this->nombre_usuario;
             $contrasena = $this->contrasena;
             $tipo_usuario = $this->tipo_usuario;
-            $nombre = $this->nombre;
+            $nombre_personal = $this->nombre_personal;
+            $apellido_personal = $this->apellido_personal;
             $cedula = $this->cedula;
-            $departamento = $this->departamento;
+            $departamento_usuario = $this->departamento_usuario;
             $fecha_creacion=$this->fecha_creacion;
+            $marca_existencia=$this->marca_existencia;
             $db = DataBase::getInstance();
-            $consulta = "INSERT INTO actividades.usuario(nombre_usuario,nombre,contrasena,tipo_usuario,
-            cedula,id_departamento,fecha_creacion)
+            $consulta = "INSERT INTO actividades.usuario(
+            nombre_usuario,
+            nombre_personal,
+            apellido_personal,
+            contrasena,
+            tipo_usuario,
+            cedula,
+            departamento_usuario,
+            fecha_creacion,
+            marca_existencia)
               VALUES (
             :nombre_usuario,
-            :nombre,
-            :contrasena,:tipo_usuario,:cedula,
-            :id_departamento,:fecha_creacion)";
+            :nombre_personal,
+            :apellido_personal,
+            :contrasena,
+            :tipo_usuario,
+            :cedula,
+            :departamento_usuario,
+            :fecha_creacion,
+            :marca_existencia)";
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":nombre_usuario"=>$nombre_usuario,
-            ":nombre"=>$nombre,":contrasena"=>$contrasena,
-            ":tipo_usuario"=>$tipo_usuario,":cedula"=>$cedula,
-            ":id_departamento"=>$departamento,":fecha_creacion"=>$fecha_creacion));
+            $resultadoPDO->execute(array(
+            ":nombre_usuario"=>$nombre_usuario,
+            ":nombre_personal"=>$nombre_personal,
+            ":apellido_personal"=>$apellido_personal,
+            ":contrasena"=>$contrasena,
+            ":tipo_usuario"=>$tipo_usuario,
+            ":cedula"=>$cedula,
+            ":departamento_usuario"=>$departamento_usuario,
+            ":fecha_creacion"=>$fecha_creacion,
+            ":marca_existencia"=>$marca_existencia));
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();            
         }
         catch(Exception $objeto){
-            $resultado = false;
             echo $objeto->getMessage();
+            
+            echo $objeto->getLine();
+            $resultado = false;
         }
         return $resultado; 
     }
@@ -52,20 +82,31 @@ class usuario
         try{
             $contrasena = $this->contrasena;
             $tipo_usuario = $this->tipo_usuario;
-            $nombre = $this->nombre;
+            $nombre_personal = $this->nombre_personal;
+            $apellido_personal=$this->apellido_personal;
             $cedula = $this->cedula;
-            $departamento = $this->departamento;
+            $departamento_usuario = $this->departamento_usuario;
             $id_usuario=$this->id_usuario;
+            $marca_existencia=$this->marca_existencia;
             $db = DataBase::getInstance();
             $consulta = "UPDATE actividades.usuario
-            SET contrasena=:contrasena,
-            tipo_usuario=:tipo_usuario,nombre=:nombre,cedula=:cedula,
-            id_departamento=:id_departamento
+            SET 
+            contrasena=:contrasena,
+            tipo_usuario=:tipo_usuario,
+            nombre_personal=:nombre_personal,
+            apellido_personal=:apellido_personal,
+            cedula=:cedula,
+            departamento_usuario=:departamento_usuario,
+            marca_existencia=:marca_existencia
           	WHERE id_usuario='$id_usuario'";
             $resultadoPDO = $db->prepare($consulta);
             $resultadoPDO->execute(array(":contrasena"=>$contrasena,
-            ":tipo_usuario"=>$tipo_usuario,":nombre"=>$nombre,
-            ":cedula"=>$cedula,":id_departamento"=>$departamento));
+            ":tipo_usuario"=>$tipo_usuario,
+            ":nombre_personal"=>$nombre_personal,
+            ":apellido_personal"=>$apellido_personal,
+            ":cedula"=>$cedula,
+            ":departamento_usuario"=>$departamento_usuario,
+            "marca_existencia"=>$marca_existencia));
             $resultado=$resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();                   
         } 
@@ -84,7 +125,7 @@ class usuario
             session_start();
             if($_SESSION["id_usuario"]!=$id_usuario){
                 $db=DataBase::getInstance();
-                $consulta="DELETE FROM actividades.usuario WHERE id_usuario=:id_usuario";
+                $consulta="UPDATE actividades.usuario SET marca_existencia=false WHERE id_usuario=:id_usuario";
                 $resultadoPDO = $db->prepare($consulta);
                 $resultadoPDO->execute(array(':id_usuario'=>$id_usuario));
                 $resultado=$resultadoPDO->rowCount();
@@ -102,6 +143,34 @@ class usuario
     }
 
     public function getNumRegistros($columna=false,$data_busq=false,$useLIKE=true)
+    {
+        $resultado = false;
+        try{
+            $db = DataBase::getInstance();
+            
+            if($columna){
+                if($useLIKE==true){
+                    $consulta = "SELECT * FROM actividades.usuario WHERE $columna ILIKE '$data_busq%' AND marca_existencia=true";
+                }else{
+                    $consulta = "SELECT * FROM actividades.usuario WHERE $columna=$data_busq AND marca_existencia=true";
+                }
+            }     
+            else{
+                $consulta = "SELECT * FROM actividades.usuario WHERE marca_existencia=true";
+            }
+            $resultadoPDO = $db->query($consulta);
+            $resultado = $resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
+        }
+        
+        return $resultado; 
+    }
+
+    public function getNumRegistrosHistorial($columna=false,$data_busq=false,$useLIKE=true)
     {
         $resultado = false;
         try{
@@ -139,7 +208,7 @@ class usuario
             $order='ASC';
             $consulta = "SELECT * FROM actividades.usuario
             LEFT JOIN actividades.departamentos
-            ON usuario.id_departamento=departamentos.id_departamento
+            ON usuario.departamento_usuario=departamentos.id_departamento
             ORDER BY id_usuario ASC
             LIMIT $num_resultados OFFSET $punto_inicio";
 
@@ -169,13 +238,13 @@ class usuario
                 if($useLIKE==true){
                     $consulta = "SELECT * FROM actividades.usuario 
                     INNER JOIN actividades.departamentos
-                    ON usuario.id_departamento=departamentos.id_departamento WHERE $columna ILIKE '$data_busq%'
+                    ON usuario.departamento_usuario=departamentos.id_departamento WHERE $columna ILIKE '$data_busq%'
                     LIMIT $num_resultados OFFSET $punto_inicio";
                 }
                 if($useLIKE==false){
                     $consulta = "SELECT * FROM actividades.usuario 
                     INNER JOIN actividades.departamentos
-                    ON usuario.id_departamento=departamentos.id_departamento WHERE $columna='$data_busq'
+                    ON usuario.departamento_usuario=departamentos.id_departamento WHERE $columna='$data_busq'
                     LIMIT $num_resultados OFFSET $punto_inicio";
                 }
             }
@@ -184,13 +253,13 @@ class usuario
                 if($useLIKE==true){
                     $consulta = "SELECT * FROM actividades.usuario 
                     INNER JOIN actividades.departamentos
-                    ON usuario.id_departamento=departamentos.id_departamento
+                    ON usuario.departamento_usuario=departamentos.id_departamento
                     WHERE $columna ILIKE '$data_busq%'";
                 }
                 if($useLIKE==false){
                     $consulta = "SELECT * FROM actividades.usuario 
                     INNER JOIN actividades.departamentos
-                    ON usuario.id_departamento=departamentos.id_departamento 
+                    ON usuario.departamento_usuario=departamentos.id_departamento 
                     WHERE $columna='$data_busq'";
                 }
             }
@@ -207,32 +276,6 @@ class usuario
         return $resultado; 
     }
 
-
-    public function autocompletar_nombre()
-    {
-        $resultado = false;
-        try{
-            $nombre=$this->nombre;
-            $db = DataBase::getInstance();            
-            $consulta = "SELECT * FROM actividades.usuario 
-            INNER JOIN actividades.departamento
-            ON usuario.id_departamento=departamento.id_usuario 
-            WHERE nombre LIKE '%$nombre%'";
-            $resultadoPDO = $db->query($consulta);
-            while($data=$resultadoPDO->fetch(PDO::FETCH_ASSOC)){
-                $resultado[]=$data['nombre'];
-            }
-            $resultadoPDO->closeCursor(); 
-        }
-        
-        catch(Exception $objeto){
-            $resultado = false;
-            echo $objeto->getMessage();
-        }
-        
-        return $resultado; 
-    }
-
     public function login($nombre_usuario,$contrasena)
     {
         $resultado = false;
@@ -240,13 +283,16 @@ class usuario
             $nombre_usuario=$nombre_usuario;
             $contrasena=$contrasena;
             $db = DataBase::getInstance();  
-            $consulta = "SELECT * FROM actividades.usuario
+            $consulta = "SELECT * FROM 
+            actividades.usuario
             LEFT JOIN actividades.departamentos
-            ON usuario.id_departamento=departamentos.id_departamento
+            ON usuario.departamento_usuario=departamentos.id_departamento
             WHERE nombre_usuario = :nombre_usuario
             AND contrasena=:contrasena" ;
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":nombre_usuario"=>$nombre_usuario,":contrasena"=>$contrasena));
+            $resultadoPDO->execute(array(
+            ":nombre_usuario"=>$nombre_usuario,
+            ":contrasena"=>$contrasena));
             $resultado=$resultadoPDO->fetchAll();
             $correspondientes = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();
@@ -256,7 +302,7 @@ class usuario
                 $_SESSION["tipo_usuario"]=$resultado[0]["tipo_usuario"];
                 $_SESSION["id_usuario"]=$resultado[0]["id_usuario"];
                 $_SESSION["nombre_departamento"]=$resultado[0]["nombre_departamento"];
-                $_SESSION["id_departamento"]=$resultado[0]["id_departamento"];
+                $_SESSION["departamento_usuario"]=$resultado[0]["departamento_usuario"];
                 $_SESSION["nombre_usuario"]=$nombre_usuario;
                 header('location:../View/Dashboard.php');
                 exit();
@@ -273,6 +319,8 @@ class usuario
         
         return $resultado; 
     }
+
+    //funciones set
     
 	public function set_id_usuario($id_usuario)
 	{
@@ -294,9 +342,15 @@ class usuario
       $this->tipo_usuario=trim($tipo_usuario);
 	}
 
-	public function set_nombre($nombre)
+	public function set_nombre_personal($nombre_personal)
 	{
-      $this->nombre=trim($nombre);
+      $this->nombre_personal=trim($nombre_personal);
+	}
+    
+
+	public function setApellido_personal($apellido_personal)
+	{
+      $this->apellido_personal=trim($apellido_personal);
 	}
 
 	public function set_cedula($cedula)
@@ -304,15 +358,22 @@ class usuario
       $this->cedula=trim($cedula);
 	}
 
-	public function set_departamento($departamento)
+	public function set_departamento_usuario($departamento_usuario)
 	{
-      $this->departamento=trim($departamento);
+      $this->departamento_usuario=trim($departamento_usuario);
 	}
 
     public function set_fecha_creacion($fecha_creacion)
 	{
       $this->fecha_creacion=trim($fecha_creacion);
 	}
+
+    public function setMarcaExistencia($marca_existencia)
+	{
+      $this->marca_existencia=trim($marca_existencia);
+	}
+
+    //funciones get
 
 	public function get_id()
 	{
@@ -334,9 +395,14 @@ class usuario
       return $this->tipo_usuario;
 	}
 
-	public function get_nombre()
+	public function getNombre_personal()
 	{
-      return $this->nombre;
+      return $this->nombre_personal;
+	}
+
+	public function getApellido_personal()
+	{
+      return $this->apellido_personal;
 	}
 
 	public function get_cedula()
@@ -344,9 +410,9 @@ class usuario
       return $this->id_usuario;
 	}
 
-	public function get_departamento()
+	public function get_departamento_usuario()
 	{
-      return $this->departamento;
+      return $this->departamento_usuario;
 	}
 }
 

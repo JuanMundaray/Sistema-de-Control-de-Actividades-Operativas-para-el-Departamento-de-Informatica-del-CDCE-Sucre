@@ -16,15 +16,6 @@ centinela=true;
 
 			<li>
 				<div>
-					<a class="row" href='actividades-registradas-invitado.php'>
-						<figure class="col-md-1"><img src="./Resources/png/512/ios7-paper.png" class="icons-menudeslizante"></figure>
-						<span class="col">Actividades Registradas</span>
-					</a>
-				</div>
-			</li>
-
-			<li>
-				<div>
 					<a class="row" href='crear-peticion.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-compose.png" class="icons-menudeslizante"></figure>
 						<span class="col">Hacer Petición de Actividad</span>
@@ -34,9 +25,9 @@ centinela=true;
 
 			<li>
 				<div>
-					<a class="row" href='peticiones-registradas.php'>
+					<a class="row" href='peticiones-registradas-propias.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-box.png" class="icons-menudeslizante"></figure>
-						<span class="col">Lista de Peticiones</span>
+						<span class="col">Mis Peticiones</span>
 					</a>
 				</div>
 			</li>

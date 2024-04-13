@@ -11,15 +11,16 @@ switch($option){
         $nombre_usuario=$_REQUEST['username'];
         $contrasena=$_REQUEST['password'];
         $nombre=$_REQUEST['nombre'];
-        $cedula=$_REQUEST['cedula'];
-        $departamento=$_REQUEST['departamento'];
         $apellido=$_REQUEST['apellido'];
+        $cedula=$_REQUEST['cedula'];
+        $departamento_usuario=$_REQUEST['departamento'];
         $tipo_usuario=$_REQUEST['tipo_usuario'];
         $usuario->set_nombre_usuario($nombre_usuario);
         $usuario->set_contrasena($contrasena);
         $usuario->set_tipoUsuario($tipo_usuario);
-        $usuario->set_departamento($departamento);
-        $usuario->set_nombre(strtoupper($nombre." ".$apellido));
+        $usuario->set_departamento_usuario($departamento_usuario);
+        $usuario->set_nombre_personal(strtoupper($nombre));
+        $usuario->setApellido_personal(strtoupper($apellido));
         $usuario->set_cedula($cedula);
         $usuario->set_fecha_creacion(date("Y-m-d"));
         $resultado=$usuario->guardar_usuario();
@@ -59,14 +60,16 @@ switch($option){
         $contrasena=$_REQUEST['password'];
         $id_usuario=$_REQUEST['id_usuario'];
         $nombre=$_REQUEST['nombre'];
+        $apellido=$_REQUEST['apellido'];
         $cedula=$_REQUEST['cedula'];
-        $departamento=$_REQUEST['departamento'];
+        $departamento_usuario=$_REQUEST['departamento'];
         $tipo_usuario=$_REQUEST['tipo_usuario'];
         $usuario->set_contrasena($contrasena);
         $usuario->set_tipoUsuario($tipo_usuario);
         $usuario->set_id_usuario($id_usuario);
-        $usuario->set_departamento($departamento);
-        $usuario->set_nombre(strtoupper($nombre));
+        $usuario->set_departamento_usuario($departamento_usuario);
+        $usuario->set_nombre_personal(strtoupper($nombre));
+        $usuario->setApellido_personal(strtoupper($apellido));
         $usuario->set_cedula($cedula);
         $resultado=$usuario->modificar_usuario();
         if($resultado){
@@ -137,6 +140,31 @@ switch($option){
         }
         else{//resultado sera todos los registros de la tabla
             $resultado=$usuario->getNumRegistros();
+        }
+        echo $resultado;
+    break;
+
+    case 'contarRegistrosHistorial':
+
+        $usuario=new usuario();
+        
+        if(isset($_REQUEST['useLIKE'])){
+            if($_REQUEST['useLIKE']=='false'){
+                $useLIKE=false;
+            }
+            else{
+                $useLIKE=true;
+            }
+        }
+
+        if((isset($_REQUEST['data_busq']))&&(isset($_REQUEST['columna']))){
+            //resultado sera todos los registros de la tabla segun la condicion en el where
+            $data_busq=$_REQUEST['data_busq'];
+            $columna=$_REQUEST['columna'];
+            $resultado=$usuario->getNumRegistrosHistorial($columna,$data_busq,$useLIKE);
+        }
+        else{//resultado sera todos los registros de la tabla
+            $resultado=$usuario->getNumRegistrosHistorial();
         }
         
         if($resultado){
