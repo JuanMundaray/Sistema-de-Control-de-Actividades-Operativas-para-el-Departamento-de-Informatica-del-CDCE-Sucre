@@ -25,7 +25,7 @@
             exit();
         }
     }else{
-        header("Location:../Index");
+        header("Location:../index");
         exit();
     }
 
@@ -41,11 +41,11 @@
                 
                 <div>
 
-<!--Boton Para ingresar al formulario para crear una nueva actividad predefinida-->
+                    <!--Boton Para ingresar al formulario para crear una nueva actividad predefinida-->
                     <a class="btn btn-primary" href="tipo-actividad-crear" role="button">Crear Tipo de Actividad</a>
 
                     <!--Barra de Busqueda-->
-                    <nav class="navbar navbar-expand-lg navbar-light barra_navegacion row">
+                    <nav style="margin-top: 20px; margin-left: 20px;" class="navbar navbar-expand-lg navbar-light barra_navegacion container">
                         <form class="form col row">
                             <label class="form-label col-12">Buscar Por Nombre:</label>
                             <input class="form-control col-8" type="search" placeholder="Buscar Tipo de  Actividad..." id="data_busq_nombre" name="data_busq_nombre">
@@ -65,23 +65,25 @@
                                         <option value="100">100</option>
                                 </select>
                         </div>
-                        <button class="btn btn-primary col" id="buscar_nombre_boton">Buscar</button>
+                        <div class="col-md-3">
+                            <button style="margin-top: 30px;" class="btn btn-primary" id="buscar_nombre_boton">Buscar</button>
+                        </div>
                     </nav>
 
-<!--Tabla que muestra los tipos de actividad que existen-->
-                <div class="scroll">
-                    <table id="tabla_tipo_actividad" class="table table-bordered table-responsive text-nowrap table_default">
-                        <!--Datos que mostrara la tabla actividades gracias a ajax.tipo_actividad.js-->
-                    </table>
-                </div>
-                <div>
-                    <nav>
-                        <ul class="pagination" id="num_paginas">
-                        </ul>
-                    </nav>
+                    <!--Tabla que muestra los tipos de actividad que existen-->
+                    <div class="scroll">
+                        <table id="tabla_tipo_actividad" class="table table-bordered table-responsive text-nowrap table_default">
+                            <!--Datos que mostrara la tabla actividades gracias a ajax.tipo_actividad.js-->
+                        </table>
+                    </div>
+                    <div>
+                        <nav>
+                            <ul class="pagination" id="num_paginas">
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </section>
-        </div>
     </main>
 </body>
 

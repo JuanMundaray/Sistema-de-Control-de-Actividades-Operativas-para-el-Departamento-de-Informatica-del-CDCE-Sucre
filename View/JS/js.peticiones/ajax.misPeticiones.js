@@ -72,6 +72,15 @@ function RellenarTablaPeticiones(msg){
         <th colspan="1"><label>Accion</label></th>
     </tr>`);
     msg.forEach(function(elemento){
+        if(elemento['estado_peticion']=='ESPERA'){
+            boton_desplegable_accion=`<button class="dropdown-item" onclick="eliminarPeticion(${elemento['id_peticion']},'¿Seguro que desea cancelar esta peticion?')">Cancelar</button>`;
+        }
+        if(elemento['estado_peticion']=='RECHAZADA'){
+            boton_desplegable_accion=`<button class="dropdown-item" onclick="eliminarPeticion(${elemento['id_peticion']},'¿Seguro que desea eliminar esta peticion?')">Eliminar</button>`;
+        }
+        if(elemento['estado_peticion']=='ACEPTADA'){
+            boton_desplegable_accion=`<button class="dropdown-item">OK</button>`;
+        }
         //Dibujar la Tabla de Peticiones por medio del DOM de JavaScripts
             tabla.append(`<tr>
             <td>${elemento['nombre_peticion']}</td>
@@ -89,7 +98,7 @@ function RellenarTablaPeticiones(msg){
                     </button>
 
                     <ul class="dropdown-menu dropdown-menu-lg-end">
-                        <button class="dropdown-item" onclick="eliminarPeticion(${elemento['id_peticion']})">Cancelar</button>   
+                        ${boton_desplegable_accion}
                     </ul>
                 </div>
             </td>
@@ -111,5 +120,26 @@ function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos 
         $("#num_paginas").append(
             `<li class="page-item"><a class="page-link" href='#tabla_peticiones' onclick="getPeticiones(${numero})"'>${numero}</a></li>`
         )
+    }
+}
+
+    
+
+function eliminarPeticion(id_peticion,texto){
+    let ok=confirm(texto);
+    if(ok){
+        $.ajax({
+            type:"POST",
+            url:"../Controller/controllerPeticion.php",
+            data:{
+                option:'eliminar',
+                id_peticion:id_peticion
+            },
+            dataType:'json',
+            success:function(msg){
+                alert("Peticion Eliminada Exitosamente");
+                location.reload();
+            }
+        });
     }
 }

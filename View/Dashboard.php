@@ -16,7 +16,7 @@
             }
         }
         else{
-            header("Location:../Index");
+            header("Location:../index");
             exit();
         }
         require_once("Plantillas/Plantilla_cabecera.php");
@@ -129,6 +129,27 @@
                         </div>
                         
                     </div> 
+
+                    <!--Cuadro de Actividades Completadas-->
+                    <div class="CuadroUsuariosRegistrados col bloque_dashboard">
+
+                        <div class="cuadro_hijo01">
+
+                            <div>
+                                <h2 id="num_actividades_completadas">0</h2>
+                                <p>Actividades Completadas</p>
+                            </div>
+                            
+                            <div>
+                                <img src="../View/Resources/png/512/android-alarm.png">
+                            </div>
+                        </div>
+
+                        <div class="LineaFinal">
+                            <a href="lista-usuarios">Mas informacion</a>
+                        </div>
+
+                    </div>
 
                     <!--Cuadro de numero Usuarios Registrados-->
                     <div class="CuadroUsuariosRegistrados col bloque_dashboard">

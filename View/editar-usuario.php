@@ -34,7 +34,7 @@
             exit();
         }
     }else{
-        header("Location:../Index");
+        header("Location:../index");
         exit();
     }
     require_once("Plantillas/Plantilla_cabecera.php");
@@ -70,7 +70,7 @@
 
                         <div class="col-md-10 div_input_form">
                             <label class="col-md-12 form-label">Nombre:</label>
-                            <input type="text"class=" input_form col-md-12 form-control" name="nombre" id="nombre" placeholder="Nombre" required>
+                            <input type="text"class=" input_form col-md-12 form-control" name="nombre_personal" id="nombre_personal" placeholder="Nombre" required>
 
                             <div class="invalid-feedback">
                                 *Este Campo no Puede Estar Vacío
@@ -79,7 +79,7 @@
 
                         <div class="col-md-10 div_input_form">
                             <label class="col-md-12 form-label">Apellido:</label>
-                            <input type="text"class=" input_form col-md-12 form-control" name="apellido" id="apellido" placeholder="Nombre" required>
+                            <input type="text"class=" input_form col-md-12 form-control" name="apellido_personal" id="apellido_personal" placeholder="Apellido" required>
 
                             <div class="invalid-feedback">
                                 *Este Campo no Puede Estar Vacío

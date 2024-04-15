@@ -21,7 +21,7 @@
             }
         }
         else{
-            header("Location:../Index");
+            header("Location:../index");
             exit();
         }
 
@@ -34,7 +34,6 @@
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="js/ajax.actividades/js.registrar_actividad.js"></script>
-    <script src="JS/validar.registrar_actividad.js"></script>
 </head>
 <?php
         ?>
@@ -56,7 +55,7 @@
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Nombre de Actividad:</label>
-                            <input class="col-md-12 form-control" type="text" name="nombre_actividad" id="nombre_actividad" required>
+                            <input class="col-md-12 form-control" type="text" name="nombre_actividad" maxlength="50" id="nombre_actividad" required>
                             <div class="invalid-feedback">
                                 Este Campo no puede esta vacío
                             </div>

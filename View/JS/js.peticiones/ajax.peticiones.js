@@ -14,7 +14,6 @@ function getPeticiones(pagina=1){
     let num_resultados=$("#num_resultados").val();
     let nombre_peticion=$("#data_busq_nombre").val();
     let fecha_peticion=$("#data_busq_fecha").val();
-    let estado_peticion=$("#data_busq_estado").val();
     let id_usuario=$("#id_usuario_sesion").val();
     $.ajax({
         type:"POST",
@@ -25,7 +24,7 @@ function getPeticiones(pagina=1){
             num_resultados:num_resultados,
             nombre_peticion:nombre_peticion,
             fecha_peticion:fecha_peticion,
-            estado_peticion:estado_peticion,
+            estado_peticion:'ESPERA',
             id_usuario:id_usuario
         },
         dataType:'json',
@@ -52,9 +51,6 @@ function RellenarTablaPeticiones(msg){
             var btn_estilo="btn-danger";
         }if(elemento=="ACEPTADA"){
             var btn_estilo="btn-success";
-        }
-        if(elemento=="SUSPENDIDA"){
-            var btn_estilo="btn-danger";
         }
         return btn_estilo;
     }
@@ -86,9 +82,11 @@ function RellenarTablaPeticiones(msg){
                         Seleccione...
                     </button>
 
-                    <ul class="dropdown-menu dropdown-menu-lg-end">
-                        <button class="dropdown-item" onclick="rechazarPeticion(${elemento['id_peticion']})">Rechazar</button>   
+                    <ul class="dropdown-menu" dropdown-menu-lg-end>
+                        <li><a class="dropdown-item" href='./peticiones-aceptar.php?id_peticion=${elemento['id_peticion']}'>Aceptar</a></li>
+                        <li><button class="dropdown-item" onclick="rechazarPeticion(${elemento['id_peticion']})">Rechazar</button></li>   
                     </ul>
+
                 </div>
             </td>
             </tr>`);

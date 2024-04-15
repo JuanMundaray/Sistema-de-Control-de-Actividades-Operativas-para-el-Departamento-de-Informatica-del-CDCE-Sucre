@@ -23,7 +23,7 @@
                 exit();
             }
         }else{
-            header("Location:../Index");
+            header("Location:../index");
             exit();
         }
 
@@ -82,8 +82,9 @@
                     </nav>
 
                     <div style="text-align: center;">
-                        <form action="../Controller/controllerHistorialUsuario.php">
-                            <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
+                        <form action="../Controller/controllerUsuario.php">
+                            <input type="hidden" name="option" value="exportarExcel">
+                            <input type="hidden" name="todos_registros" value='true'>
                             <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
                         </form>
                     </div>

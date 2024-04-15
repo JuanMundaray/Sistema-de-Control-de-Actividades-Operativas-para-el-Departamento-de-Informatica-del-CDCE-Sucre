@@ -23,7 +23,7 @@
                 exit();
             }
         }else{
-            header("Location:../Index");
+            header("Location:../index");
             exit();
         }
 
@@ -94,11 +94,18 @@
                         </ul>
                     </nav>
 
-                    <div style="text-align: center;">
-                        <form action="../Controller/controllerHistorialActividades.php">
-                            <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
-                            <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
-                        </form>
+                    <div class="row">
+                        <div class="col" style="text-align: center;">
+                            <form method="post" action="../Controller/controllerActividad.php">
+                                        <input type="hidden" value="1" name='historial' id="historial">
+                                        <input type="hidden" class="btn btn-success" name="option" value="exportarPDF">
+                                        <input type="submit" class="btn btn-danger" value="Exportar a PDF">
+                            </form>
+                            <form action="../Controller/controllerHistorialActividades.php">
+                                <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
+                                <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
+                            </form>
+                        </div>
                     </div>
 
                 <section>

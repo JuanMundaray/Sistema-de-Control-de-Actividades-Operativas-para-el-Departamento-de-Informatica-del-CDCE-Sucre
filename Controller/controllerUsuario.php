@@ -59,8 +59,8 @@ switch($option){
         $usuario=new usuario();
         $contrasena=$_REQUEST['password'];
         $id_usuario=$_REQUEST['id_usuario'];
-        $nombre=$_REQUEST['nombre'];
-        $apellido=$_REQUEST['apellido'];
+        $nombre_personal=$_REQUEST['nombre_personal'];
+        $apellido_personal=$_REQUEST['apellido_personal'];
         $cedula=$_REQUEST['cedula'];
         $departamento_usuario=$_REQUEST['departamento'];
         $tipo_usuario=$_REQUEST['tipo_usuario'];
@@ -68,8 +68,8 @@ switch($option){
         $usuario->set_tipoUsuario($tipo_usuario);
         $usuario->set_id_usuario($id_usuario);
         $usuario->set_departamento_usuario($departamento_usuario);
-        $usuario->set_nombre_personal(strtoupper($nombre));
-        $usuario->setApellido_personal(strtoupper($apellido));
+        $usuario->set_nombre_personal(strtoupper($nombre_personal));
+        $usuario->setApellido_personal(strtoupper($apellido_personal));
         $usuario->set_cedula($cedula);
         $resultado=$usuario->modificar_usuario();
         if($resultado){
@@ -174,40 +174,12 @@ switch($option){
     break;
 
     case 'exportarExcel':
-        require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
-        require_once("../Model/configurarBD.php");
-
-        date_default_timezone_set('America/Lima');
-        $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
-        
-        $export->connect();
-
-        $campos=array(
-            'id_usuario'=>'ID',
-            'nombre_usuario'=>'Nombre de Usuario',
-            'nombre'=>'Nombre y Apellido',
-            'cedula'=>'Cedula del Usuario',
-            'fecha_creacion'=>'Fecha de Creacion',
-            'tipo_usuario'=>'Tipo de Usuario',
-            'id_departamento'=>'Departamento del Usuario'
-        );
-
-        $export->query("SELECT * FROM actividades.usuario
-        LEFT JOIN actividades.departamentos
-        ON usuario.id_departamento=departamentos.id_departamento");
-
-        // Formato MS Excel
-        $export->to_excel();
-
-        // Construir tabla de datos
-        $tabla=$export->build_table($campos);
-        
-        // Descargar archivo .xls
-        $export->download();
-
-        if ($dbhex = $export->get_error()) {
-            die($dbhex->getMessage());
-          }
+        $usuario=new usuario();
+        if(isset($_REQUEST['todos_registros'])){
+            $usuario->exportarEXCEL(true);
+        }else{
+            $usuario->exportarEXCEL();
+        }
     break;
 
 }

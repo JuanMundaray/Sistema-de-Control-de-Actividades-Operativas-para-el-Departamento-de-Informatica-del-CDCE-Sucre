@@ -32,9 +32,6 @@ function getActividades(pagina=1){
         },
         dataType:'json',
         success:function(msg){
-            if(msg==""){
-                alert('Sin Resultados');
-            }
             RellenarTablaActividades(msg);
             paginacion(num_resultados,msg.length);
         }

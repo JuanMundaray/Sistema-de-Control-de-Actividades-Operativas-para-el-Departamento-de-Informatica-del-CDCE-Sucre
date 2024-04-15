@@ -4,6 +4,7 @@ $(document).ready(function(){
     setTimeout(num_actividades_suspendidas,0);
     setTimeout(num_actividades_proceso,0);
     setTimeout(num_usuarios,0);
+    setTimeout(num_actividades_completadas,0);
 
 });
 
@@ -15,7 +16,9 @@ function num_actividad(){
         async:false,
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:{option:'contarRegistros'},
+        data:{
+            option:'contarRegistros'
+        },
         dataType:'json',
         success:function(msg){
             num_actividades=msg;
@@ -37,7 +40,10 @@ function num_actividades_iniciadas(){
         async:false,
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:{option:'contarRegistros',data_busq:"INICIADA",parametro_busq:"estado_actividad"},
+        data:{
+            option:'contarRegistros',
+            estado_actividad:"INICIADA"
+        },
         dataType:'json',
         success:function(msg){
             num_resultados=msg;
@@ -59,7 +65,10 @@ function num_actividades_suspendidas(){
         async:false,
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:{option:'contarRegistros',data_busq:"SUSPENDIDA",parametro_busq:"estado_actividad"},
+        data:{
+            option:'contarRegistros',
+            estado_actividad:"SUSPENDIDA"
+        },
         dataType:'json',
         success:function(msg){
             num_resultados=msg;
@@ -81,7 +90,10 @@ function num_actividades_proceso(){
         async:false,
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:{option:'contarRegistros',data_busq:"PROCESO",parametro_busq:"estado_actividad"},
+        data:{
+            option:'contarRegistros',
+            estado_actividad:"PROCESO"
+        },
         dataType:'json',
         success:function(msg){
             num_resultados=msg;
@@ -114,5 +126,30 @@ function num_usuarios(){
 
     });
     $("#num_usuarios").html(num_resultados);
+    
+}
+
+function num_actividades_completadas(){
+
+    let num_resultados;
+
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{
+            option:'contarRegistros',
+            estado_actividad:"COMPLETADA"
+        },
+        dataType:'json',
+        success:function(msg){
+            num_resultados=msg;
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
+    $("#num_actividades_completadas").html(num_resultados);
     
 }

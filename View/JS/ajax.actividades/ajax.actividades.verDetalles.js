@@ -32,7 +32,7 @@ $(document).ready(function(){
                     div_evidencia.append(`<img id="imagen_evidencia" src='../../intranet/uploads_sca_cdce/${elemento["evidencia"]}' width="400px" height="300px">`);
                 }
                 let estado=$("#estado_actividad").append(elemento["estado_actividad"]);
-                let nom_responsable=$("#nom_responsable").append(`${elemento["nombre_personal"]} ${elemento["apellido_responsable"]}`);
+                let nom_responsable=$("#nom_responsable").append(`${elemento["nombre_personal"]} ${elemento["apellido_personal"]}`);
                 let ced_responsable=$("#ced_responsable").append(elemento["cedula"]);
                 let nom_atendido=$("#nom_atendido").append(`${elemento["nom_atendido"]} ${elemento["ape_atendido"]}`);
                 let ced_atendido=$("#ced_atendido").append(elemento["ced_atendido"]);

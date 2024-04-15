@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    //Generar Codigo Aleatorio y colocarlo en un input
     var timestamp=new Date().getTime();
     var codigo=timestamp.toString(36);
     codigo+=Math.floor(Math.random()*10000000000000000);
@@ -16,8 +17,9 @@ $(document).ready(function(){
         mes='0'+mes;
     }
     
-    $("#fecha").val(ano+'-'+mes+'-'+dia);
+    $("#fecha_registro").val(ano+'-'+mes+'-'+dia);
 
+    //Obtener tipos de actividades y agregarlos a un select
     $.ajax({
         type:"POST",
         url:"../Controller/controllerTipo_actividad.php",
@@ -33,7 +35,8 @@ $(document).ready(function(){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
         }
     });
-    
+
+    //Obtener Todos los Departamentos y agregarlos a un select
     $.ajax({
         type:"POST",
         url:"../Controller/controllerDepartamentos.php",
@@ -51,7 +54,8 @@ $(document).ready(function(){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
         }
     });
-    
+
+    //Rellenar los datos del usuario responsable de registrar la actividad
     $.ajax({
         type:"POST",
         url:"../Controller/controllerUsuario.php",
@@ -67,6 +71,16 @@ $(document).ready(function(){
         error:function(jqXHR,textStatus,errorThrown){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
         }
+    });
+    
+    //inpedir que en el campo cedula se puedan agregar letras
+    $("#ced_atendido").on('input',function(){
+        var valor=$(this).val();
+        $(this).val(valor.replace(/\D/g,""));
+    });
+    $("#ced_responsable").on('input',function(){
+        var valor=$(this).val();
+        $(this).val(valor.replace(/\D/g,""));
     });
     
 });

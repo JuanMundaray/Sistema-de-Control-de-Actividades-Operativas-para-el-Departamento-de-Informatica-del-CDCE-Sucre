@@ -16,7 +16,7 @@
                 }
             }
             else{
-                header("Location:../Index");
+                header("Location:../index");
                 exit();
             }
         ?>
@@ -124,10 +124,15 @@
 
                     <div class="row center-element">
                         <div class="col-md-6 center-element">
-                            
-                            <button class="btn btn-danger">Exportar a PDF</button>
 
-                            <form action="../Controller/controllerActividad.php">
+                            <form method="post" action="../Controller/controllerActividad.php">
+                                <input type="hidden" value="<?PHP echo $_SESSION['id_usuario']?>" name='id_usuario_sesion' id="id_usuario_sesion">
+                                <input type="hidden" class="btn btn-success" name="option" value="exportarPDF">
+                                <input type="submit" class="btn btn-danger" value="Exportar a PDF">
+                            </form>
+
+                            <form method="post" action="../Controller/controllerActividad.php">
+                                <input type="hidden" value="<?PHP echo $_SESSION['id_usuario']?>" name='id_usuario_sesion' id="id_usuario_sesion">
                                 <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
                                 <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
                             </form>

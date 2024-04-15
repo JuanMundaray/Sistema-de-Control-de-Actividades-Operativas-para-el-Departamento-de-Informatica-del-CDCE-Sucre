@@ -9,7 +9,8 @@ $(document).ready(function(){
             msg.forEach(function(elemento){
                 let nombre_usuario=$("#nombre_usuario").val(elemento["nombre_usuario"]);
                 let password=$("#password").val(elemento["contrasena"]);
-                let nombre=$("#nombre").val(elemento["nombre"]);
+                let nombre_personal=$("#nombre_personal").val(elemento["nombre_personal"]);
+                let apellido_personal=$("#apellido_personal").val(elemento["apellido_personal"]);
                 let cedula=$("#cedula").val(elemento["cedula"]);
                 let departamento=$("#departamento").val(elemento["id_departamento"]);
                 let tipo_usuario=$("#tipo_usuario").val(elemento["tipo_usuario"]);

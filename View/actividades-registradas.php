@@ -16,7 +16,7 @@
                 }
             }
             else{
-                header("Location:../Index");
+                header("Location:../index");
                 exit();
             }
         ?>
@@ -131,8 +131,10 @@
 
                     <div class="row center-element">
                         <div class="col-md-6 center-element">
-                            
-                            <button class="btn btn-danger">Exportar a PDF</button>
+                            <form action="../Controller/controllerActividad.php">
+                                <input type="hidden" class="btn btn-success" name="option" value="exportarPDF">
+                                <input type="submit" class="btn btn-danger" value="Exportar a PDF">
+                            </form>
 
                             <form action="../Controller/controllerActividad.php">
                                 <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">

@@ -15,7 +15,7 @@
                 }
             }
             else{
-                header("Location:../Index");
+                header("Location:../index");
                 exit();
             }
         ?>
@@ -103,11 +103,10 @@
 
                     <div class="row center-element">
                         <div class="col-md-6 center-element">
-                            
-                            <button class="btn btn-danger">Exportar a PDF</button>
 
                             <form action="../Controller/controllerPeticion.php">
-                                <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
+                                <input type="hidden" name="id_usuario" value=<?php echo $_SESSION['id_usuario'] ?>>
+                                <input type="hidden" name="option" value="exportarExcel">
                                 <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
                             </form>
                         <div>

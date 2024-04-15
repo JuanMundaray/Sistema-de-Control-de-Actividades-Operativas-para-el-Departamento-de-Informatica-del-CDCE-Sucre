@@ -169,7 +169,7 @@ class YunhoDBExport {
      * Cabecera de la tabla
      */
     $table .= '<table cellpadding="0" cellspacing="0" border="1">';
-    $table .= '<tr style="background-color:#777777;color:#fff">';
+    $table .= '<tr>';
     $table .= '<td> Nro. </td>';
 
     foreach ($fields as $field) {

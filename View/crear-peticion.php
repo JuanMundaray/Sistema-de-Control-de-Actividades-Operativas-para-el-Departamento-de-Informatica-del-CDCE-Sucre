@@ -13,7 +13,7 @@
             }
         }
         else{
-            header("Location:../Index");
+            header("Location:../index");
             exit();
         }
     ?>

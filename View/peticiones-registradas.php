@@ -18,7 +18,7 @@
                 }
             }
             else{
-                header("Location:../Index");
+                header("Location:../index");
                 exit();
             }
         ?>
@@ -85,10 +85,14 @@
                             <label class="form-label">Buscar Por Fecha:</label>
                             <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" aria-autocomplete="" id="data_busq_fecha" name="data_busq_fecha">
                         </form>
-
-                        <button class="btn btn-primary col" id="boton_buscar">Buscar</button>
+                        <div class="col">
+                            <button style="margin-top: 30px;" class="btn btn-primary" id="boton_buscar">Buscar</button>
+                        </div>
 
                     </nav>
+                    <!--Barra de Busqueda-->
+                    
+                    <!--Tabla de Peticiones dibujada por medio de js-->
                     <div class="scroll">
                         <table id="tabla_peticiones" class="table table-bordered table-responsive text-nowrap table_default">
                         <!--Tabla de Peticiones dibujada por medio de js-->
@@ -96,16 +100,17 @@
                             
                         </table>
                     </div>
+                    <!--Tabla de Peticiones dibujada por medio de js-->
+
+                    <!--Paginacion-->
                     <nav>
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>
+                    <!--Paginacion-->
 
-                    <div class="row center-element">
+                    <div class="row center-element" id="ExportarTabla">
                         <div class="col-md-6 center-element">
-                            
-                            <button class="btn btn-danger">Exportar a PDF</button>
-
                             <form action="../Controller/controllerPeticion.php">
                                 <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
                                 <input type="submit" class="btn btn-success" value="Exportar a EXCEL">

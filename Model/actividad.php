@@ -22,7 +22,6 @@ class actividad{
         $this->observacion="";
         $this->informe="";
         $this->evidencia="";
-        $this->estado_actividad="INICIADA";
     }
 
     
@@ -91,7 +90,7 @@ class actividad{
             ":evidencia"=>$evidencia,
             ":informe"=>$informe));
             $resultado = $resultadoPDO->rowCount();
-            $resultadoPDO->closeCursor();            
+            $resultadoPDO->closeCursor();
         }
         catch(Exception $objeto){
             $resultado = false;
@@ -151,7 +150,7 @@ class actividad{
         return $resultado;
     }
 
-    public function ObtenerActividades($pagina,$num_resultados,$todas=false)
+    public function ObtenerActividades($pagina=false,$num_resultados=false,$todas=false)
     {
         $resultado = false;
         try{
@@ -263,22 +262,19 @@ class actividad{
         return $resultado; 
     }
 
-    public function getNumRegistros($columna=false,$data_busq=false,$useLIKE=true)
+    public function contarNumRegistros()
     {
         $resultado = false;
         try{
-            $db = DataBase::getInstance();
+            $db = DataBase::getInstance(); 
+            $estado_actividad=$this->estado_actividad; 
+            $consulta = "SELECT *
+            FROM actividades.actividad WHERE estado_actividad<>'ELIMINADA'";
 
-            if($columna){
-                if($useLIKE==true){
-                    $consulta = "SELECT * FROM actividades.actividad WHERE $columna ILIKE'$data_busq%'";
-                }else{
-                    $consulta = "SELECT * FROM actividades.actividad WHERE $columna='$data_busq'";
-                }
+            if(!empty($estado_actividad)){
+                $consulta .=" AND estado_actividad='$estado_actividad'";
             }
-            else{
-                $consulta = "SELECT * FROM actividades.actividad";
-            }
+
             $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();                        
@@ -289,6 +285,111 @@ class actividad{
         }
         
         return $resultado; 
+    }
+
+    //funciones para generar Reportes
+    public function exportExcel($id_usuario=false){
+        
+        require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
+        require_once("../Model/configurarBD.php");
+
+        date_default_timezone_set('America/Lima');
+        $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
+        
+        $export->connect();
+
+        $campos=array(
+            'codigo_actividad'=>'Codigo Actividad',
+            'nombre_actividad'=>'Nombre de Actividad',
+            'fecha_registro'=>'Fecha de Registro',
+            'nombre_tipo'=>'Tipo de Actividad',
+            'dep_emisor'=>'Departamento Emisor',
+            'dep_receptor'=>'Departamento Receptor',
+            'nom_atendido'=>'Nombre del Funcionario Atendido',
+            'ape_atendido'=>'Apellido del Funcionario Atendido',
+            'ced_atendido'=>'Cedula del Funcionario Atendido',
+            'nombre_personal'=>'Nombre del Responsable de la Actividad',
+            'apellido_personal'=>'Apellido del Responsable de la Actividad',
+            'cedula'=>'Cedula del Responsable de la Actividad',
+            'estado_actividad'=>'Estado'
+        );
+        $consulta="SELECT * FROM actividades.actividad
+        INNER JOIN actividades.tipo_actividad
+        ON actividad.id_tipo_actividad=tipo_actividad.id_tipo
+        LEFT JOIN actividades.usuario
+        ON actividad.id_usuario_responsable=usuario.id_usuario
+        WHERE estado_actividad<>'ELIMINADA'";
+        
+        if($id_usuario!=false){
+            $consulta .=" AND id_usuario=$id_usuario";
+        }
+        $export->query($consulta);
+
+        // Formato MS Excel
+        $export->to_excel();
+
+        // Construir tabla de datos
+        $tabla=$export->build_table($campos);
+        
+        // Descargar archivo .xls
+        $export->download('ACTIVIDADES REGISTRADAS');
+
+        if ($dbhex = $export->get_error()) {
+            die($dbhex->getMessage());
+          }
+    }
+
+    public function exportPDF($data_sql){
+        
+        require('../Plugins/fpdf186/fpdf.php');
+        $pdf = new FPDF('L');
+        $pdf->AddPage();
+        //titulo
+        $pdf->SetFont('Arial','UB',26);
+        $pdf->Cell(290,20,'Tabla de Actividades',0,0,'C');
+        $pdf->Ln();
+        //nombres de columnas de la tabla
+        $pdf->SetFont('Arial','B',7);
+        $pdf->Cell(40,7,'Codigo de Actividad',1,0,'C');
+        $pdf->Cell(80,7,'Nombre de Actividad',1,0,'C');
+        $pdf->Cell(25,7,'Fecha de Registro',1,0,'C');
+        $pdf->Cell(25,7,'Estado de Actividad',1,0,'C');
+        $pdf->Cell(35,7,'Responable del Registro',1,0,'C');
+        $pdf->Cell(60,7,'Departamento Receptor',1,0,'C');
+        $pdf->SetFont('Arial','',7);
+
+        $font_size_fila=5;
+        //Anadir datos de la tablas
+        foreach($data_sql as $fila){
+            $pdf->Ln();
+            $pdf->Cell(40,$font_size_fila,$fila['codigo_actividad'],1);
+            $pdf->Cell(80,$font_size_fila,$fila['nombre_actividad'],1);
+            $pdf->Cell(25,$font_size_fila,$fila['fecha_registro'],1);
+            $pdf->Cell(25,$font_size_fila,$fila['estado_actividad'],1);
+            $pdf->Cell(35,$font_size_fila,$fila['nombre_personal'].' '.$fila['apellido_personal'],1);
+            $pdf->Cell(60,$font_size_fila,$fila['dep_receptor'],1);
+        }
+        $pdf->Output();
+    }
+    public function exportDetalles($actividad){
+        
+        require('../Plugins/fpdf186/fpdf.php');
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        //titulo
+        $pdf->SetFont('Arial','UB',26);
+        $pdf->Cell(290,20,'Tabla de Actividades',0,0,'C');
+        $pdf->Ln();
+        //nombres de columnas de la tabla
+        $pdf->SetFont('Arial','B',7);
+        $pdf->Cell(10,7,'Codigo de Actividad',0,0,'L');
+        $pdf->Cell(10,7,'Nombre de Actividad',0,0,'R');
+        $pdf->Cell(10,7,'Fecha de Registro',0,0,'L');
+        $pdf->Cell(10,7,'Estado de Actividad',0,0,'R');
+        $pdf->Cell(10,7,'Responable del Registro',0,0,'L');
+        $pdf->Cell(10,7,'Departamento Receptor',0,0,'R');
+        $pdf->SetFont('Arial','',7);
+        $pdf->Output();
     }
     //-----------------------------------funciones set
     

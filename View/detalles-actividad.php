@@ -25,7 +25,7 @@
                     exit();
                 }
             }else{
-                header("Location:../Index");
+                header("Location:../index");
                 exit();
             }
             
@@ -103,8 +103,11 @@
                 <div class="col-md-12 div_input_form" id=evidencia>
                     <!--Lo agrega js en caso de que este campo tenga informacion-->
                 </div>
-                <input type="hidden" value="modificar" name="option" id="option">
-
+                <form style="text-align: center; margin-bottom: 20px;" action="../Controller/controllerActividad.php" method="post">
+                    <input type="hidden" value="exportarDetalles" name="option" id="option">
+                    <input type="hidden" value="<?PHP echo $_REQUEST['codigo_actividad'] ?>" name="codigo_actividad">
+                    <input class="btn btn-danger" type="submit" value="Exportar a PDF">
+                </form>
             </section>
         </div>
     </main>

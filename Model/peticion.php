@@ -9,7 +9,7 @@ class peticion{
     private $fecha_peticion;
     private $tipo_actividad;
     private $estado_peticion;
-    private $orden='ASC';
+    private $orden='DESC';
 
     
     public function guardar()
@@ -60,11 +60,12 @@ class peticion{
         return $resultado; 
     }
 
-    public function obtener($pagina=false,$num_resultados=false,$extraer_todas=false)
+    public function obtener($pagina=false,$num_resultados=false)
     {
         $resultado = false;
         try{
             $orden=$this->orden;
+            $id_peticion=$this->id_peticion;
             $id_usuario = $this->id_usuario;
             $nombre_peticion = $this->nombre_peticion;
             $departamento_peticion = $this->departamento_peticion;
@@ -100,15 +101,16 @@ class peticion{
                 $consulta .=" AND peticiones.id_usuario=$id_usuario";
             }
 
-            if($extraer_todas==false){
-                $consulta .=" AND peticiones.estado_peticion!='RECHAZADA'";
+            if(!empty($id_peticion)){
+                $consulta .=" AND peticiones.id_peticion=$id_peticion";
             }
+
+            $consulta .=" ORDER BY id_peticion $orden";
 
             if($pagina==true){
                 $punto_inicio=($pagina-1)*$num_resultados;
-                $consulta .=" ORDER BY id_peticion $orden LIMIT $num_resultados OFFSET $punto_inicio";
+                $consulta .=" LIMIT $num_resultados OFFSET $punto_inicio";
             }
-
             $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->fetchAll();
             $resultadoPDO->closeCursor();
@@ -143,10 +145,57 @@ class peticion{
         }
         return $resultado;
     }
+
+    public function aceptar()
+    {
+        $resultado = false;
+        try{
+            $id_peticion=$this->id_peticion;
+            $db=DataBase::getInstance();
+
+            $consulta="UPDATE actividades.peticiones 
+            SET estado_peticion='ACEPTADA'
+            WHERE id_peticion=:id_peticion";
+
+            $resultadoPDO = $db->prepare($consulta);
+            $resultadoPDO->execute(array(':id_peticion'=>$id_peticion));
+            $resultado=$resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();
+
+        }catch(Exception $objeto){
+            $resultado = false;
+            echo $objeto->getMessage();
+        }
+        return $resultado;
+    }
+
+    public function eliminar()
+    {
+        $resultado = false;
+        try{
+            $id_peticion=$this->id_peticion;
+            $db=DataBase::getInstance();
+
+            $consulta="DELETE FROM actividades.peticiones 
+            WHERE id_peticion=:id_peticion";
+
+            $resultadoPDO = $db->prepare($consulta);
+            $resultadoPDO->execute(array(':id_peticion'=>$id_peticion));
+            $resultado=$resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();
+
+        }catch(Exception $objeto){
+            $resultado = false;
+            echo $objeto->getMessage();
+        }
+        return $resultado;
+    }
+
     public function exportarExcel(){
         require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
         require_once("../Model/configurarBD.php");
 
+        $id_usuario=$this->id_usuario;
         date_default_timezone_set('America/Lima');
         $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
         
@@ -164,7 +213,16 @@ class peticion{
         LEFT JOIN actividades.usuario
         ON peticiones.id_usuario=usuario.id_usuario
         LEFT JOIN actividades.departamentos
-        ON peticiones.departamento_peticion=departamentos.id_departamento";
+        ON peticiones.departamento_peticion=departamentos.id_departamento 
+        WHERE 1=1";
+
+        if(!empty($id_usuario)){
+            $consulta.=" AND id_usuario=$id_usuario";
+            $nombre_archivo='LISTA DE MIS PETICIONES';
+        }else{
+            $consulta.=" AND estado_peticion<>'RECHAZADA'";
+            $nombre_archivo='LISTA DE PETICIONES';
+        }
 
         $export->query($consulta);
 
@@ -175,7 +233,7 @@ class peticion{
         $tabla=$export->build_table($campos);
         
         // Descargar archivo .xls
-        $export->download('Lista_peticiones');
+        $export->download($nombre_archivo);
 
 
         if ($dbhex = $export->get_error()) {

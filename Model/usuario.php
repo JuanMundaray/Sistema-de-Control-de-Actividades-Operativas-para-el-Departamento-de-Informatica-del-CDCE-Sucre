@@ -320,6 +320,50 @@ class usuario
         return $resultado; 
     }
 
+    public function exportarEXCEL($incluir_eliminados=false){
+        
+        require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
+        require_once("../Model/configurarBD.php");
+
+        date_default_timezone_set('America/Lima');
+        $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
+        
+        $export->connect();
+
+        $campos=array(
+            'id_usuario'=>'ID',
+            'nombre_usuario'=>'Nombre de Usuario',
+            'nombre_personal'=>'Nombre Personal',
+            'apellido_personal'=>'Apellido',
+            'cedula'=>'Cedula del Usuario',
+            'fecha_creacion'=>'Fecha de Creacion',
+            'tipo_usuario'=>'Tipo de Usuario',
+            'nombre_departamento'=>'Departamento del Usuario'
+        );
+        $consulta="SELECT * FROM actividades.usuario
+        LEFT JOIN actividades.departamentos
+        ON usuario.departamento_usuario=departamentos.id_departamento WHERE 1=1";
+        
+        if($incluir_eliminados==false){
+            $consulta.=' AND marca_existencia=true';
+        }
+
+        $export->query($consulta);
+
+        // Formato MS Excel
+        $export->to_excel();
+
+        // Construir tabla de datos
+        $tabla=$export->build_table($campos);
+        
+        // Descargar archivo .xls
+        $export->download('REPORTE USUARIOS SISTEMA DE CONTROL DE ACTIVIDADES');
+
+        if ($dbhex = $export->get_error()) {
+            die($dbhex->getMessage());
+          }
+    }
+
     //funciones set
     
 	public function set_id_usuario($id_usuario)

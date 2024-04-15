@@ -33,6 +33,9 @@ switch($option){
         if(isset($_REQUEST['id_usuario'])){
             $peticion->setIdUsuario($_REQUEST['id_usuario']);
         }
+        if(isset($_REQUEST['id_peticion'])){
+            $peticion->setIdPeticion($_REQUEST['id_peticion']);
+        }
         if(isset($_REQUEST['nombre_peticion'])){
             $peticion->setNombrePeticion($_REQUEST['nombre_peticion']);
         }
@@ -46,8 +49,13 @@ switch($option){
             $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
         }
         //-----------------paginacion
-        $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
-        $num_resultados=$_REQUEST['num_resultados'];
+        if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
+            $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
+            $num_resultados=$_REQUEST['num_resultados'];
+        }else{
+            $pagina=false;
+            $num_resultados=false;
+        }
         //-----------------paginacion
         $resultado=$peticion->obtener($pagina,$num_resultados);
         
@@ -57,6 +65,9 @@ switch($option){
 
     case 'exportarExcel':
         $peticion=new peticion();
+        if(isset($_REQUEST['id_usuario'])){
+            $peticion->setIdUsuario($_REQUEST['id_usuario']);
+        }
         $peticion->exportarExcel();
     break;
 
@@ -65,6 +76,22 @@ switch($option){
         $peticion=new peticion();
         $peticion->setIdPeticion($id_peticion);
         $resultado=$peticion->rechazar();
+        echo $resultado;
+    break;
+
+    case 'eliminar':
+        $id_peticion=$_REQUEST['id_peticion'];
+        $peticion=new peticion();
+        $peticion->setIdPeticion($id_peticion);
+        $resultado=$peticion->eliminar();
+        echo $resultado;
+    break;
+
+    case 'aceptar':
+        $id_peticion=$_REQUEST['id_peticion'];
+        $peticion=new peticion();
+        $peticion->setIdPeticion($id_peticion);
+        $resultado=$peticion->aceptar();
         echo $resultado;
     break;
 
