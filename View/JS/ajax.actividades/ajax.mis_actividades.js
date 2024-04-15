@@ -85,7 +85,7 @@ function RellenarTablaActividades(msg){
 
         if(elemento['estado_actividad']=='COMPLETADA'){
             accion=`
-            <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['id']}">Ver Detalles</a></li>`
+            <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
         }
         else{
             accion=`<li><a class="dropdown-item" href="editar-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Modificar</a></li>

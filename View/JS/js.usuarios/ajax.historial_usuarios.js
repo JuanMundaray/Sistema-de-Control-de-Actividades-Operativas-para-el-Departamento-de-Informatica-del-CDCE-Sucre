@@ -71,9 +71,16 @@ function RellenarTablaHistorialUsuarios(msg){
         <th><label>Departamento</label></th>
         <th><label>Tipo de Usuario</label></th>
         <th><label>Fecha de Creacion</label></th>
+        <th><label>Estado del Usuario</label></th>
     </tr>`);
     msg.forEach(function(elemento){
-        
+        let estado_usuario;
+        if(elemento['marca_existencia']){
+            estado_usuario=`<button class='btn btn-success'>EXISTENTE</button>`;
+        }
+        if(elemento['marca_existencia']==false){
+            estado_usuario=`<button class='btn btn-danger'>ELIMINADO</button>`;
+        }
         tabla.append(`<tr>
         <td>${elemento['id_usuario']}</td>
         <td>${elemento['nombre_usuario']}</td>
@@ -82,6 +89,7 @@ function RellenarTablaHistorialUsuarios(msg){
         <td>${elemento['nombre_departamento']}</td>
         <td>${elemento['tipo_usuario']}</td>
         <td>${elemento['fecha_creacion']}</td>
+        <td>${estado_usuario}</td>
         </tr>`);
     });
     tabla.append("</tbody>");

@@ -17,13 +17,13 @@ $(document).ready(function(){
                 if(elemento["observacion"]!=""){
                     let div_observacion=$("#div_observacion");
                     div_observacion.append('<label class="col-md-12 form-label"><strong >Observacion:</strong></label>');
-                    div_observacion.append(`<p id="observacion">${elemento["observacion"]}</p>`);
+                    div_observacion.append(`<p  style="text-align: justify;" id="observacion">${elemento["observacion"]}</p>`);
                 }
 
                 if((elemento["informe"]!="")&&(elemento["informe"]!=null)){
                     let div_informe=$("#div_informe");
                     div_informe.append('<label class="col-md-12 form-label"><strong >Informe:</strong></label>');
-                    div_informe.append(`<p id="informe">${elemento["informe"]}</p>`);
+                    div_informe.append(`<p style="text-align: justify;" id="informe">${elemento["informe"]}</p>`);
                 }
                 if((elemento["evidencia"]!="")&&(elemento["evidencia"]!=null)){
                 console.log(elemento['evidencia']);

@@ -1,1 +1,0 @@
-CREATE OR REPLACE FUNCTION actividades.guardar_usuario_historial() RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF AS $BODY$ begin insert into actividades.historial_usuario values( new.id_usuario,new.nombre_usuario, new.nombre,new.cedula, new.contrasena, new.tipo_usuario, new.fecha_creacion, new.id_departamento); return new; End $BODY$;

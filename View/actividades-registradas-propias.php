@@ -47,6 +47,7 @@
         <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
 
         <main>
+            <input type="hidden" value="<?php echo $_SESSION['tipo_usuario'] ?>" id="tipo_usuario">
             <h1 class="titleh1">Actividades Registradas</h1>
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Actividades Registradas</h2>

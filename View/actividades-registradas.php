@@ -50,7 +50,7 @@
 
         <main>
             <!--id del usuario que tienen abierta la sesion-->
-            <input type="hidden" value="<?PHP echo $_SESSION['tipo_usuario']?>" id="tipo_usuario_sesion">
+            <input type="hidden" value="<?PHP echo $_SESSION['tipo_usuario']?>" id="tipo_usuario">
             <!----------------------------------------------->
 
             <h1 class="titleh1">Actividades Registradas</h1>

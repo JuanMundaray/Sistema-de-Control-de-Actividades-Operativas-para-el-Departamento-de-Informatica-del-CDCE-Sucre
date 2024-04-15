@@ -94,8 +94,8 @@
                         </ul>
                     </nav>
 
-                    <div class="row">
-                        <div class="col" style="text-align: center;">
+                    <div class="row center-element">
+                        <div class="col center-element">
                             <form method="post" action="../Controller/controllerActividad.php">
                                         <input type="hidden" value="1" name='historial' id="historial">
                                         <input type="hidden" class="btn btn-success" name="option" value="exportarPDF">

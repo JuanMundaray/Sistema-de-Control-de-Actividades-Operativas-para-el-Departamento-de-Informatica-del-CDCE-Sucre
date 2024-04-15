@@ -287,7 +287,7 @@ class actividad{
         return $resultado; 
     }
 
-    //funciones para generar Reportes
+    //FUNCIONES PARA GENERAR REPORTES--------------------------------------------------------------------------
     public function exportExcel($id_usuario=false){
         
         require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
@@ -369,7 +369,7 @@ class actividad{
             $pdf->Cell(35,$font_size_fila,$fila['nombre_personal'].' '.$fila['apellido_personal'],1);
             $pdf->Cell(60,$font_size_fila,$fila['dep_receptor'],1);
         }
-        $pdf->Output();
+        $pdf->Output('','Tabla de Actividades Registradas',true);
     }
     public function exportDetalles($actividad){
         
@@ -377,19 +377,59 @@ class actividad{
         $pdf = new FPDF();
         $pdf->AddPage();
         //titulo
-        $pdf->SetFont('Arial','UB',26);
-        $pdf->Cell(290,20,'Tabla de Actividades',0,0,'C');
+        $pdf->SetFont('Arial','UB',16);
+        $pdf->Cell(200,20,'Detalles de Actividad ',0,0,'C');
         $pdf->Ln();
         //nombres de columnas de la tabla
-        $pdf->SetFont('Arial','B',7);
-        $pdf->Cell(10,7,'Codigo de Actividad',0,0,'L');
-        $pdf->Cell(10,7,'Nombre de Actividad',0,0,'R');
-        $pdf->Cell(10,7,'Fecha de Registro',0,0,'L');
-        $pdf->Cell(10,7,'Estado de Actividad',0,0,'R');
-        $pdf->Cell(10,7,'Responable del Registro',0,0,'L');
-        $pdf->Cell(10,7,'Departamento Receptor',0,0,'R');
-        $pdf->SetFont('Arial','',7);
-        $pdf->Output();
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(100,7,'Codigo de Actividad:',0,0,'L'); $pdf->Ln();
+        $pdf->Cell(100,7,$actividad[0]['codigo_actividad'],0,0,'L'); $pdf->Ln();$pdf->Ln();
+
+        $pdf->Cell(100,7,'Nombre de Actividad:',0,0,'L'); $pdf->Ln();
+        $pdf->Cell(100,7,$actividad[0]['nombre_actividad'],0,0,'L'); $pdf->Ln();$pdf->Ln();
+
+        $pdf->Cell(100,7,'Fecha de Registro:',0,0,'L'); $pdf->Ln();
+        $pdf->Cell(100,7,$actividad[0]['fecha_registro'],0,0,'L'); $pdf->Ln();$pdf->Ln();
+
+        $pdf->Cell(100,7,'Departameto Emisor:',0,0,'L');$pdf->Ln();
+        $pdf->Cell(100,7,$actividad[0]['dep_emisor'],0,0,'L');$pdf->Ln();$pdf->Ln();
+
+        $pdf->Cell(100,7,'Departameto Receptor:',0,0,'L');
+        $pdf->Ln();
+        $pdf->Cell(100,7,$actividad[0]['dep_receptor'],0,0,'L');
+        $pdf->Ln();
+        $pdf->Ln();
+
+        $pdf->Cell(100,7,'Estado de Actividad:',0,0,'L');
+        $pdf->Ln();
+        $pdf->Cell(100,7,$actividad[0]['estado_actividad'],0,0,'L');
+        $pdf->Ln();
+        $pdf->Ln();
+
+        $pdf->Cell(100,7,'Tipo de Actividad:',0,0,'L');
+        $pdf->Ln();
+        $pdf->Cell(100,7,$actividad[0]['nombre_tipo'],0,0,'L');
+        $pdf->Ln();
+        $pdf->Ln();
+        
+        $pdf->Cell(100,7,'Nombre y Apellido del Responsable:',0,0,'L');$pdf->Ln();
+        $pdf->Cell(100,7,$actividad[0]['nombre_personal'].' '.$actividad[0]['apellido_personal'],0,0,'L');$pdf->Ln();$pdf->Ln();
+
+        $pdf->Cell(100,7,'Nombre y Apellido del Atendido:',0,0,'L');$pdf->Ln();
+        $pdf->Cell(100,7,$actividad[0]['nom_atendido'].' '.$actividad[0]['ape_atendido'],0,0,'L');$pdf->Ln();$pdf->Ln();
+
+        if($actividad[0]['informe']!=''){
+            $pdf->Cell(100,7,'Informe de Actividad:',0,0,'L');$pdf->Ln();
+            $pdf->Cell(100,7,$actividad[0]['informe'],0,0,'L');$pdf->Ln();$pdf->Ln();
+        }
+
+        if($actividad[0]['evidencia']!=''){
+            $pdf->AddPage();
+            $pdf->Cell(100,7,'Evidencia de Completacion:',0,0,'L');$pdf->Ln();
+            $pdf->Image('../../intranet/uploads_sca_cdce/'.$actividad[0]['evidencia'],null,null,100,100);$pdf->Ln();
+            $pdf->Ln();
+        }
+        $pdf->Output('','SCA_CDCE:REPORTE DE ACTIVIDAD '.$actividad[0]['codigo_actividad'],true);
     }
     //-----------------------------------funciones set
     

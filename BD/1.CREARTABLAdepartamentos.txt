@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS actividades.departamentos(nombre_departamento character varying(50) NOT NULL,id_departamento serial NOT NULL,PRIMARY KEY (id_departamento), CONSTRAINT "nombre_UNI" UNIQUE (nombre_departamento));INSERT INTO actividades.departamentos(nombre_departamento)VALUES ('INFORMATICA');

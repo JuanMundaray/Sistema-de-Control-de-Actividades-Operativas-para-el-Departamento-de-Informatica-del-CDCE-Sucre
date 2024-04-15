@@ -76,19 +76,26 @@ function RellenarTablaActividades(msg){
     msg.forEach(function(elemento){
         //Estas son los botones de accion que estaran disponibles segun si la actividad a sido completada o no
         let accion;
-
-        if(elemento['estado_actividad']=='COMPLETADA'){
+        console.log($('#tipo_usuario').val());
+        if($('#tipo_usuario').val()=='estandar'){
             accion=`
-            <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['id']}">Ver Detalles</a></li>`
-        }
-        else{
-            accion=`<li><a class="dropdown-item" href="editar-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Modificar</a></li>
-
-            <li><button class="dropdown-item" onclick="eliminarActividad('${elemento['codigo_actividad']}')">Eliminar</button></li>
-
             <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
         }
+        else{
 
+            if(elemento['estado_actividad']=='COMPLETADA'){
+                accion=`
+                <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
+            }
+            else{
+                accion=`<li><a class="dropdown-item" href="editar-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Modificar</a></li>
+    
+                <li><button class="dropdown-item" onclick="eliminarActividad('${elemento['codigo_actividad']}')">Eliminar</button></li>
+    
+                <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
+            }
+    
+        }
         let btn_estilo=estilo_btn(elemento['estado_actividad']);
         tabla.append(`<tr>
         <td>${elemento['fecha_registro']}</td>

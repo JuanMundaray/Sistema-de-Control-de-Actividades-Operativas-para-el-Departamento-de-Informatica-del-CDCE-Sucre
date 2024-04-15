@@ -296,19 +296,25 @@ class usuario
             $resultado=$resultadoPDO->fetchAll();
             $correspondientes = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();
-
-            if($correspondientes==1){
-                session_start();
-                $_SESSION["tipo_usuario"]=$resultado[0]["tipo_usuario"];
-                $_SESSION["id_usuario"]=$resultado[0]["id_usuario"];
-                $_SESSION["nombre_departamento"]=$resultado[0]["nombre_departamento"];
-                $_SESSION["departamento_usuario"]=$resultado[0]["departamento_usuario"];
-                $_SESSION["nombre_usuario"]=$nombre_usuario;
-                header('location:../View/Dashboard.php');
+            if(empty($resultado)){
+                header('location:../View/login.php?noExiste');
                 exit();
+            }
+            if($resultado[0]['marca_existencia']==true){
+                if($correspondientes==1){
+                    session_start();
+                    $_SESSION["tipo_usuario"]=$resultado[0]["tipo_usuario"];
+                    $_SESSION["id_usuario"]=$resultado[0]["id_usuario"];
+                    $_SESSION["nombre_departamento"]=$resultado[0]["nombre_departamento"];
+                    $_SESSION["departamento_usuario"]=$resultado[0]["departamento_usuario"];
+                    $_SESSION["nombre_usuario"]=$nombre_usuario;
+                    header('location:../View/Dashboard.php');
+                    exit();
+    
+                }
 
             }else{
-                header('location:../View/login.php?incorrecto');
+                header('location:../View/login.php?noExiste');
                 exit();
             }
         }

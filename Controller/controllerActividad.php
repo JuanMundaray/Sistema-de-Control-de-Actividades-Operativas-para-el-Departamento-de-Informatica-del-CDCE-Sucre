@@ -142,8 +142,8 @@ switch($option){
             $actividad->setEvidencia(($nombre_file));
         }
         $actividad->setEstadoActividad(strtoupper($estado));
-        $actividad->setObservacion($observacion);
-        $actividad->setInforme($informe);
+        $actividad->setObservacion(strtoupper($observacion));
+        $actividad->setInforme(strtoupper($informe));
         $actividad->setCodigoActividad($codigo_actividad);
         $resultado=$actividad->modificar();
 

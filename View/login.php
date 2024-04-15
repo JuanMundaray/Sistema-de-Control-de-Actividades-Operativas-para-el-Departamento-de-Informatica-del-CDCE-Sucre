@@ -52,6 +52,10 @@
                                 if(isset($_GET["incorrecto"])){
                                     echo '<span style="color: red; font-size:14px">*Este usuario no corresponde con la contraseña ingresada</span>';
                                 }
+
+                                if(isset($_GET['noExiste'])){
+                                    echo '<span style="color: red; font-size:14px">*Este usuario no Existe</span>';
+                                }
                             ?>
                         </div>
                         
