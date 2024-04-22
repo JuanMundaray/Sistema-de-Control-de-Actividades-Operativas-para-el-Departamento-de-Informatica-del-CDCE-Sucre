@@ -9,6 +9,7 @@ class peticion{
     private $fecha_peticion;
     private $tipo_actividad;
     private $estado_peticion;
+    private $actividad_originada;
     private $orden='DESC';
 
     
@@ -79,7 +80,10 @@ class peticion{
             LEFT JOIN actividades.departamentos
             ON peticiones.departamento_peticion=departamentos.id_departamento
             LEFT JOIN actividades.tipo_actividad
-            ON peticiones.tipo_actividad=tipo_actividad.id_tipo WHERE 1=1 ";
+            ON peticiones.tipo_actividad=tipo_actividad.id_tipo
+            LEFT JOIN actividades.actividad
+            ON peticiones.actividad_originada=actividad.codigo_actividad
+            WHERE 1=1 ";
 
             if(!empty($nombre_peticion)){
                 $consulta .=" AND nombre_peticion ILIKE '$nombre_peticion%'";
@@ -151,14 +155,20 @@ class peticion{
         $resultado = false;
         try{
             $id_peticion=$this->id_peticion;
+            $actividad_originada=$this->actividad_originada;
             $db=DataBase::getInstance();
 
             $consulta="UPDATE actividades.peticiones 
-            SET estado_peticion='ACEPTADA'
+            SET 
+            actividad_originada=:actividad_originada,
+            estado_peticion='ACEPTADA'
             WHERE id_peticion=:id_peticion";
 
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(':id_peticion'=>$id_peticion));
+            $resultadoPDO->execute(array(
+            ':id_peticion'=>$id_peticion,
+            ':actividad_originada'=>$actividad_originada));
+            
             $resultado=$resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();
 
@@ -189,6 +199,64 @@ class peticion{
             echo $objeto->getMessage();
         }
         return $resultado;
+    }
+
+    public function contarNumRegistros($todas){
+        $resultado = false;
+        try{
+            $orden=$this->orden;
+            $id_peticion=$this->id_peticion;
+            $id_usuario = $this->id_usuario;
+            $nombre_peticion = $this->nombre_peticion;
+            $departamento_peticion = $this->departamento_peticion;
+            $fecha_peticion = $this->fecha_peticion;
+            $estado_peticion=$this->estado_peticion;
+            $db = DataBase::getInstance();
+
+            $consulta="SELECT * FROM actividades.peticiones
+            LEFT JOIN actividades.usuario
+            ON peticiones.id_usuario=usuario.id_usuario
+            LEFT JOIN actividades.departamentos
+            ON peticiones.departamento_peticion=departamentos.id_departamento
+            LEFT JOIN actividades.tipo_actividad
+            ON peticiones.tipo_actividad=tipo_actividad.id_tipo WHERE 1=1 ";
+
+            if(!empty($nombre_peticion)){
+                $consulta .=" AND nombre_peticion ILIKE '$nombre_peticion%'";
+            }
+
+            if(!empty($departamento_peticion)){
+                $consulta .=" AND peticiones.departamento_peticion=$departamento_peticion";
+            }
+
+            if(!empty($fecha_peticion)){
+                $consulta .=" AND peticiones.fecha_peticion='$fecha_peticion'";
+            }
+
+            if(!empty($estado_peticion)){
+                $consulta .=" AND peticiones.estado_peticion='$estado_peticion'";
+            }
+
+            if(!empty($id_usuario)){
+                $consulta .=" AND peticiones.id_usuario=$id_usuario";
+            }
+
+            if(!empty($id_peticion)){
+                $consulta .=" AND peticiones.id_peticion=$id_peticion";
+            }
+
+            $consulta .=" ORDER BY id_peticion $orden";
+
+            $resultadoPDO = $db->query($consulta);
+            $resultado = $resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
+        }
+        
+        return $resultado; 
     }
 
     public function exportarExcel(){
@@ -273,7 +341,11 @@ class peticion{
     {
         $this->tipo_actividad = trim($tipo_actividad);
     }
-    
+    public function setActividadOriginada($actividad_originada)
+    {
+        $this->actividad_originada = trim($actividad_originada);
+    }
+    //FUNCIONES GET--------------------------------------------
     public function getIdPeticion()
     {
         return $this->id_peticion;
@@ -305,6 +377,10 @@ class peticion{
     public function getTipoActividad()
     {
         return $this->tipo_actividad;
+    }
+    public function getActividadOriginada()
+    {
+        return $this->actividad_originada;
     }
 
     //-------------------------------------------------------------------------------------------//

@@ -34,7 +34,7 @@ function getPeticiones(pagina=1){
         success:function(msg){
             console.log(msg);
             RellenarTablaPeticiones(msg);
-            paginacion(num_resultados,msg.length);
+            paginacion(num_resultados);
 
         },error:function(jqXHR,textStatus,errorThrown){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
@@ -47,15 +47,25 @@ function RellenarTablaPeticiones(msg){
     let tabla=$("#tabla_peticiones");
     let tipo_usuario=$('#tipo_usuario').val();
     
-    function estilo_btn(elemento){
-        if(elemento=="ESPERA"){
+    function estilo_btn(estado){
+        if(estado=="ESPERA"){
             var btn_estilo="btn-warning";
-        }if(elemento=="RECHAZADA"){
+        }if(estado=="RECHAZADA"){
             var btn_estilo="btn-danger";
-        }if(elemento=="ACEPTADA"){
+        }if(estado=="ACEPTADA"){
             var btn_estilo="btn-success";
         }
-        if(elemento=="SUSPENDIDA"){
+        if(estado=="INICIADA"){
+            var btn_estilo="btn-primary";
+        }if(estado=="PROCESO"){
+            var btn_estilo="btn-warning";
+        }if(estado=="COMPLETADA"){
+            var btn_estilo="btn-success";
+        }
+        if(estado=="SUSPENDIDA"){
+            var btn_estilo="btn-danger";
+        }
+        if(estado=="ELIMINADA"){
             var btn_estilo="btn-danger";
         }
         return btn_estilo;
@@ -66,9 +76,10 @@ function RellenarTablaPeticiones(msg){
         <th><label>Nombre de Peticion</label></th>
         <th><label>Usuario que registro la peticion</label></th>
         <th><label>Departamento de la Peticion</label></th>
-        <th><label>Fecha de la Peticion</label></th>
+        <th><label>Fecha de Peticion</label></th>
         <th><label>Tipo de Actividad de la Peticion</label></th>
         <th><label>Estado de la Peticion</label></th>
+        <th><label>Estado de Actividad Originada</label></th>
         <th colspan="1"><label>Accion</label></th>
     </tr>`);
     msg.forEach(function(elemento){
@@ -78,37 +89,76 @@ function RellenarTablaPeticiones(msg){
         if(elemento['estado_peticion']=='RECHAZADA'){
             boton_desplegable_accion=`<button class="dropdown-item" onclick="eliminarPeticion(${elemento['id_peticion']},'¿Seguro que desea eliminar esta peticion?')">Eliminar</button>`;
         }
-        if(elemento['estado_peticion']=='ACEPTADA'){
+        else{
             boton_desplegable_accion=`<button class="dropdown-item">OK</button>`;
         }
         //Dibujar la Tabla de Peticiones por medio del DOM de JavaScripts
             tabla.append(`<tr>
-            <td>${elemento['nombre_peticion']}</td>
-            <td>${elemento['nombre_usuario']}</td>
-            <td>${elemento['nombre_departamento']}</td>
-            <td>${elemento['fecha_peticion']}</td>
-            <td>${elemento['nombre_tipo']}</td>
-            <td>
-                <button class='tamano_boton btn ${estilo_btn(elemento['estado_peticion'])}'>${elemento['estado_peticion']}</button>
+                <td>${elemento['nombre_peticion']}</td>
+                <td>${elemento['nombre_usuario']}</td>
+                <td>${elemento['nombre_departamento']}</td>
+                <td>${elemento['fecha_peticion']}</td>
+                <td>${elemento['nombre_tipo']}</td>
+                <td>
+                    <button class='tamano_boton btn ${estilo_btn(elemento['estado_peticion'])}'>${elemento['estado_peticion']}</button>
                 </td>
-            <td>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                        Seleccione...
-                    </button>
+                <td>
+                    ${estado_actividad_originada(elemento)}
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            Seleccione...
+                        </button>
 
-                    <ul class="dropdown-menu dropdown-menu-lg-end">
-                        ${boton_desplegable_accion}
-                    </ul>
-                </div>
-            </td>
+                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                            ${boton_desplegable_accion}
+                        </ul>
+                    </div>
+                </td>
             </tr>`);
     });
     tabla.append("</tbody>");
+
+    function estado_actividad_originada(elemento){
+        if(elemento['estado_actividad']!=null){
+            return `<button class='tamano_boton btn ${estilo_btn(elemento['estado_actividad'])}'>${elemento['estado_actividad']}</button>`;
+        }
+        else{
+            return `------`;
+
+        }
+    }
 }
 
-function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
 
+    let nombre_peticion=$("#data_busq_nombre").val();
+    let fecha_peticion=$("#data_busq_fecha").val();
+    let id_usuario=$("#id_usuario_sesion").val();
+    let estado_peticion=$("#data_busq_estado").val();
+    let num_filas;
+    
+    $.ajax({ 
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerPeticion.php",
+        data:{
+            option:'contarRegistros',
+            nombre_peticion:nombre_peticion,
+            fecha_peticion:fecha_peticion,
+            estado_peticion:estado_peticion,
+            id_usuario:id_usuario
+        },
+        dataType:'json',
+        success:function(msg){
+            num_filas=msg
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
     let num_paginas=Math.ceil((num_filas)/(num_resultados));
     $("#num_paginas").empty();
 

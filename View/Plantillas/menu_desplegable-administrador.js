@@ -27,7 +27,16 @@ centinela=true;
 				<div>
 					<a class="row" href='tipo-actividad.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-pricetags.png" class="icons-menudeslizante"></figure>
-						<span class="col">Tipos de Actividad</span>
+						<span class="col">Agregar Tipos de Actividad</span>
+					</a>
+				</div>
+			</li>
+
+			<li>
+				<div>
+					<a class="row" href='departamentos-mostrar.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-home.png" class="icons-menudeslizante"></figure>
+						<span class="col">Agregar Departamentos</span>
 					</a>
 				</div>
 			</li>
@@ -72,7 +81,7 @@ centinela=true;
 				<div>
 					<a class="row" href='cerrar-sesion.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-close.png" class="icons-menudeslizante"></figure>
-						<span class="col">Salir</span>
+						<span class="col">Cerrar Sesion</span>
 					</a>
 				</div>
 			</li>
@@ -85,26 +94,38 @@ centinela=true;
 
 				switch(centinela) {//Esto es lo que hara el boton para desplegar el menu y al cerrarlo
 					
-					case true://funcionalidad del boton al presionarlo sin desplegar el menu aun
+					case true://funcionalidad del boton al presionarlo para cerrar el menu desplegable
 
 						contenido.style.cssText=
-						`-webkit-transition:1s;
-						-o-transition:1s;
-						-moz-transition:1s;
-						-ms-transition:1s;
+						`-webkit-transition:all 1s;
+						-o-transition:all 1s;
+						-moz-transition:all 1s;
+						-ms-transition:all 1s;
 						left:-100px;`;
 
 						nav_aside.style.cssText=
-						"-webkit-transition:1s;-o-transition:1s;-moz-transition:1s;-ms-transition:1s;left:-250px;";
+						`-webkit-transition:all 1s;
+						-o-transition:all 1s;
+						-moz-transition:all 1s;
+						-ms-transition:all 1s;
+						left:-250px;`;
 						centinela=false;
 						break;
 						
 					case false://funcionalidad del boton al presionarlo con el menu desplegado
 						contenido.style.cssText=
-						"-webkit-transition:1s;-o-transition:1s;-moz-transition:1s;-ms-transition:1s;left:0px;";
+						`-webkit-transition:1s;
+						-o-transition:1s;
+						-moz-transition:1s;
+						-ms-transition:1s;
+						left:0px;`;
 
 						nav_aside.style.cssText=
-						"-webkit-transition:1s;-o-transition:1s;-moz-transition:1s;-ms-transition:1s;left:0px;";
+						`-webkit-transition:1s;
+						-o-transition:1s;
+						-moz-transition:1s;
+						-ms-transition:1s;
+						left:0px;`;
 						centinela=true;
 						break;
 					}

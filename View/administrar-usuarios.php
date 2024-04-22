@@ -27,7 +27,7 @@
                 exit();
             }
         }else{
-            header("Location:../index");
+            header("Location:../Index.php");
             exit();
         }
 
@@ -51,7 +51,7 @@
                                 <form class="row">
                                     <label class="form-label">Buscar Por Nombre de Usuario:</label>
                                     <input class="form-control col" type="search" placeholder="Buscar Usuario..." aria-label="Search" name="nombre_usuario" id="nombre_usuario">
-                                    <input type="button" class="btn btn-primary col-3" id="buscar_nombre_usuario" value="Buscar">
+                                    <input type="button" class="btn btn-primary col-md-3 col-sm-3" id="buscar_nombre_usuario" value="Buscar">
                                 </form>
                             </div>
                             <div class="col">
@@ -71,11 +71,13 @@
                         </div>
                     </nav>
                     
-                    <div class="scroll">
-                        <table id="tabla_usuarios" class="table table-bordered table-responsive text-nowrap table_default">
+                    <!--Tabla que sera rellenada por medio de js-->
+                    <div class="table-responsive">
+                        <table id="tabla_usuarios" class="table table-bordered text-nowrap table_default">
                             <!--Tabla que sera rellenada por medio de js-->
                         </table>
                     </div>
+                    <!--Tabla que sera rellenada por medio de js-->
 
                     <div>
                         <nav>

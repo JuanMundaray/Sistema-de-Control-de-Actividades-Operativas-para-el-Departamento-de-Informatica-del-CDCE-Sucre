@@ -4,7 +4,7 @@ $(document).ready(function(){
         $("#div_estado").before(`
         <div class="col-md-12 div_input_form" id="div_evidencia">
             <label class="col-md-12 form-label">Evidencia:</label>
-            <input class="form-control" type="file" size=100 name="evidencia" id="evidencia" required>
+            <input class="form-control" type="file" size=100 name="evidencia" id="evidencia" accept="image/jpeg,image/png" required>
         </div>
         `);
     });
@@ -21,7 +21,10 @@ $(document).ready(function(){
 
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:`option=buscarCodigo&codigo_actividad=${$("#codigo_actividad").val()}`,
+        data:{
+            option:"obtener",
+            codigo_actividad:$("#codigo_actividad").val()
+        },
         dataType:'json',
         success:function(msg){
             msg.forEach(function(elemento){

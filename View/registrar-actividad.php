@@ -21,7 +21,7 @@
             }
         }
         else{
-            header("Location:../index");
+            header("Location:../Index.php");
             exit();
         }
 
@@ -33,14 +33,14 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="js/ajax.actividades/js.registrar_actividad.js"></script>
+    <script src="JS/js.actividades/js.registrar_actividad.js"></script>
 </head>
 <?php
         ?>
 <body>
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
-        <input type="hidden" value="<?PHP echo $_SESSION['id_usuario'] ?>" name="id_usuario_sesion" id="id_usuario_sesion">
+        <input type="hidden" value="<?PHP echo $_SESSION['id_usuario'] ?>" id="id_usuario_sesion">
         <h1 class="titleh1">Registrar Actividad</h1>
         <div class="contenedorPrincipal">
 
@@ -110,7 +110,7 @@
                     <section class="secciones row">
                         <div class="col-md-6 div_input_form">
                             <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Nombre del responsable:</label>
+                                <label class="col-md-12 form-label">Nombre del Responsable:</label>
                                 <input class="col-md-12 form-control" disabled type="text"id="nom_responsable">
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
@@ -118,7 +118,7 @@
                             </div>
                             
                             <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Apellido del responsable:</label>
+                                <label class="col-md-12 form-label">Apellido del Responsable:</label>
                                 <input class="col-md-12 form-control" disabled type="text" id="ape_responsable">
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
@@ -148,7 +148,7 @@
                             </div>
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Cedula del Funcionario Atendido:</label>
-                                <input class="col-md-12 form-control" type="text" maxlength="10" name="ced_atendido" id="ced_atendido" required>
+                                <input class="col-md-12 form-control" type="text" maxlength="9" name="ced_atendido" id="ced_atendido" required>
                             </div>
                         </div>
                         <input type="hidden" value="guardar" name="option" id="option">

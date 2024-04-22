@@ -16,7 +16,7 @@
                 }
             }
             else{
-                header("Location:../index");
+                header("Location:../Index.php");
                 exit();
             }
         ?>
@@ -34,7 +34,7 @@
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-        <script src="JS/ajax.actividades/ajax.mis_actividades.js"></script>
+        <script src="JS/js.actividades/ajax.mis_actividades.js"></script>
         <title>Actividades Registradas</title>
 
     </head>
@@ -48,9 +48,9 @@
 
         <main>
             <input type="hidden" value="<?php echo $_SESSION['tipo_usuario'] ?>" id="tipo_usuario">
-            <h1 class="titleh1">Actividades Registradas</h1>
+            <h1 class="titleh1">Actividades Registradas del Usuario</h1>
             <div class="contenedorPrincipal">
-                <h2 class="titleh2">Actividades Registradas</h2>
+                <h2 class="titleh2">Mis Actividades Registradas</h2>
                 <section class="secciones">
 
                     <!--Link a la Pagina de Registrar Actividades-->
@@ -62,44 +62,52 @@
                     <nav class="navbar navbar-light container gy-9" id="mostrarSolo">
                         <div class="row">
                             <input type="hidden" value="<?php echo $_SESSION['id_usuario'] ?>" id="id_usuario_sesion">
-                            <div class="col">
+                            
+                            <div class="col-md-4">
                                 <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" id="data_busq_nombre" name="data_busq_nombre">
                             </div>
-                            <div class="col">
+                            
+                            <div class="col-md-4">
                                 <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
                             </div>
-                            <div class="col">
+                            
+                            <div class="col-md-3">
                                 <input class="form-control" type="search" placeholder="Buscar por Codigo..." aria-label="Search" id="data_busq_codigo" name="data_busq_codigo">
                             </div>
 
-                            <div class="col">
-                                <select class="form-select" id="estado_actividad">
-                                        <option value="">Todas</option>
-                                        <option value="INICIADA">Iniciadas</option>
-                                        <option value="PROCESO">En Proceso</option>
-                                        <option value="COMPLETADA">Completadas</option>
-                                        <option value="SUSPENDIDA">Suspendidas</option>
-                                </select>
+                            <div class="col-1 ">
+                                <button class="btn btn-primary" id="buscar_actividad_boton">Buscar</button>
                             </div>
 
-                            <!--Numero de Resultados de las actividades-->
-                            <div class=col>
-                                <select class="form-select" id="num_resultados">
-                                        <option onclick="getActividades()" value="5">5</option>
-                                        <option onclick="getActividades()" value="20">20</option>
-                                        <option onclick="getActividades()" value="50">50</option>
-                                        <option onclick="getActividades()" value="100">100</option>
-                                </select>
-                            </div>
-                            <button class="col-1 btn btn-primary" id="buscar_actividad_boton">Buscar</button>
+                            <div class="col-md-12 row gy-3">
+                                <div class="col-6">
+                                    <label class="form-label">Filtrar Por estado:</label>
+                                    <select class="form-select" id="estado_actividad">
+                                            <option value="">Todas</option>
+                                            <option value="INICIADA">Iniciadas</option>
+                                            <option value="PROCESO">En Proceso</option>
+                                            <option value="COMPLETADA">Completadas</option>
+                                            <option value="SUSPENDIDA">Suspendidas</option>
+                                    </select>
+                                </div>
+                                <!--Numero de Resultados de las actividades-->
+                                <div class=col-6>
+                                    <label class="form-label">Numero de Resultados:</label>
+                                    <select class="form-select" id="num_resultados">
+                                            <option value="5">5</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                    </select>
+                                </div>
                         </div>
                     </nav>
                     <!--Fin Barra de Busqueda-->
                     
 
                     <!--La tabla-->
-                    <div class="scroll">
-                        <table id="tabla_actividades" class="table table-bordered table-responsive text-nowrap table_default">
+                    <div class="table-responsive">
+                        <table id="tabla_actividades" class="table table-bordered text-nowrap table_default">
                         <tr>
                             <th><label>Fecha de Registro</label></th>
                             <th><label>Actividad</label></th>
@@ -117,7 +125,7 @@
                         </table>
                     </div>
                     <div>
-                        <nav>
+                        <nav style="margin-top: 20px;">
                             <ul class="pagination" id="num_paginas">
                             </ul>
                         </nav>

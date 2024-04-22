@@ -7,12 +7,22 @@ $(document).ready(function(){
         //Funcion ajax para buscar una actividad por su codigo
         getActividades();
     });
+    
+    $("#estado_actividad option").click(function(){ 
+        //Funcion ajax para buscar una actividad por su codigo
+        getActividades();
+    });
+    
+    $("#num_resultados option").click(function(){ 
+        //Funcion ajax para buscar una actividad por su codigo
+        getActividades();
+    });
 
 });
 
 function getActividades(pagina=1){
 
-    let num_resultados=$("#num_resultados").val();
+    let num_resultados=$('#num_resultados').val();
     let codigo_actividad=$("#data_busq_codigo").val();
     let nombre_actividad=$("#data_busq_nombre").val();
     let fecha_registro=$("#data_busq_fecha").val();
@@ -39,7 +49,10 @@ function getActividades(pagina=1){
                 alert('Sin Resultados');
             }
             RellenarTablaActividades(msg);
-            paginacion(num_resultados,msg.length);
+            paginacion(num_resultados);
+            
+        },error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
         }
 
     });
@@ -85,14 +98,14 @@ function RellenarTablaActividades(msg){
 
         if(elemento['estado_actividad']=='COMPLETADA'){
             accion=`
-            <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
+            <li><a class="dropdown-item" href="actividades-detalles.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
         }
         else{
-            accion=`<li><a class="dropdown-item" href="editar-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Modificar</a></li>
+            accion=`<li><a class="dropdown-item" href="actividades-editar.php?codigo_actividad=${elemento['codigo_actividad']}">Modificar</a></li>
 
             <li><button class="dropdown-item" onclick="eliminarActividad('${elemento['codigo_actividad']}')">Eliminar</button></li>
 
-            <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
+            <li><a class="dropdown-item" href="actividades-detalles.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
         }
 
         let btn_estilo=estilo_btn(elemento['estado_actividad']);
@@ -122,7 +135,37 @@ function RellenarTablaActividades(msg){
     });
 }
 
-function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+
+    
+    let codigo_actividad=$("#data_busq_codigo").val();
+    let nombre_actividad=$("#data_busq_nombre").val();
+    let fecha_registro=$("#data_busq_fecha").val();
+    let estado_actividad=$("#estado_actividad").val();
+    let id_usuario_responsable=$("#id_usuario_sesion").val();
+    let num_filas;
+
+    $.ajax({ 
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{
+            option:'contarRegistros',
+            codigo_actividad:codigo_actividad,
+            nombre_actividad:nombre_actividad,
+            fecha_registro:fecha_registro,
+            estado_actividad:estado_actividad,
+            id_usuario_responsable:id_usuario_responsable
+        },
+        dataType:'json',
+        success:function(msg){
+            num_filas=msg
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
 
     let num_paginas=Math.ceil((num_filas)/(num_resultados));
     $("#num_paginas").empty();
@@ -137,7 +180,6 @@ function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos 
         )
     }
 }
-
 function eliminarActividad(codigo_actividad){
     let ok=confirm("¿Seguro que desea eliminar esta actividad?");
     if(ok){

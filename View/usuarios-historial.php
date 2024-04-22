@@ -23,7 +23,7 @@
                 exit();
             }
         }else{
-            header("Location:../index");
+            header("Location:../Index.php");
             exit();
         }
 
@@ -41,7 +41,7 @@
                     <!--Barra de Busqueda-->
                     <nav class="container">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <form>
                                     <label class="form-label">Buscar Por Nombre de Usuario:</label>
                                     <input class="form-control" type="text" id="buscar_nombre_usuario">
@@ -51,10 +51,10 @@
                             <div class="col-md-3">
                                 <label class="form-label">Numero de Resultados:</label>
                                 <select class="form-select" id="num_resultados">
-                                        <option onclick="getHistorialUsuarios()" value="5">5</option>
-                                        <option onclick="getHistorialUsuarios()" value="20">20</option>
-                                        <option onclick="getHistorialUsuarios()" value="50">50</option>
-                                        <option onclick="getHistorialUsuarios()" value="100">100</option>
+                                        <option value="5">5</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
                                 </select>
                             </div>
 
@@ -62,8 +62,8 @@
                     </nav>
                     
                     <!--Tabla del Historial-->
-                    <div class="scroll">
-                        <table id="tabla_historial_usuarios" class="table table-bordered table-responsive text-nowrap table_default">
+                    <div class="table-responsive">
+                        <table id="tabla_historial_usuarios" class="table table-bordered text-nowrap table_default">
                         <tr>
                             <th><label>Nombre de Usuario</label></th>
                             <th><label>Nombre y Apellido</label></th>
@@ -76,7 +76,7 @@
                         
                     </div>
 
-                    <nav>
+                    <nav style="margin-top: 20px;">
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>

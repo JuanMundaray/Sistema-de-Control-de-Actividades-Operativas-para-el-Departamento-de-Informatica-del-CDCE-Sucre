@@ -1,6 +1,7 @@
 :root{
     --FondoLetra:'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --ColorFondo:rgb(233, 238, 240);
+    --ColorCabecera:rgb(235, 104, 28);
     --ColorTitulo:rgb(245, 17, 17);
-    --ColorTitulo-2:rgb(255, 136, 0);
+    --ColorTitulo-2:rgb(255, 60, 0);
 }

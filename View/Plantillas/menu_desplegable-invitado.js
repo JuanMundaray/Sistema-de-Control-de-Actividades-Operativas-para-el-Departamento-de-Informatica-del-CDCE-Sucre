@@ -16,7 +16,7 @@ centinela=true;
 
 			<li>
 				<div>
-					<a class="row" href='crear-peticion.php'>
+					<a class="row" href='peticiones-crear.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-compose.png" class="icons-menudeslizante"></figure>
 						<span class="col">Hacer Petición de Actividad</span>
 					</a>
@@ -36,7 +36,7 @@ centinela=true;
 				<div>
 					<a class="row" href='cerrar-sesion.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-close.png" class="icons-menudeslizante"></figure>
-						<span class="col">Salir</span>
+						<span class="col">Cerrar Sesion</span>
 					</a>
 				</div>
 			</li>

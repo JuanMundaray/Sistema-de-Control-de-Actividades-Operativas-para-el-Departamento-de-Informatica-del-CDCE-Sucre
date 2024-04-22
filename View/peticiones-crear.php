@@ -13,7 +13,7 @@
             }
         }
         else{
-            header("Location:../index");
+            header("Location:../Index.php");
             exit();
         }
     ?>
@@ -44,19 +44,19 @@
             <form class="formulario needs-validation" method="post" action="../Controller/controllerPeticion.php" novalidate>
                     <h2 class="titleh2">Realizar Petición de Actividad</h2>
                     <section class="secciones row">
-                        
+
                         <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Nombre de Petición:</label>
-                            <input class="col-md-12 form-control" type="text" name="nombre_peticion" id="nombre_peticion" placeholder="Nombre identificativo" required>
+                            <label class="col-md-12 form-label">Nombre de La Peticion:</label>
+                            <input class="form-control" type="text" id="nombre_peticion" name="nombre_peticion" required>
 
                             <div class="invalid-feedback">
-                                *Este Campo es Obligatorio
+                                *Seleccione un Departamento Válido
                             </div>
                         </div>
 
                         <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Deparatamento que realiza la Petición:</label>
-                            <select class="col-md-12 form-select" type="text" name="departamento_peticion" id="departamento_peticion" required>
+                            <label class=" form-label">Deparatamento que realiza la Petición:</label>
+                            <select class=" form-select" type="text" name="departamento_peticion" id="departamento_peticion" required>
                                 <option selected disabled value="">Seleccione...</option>
                             </select>
 
@@ -66,8 +66,8 @@
                         </div>
 
                         <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Tipo de Actividad:</label>
-                            <select class="col-md-12 form-select" type="text" name="tipo_actividad" id="tipo_actividad" required>
+                            <label class="form-label">Tipo de Actividad:</label>
+                            <select class="form-select" type="text" name="tipo_actividad" id="tipo_actividad" required>
                                 <option selected disabled value="">Seleccione...</option>
                             </select>
 
@@ -77,19 +77,25 @@
                         </div>
 
                         <div class="col-md-12 div_input_form">
-                            <label class="col-md-12 form-label">Detalles de la Petición:</label>
-                            <textarea class="col-md-12 form-control" name="detalles_peticion" id="detalles_peticion" placeholder="Se especifica con detalle como desea que se realice alguna actividad..." style="min-height: 200px;" required></textarea>
+                            <label class="form-label">Emisor de la Peticion:</label>
+                            <input class="form-control" type="text" id="emisor_peticion" disabled>
+                        </div>
+
+                        <div class="col-md-12 div_input_form">
+                            <label class="form-label">Detalles de la Petición:</label>
+                            <textarea class=" form-control" name="detalles_peticion" id="detalles_peticion" placeholder="Se especifica con detalle como desea que se realice alguna actividad..." style="min-height: 200px;" required></textarea>
 
                             <div class="invalid-feedback">
                                 *Este Campo es Obligatorio
                             </div>
                         </div>
+
                         <input type="hidden" value="<?PHP echo $_SESSION['id_usuario']; ?>" name="id_usuario">
 
                         <input type="hidden" value="crear_peticion" name="option" id="option">
 
-                        <div class="col-md-12 form_button">
-                            <input type="submit" class="btn btn-primary col-md-2" value="Crear Petición" name="crear_peticion" id="crear_peticion">
+                        <div class="col-12 form_button">
+                            <input type="submit" class="btn btn-primary" value="Crear Petición" name="crear_peticion" id="crear_peticion">
                         </div>>
                     </section>
 

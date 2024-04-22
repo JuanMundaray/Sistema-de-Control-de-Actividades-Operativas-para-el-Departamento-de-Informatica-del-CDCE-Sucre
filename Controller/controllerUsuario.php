@@ -25,7 +25,7 @@ switch($option){
         $usuario->set_fecha_creacion(date("Y-m-d"));
         $resultado=$usuario->guardar_usuario();
         if($resultado){
-            header('location:../View/lista-usuarios.php');
+            header('location:../View/administrar-usuarios.php');
             exit();
         }
     break;
@@ -33,15 +33,38 @@ switch($option){
 
     case 'obtener':
         $usuario=new usuario();
-        //-----------------paginacion
-        $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
-        $num_resultados=$_REQUEST['num_resultados'];
-        //-----------------paginacion
-        $resultado=$usuario->get_usuario($pagina,$num_resultados);
-        if($resultado){
-            $resultado=json_encode($resultado);
-            echo $resultado;
+
+        if(isset($_REQUEST['nombre_usuario'])){
+            $usuario->set_nombre_usuario($_REQUEST['nombre_usuario']);
         }
+        if(isset($_REQUEST['id_usuario'])){
+            $usuario->set_id_usuario(($_REQUEST['id_usuario']));
+        }
+
+        if(isset($_REQUEST['extraer_todos'])){
+            if($_REQUEST['extraer_todos']=='true'){
+               $todos=true; 
+            }
+            else{
+               $todos=false;
+            }
+        }else{
+            $todos=false;
+        }
+
+        //-----------------paginacion
+        if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
+            $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
+            $num_resultados=$_REQUEST['num_resultados'];
+        }else{
+            $pagina=false;
+            $num_resultados=false;
+        }
+        //-----------------paginacion
+
+        $resultado=$usuario->getUsuarios($pagina,$num_resultados,$todos);
+        $resultado=json_encode($resultado);
+        echo $resultado;
     break;
 
     case 'eliminar':
@@ -73,104 +96,55 @@ switch($option){
         $usuario->set_cedula($cedula);
         $resultado=$usuario->modificar_usuario();
         if($resultado){
-            header('location:../View/lista-usuarios.php');
+            header('location:../View/administrar-usuarios.php');
             exit();
-        }
-        break;
-
-    case 'buscar':
-        $usuario=new usuario();
-        $columna=$_REQUEST['columna'];
-        $data_busq=$_REQUEST['data_busq'];
-        
-        //Comprueba si useLIKE existe
-        if(isset($_REQUEST['useLIKE'])){
-            //Combierte el string false al valor booleano false
-            //esta variable es para decidir si usar o no ILIKE en la consulta
-            if($_REQUEST['useLIKE']=='false'){
-                $useLIKE=false;
-            }
-            else{
-                $useLIKE=true;
-            }
-        }
-
-        //-----------------paginacion
-        if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
-            $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
-            $num_resultados=$_REQUEST['num_resultados'];
-        }else{
-            $pagina=false;
-            $num_resultados=false;
-        }
-        //-----------------paginacion
-        
-        $resultado=$usuario->buscar_usuario($columna,$data_busq,$useLIKE,$pagina,$num_resultados);
-        if($resultado){
-            $resultado=json_encode($resultado);
-            echo $resultado;
         }
     break;
 
+    case 'contarRegistros':
+
+        $usuario=new usuario();
+
+        if(isset($_REQUEST['nombre_usuario'])){
+            $usuario->set_nombre_usuario($_REQUEST['nombre_usuario']);
+        }
+        if(isset($_REQUEST['id_usuario'])){
+            $usuario->set_id_usuario(($_REQUEST['id_usuario']));
+        }
+
+        if(isset($_REQUEST['extraer_todos'])){
+            if($_REQUEST['extraer_todos']=='true'){
+               $todos=true; 
+            }
+            else{
+               $todos=false;
+            }
+        }
+        else{
+            $todos=false;
+        }
+        
+        $resultado=$usuario->contarNumRegistros($todos);
+
+        if($resultado){
+            $resultado=json_encode($resultado);
+            echo $resultado;
+        }else{
+            echo $resultado;
+        }
+
+    break;
+    
     case 'login':
         $usuario=new usuario();
         $nombre_usuario=$_REQUEST['username'];
         $contrasena=$_REQUEST['password'];
         $resultado=$usuario->login($nombre_usuario,$contrasena);
     break;
-
-    case 'contarRegistros':
-
+    
+    case 'cerrarSesion':
         $usuario=new usuario();
-        
-        if(isset($_REQUEST['useLIKE'])){
-            if($_REQUEST['useLIKE']=='false'){
-                $useLIKE=false;
-            }
-            else{
-                $useLIKE=true;
-            }
-        }
-
-        if((isset($_REQUEST['data_busq']))&&(isset($_REQUEST['columna']))){
-            //resultado sera todos los registros de la tabla segun la condicion en el where
-            $data_busq=$_REQUEST['data_busq'];
-            $columna=$_REQUEST['columna'];
-            $resultado=$usuario->getNumRegistros($columna,$data_busq,$useLIKE);
-        }
-        else{//resultado sera todos los registros de la tabla
-            $resultado=$usuario->getNumRegistros();
-        }
-        echo $resultado;
-    break;
-
-    case 'contarRegistrosHistorial':
-
-        $usuario=new usuario();
-        
-        if(isset($_REQUEST['useLIKE'])){
-            if($_REQUEST['useLIKE']=='false'){
-                $useLIKE=false;
-            }
-            else{
-                $useLIKE=true;
-            }
-        }
-
-        if((isset($_REQUEST['data_busq']))&&(isset($_REQUEST['columna']))){
-            //resultado sera todos los registros de la tabla segun la condicion en el where
-            $data_busq=$_REQUEST['data_busq'];
-            $columna=$_REQUEST['columna'];
-            $resultado=$usuario->getNumRegistrosHistorial($columna,$data_busq,$useLIKE);
-        }
-        else{//resultado sera todos los registros de la tabla
-            $resultado=$usuario->getNumRegistrosHistorial();
-        }
-        
-        if($resultado){
-            $resultado=json_encode($resultado);
-            echo $resultado;
-        }
+        $resultado=$usuario->cerrarSesion($nombre_usuario,$contrasena);
     break;
 
     case 'exportarExcel':

@@ -1,17 +1,16 @@
 $(document).ready(function(){
         
-    getActividades();//Se Dibujan todas las actividades registradas en la tabla de actividades
+    getHistorialActividades();//Se Dibujan todas las actividades registradas en la tabla de actividades
     tipo_usuario_sesion=$('#tipo_usuario_sesion').val();
     
     $("#buscar_actividad_boton").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
-        getActividades();
+        getHistorialActividades();
     });
 
 });
 
-function getActividades(pagina=1){
-
+function getHistorialActividades(pagina=1){
     let num_resultados=$("#num_resultados").val();
     let codigo_actividad=$("#data_busq_codigo").val();
     let nombre_actividad=$("#data_busq_nombre").val();
@@ -28,12 +27,16 @@ function getActividades(pagina=1){
             codigo_actividad:codigo_actividad,
             nombre_actividad:nombre_actividad,
             fecha_registro:fecha_registro,
-            estado_actividad:estado_actividad
+            estado_actividad:estado_actividad,
+            todas:true
         },
         dataType:'json',
         success:function(msg){
+            if(msg==""){
+                alert('Sin Resultados');
+            }
             RellenarTablaActividades(msg);
-            paginacion(num_resultados,msg.length);
+            paginacion(num_resultados);
         }
 
     });
@@ -52,10 +55,13 @@ function RellenarTablaActividades(msg){
         if(elemento=="SUSPENDIDA"){
             var btn_estilo="btn-danger";
         }
+        if(elemento=="ELIMINADA"){
+            var btn_estilo="btn-danger";
+        }
         return btn_estilo;
     }
 
-    let tabla=$("#tabla_actividades");
+    let tabla=$("#tabla_historial_actividades");
     tabla.empty();
     tabla.append(`<tbody><tr>
             <th><label>Fecha de Registro</label></th>
@@ -68,34 +74,13 @@ function RellenarTablaActividades(msg){
             <th><label>Funcionario Atendido</label></th>
             <th><label>Cedula del Funcionario Atendido</label></th>
             <th><label>Estado</label></th>
-            <th><label>Accion</label></th>
         </tr>`);
 
 
 
     msg.forEach(function(elemento){
         //Estas son los botones de accion que estaran disponibles segun si la actividad a sido completada o no
-        let accion;
-        console.log($('#tipo_usuario').val());
-        if($('#tipo_usuario').val()=='estandar'){
-            accion=`
-            <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
-        }
-        else{
 
-            if(elemento['estado_actividad']=='COMPLETADA'){
-                accion=`
-                <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
-            }
-            else{
-                accion=`<li><a class="dropdown-item" href="editar-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Modificar</a></li>
-    
-                <li><button class="dropdown-item" onclick="eliminarActividad('${elemento['codigo_actividad']}')">Eliminar</button></li>
-    
-                <li><a class="dropdown-item" href="detalles-actividad.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
-            }
-    
-        }
         let btn_estilo=estilo_btn(elemento['estado_actividad']);
         tabla.append(`<tr>
         <td>${elemento['fecha_registro']}</td>
@@ -107,23 +92,40 @@ function RellenarTablaActividades(msg){
         <td>${elemento['cedula']}</td> 
         <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
         <td>${elemento['ced_atendido']}</td>
-        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['estado_actividad']}</button></td>
-        <td>
-            <div class="btn-group">
-                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                    Seleccione...
-                </button>
-                <ul class="dropdown-menu dropdown-menu-lg-end">
-                    ${accion}    
-                </ul>
-            </div>
-        </td>
-        </tr>`);
+        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['estado_actividad']}</button></td>`);
     tabla.append("</tbody>");
     });
 }
 
-function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+
+    let codigo_actividad=$("#data_busq_codigo").val();
+    let nombre_actividad=$("#data_busq_nombre").val();
+    let fecha_registro=$("#data_busq_fecha").val();
+    let estado_actividad=$("#estado_actividad").val();
+    let num_filas;
+
+    $.ajax({ 
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{
+            option:'contarRegistros',
+            codigo_actividad:codigo_actividad,
+            nombre_actividad:nombre_actividad,
+            fecha_registro:fecha_registro,
+            estado_actividad:estado_actividad,
+            todas:true
+        },
+        dataType:'json',
+        success:function(msg){
+            num_filas=msg
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
 
     let num_paginas=Math.ceil((num_filas)/(num_resultados));
     $("#num_paginas").empty();
@@ -134,11 +136,10 @@ function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos 
 
     function setNumeroPaginas(numero){
         $("#num_paginas").append(
-            `<li class="page-item"><a class="page-link" href='#tabla_actividades' onclick="getActividades(${numero})"'>${numero}</a></li>`
+            `<li class="page-item"><a class="page-link" href='#tabla_actividades' onclick="getHistorialActividades(${numero})"'>${numero}</a></li>`
         )
     }
 }
-
 function eliminarActividad(codigo_actividad){
     let ok=confirm("¿Seguro que desea eliminar esta actividad?");
     if(ok){

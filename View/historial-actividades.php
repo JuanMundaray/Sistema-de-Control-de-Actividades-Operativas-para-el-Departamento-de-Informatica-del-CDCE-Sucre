@@ -11,7 +11,7 @@
 
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="Plantillas/menu_desplegable-administrador.js"></script>
-        <script src="JS/ajax.actividades/ajax.historial_actividades.js"></script>
+        <script src="JS/js.actividades/ajax.historial_actividades.js"></script>
         <title>Historial Actividades</title>
     </head>
     <?php
@@ -23,7 +23,7 @@
                 exit();
             }
         }else{
-            header("Location:../index");
+            header("Location:../Index.php");
             exit();
         }
 
@@ -43,16 +43,18 @@
                     <nav class="navbar navbar-light container" id="mostrarSolo">
                         <div method="post" class="form-inline row">
                             <div class="col-md-12 row">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" id="data_busq_nombre" name="data_busq_nombre">
                                 </div>
-                                <div class="col-3">
+                                <div class="col-4">
                                     <input style="width: 100%;" class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
                                 </div>
                                 <div class="col-3">
                                     <input class="form-control" type="search" placeholder="Buscar por Codigo..." aria-label="Search" id="data_busq_codigo" name="data_busq_codigo">
                                 </div>
-                                <button class="col-1 btn btn-primary" id="buscar_actividad_boton">Buscar</button>
+                                <div class="col-md-1 col-xm-1">
+                                    <button class="btn btn-primary" id="buscar_actividad_boton">Buscar</button>
+                                </div>
                             </div>
 
                             <div class="col row gy-3">
@@ -82,14 +84,14 @@
                     </nav>
 
                     <!--Tabla del Historial-->
-                    <div class="scroll">
-                        <table id="tabla_historial_actividades" class="table table-bordered table-responsive text-nowrap table_default">
+                    <div class="table-responsive">
+                        <table id="tabla_historial_actividades" class="table table-bordered text-nowrap table_default">
                             <!--Tabla del Historial-->
                         </table>
                     </div>
                     <!--Fin Tabla del Historial-->
 
-                    <nav>
+                    <nav style="margin-top: 20px;">
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>

@@ -6,8 +6,27 @@ $option=$_REQUEST['option'];
 switch($option){
 
 
+
+    case 'crear':
+        $departamento=new departamento();
+        $nombre_departamento=$_REQUEST['nombre_departamento'];
+        $departamento->setNombreDepartamento(strtoupper($nombre_departamento));
+        $resultado=$departamento->crear();
+        if($resultado){
+            header("location:../View/departamentos-mostrar.php");
+            exit();
+        }
+    break;
     case 'obtener':
         $departamento=new departamento();
+
+        if(isset($_REQUEST['nombre_departamento'])){
+            $departamento->setNombreDepartamento($_REQUEST['nombre_departamento']);
+        }
+        if(isset($_REQUEST['id_departamento'])){
+            $departamento->setIdDepartamento($_REQUEST['id_departamento']);
+        }
+        
         if(isset($_REQUEST['pagina'])){
             //-----------------paginacion
             $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion

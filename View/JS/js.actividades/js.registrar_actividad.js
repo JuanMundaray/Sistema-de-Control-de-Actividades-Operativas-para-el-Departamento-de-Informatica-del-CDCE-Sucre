@@ -23,7 +23,9 @@ $(document).ready(function(){
     $.ajax({
         type:"POST",
         url:"../Controller/controllerTipo_actividad.php",
-        data:{option:"obtener"},
+        data:{
+            option:"obtener"
+        },
         dataType:'json',
         success:function(msg){
             msg.forEach(function(elemento){
@@ -40,7 +42,9 @@ $(document).ready(function(){
     $.ajax({
         type:"POST",
         url:"../Controller/controllerDepartamentos.php",
-        data:{option:"obtener"},
+        data:{
+            option:"obtener"
+        },
         dataType:'json',
         success:function(msg){
             msg.forEach(function(elemento){
@@ -56,16 +60,21 @@ $(document).ready(function(){
     });
 
     //Rellenar los datos del usuario responsable de registrar la actividad
+    console.log($('#id_usuario_sesion').val());
     $.ajax({
         type:"POST",
         url:"../Controller/controllerUsuario.php",
-        data:{option:"buscar",columna:'id_usuario',useLIKE:false,data_busq:$('#id_usuario_sesion').val()},
+        data:{
+            option:"obtener",
+            id_usuario:$('#id_usuario_sesion').val()
+        },
         dataType:'json',
         success:function(msg){
             msg.forEach(function(elemento){
                 $('#nom_responsable').val(elemento.nombre_personal);
                 $('#ape_responsable').val(elemento.apellido_personal);
                 $('#ced_responsable').val(elemento.cedula);
+                $('#dep_receptor').val(elemento.nombre_departamento );
             });
         },
         error:function(jqXHR,textStatus,errorThrown){

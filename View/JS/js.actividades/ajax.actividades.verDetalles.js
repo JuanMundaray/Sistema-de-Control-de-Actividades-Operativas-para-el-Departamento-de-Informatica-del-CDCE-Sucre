@@ -2,7 +2,10 @@ $(document).ready(function(){
     $.ajax({
         type:"POST",
         url:"../Controller/controllerActividad.php",
-        data:`option=buscarCodigo&codigo_actividad=${$("#codigo_actividad").val()}`,
+        data:{
+            option:"obtener",
+            codigo_actividad:$("#codigo_actividad").val()
+        },
         dataType:'json',
         success:function(msg){
             console.log(msg);
@@ -29,7 +32,7 @@ $(document).ready(function(){
                 console.log(elemento['evidencia']);
                     let div_evidencia=$("#evidencia");
                     div_evidencia.append('<label class="col-md-12 form-label"><strong >Evidencia:</strong></label>');
-                    div_evidencia.append(`<img id="imagen_evidencia" src='../../intranet/uploads_sca_cdce/${elemento["evidencia"]}' width="400px" height="300px">`);
+                    div_evidencia.append(`<img id="imagen_evidencia" src='../../sca_cdce/uploads/${elemento["evidencia"]}' width="400px" height="300px">`);
                 }
                 let estado=$("#estado_actividad").append(elemento["estado_actividad"]);
                 let nom_responsable=$("#nom_responsable").append(`${elemento["nombre_personal"]} ${elemento["apellido_personal"]}`);

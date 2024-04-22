@@ -96,7 +96,7 @@ class actividad{
             $resultado = false;
             echo $objeto->getMessage();
         }
-        return $resultado; 
+        return $resultado;
     }
 
     public function modificar()
@@ -212,58 +212,13 @@ class actividad{
         return $resultado; 
     }
 
-    public function buscarCodigo()
+    public function contarNumRegistros($todas)
     {
-        $resultado = false;
-        try{
-            $codigo_actividad=$this->codigo_actividad;
-            $db = DataBase::getInstance();            
-            $consulta = "SELECT * FROM actividades.actividad 
-            LEFT JOIN actividades.tipo_actividad
-            ON actividad.id_tipo_actividad=tipo_actividad.id_tipo 
-            LEFT JOIN actividades.usuario
-            ON actividad.id_usuario_responsable=usuario.id_usuario
-            WHERE codigo_actividad=:codigo_actividad";
-            $resultadoPDO=$db->prepare($consulta);
-            $resultadoPDO->execute(array(':codigo_actividad'=>$codigo_actividad));
-            $resultado = $resultadoPDO->fetchAll();
-            $resultadoPDO->closeCursor();                        
-        }
-        catch(Exception $objeto){
-            
-            $resultado = false;
-            echo $objeto->getMessage();
-        }
-        
-        return $resultado; 
-    }
-
-    public function autocompletar()
-    {
-        $resultado = false;
-        try{
-            $nombre_actividad=$this->nombre_actividad;
-            $db = DataBase::getInstance();            
-            $consulta = "SELECT * FROM actividades.actividad 
-            LEFT JOIN actividades.tipo_actividad
-            ON actividad.id_tipo_actividad=tipo_actividad.id_tipo WHERE nombre_actividad ILIKE '$nombre_actividad%'";
-            $resultadoPDO = $db->query($consulta);
-            while($data=$resultadoPDO->fetch(PDO::FETCH_ASSOC)){
-                $resultado[]=$data['nombre_actividad'];
-            }
-            $resultadoPDO->closeCursor(); 
-        }
-        
-        catch(Exception $objeto){
-            $resultado = false;
-            echo $objeto->getMessage();
-        }
-        
-        return $resultado; 
-    }
-
-    public function contarNumRegistros()
-    {
+        $codigo_actividad = $this->codigo_actividad;
+        $nombre_actividad = $this->nombre_actividad;
+        $fecha_registro=$this->fecha_registro;
+        $estado_actividad=$this->estado_actividad;
+        $id_usuario_responsable = $this->id_usuario_responsable;
         $resultado = false;
         try{
             $db = DataBase::getInstance(); 
@@ -271,8 +226,29 @@ class actividad{
             $consulta = "SELECT *
             FROM actividades.actividad WHERE estado_actividad<>'ELIMINADA'";
 
+
+            if(!empty($codigo_actividad)){
+                $consulta .=" AND codigo_actividad='$codigo_actividad'";
+            }
+
+            if(!empty($nombre_actividad)){
+                $consulta .=" AND nombre_actividad ILIKE '$nombre_actividad%'";
+            }
+
+            if(!empty($fecha_registro)){
+                $consulta .=" AND fecha_registro='$fecha_registro'";
+            }
+
             if(!empty($estado_actividad)){
                 $consulta .=" AND estado_actividad='$estado_actividad'";
+            }
+
+            if(!empty($id_usuario_responsable)){
+                $consulta .=" AND id_usuario_responsable=$id_usuario_responsable";
+            }
+
+            if($todas==false){
+                $consulta .=" AND estado_actividad<>'ELIMINADA'";
             }
 
             $resultadoPDO = $db->query($consulta);
@@ -376,57 +352,76 @@ class actividad{
         require('../Plugins/fpdf186/fpdf.php');
         $pdf = new FPDF();
         $pdf->AddPage();
+        $pdf->SetMargins(20,30,20);
         //titulo
         $pdf->SetFont('Arial','UB',16);
         $pdf->Cell(200,20,'Detalles de Actividad ',0,0,'C');
         $pdf->Ln();
         //nombres de columnas de la tabla
+        $pdf->SetFont('Arial','BU',10);
+        $pdf->Cell(0,7,'Codigo de Actividad:',0,1,'L');
         $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(100,7,'Codigo de Actividad:',0,0,'L'); $pdf->Ln();
-        $pdf->Cell(100,7,$actividad[0]['codigo_actividad'],0,0,'L'); $pdf->Ln();$pdf->Ln();
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['codigo_actividad']),0,1,'L');$pdf->Ln();
 
-        $pdf->Cell(100,7,'Nombre de Actividad:',0,0,'L'); $pdf->Ln();
-        $pdf->Cell(100,7,$actividad[0]['nombre_actividad'],0,0,'L'); $pdf->Ln();$pdf->Ln();
+        $pdf->SetFont('Arial','BU',10);
+        $pdf->Cell(0,7,'Nombre de Actividad:',0,1,'L');
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_actividad']),0,1,'L'); $pdf->Ln();
 
-        $pdf->Cell(100,7,'Fecha de Registro:',0,0,'L'); $pdf->Ln();
-        $pdf->Cell(100,7,$actividad[0]['fecha_registro'],0,0,'L'); $pdf->Ln();$pdf->Ln();
+        $pdf->SetFont('Arial','BU',10);
+        $pdf->Cell(0,7,'Fecha de Registro:',0,1,'L'); 
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['fecha_registro']),0,1,'L'); $pdf->Ln();
 
-        $pdf->Cell(100,7,'Departameto Emisor:',0,0,'L');$pdf->Ln();
-        $pdf->Cell(100,7,$actividad[0]['dep_emisor'],0,0,'L');$pdf->Ln();$pdf->Ln();
+        $pdf->SetFont('Arial','BU',10);
+        $pdf->Cell(0,7,'Departameto Emisor:',0,1,'L');
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['dep_emisor']),0,1,'L');$pdf->Ln();
 
-        $pdf->Cell(100,7,'Departameto Receptor:',0,0,'L');
-        $pdf->Ln();
-        $pdf->Cell(100,7,$actividad[0]['dep_receptor'],0,0,'L');
-        $pdf->Ln();
-        $pdf->Ln();
+        $pdf->SetFont('Arial','BU',10);
+        $pdf->Cell(0,7,'Departameto Receptor:',0,1,'L');
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['dep_receptor']),0,1,'L');$pdf->Ln();
 
-        $pdf->Cell(100,7,'Estado de Actividad:',0,0,'L');
-        $pdf->Ln();
-        $pdf->Cell(100,7,$actividad[0]['estado_actividad'],0,0,'L');
-        $pdf->Ln();
-        $pdf->Ln();
+        $pdf->SetFont('Arial','BU',10);
+        $pdf->Cell(0,7,'Estado de Actividad:',0,1,'L');
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['estado_actividad']),0,1,'L');$pdf->Ln();
 
-        $pdf->Cell(100,7,'Tipo de Actividad:',0,0,'L');
-        $pdf->Ln();
-        $pdf->Cell(100,7,$actividad[0]['nombre_tipo'],0,0,'L');
-        $pdf->Ln();
-        $pdf->Ln();
+        $pdf->SetFont('Arial','BU',10);
+        $pdf->Cell(0,7,'Tipo de Actividad:',0,1,'L');
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_tipo']),0,1,'L');$pdf->Ln();
         
-        $pdf->Cell(100,7,'Nombre y Apellido del Responsable:',0,0,'L');$pdf->Ln();
-        $pdf->Cell(100,7,$actividad[0]['nombre_personal'].' '.$actividad[0]['apellido_personal'],0,0,'L');$pdf->Ln();$pdf->Ln();
+        $pdf->SetFont('Arial','BU',10);
+        $pdf->Cell(0,7,'Nombre y Apellido del Responsable:',0,1,'L');
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_personal']).' '.$actividad[0]['apellido_personal'],0,1,'L');$pdf->Ln();
 
-        $pdf->Cell(100,7,'Nombre y Apellido del Atendido:',0,0,'L');$pdf->Ln();
-        $pdf->Cell(100,7,$actividad[0]['nom_atendido'].' '.$actividad[0]['ape_atendido'],0,0,'L');$pdf->Ln();$pdf->Ln();
+        $pdf->SetFont('Arial','BU',10);
+        $pdf->Cell(0,7,'Nombre y Apellido del Atendido:',0,1,'L');
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['nom_atendido']).' '.$actividad[0]['ape_atendido'],0,1,'L');$pdf->Ln();
+
+        if($actividad[0]['observacion']!=''){
+            $pdf->SetFont('Arial','BU',10);
+            $pdf->Cell(0,7,'Observacion de Actividad:',0,1,'L');
+            $pdf->SetFont('Arial','B',10);
+            $pdf->MultiCell(0,7,utf8_decode($actividad[0]['observacion']),0,'J');$pdf->Ln();
+        }
 
         if($actividad[0]['informe']!=''){
-            $pdf->Cell(100,7,'Informe de Actividad:',0,0,'L');$pdf->Ln();
-            $pdf->Cell(100,7,$actividad[0]['informe'],0,0,'L');$pdf->Ln();$pdf->Ln();
+            $pdf->SetFont('Arial','BU',10);
+            $pdf->Cell(0,7,'Informe de Actividad:',0,1,'L');
+            $pdf->SetFont('Arial','B',10);
+            $pdf->MultiCell(0,7,utf8_decode($actividad[0]['informe']),0,'J');$pdf->Ln();
         }
 
         if($actividad[0]['evidencia']!=''){
             $pdf->AddPage();
-            $pdf->Cell(100,7,'Evidencia de Completacion:',0,0,'L');$pdf->Ln();
-            $pdf->Image('../../intranet/uploads_sca_cdce/'.$actividad[0]['evidencia'],null,null,100,100);$pdf->Ln();
+            $pdf->SetFont('Arial','BU',10);
+            $pdf->Cell(0,7,'Evidencia de Completacion:',0,1,'L');
+            $pdf->Image('../../intranet/uploads_sca_cdce/'.utf8_decode($actividad[0]['evidencia']),null,null,100,100);$pdf->Ln();
             $pdf->Ln();
         }
         $pdf->Output('','SCA_CDCE:REPORTE DE ACTIVIDAD '.$actividad[0]['codigo_actividad'],true);

@@ -63,6 +63,42 @@ switch($option){
         echo $resultado;
     break;
 
+    case 'contarRegistros':
+        $peticion=new peticion();
+
+        if(isset($_REQUEST['id_usuario'])){
+            $peticion->setIdUsuario($_REQUEST['id_usuario']);
+        }
+        if(isset($_REQUEST['id_peticion'])){
+            $peticion->setIdPeticion($_REQUEST['id_peticion']);
+        }
+        if(isset($_REQUEST['nombre_peticion'])){
+            $peticion->setNombrePeticion($_REQUEST['nombre_peticion']);
+        }
+        if(isset($_REQUEST['departamento_peticion'])){
+            $peticion->setDepartamentoPeticion($_REQUEST['departamento_peticion']);
+        }
+        if(isset($_REQUEST['fecha_peticion'])){
+            $peticion->setFechaPeticion($_REQUEST['fecha_peticion']);
+        }
+        if(isset($_REQUEST['estado_peticion'])){
+            $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
+        }
+        if(isset($_REQUEST['todas'])){
+            $todas=true;
+        }else{
+            $todas=false;
+        }
+        $resultado=$peticion->contarNumRegistros($todas);
+
+        if($resultado){
+            $resultado=json_encode($resultado);
+            echo $resultado;
+        }else{
+            echo $resultado;
+        }
+    break;
+
     case 'exportarExcel':
         $peticion=new peticion();
         if(isset($_REQUEST['id_usuario'])){
@@ -89,8 +125,10 @@ switch($option){
 
     case 'aceptar':
         $id_peticion=$_REQUEST['id_peticion'];
+        $actividad_originada=$_REQUEST['actividad_originada'];
         $peticion=new peticion();
         $peticion->setIdPeticion($id_peticion);
+        $peticion->setActividadOriginada($actividad_originada);
         $resultado=$peticion->aceptar();
         echo $resultado;
     break;

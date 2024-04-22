@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+    //Enviar formulario de Registro de Actividad a partir de una peticion
     let formulario=$('#crear_actividad_peticion');
     formulario.submit(function(e){
         if(this.checkValidity()){
@@ -10,7 +11,7 @@ $(document).ready(function(){
                 data:formulario.serialize(),
                 dataType:'json',
                 success:function(msg){
-                    marcarPeticionAceptada();
+                    AceptarPeticion();
                     location.replace('./actividades-registradas.php');
                 },
                 error:function(jqXHR,textStatus,errorThrown){
@@ -19,11 +20,11 @@ $(document).ready(function(){
             });
 
         }else{
-            alert("Ningun Campo Puede Estar Vacio");
+            alert("NINGUN CAMPO PUEDE ESTAR VACIO");
         }
     });
 
-    //Rellenar los datos del usuario atendido al aceptar su peticion
+    //Rellenar los datos del usuario atendido para aceptar su peticion
     $.ajax({
         async:false,
         type:"POST",
@@ -36,12 +37,12 @@ $(document).ready(function(){
         success:function(msg){
             console.log(msg);
             msg.forEach(function(elemento){
-                let input_nom_atendido=$("#nom_atendido").val(elemento['nombre_personal']);
-                let input_ape_atendido=$("#ape_atendido").val(elemento['apellido_personal']);
-                let input_ced_atendido=$("#ced_atendido").val(elemento['cedula']);
-                let input_dep_emisor=$("#dep_emisor").val(elemento['nombre_departamento']);
-                let input_tipo_actividad=$("#id_tipo_actividad").val(elemento['tipo_actividad']);
-                let input_nombre_actividad=$("#nombre_actividad").val(elemento['nombre_peticion']);
+                $("#nom_atendido").val(elemento['nombre_personal']);
+                $("#ape_atendido").val(elemento['apellido_personal']);
+                $("#ced_atendido").val(elemento['cedula']);
+                $("#dep_emisor").val(elemento['nombre_departamento']);
+                $("#id_tipo_actividad").val(elemento['tipo_actividad']);
+                $("#modalDetallesPeticion .modal-body").append(elemento['detalles_peticion']);
             });
         },
         error:function(jqXHR,textStatus,errorThrown){
@@ -51,13 +52,16 @@ $(document).ready(function(){
     
 });
 
-function marcarPeticionAceptada(){  
+//Funcion par Cambiar el estado de la peticion a aceptada
+function AceptarPeticion(){  
     $.ajax({
+        async:false,
         type:"POST",
         url:"../Controller/controllerPeticion.php",
         data:{
             option:"aceptar",
-            id_peticion:$('#id_peticion').val()
+            id_peticion:$('#id_peticion').val(),
+            actividad_originada:$("#codigo_actividad").val()
             },
         dataType:'json',
         error:function(jqXHR,textStatus,errorThrown){

@@ -8,19 +8,6 @@
     float: none;
     margin-top: 20px;
     margin-bottom: 20px;
-    min-width: 100px;
-    max-width: 200px;
-}
-
-.form_login{
-    background-color: rgb(255, 255, 255);
-    padding: 2vw;
-    padding-top: 1vw;
-    margin: auto;
-    min-width: 500px;
-    max-width: 40vw;
-    border-radius: 10px;
-    margin-top: 15vh;
 }
 
 .form_login h1{

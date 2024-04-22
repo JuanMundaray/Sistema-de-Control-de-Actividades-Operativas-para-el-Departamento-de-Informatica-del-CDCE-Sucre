@@ -7,19 +7,33 @@
 body{
     display: flex;
     background-color: var(--ColorFondo);
+    padding:0;
 }
 
 main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     position: relative;
-    margin: 3vw;
-    margin-left: 300px;
-    margin-top: 150px;
-    width: 100vw;
+    margin-left: 9vw;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    padding-top: 10vw;
+    display: flex;
+    width: 100%;
+}
+
+.contenedorPrincipal{
+    margin-left: 6vw;
+    background-color: rgb(255, 255, 255);
+    width: 72vw;
+    box-shadow: 2px 0px 10px rgb(134, 134, 134);
 }
 
 label{
     padding-left: 0px !important;
     user-select: none;
+    font-size: 1.2vw;
 }
 
 .titleh1{
@@ -29,6 +43,8 @@ label{
     user-select: none;
     padding:1vw 0vw 1vw 0vw;
     opacity: 0.8;
+    width: 100%;
+    margin-left: 12vw;
 }
 
 .titleh2{
@@ -36,50 +52,53 @@ label{
     background-color: var(--ColorTitulo);
     color: rgb(255, 255, 255);
     font-weight:700;
-    font-size:x-large;
+    font-size:1.8vw;
     user-select: none;
 
 }
 
-.contenedorPrincipal{
+
+.contenedor_login{
     background-color: rgb(255, 255, 255);
-    margin: 0;
-    width: 75vw;
+    padding: 2vw;
+    padding-top: 1vw;
+    width: 40vw;
+    min-width: 300px;
+    border-radius: 10px;
+    margin-top: 15vh;
+    margin-left: 8vw;
 }
 
+.contenedor_login h1{
+    font-size: 2.5vw;
+    font-family: var(--FondoLetra);
+    font-weight: 600;
+    user-select: none;
+    padding:1vw 0vw 1vw 0vw;
+    opacity: 0.8;
+}
 .secciones{
-    padding: 40px 40px 10px 40px;
+    padding: 40px 40px 40px 40px;
 
 }
 
 .table_default th{
-
+    font-size: 1.2vw;
     text-align: center;
     user-select: none;
 
 }
-
 .table_default{
     margin-top: 30px;
 }
 
 .table_default td{
     text-align: center;
-    font-size: medium;
+    text-justify: distribute;
+    font-size: 1.1vw;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 
-}
-
-.scroll{
-    min-width: 200px;
-    max-width: 1000px;
-    max-height: 100%;
-    overflow-x: auto;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    margin-bottom: 2vw;
-    padding-bottom: 5vw;
 }
 
 .navbar .form-control{
@@ -107,16 +126,24 @@ label{
     margin-left: 10px;
 }
 
-@media screen and (max-width: 1300px){
-    .contenedorPrincipal{
-        width: 70vw;
-    }
-	
+.table-responsive{
+    padding-bottom: 50px;
 }
 
 @media screen and (max-width: 800px){
+	main{
+		margin-left: 70px;
+		margin-top: 70px;
+	}
+    .titleh1{
+		margin-left: 120px;
+	}
     .contenedorPrincipal{
-        width:60vw;
+        width: 62vw;
     }
-	
+}
+@media screen and ((max-height: 500px)) {
+    main{
+        margin-top: 2vw;
+    }
 }

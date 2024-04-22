@@ -17,12 +17,16 @@ $(document).ready(function(){
     $.ajax({
         type:"POST",
         url:"../Controller/controllerUsuario.php",
-        data:{option:"buscar",data_busq:$('#id_usuario_sesion').val(),columna:'id_usuario',useLIKE:false},
+        data:{
+            option:"obtener",
+            id_usuario:$('#id_usuario_sesion').val()
+        },
         dataType:'json',
         success:function(msg){
             msg.forEach(function(elemento){
                 let departamento_peticion=$("#departamento_peticion");
                 departamento_peticion.html("<option value='"+elemento['departamento_usuario']+"'>"+elemento["nombre_departamento"]+"</option>");
+                $("#emisor_peticion").val(elemento['nombre_personal']+' '+elemento['apellido_personal']);
             });
         },
         error:function(jqXHR,textStatus,errorThrown){

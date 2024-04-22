@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
     <script src="Plantillas/menu_desplegable-administrador.js"></script>
-    <script src="JS/ajax.actividades/ajax.editarActividad.js"></script>
+    <script src="JS/js.actividades/ajax.editarActividad.js"></script>
 </head>
 <?php
             session_start();
@@ -25,7 +25,7 @@
                     exit();
                 }
             }else{
-                header("Location:../index");
+                header("Location:../Index.php");
                 exit();
             }
 
@@ -50,11 +50,11 @@
                         </div>
                         <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Observacion:</label>
-                                <textarea class="col-md-12 form-control" name="observacion" id="observacion"></textarea>
+                                <textarea class="col-md-12 form-control"  maxlength="512" name="observacion" id="observacion"></textarea>
                         </div>
                         <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Informe:</label>
-                                <textarea class="col-md-12 form-control" name="informe" id="informe" placeholder="Informe sobre la realizacion de esta Actividad" required></textarea>
+                                <textarea class="col-md-12 form-control" maxlength="512" name="informe" id="informe" placeholder="Informe sobre la realizacion de esta Actividad" required></textarea>
 
                                 <div class="invalid-feedback">
                                     *Este Campo es Obligatorio

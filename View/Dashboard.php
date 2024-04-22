@@ -16,7 +16,7 @@
             }
         }
         else{
-            header("Location:../index");
+            header("Location:../Index.php");
             exit();
         }
         require_once("Plantillas/Plantilla_cabecera.php");
@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/dashboard.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="JS/ajax.dashboard.js"></script>
+    <script src="JS/js.dashboard/ajax.dashboard.js"></script>
 
 </head>
 <body>
@@ -39,10 +39,10 @@
     <main>
         <h1 class="titleh1">Administrar - Dashboard</h1>
         <section class="seccionDashboard">
+
+            <div style="margin-left: 11vw;" class="container">
+
             <h2>Dashboard</h2>
-
-            <div class="container">
-
                 <div class="row row-cols-3">
                     <!--Cuadro que muestra el Actividades Registradas-->
                     <div class="CuadroActividadesRegistradas col bloque_dashboard">
@@ -125,7 +125,7 @@
                         </div>
 
                         <div class="LineaFinal">
-                            <a href="lista-usuarios">Mas informacion</a>
+                            <a href="actividades-registradas.php">Mas informacion</a>
                         </div>
                         
                     </div> 
@@ -146,7 +146,7 @@
                         </div>
 
                         <div class="LineaFinal">
-                            <a href="lista-usuarios">Mas informacion</a>
+                            <a href="actividades-registradas.php">Mas informacion</a>
                         </div>
 
                     </div>
@@ -167,7 +167,7 @@
                         </div>
 
                         <div class="LineaFinal">
-                            <a href="lista-usuarios">Mas informacion</a>
+                            <a href="administrar-usuarios.php">Mas informacion</a>
                         </div>
 
                     </div>

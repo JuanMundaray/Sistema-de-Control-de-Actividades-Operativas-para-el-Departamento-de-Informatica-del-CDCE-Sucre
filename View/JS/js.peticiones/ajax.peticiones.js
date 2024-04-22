@@ -7,6 +7,9 @@ $(document).ready(function(){
     $('#boton_buscar').click(function(){
         getPeticiones();
     });
+    $('#data_busq_estado option').click(function(){
+        getPeticiones();
+    });
 
 });
 
@@ -15,6 +18,7 @@ function getPeticiones(pagina=1){
     let nombre_peticion=$("#data_busq_nombre").val();
     let fecha_peticion=$("#data_busq_fecha").val();
     let id_usuario=$("#id_usuario_sesion").val();
+    let estado_peticion=$("#data_busq_estado").val();
     $.ajax({
         type:"POST",
         url:"../Controller/controllerPeticion.php",
@@ -24,14 +28,14 @@ function getPeticiones(pagina=1){
             num_resultados:num_resultados,
             nombre_peticion:nombre_peticion,
             fecha_peticion:fecha_peticion,
-            estado_peticion:'ESPERA',
-            id_usuario:id_usuario
+            id_usuario:id_usuario,
+            estado_peticion:estado_peticion
         },
         dataType:'json',
         success:function(msg){
             console.log(msg);
             RellenarTablaPeticiones(msg);
-            paginacion(num_resultados,msg.length);
+            paginacion(num_resultados);
 
         },error:function(jqXHR,textStatus,errorThrown){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
@@ -44,13 +48,23 @@ function RellenarTablaPeticiones(msg){
     let tabla=$("#tabla_peticiones");
     let tipo_usuario=$('#tipo_usuario').val();
     
-    function estilo_btn(elemento){
-        if(elemento=="ESPERA"){
+    function estilo_btn(estado){
+        if(estado=="ESPERA"){
             var btn_estilo="btn-warning";
-        }if(elemento=="RECHAZADA"){
+        }if(estado=="RECHAZADA"){
             var btn_estilo="btn-danger";
-        }if(elemento=="ACEPTADA"){
+        }if(estado=="ACEPTADA"){
             var btn_estilo="btn-success";
+        }
+        if(estado=="INICIADA"){
+            var btn_estilo="btn-primary";
+        }if(estado=="PROCESO"){
+            var btn_estilo="btn-warning";
+        }if(estado=="COMPLETADA"){
+            var btn_estilo="btn-success";
+        }
+        if(estado=="SUSPENDIDA"){
+            var btn_estilo="btn-danger";
         }
         return btn_estilo;
     }
@@ -66,6 +80,7 @@ function RellenarTablaPeticiones(msg){
         <th colspan="1"><label>Accion</label></th>
     </tr>`);
     msg.forEach(function(elemento){
+        if(elemento['estado_peticion']=='ESPERA'){
         //Dibujar la Tabla de Peticiones por medio del DOM de JavaScripts
             tabla.append(`<tr>
             <td>${elemento['nombre_peticion']}</td>
@@ -83,19 +98,52 @@ function RellenarTablaPeticiones(msg){
                     </button>
 
                     <ul class="dropdown-menu" dropdown-menu-lg-end>
-                        <li><a class="dropdown-item" href='./peticiones-aceptar.php?id_peticion=${elemento['id_peticion']}'>Aceptar</a></li>
-                        <li><button class="dropdown-item" onclick="rechazarPeticion(${elemento['id_peticion']})">Rechazar</button></li>   
+                        <li>
+                            <a class="dropdown-item" href='./peticiones-aceptar.php?id_peticion=${elemento['id_peticion']}'>Aceptar</a>
+                        </li>
+                        <li>
+                            <button class="dropdown-item" onclick="rechazarPeticion(${elemento['id_peticion']})">Rechazar</button>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="peticiones-detalles.php?id_peticion=${elemento['id_peticion']}">Ver Detalles</a>
+                        </li>
                     </ul>
 
                 </div>
             </td>
             </tr>`);
+        }
     });
     tabla.append("</tbody>");
 }
 
-function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+    let nombre_peticion=$("#data_busq_nombre").val();
+    let fecha_peticion=$("#data_busq_fecha").val();
+    let id_usuario=$("#id_usuario_sesion").val();
+    let estado_peticion=$("#data_busq_estado").val();
+    let num_filas;
+    
+    $.ajax({ 
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{
+            option:'contarRegistros',
+            nombre_peticion:nombre_peticion,
+            fecha_peticion:fecha_peticion,
+            id_usuario:id_usuario,
+            estado_peticion:estado_peticion
+        },
+        dataType:'json',
+        success:function(msg){
+            num_filas=msg
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
 
+    });
     let num_paginas=Math.ceil((num_filas)/(num_resultados));
     $("#num_paginas").empty();
 

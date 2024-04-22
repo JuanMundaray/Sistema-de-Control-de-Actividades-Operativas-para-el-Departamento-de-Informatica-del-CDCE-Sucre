@@ -15,7 +15,7 @@
                 }
             }
             else{
-                header("Location:../index");
+                header("Location:../Index.php");
                 exit();
             }
         ?>
@@ -51,30 +51,31 @@
                 <h2 class="titleh2">Lista de Peticiones</h2>
                 <section class="secciones">
                     <!--Barra de Busqueda-->
-                    <nav class="navbar navbar-light row">
-                            
-                        
-                        <form class="form-inline col">
-                            <label class="form-label">Buscar Por Nombre:</label>
-                            <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="" id="data_busq_nombre" name="data_busq_nombre">
+                    <nav class="navbar navbar-light row gy-4">
+                        <form class="col-md-12 col-sm-12 gy-2 row">
+                            <div class="col">
+                                <label class="form-label">Buscar Por Nombre:</label>
+                                <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="" id="data_busq_nombre" name="data_busq_nombre">
+                            </div>
 
                             <input type="hidden" value="<?php echo $_SESSION['id_usuario'] ?>" id="id_usuario_sesion">
+
+                            <div class="col">
+                                <label class="form-label">Buscar Por Fecha:</label>
+                                <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" aria-autocomplete="" id="data_busq_fecha" name="data_busq_fecha">
+                            </div>
                         </form>
-                        
-                        <form class="form-inline col">
+
+                        <div class="col-md-6">
                             <label class="form-label">Buscar Por Estado:</label>
                             <select class="form-select" id="data_busq_estado" name="data_busq_estado">
                                 <option onclick="getPeticiones()" value="">Todas</option>
                                 <option onclick="getPeticiones()" value="ACEPTADA">Aceptadas</option>
                                 <option onclick="getPeticiones()" value="ESPERA">En Espera</option>
                             </select>
-                        </form>
-                        
-                        <form class="form-inline col">
-                            <label class="form-label">Buscar Por Fecha:</label>
-                            <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" aria-autocomplete="" id="data_busq_fecha" name="data_busq_fecha">
-                        </form>
-                        <div class="col">
+                        </div>
+
+                        <div class="col col-md-6">
                             <label class="form-label">Numero de Resultados:</label>
                             <select class="form-select" id="num_resultados">
                                     <option onclick="getPeticiones()" value="5">5</option>
@@ -84,8 +85,8 @@
                             </select>
                         </div>
                     </nav>
-                    <div class="scroll">
-                        <table id="tabla_peticiones" class="table table-bordered table-responsive text-nowrap table_default">
+                    <div class="table-responsive">
+                        <table id="tabla_peticiones" class="table table-bordered text-nowrap table_default">
                         <!--Tabla de Peticiones dibujada por medio de js-->
                         <tr>
                             <th><label>Nombre de Peticion</label></th>
@@ -96,7 +97,7 @@
                         </tr>
                         </table>
                     </div>
-                    <nav>
+                    <nav style="margin-top: 20px;">
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>
@@ -111,7 +112,7 @@
                             </form>
                         <div>
                     </div>
-
+                    </div>
                 <section>
             </div>
         </main>

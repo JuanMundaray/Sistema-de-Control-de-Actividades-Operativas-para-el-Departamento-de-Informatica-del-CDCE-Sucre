@@ -21,7 +21,7 @@
             }
         }
         else{
-            header("Location:../index");
+            header("Location:../Index.php");
             exit();
         }
         if(!isset($_REQUEST['id_peticion'])){
@@ -37,8 +37,8 @@
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="js/ajax.actividades/js.registrar_actividad.js"></script>
-    <script src="js/js.peticiones/aceptar-peticion.js"></script>
+    <script src="JS/js.actividades/js.registrar_actividad.js"></script>
+    <script src="JS/js.peticiones/aceptar-peticion.js"></script>
 </head>
 <?php
         ?>
@@ -91,9 +91,7 @@
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Departamento Receptor:</label>
-                            <select class="col-md-12 form-select" name="dep_receptor" id="dep_receptor" required>
-                                <option selected value="">Seleccione...</option>
-                            </select>
+                            <input type="text" class="col-md-12 form-select" name="dep_receptor" id="dep_receptor" readonly required>
                             <div class="invalid-feedback">
                                 Elija un Departamento Valido
                             </div>
@@ -101,10 +99,14 @@
 
                         <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Observacion:</label>
-                                <textarea class="col-md-12 form-control" name="observacion" id="observacion"></textarea>
+                                <textarea class="col-md-12 form-control" name="observacion" id="observacion">Actividad Generada de Peticion.
+                                </textarea>
                                 <div id="emailHelp" class="form-text">*Este Campo es Opcional</div>
                         </div>
-                        
+
+                        <button type="button" class="btn btn-primary col-md-3" data-bs-toggle="modal" data-bs-target="#modalDetallesPeticion">
+                            Leer Detalles de la Peticion
+                        </button>
 
                     </section>
 
@@ -113,7 +115,7 @@
                     <section class="secciones row">
                         <div class="col-md-6 div_input_form">
                             <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Nombre del responsable:</label>
+                                <label class="col-md-12 form-label">Nombre del Responsable:</label>
                                 <input class="col-md-12 form-control" disabled type="text" id="nom_responsable">
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
@@ -121,7 +123,7 @@
                             </div>
                             
                             <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Apellido del responsable:</label>
+                                <label class="col-md-12 form-label">Apellido del Responsable:</label>
                                 <input class="col-md-12 form-control" disabled type="text" id="ape_responsable">
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
@@ -136,21 +138,21 @@
                         
                         <div class="col-md-6 div_input_form">
                             <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Nombre del Funcionario Atendido:</label>
+                                <label class="col-md-12 form-label">Nombre del Solicitante:</label>
                                 <input class="col-md-12 form-control" required type="text" name="nom_atendido" id="nom_atendido" readonly>
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
                                 </div>
                             </div>
                             <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Apellido del Funcionario Atendido:</label>
+                                <label class="col-md-12 form-label">Apellido del Solicitante:</label>
                                 <input class="col-md-12 form-control" required type="text" name="ape_atendido" id="ape_atendido" readonly>
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
                                 </div>
                             </div>
                             <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Cedula del Funcionario Atendido:</label>
+                                <label class="col-md-12 form-label">Cedula del Solicitante:</label>
                                 <input class="col-md-12 form-control" type="text" maxlength="10" name="ced_atendido" id="ced_atendido" readonly required>
                             </div>
                         </div>
@@ -165,11 +167,30 @@
                         </div>
 
                     </section>
-                    
-                    <script src="JS/validar.formularios.js"></script>
             </form>
             <!--Fin del Formulario-->
+
+            <!-- Modal -->
+            <div class="modal fade" id="modalDetallesPeticion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Detalles de la Peticion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Comprendido</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+                    
+        <script src="JS/validar.formularios.js"></script>
+        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js"></script>
     </main>
     
 </body>

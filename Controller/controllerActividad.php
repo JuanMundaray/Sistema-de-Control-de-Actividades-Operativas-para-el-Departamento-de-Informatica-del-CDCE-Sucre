@@ -94,8 +94,13 @@ switch($option){
             $todas=false;
         }
         //-----------------paginacion
-        $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
-        $num_resultados=$_REQUEST['num_resultados'];
+        if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
+            $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
+            $num_resultados=$_REQUEST['num_resultados'];
+        }else{
+            $pagina=false;
+            $num_resultados=false;
+        }
         //-----------------paginacion
         $resultado=$actividad->ObtenerActividades($pagina,$num_resultados,$todas);
 
@@ -111,20 +116,6 @@ switch($option){
         echo json_encode($resultado);
     break;
 
-    case 'buscarCodigo':
-        $codigo_actividad=$_REQUEST['codigo_actividad'];
-        $actividad=new actividad();
-        $actividad->setCodigoActividad($codigo_actividad);
-        $resultado=$actividad->buscarCodigo();
-        if($resultado){
-            $resultado=json_encode($resultado);
-            echo $resultado;
-        }else{
-            $resultado=json_encode($resultado);
-            echo $resultado;
-        }
-    break;
-
     case 'modificar':
         $actividad=new actividad();
         $observacion=$_REQUEST['observacion'];
@@ -136,7 +127,7 @@ switch($option){
             $tipo_file=$_FILES["evidencia"]["type"];
             $file_size=$_FILES["evidencia"]["size"];
             //Ruta de destino donde se guardara el archivo en el servidor
-            $ruta_destino=$_SERVER['DOCUMENT_ROOT'].'/intranet/uploads_sca_cdce/';
+            $ruta_destino=$_SERVER['DOCUMENT_ROOT'].'/sca_cdce/uploads/';
             //mover la imagen a la carpeta de destino
             move_uploaded_file($_FILES['evidencia']['tmp_name'],$ruta_destino.$nombre_file);
             $actividad->setEvidencia(($nombre_file));
@@ -155,10 +146,28 @@ switch($option){
 
         case 'contarRegistros':
             $actividad=new actividad();
+
+            if(isset($_REQUEST['nombre_actividad'])){
+                $actividad->setNombreActividad($_REQUEST['nombre_actividad']);
+            }
+            if(isset($_REQUEST['codigo_actividad'])){
+                $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+            }
             if(isset($_REQUEST['estado_actividad'])){
                 $actividad->setEstadoActividad($_REQUEST['estado_actividad']);
             }
-            $resultado=$actividad->contarNumRegistros();
+            if(isset($_REQUEST['fecha_registro'])){
+                $actividad->setfechaRegistro($_REQUEST['fecha_registro']);
+            }
+            if(isset($_REQUEST['id_usuario_responsable'])){
+                $actividad->setIdUsuario($_REQUEST['id_usuario_responsable']);
+            }
+            if(isset($_REQUEST['todas'])){
+                $todas=true;
+            }else{
+                $todas=false;
+            }
+            $resultado=$actividad->contarNumRegistros($todas);
 
             if($resultado){
                 $resultado=json_encode($resultado);

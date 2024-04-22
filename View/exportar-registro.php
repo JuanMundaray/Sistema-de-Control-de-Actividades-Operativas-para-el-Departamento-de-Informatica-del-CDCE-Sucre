@@ -15,7 +15,7 @@
                 }
             }
             else{
-                header("Location:../index");
+                header("Location:../Index.php");
                 exit();
             }
         ?>

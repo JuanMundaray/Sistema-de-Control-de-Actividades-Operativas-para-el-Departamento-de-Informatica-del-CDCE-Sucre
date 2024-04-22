@@ -26,25 +26,22 @@
             
         ?>
     <body>
-        
-        
         <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
-
-        <main class="center-edit">
-            <section class="secciones">
+        <main>
+            <div class="contenedor_login">
                 <form class="form_login needs-validation" method="post" action="../Controller/controllerUsuario.php" novalidate>
-                    <h1 class="titleh1">Ingresar al Sistema</h1>
+                    <h1>Ingresar al Sistema</h1>
                     <div class="row gy-4">
                         <div class="col-md-12">
                             <label class="form-label">Nombre de Usuario:</label>
-                            <input class="col-md-12 form-control" type="text" name="username" id="username" placeholder="Nombre de Usuario" required>
+                            <input class="form-control" type="text" name="username" id="username" placeholder="Nombre de Usuario" required>
                             <div class="invalid-feedback">
                                 *Este Campo no puede esta vacío
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 col-sm-8">
                             <label class="form">Contraseña:</label>
-                            <input class="col-md-12 form-control" type="password" name="password" id="password" placeholder="********" minlength="4" required>
+                            <input class="form-control" type="password" name="password" id="password" placeholder="********" minlength="4" required>
                             <div class="invalid-feedback">
                                 *Contraseña Incorrecta. Debe ingresar minimo 4 digitos
                             </div>
@@ -67,7 +64,7 @@
                     </div>
                     <script src="JS/validar.formularios.js"></script>
                 </form>
-            <section>
+            </div>
         </main>
     </body>
 </html>

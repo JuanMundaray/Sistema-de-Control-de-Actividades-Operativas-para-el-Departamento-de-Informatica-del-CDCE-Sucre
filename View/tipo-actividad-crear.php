@@ -23,7 +23,7 @@
                 exit();
             }
         }else{
-            header("Location:../index");
+            header("Location:../Index.php");
             exit();
         }
 
@@ -34,12 +34,12 @@
     <main>
         <h1 class="titleh1">Crear Tipo de Actividad</h1>
         <div class="contenedorPrincipal">    
-            <h2 class="titleh2">Crear Tipo de Actividad</h2>
+            <h2 style="background-color:rgb(255, 60, 0);" class="titleh2">+ Crear Tipo de Actividad</h2>
             <section class="secciones row">
                 <form class="needs-validation formulario row" method="post" action="../Controller/controllerTipo_actividad.php" novalidate>    
                     <div class="col-md-7 div_input_form">
                         <label class="col-md-7 form-label">Tipo de Actividad a Registrar:</label>
-                        <input class="col-md-7 form-control" type="text" name="nombre_tipo" id="nombre_tipo" required maxlength="100">
+                        <input class="col-md-7 form-control" type="text" name="nombre_tipo" id="nombre_tipo" required maxlength="50">
                         <div class="invalid-feedback">
                             *Este Campo no puede esta vacío
                         </div>

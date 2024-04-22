@@ -26,7 +26,7 @@
             exit();
         }
     }else{
-        header("Location:../index");
+        header("Location:../Index.php");
         exit();
     }
     require_once("Plantillas/Plantilla_cabecera.php");
@@ -40,20 +40,20 @@
             <form class="formulario needs-validation" method="post" action="../Controller/controllerUsuario.php" novalidate>
                     <section id="secciones" class="secciones row">
                         <div class="col-md-10 div_input_form">
-                            <label class="col-md-12 form-label">Nombre de Usuario:</label>
-                            <input type="text"class="input_form col-md-12 form-control" name="username" id="username" placeholder="Nombre de Usuario" required>
+                            <label class="form-label">Nombre de Usuario:</label>
+                            <input type="text"class="input_form col-md-12 form-control" name="username" id="username" placeholder="Nombre de Usuario" minlength="4" maxlength="50" required>
 
                             <div class="invalid-feedback">
-                                *Este Campo no Puede Estar Vacío
+                                *El Nombre de Usuario Debe de Tener Como Mínimo 4 Carácteres
                             </div>
                         </div>
 
                         <div class="col-md-10 div_input_form">
                             <label class="col-md-12 form-label">Contraseña:</label>
-                            <input type="text"class="input_form col-md-12 form-control" name="password" id="password" placeholder="****" minlength="4" required>
+                            <input type="text"class="input_form col-md-12 form-control" name="password" id="password" placeholder="****" minlength="4" maxlength="50" required>
 
                             <div class="invalid-feedback">
-                                *La Contraseña debe tener mínimo 4 dígitos
+                                *La Contraseña Debe de Tener Como Mínimo 4 Carácteres
                             </div>
                         </div>
 
@@ -78,7 +78,7 @@
 
                         <div class="col-md-10 div_input_form">
                             <label class=" form-label" >Cedula de Identidad:</label>
-                            <input type="text"class=" input_form col-md-12 form-control" name="cedula" id="cedula" placeholder="Cédula de Identidad" maxlength="10" minlength="9" required>
+                            <input type="text" class=" input_form col-md-12 form-control" name="cedula" id="cedula" placeholder="Cédula de Identidad" maxlength=9 required>
 
                             <div class="invalid-feedback">
                                 *La Cédula debe tener como mínimo 9 dígitos

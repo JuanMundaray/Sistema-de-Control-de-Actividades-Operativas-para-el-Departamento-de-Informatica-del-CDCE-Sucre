@@ -1,40 +1,21 @@
-header{
+.header{
     width: 100%;
     position: fixed;
     z-index: 9;
-    left: 0;
-    top: 0;
     padding: 0;
-    height: 85px;
     background-color: rgb(196, 51, 51);
-
-
 }
 
 .Imagenes-Cabecera{
    background-color: rgb(207, 207, 207);
-   height: 50px;
+   height: 7vh;
    padding: 7px;
    margin: 0;
 }
 
-.logo-ZEED{
+.Imagenes-Cabecera img{
     padding: 0;
     height: 100%;
-}
-
-.logo-zamora200{
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
-.Mover-Derecha{
-    float: right;
-    }
-
-.Mover-Izquierda{
-    float: left;
 }
 
 /*raya azul de la cabecera*/
@@ -47,27 +28,62 @@ header{
 
 .Parte-Inferior-Cabecera{
     display: flex;
-    background-color: rgb(235, 104, 28);
+    background-color: var(--ColorCabecera);
     margin: 0;
-    padding: 0;
-    padding: 2px;
+    padding: 1px;
+    width: 100%;
     padding-left: 0.1vw;
 }
 
 .Parte-Inferior-Cabecera h3{
-    height: 100%;
     position: relative;
-    top: 0;
-    padding: 0;
     margin-right: 20px;
     margin-top: 4px;
     color: aliceblue;
-    font-size: 2.3rem;
+    font-size: 5vh;
     font-weight: 600;
 }
 
-@media screen and (max-width: 490px){
-	.logo-zamora200{
+#boton_despliegue{
+    width:8vh;
+    height:8vh;
+}
+
+#boton_despliegue:focus{
+    transition: all 1s;
+    transform: rotate(90deg);
+}
+
+.Parte-Inferior-Cabecera .imagen_perfil img{
+    width: 6vh;
+    height: 6vh;
+}
+
+@media screen and ((max-height: 500px)) {
+    .Imagenes-Cabecera{
+        height: 40px;
+    }
+    .Imagenes-Cabecera .img2{
+        display: none;
+    }
+    .Parte-Inferior-Cabecera h3{
+        font-size: 20px;
+    }
+    #boton_despliegue{
+        width:35px;
+        height:35px;
+        float: right;
+    }
+    .Parte-Inferior-Cabecera .imagen_perfil img{
+        width:32px;
+        height:32px;
+    } .raya{
+        height: 3px;
+    }
+}
+
+@media screen and ((max-width: 500px)) {
+    .Imagenes-Cabecera .img2{
         display: none;
     }
 }

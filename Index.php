@@ -4,7 +4,7 @@
         header('location:View/Dashboard.php');
         exit();
     }else{
-        header('location:View/inicio.php');
+        header('location:View/Inicio.php');
         exit();
     }
 

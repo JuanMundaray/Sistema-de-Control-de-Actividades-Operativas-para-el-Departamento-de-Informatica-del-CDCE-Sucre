@@ -53,7 +53,7 @@ centinela=true;
 				<div>
 					<a class="row" href='cerrar-sesion.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-close.png" class="icons-menudeslizante"></figure>
-						<span class="col">Salir</span>
+						<span class="col">Cerrar Sesion</span>
 					</a>
 				</div>
 			</li>

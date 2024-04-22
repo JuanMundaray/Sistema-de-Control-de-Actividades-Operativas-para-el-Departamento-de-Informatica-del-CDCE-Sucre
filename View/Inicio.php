@@ -11,9 +11,6 @@
         <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
-        <script src="../Framework/jquery-3.6.3.min.js"></script>
-        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.min.js"></script>
-        <script src="./Plantillas/menu_desplegable-login.js"></script>
     </head>
     <?php
             session_start();
@@ -40,15 +37,15 @@
                                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                             </div>
                             <div class="carousel-item active">
-                                <img src="./Resources/Imagenes/carrusel/carrusel.png" class="d-block w-100" alt="...">
+                                <img src="./Resources/Imagenes/carrusel/4.jpg" class="img-thumbnail d-block w-100" alt="...">
                             </div>
 
                             <div class="carousel-item">
-                                <img src="./Resources/Imagenes/carrusel/carrusel2.png" class="d-block w-100" alt="...">
+                                <img src="./Resources/Imagenes/carrusel/2.jpg" class="img-thumbnail d-block w-100" alt="...">
                             </div>
 
                             <div class="carousel-item">
-                                <img src="./Resources/Imagenes/carrusel/carrusel3.png" class="d-block w-100" alt="...">
+                                <img src="./Resources/Imagenes/carrusel/3.jpg" class="img-thumbnail d-block w-100" alt="...">
                             </div>
                             
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -66,5 +63,9 @@
                 </section>
             </div>
         </main>
+
+        <script src="../Framework/jquery-3.6.3.min.js"></script>
+        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.min.js"></script>
+        <script src="./Plantillas/menu_desplegable-login.js"></script>
     </body>
 </html>

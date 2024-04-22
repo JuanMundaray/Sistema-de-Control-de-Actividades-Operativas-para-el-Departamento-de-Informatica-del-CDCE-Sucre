@@ -1,44 +1,55 @@
 $(document).ready(function(){
         
-    $('#buscar_nombre_usuario').on('input',function(){
-        //Funcion ajax para buscar un usuario por su nombre
-        let data=$("#buscar_nombre_usuario").val();
-        buscarUsuarioHistorial(data,"nombre_usuario",true);
+    $('#num_resultados').on('click',function(){
+        getUsuarios();
     });
-    getHistorialUsuarios();//Se Dibujan todas las actividades registradas en la tabla de actividades
+
+    $('#buscar_nombre_usuario').on('input',function(){
+        getUsuarios();
+    });
+    getUsuarios();//Se Dibujan todas las actividades registradas en la tabla de actividades
 
 });
 
-function getHistorialUsuarios(pagina=1){
+function getUsuarios(pagina=1){
 
-    let num_resultados=$('#num_resultados').val();
-
+    let num_resultados=$("#num_resultados").val();
+    let nombre_usuario=$("#buscar_nombre_usuario").val();
     $.ajax({
         type:"POST",
         url:"../Controller/controllerUsuario.php",
-        data:{option:'obtener',pagina:pagina,num_resultados:num_resultados},
+        data:{
+            option:'obtener',
+            pagina:pagina,
+            num_resultados:num_resultados,
+            nombre_usuario:nombre_usuario,
+            extraer_todos:true,
+        },
         dataType:'json',
         success:function(msg){
             RellenarTablaHistorialUsuarios(msg);
-            paginacion(num_resultados);
-        },
-        error:function(jqXHR,textStatus,errorThrown){
+            paginacion(num_resultados,msg.length);
         }
 
     });
 }
-
 function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
 
+    let nombre_usuario=$("#nombre_usuario").val();
     let num_filas;
-    $.ajax({
+    
+    $.ajax({ 
         async:false,
         type:"POST",
         url:"../Controller/controllerUsuario.php",
-        data:{option:'contarRegistrosHistorial'},
+        data:{
+            option:'contarRegistros',
+            nombre_usuario:nombre_usuario,
+            extraer_todos:true
+        },
         dataType:'json',
         success:function(msg){
-            num_filas=msg;
+            num_filas=msg
         },
         error:function(jqXHR,textStatus,errorThrown){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
@@ -48,16 +59,18 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
 
     let num_paginas=Math.ceil((num_filas)/(num_resultados));
     $("#num_paginas").empty();
+
     for(let i=1;i<=num_paginas;i++){
         setNumeroPaginas(i);
     }
-    
+
     function setNumeroPaginas(numero){
         $("#num_paginas").append(
-            `<li class="page-item"><a class="page-link" href='#tabla_historial_usuarios' onclick="getHistorialUsuarios(${numero})"'>${numero}</a></li>`
+            `<li class="page-item"><a class="page-link" href='#tabla_actividades' onclick="getUsuarios(${numero})"'>${numero}</a></li>`
         )
     }
 }
+
 
 function RellenarTablaHistorialUsuarios(msg){
 
@@ -93,27 +106,4 @@ function RellenarTablaHistorialUsuarios(msg){
         </tr>`);
     });
     tabla.append("</tbody>");
-}
-
-function buscarUsuarioHistorial(data_busq,columna,useLIKE=true,pagina=1){
-
-    let num_resultados=$("#num_resultados").val();
-    
-    $.ajax({
-        type:"POST",
-        url:"../Controller/controllerUsuario.php",
-        data:{option:"buscar",data_busq:data_busq,columna:columna,
-        num_resultados:num_resultados,
-        pagina:pagina,useLIKE:useLIKE},
-        dataType:'json',
-        success:function(msg){
-            RellenarTablaHistorialUsuarios(msg);
-            paginacion(num_resultados,data_busq,columna,useLIKE);
-
-        },
-        error:function(jqXHR,textStatus,errorThrown){
-            alert("Sin Resultados");
-        }
-
-    });
 }

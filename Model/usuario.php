@@ -142,75 +142,39 @@ class usuario
         return $resultado;
     }
 
-    public function getNumRegistros($columna=false,$data_busq=false,$useLIKE=true)
+
+    public function getUsuarios($pagina,$num_resultados,$todos=false)
     {
         $resultado = false;
         try{
-            $db = DataBase::getInstance();
-            
-            if($columna){
-                if($useLIKE==true){
-                    $consulta = "SELECT * FROM actividades.usuario WHERE $columna ILIKE '$data_busq%' AND marca_existencia=true";
-                }else{
-                    $consulta = "SELECT * FROM actividades.usuario WHERE $columna=$data_busq AND marca_existencia=true";
-                }
-            }     
-            else{
-                $consulta = "SELECT * FROM actividades.usuario WHERE marca_existencia=true";
-            }
-            $resultadoPDO = $db->query($consulta);
-            $resultado = $resultadoPDO->rowCount();
-            $resultadoPDO->closeCursor();                        
-        }
-        catch(Exception $objeto){
-            echo $objeto->getMessage();
-            $resultado = false;
-        }
-        
-        return $resultado; 
-    }
+            $nombre_usuario = $this->nombre_usuario;
+            $id_usuario = $this->id_usuario;
 
-    public function getNumRegistrosHistorial($columna=false,$data_busq=false,$useLIKE=true)
-    {
-        $resultado = false;
-        try{
             $db = DataBase::getInstance();
-            
-            if($columna){
-                if($useLIKE==true){
-                    $consulta = "SELECT * FROM actividades.usuario WHERE $columna ILIKE '$data_busq%'";
-                }else{
-                    $consulta = "SELECT * FROM actividades.usuario WHERE $columna=$data_busq";
-                }
-            }     
-            else{
-                $consulta = "SELECT * FROM actividades.usuario";
-            }
-            $resultadoPDO = $db->query($consulta);
-            $resultado = $resultadoPDO->rowCount();
-            $resultadoPDO->closeCursor();                        
-        }
-        catch(Exception $objeto){
-            echo $objeto->getMessage();
-            $resultado = false;
-        }
-        
-        return $resultado; 
-    }
-
-
-    public function get_usuario($pagina,$num_resultados)
-    {
-        $resultado = false;
-        try{
-            $punto_inicio=($pagina-1)*$num_resultados;
-            $db = DataBase::getInstance();
-            $order='ASC';
+            $orden='ASC';
             $consulta = "SELECT * FROM actividades.usuario
             LEFT JOIN actividades.departamentos
             ON usuario.departamento_usuario=departamentos.id_departamento
-            ORDER BY id_usuario ASC
-            LIMIT $num_resultados OFFSET $punto_inicio";
+            WHERE 1=1";
+
+            if(!empty($nombre_usuario)){
+                $consulta .=" AND nombre_usuario ILIKE '$nombre_usuario%'";
+            }
+            if(!empty($id_usuario)){
+                $consulta .=" AND id_usuario=$id_usuario";
+            }
+
+            if($todos==false){
+                // Si la variable todos, es decir que dice si se quieren extraer a todos los usuarios incluyendo a los eliminados es igual a false, entonces solo se muestran los usuarios existentes
+                $consulta .=" AND marca_existencia='true'";
+            }
+
+            $consulta.=" ORDER BY fecha_creacion $orden";
+
+            if($pagina==true){
+                $punto_inicio=($pagina-1)*$num_resultados; 
+                $consulta.=" LIMIT $num_resultados OFFSET $punto_inicio";
+            }
 
             $resultadoPDO = $db->query($consulta);
             $resultado = $resultadoPDO->fetchAll();
@@ -224,57 +188,44 @@ class usuario
         return $resultado; 
     }
 
-    public function buscar_usuario($columna,$data_busq,$useLIKE=true,$pagina=false,$num_resultados=false)
-    {
+    
+
+    public function contarNumRegistros($todos){
         $resultado = false;
         try{
-            $data_busq=$data_busq;
+            $nombre_usuario = $this->nombre_usuario;
+            $id_usuario = $this->id_usuario;
             $db = DataBase::getInstance();
-            
-            if($pagina==true){
 
-                $punto_inicio=($pagina-1)*$num_resultados;  
+            $consulta = "SELECT * FROM actividades.usuario
+            LEFT JOIN actividades.departamentos
+            ON usuario.departamento_usuario=departamentos.id_departamento
+            WHERE 1=1";
 
-                if($useLIKE==true){
-                    $consulta = "SELECT * FROM actividades.usuario 
-                    INNER JOIN actividades.departamentos
-                    ON usuario.departamento_usuario=departamentos.id_departamento WHERE $columna ILIKE '$data_busq%'
-                    LIMIT $num_resultados OFFSET $punto_inicio";
-                }
-                if($useLIKE==false){
-                    $consulta = "SELECT * FROM actividades.usuario 
-                    INNER JOIN actividades.departamentos
-                    ON usuario.departamento_usuario=departamentos.id_departamento WHERE $columna='$data_busq'
-                    LIMIT $num_resultados OFFSET $punto_inicio";
-                }
+            if(!empty($nombre_usuario)){
+                $consulta .=" AND nombre_usuario ILIKE '$nombre_usuario%'";
+            }
+            if(!empty($id_usuario)){
+                $consulta .=" AND id_usuario=$id_usuario";
             }
 
-            if($pagina==false){
-                if($useLIKE==true){
-                    $consulta = "SELECT * FROM actividades.usuario 
-                    INNER JOIN actividades.departamentos
-                    ON usuario.departamento_usuario=departamentos.id_departamento
-                    WHERE $columna ILIKE '$data_busq%'";
-                }
-                if($useLIKE==false){
-                    $consulta = "SELECT * FROM actividades.usuario 
-                    INNER JOIN actividades.departamentos
-                    ON usuario.departamento_usuario=departamentos.id_departamento 
-                    WHERE $columna='$data_busq'";
-                }
+            if($todos==false){
+                // Si la variable todos, es decir que dice si se quieren extraer a todos los usuarios incluyendo a los eliminados es igual a false, entonces solo se muestran los usuarios existentes
+                $consulta .=" AND marca_existencia='true'";
             }
 
             $resultadoPDO = $db->query($consulta);
-            $resultado = $resultadoPDO->fetchAll();
+            $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();                        
         }
         catch(Exception $objeto){
-            $resultado = false;
             echo $objeto->getMessage();
+            $resultado = false;
         }
         
         return $resultado; 
     }
+
 
     public function login($nombre_usuario,$contrasena)
     {
@@ -317,6 +268,24 @@ class usuario
                 header('location:../View/login.php?noExiste');
                 exit();
             }
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
+        }
+        
+        return $resultado; 
+    }
+
+
+    public function cerrarSesion()
+    {
+        $resultado = false;
+        try{
+            session_start();
+            session_destroy();
+            header("location:../Index.php");
+            exit();
         }
         catch(Exception $objeto){
             echo $objeto->getMessage();
