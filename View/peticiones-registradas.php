@@ -18,7 +18,7 @@
                 }
             }
             else{
-                header("Location:../Index.php");
+                header("Location:../index.php");
                 exit();
             }
         ?>
@@ -48,7 +48,7 @@
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Lista de Peticiones</h2>
                 <section class="secciones">
-                    <!--Barra de Busqueda-->
+                    <!--Area de Busqueda-->
                     <nav class="navbar navbar-light ">
                     </nav>
 
@@ -87,24 +87,21 @@
                         </form>
 
                     </nav>
-                    <!--Barra de Busqueda-->
                     
                     <!--Tabla de Peticiones dibujada por medio de js-->
                     <div class="table-responsive">
-                        <table id="tabla_peticiones" class="table table-bordered text-nowrap table_default">
+                        <table id="tabla_peticiones" class="table align-middle text-nowrap table_default">
                         <!--Tabla de Peticiones dibujada por medio de js-->
                         <input type="hidden" value="<?php echo $_SESSION['tipo_usuario'] ?>" id="tipo_usuario">
                             
                         </table>
                     </div>
-                    <!--Tabla de Peticiones dibujada por medio de js-->
 
                     <!--Paginacion-->
                     <nav style="margin-top: 20px;">
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>
-                    <!--Paginacion-->
 
                     <!--Botones para generar Reportes de la Tabla de Peticiones-->
                     <div class="row center-element" id="ExportarTabla">

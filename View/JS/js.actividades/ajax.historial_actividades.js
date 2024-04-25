@@ -7,6 +7,10 @@ $(document).ready(function(){
         //Funcion ajax para buscar una actividad por su codigo
         getHistorialActividades();
     });
+    $("#buscar_actividad_boton").click(function(){ 
+        //Funcion ajax para buscar una actividad por su codigo
+        getHistorialActividades();
+    });
 
 });
 
@@ -63,7 +67,7 @@ function RellenarTablaActividades(msg){
 
     let tabla=$("#tabla_historial_actividades");
     tabla.empty();
-    tabla.append(`<tbody><tr>
+    tabla.append(`<thead><tr>
             <th><label>Fecha de Registro</label></th>
             <th><label>Actividad</label></th>
             <th><label>Tipo de Actividad</label></th>
@@ -74,15 +78,14 @@ function RellenarTablaActividades(msg){
             <th><label>Funcionario Atendido</label></th>
             <th><label>Cedula del Funcionario Atendido</label></th>
             <th><label>Estado</label></th>
-        </tr>`);
-
-
+        </tr></thead>`);
+    tabla.append('<tbody>');
 
     msg.forEach(function(elemento){
         //Estas son los botones de accion que estaran disponibles segun si la actividad a sido completada o no
 
         let btn_estilo=estilo_btn(elemento['estado_actividad']);
-        tabla.append(`<tr>
+        tabla.append(`<tr class='align-middle'>
         <td>${elemento['fecha_registro']}</td>
         <td>${elemento['nombre_actividad']}</td>
         <td>${elemento['nombre_tipo']}</td>
@@ -93,8 +96,8 @@ function RellenarTablaActividades(msg){
         <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
         <td>${elemento['ced_atendido']}</td>
         <td><button class="btn ${btn_estilo} tamano_boton">${elemento['estado_actividad']}</button></td>`);
-    tabla.append("</tbody>");
     });
+    tabla.append("</tbody>");
 }
 
 function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos

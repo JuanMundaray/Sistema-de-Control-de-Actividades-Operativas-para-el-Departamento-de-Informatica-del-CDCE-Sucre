@@ -24,7 +24,7 @@
             exit();
         }
     }else{
-        header("Location:../Index.php");
+        header("Location:../index.php");
         exit();
     }
 
@@ -42,9 +42,9 @@
 
                     <div class="col-md-7">
                         <label class="col-md-7 form-label">Nombre de Departamento a Registrar:</label>
-                        <input class="col-md-7 form-control" type="text" name="nombre_departamento" id="nombre_departamento" required maxlength="50">
+                        <input class="col-md-7 form-control" type="text" name="nombre_departamento" id="nombre_departamento" required minlength="4" maxlength="50">
                         <div class="invalid-feedback">
-                            *Este Campo no puede esta vacío
+                            *Este Campo Debe Tener Como Mínimo 4 Caracteres
                         </div>
                     </div>
 

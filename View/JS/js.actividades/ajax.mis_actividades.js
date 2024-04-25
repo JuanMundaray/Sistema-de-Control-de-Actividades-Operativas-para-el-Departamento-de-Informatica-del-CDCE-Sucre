@@ -76,7 +76,7 @@ function RellenarTablaActividades(msg){
 
     let tabla=$("#tabla_actividades");
     tabla.empty();
-    tabla.append(`<tbody><tr>
+    tabla.append(`<thead><tr>
             <th><label>Fecha de Registro</label></th>
             <th><label>Actividad</label></th>
             <th><label>Tipo de Actividad</label></th>
@@ -88,10 +88,10 @@ function RellenarTablaActividades(msg){
             <th><label>Cedula del Funcionario Atendido</label></th>
             <th><label>Estado</label></th>
             <th><label>Accion</label></th>
-        </tr>`);
+        </tr></thead>`);
 
 
-
+    tabla.append("<tbody>");
     msg.forEach(function(elemento){
         //Estas son los botones de accion que estaran disponibles segun si la actividad a sido completada o no
         let accion;
@@ -109,7 +109,7 @@ function RellenarTablaActividades(msg){
         }
 
         let btn_estilo=estilo_btn(elemento['estado_actividad']);
-        tabla.append(`<tr>
+        tabla.append(`<tr class='align-middle'>
         <td>${elemento['fecha_registro']}</td>
         <td>${elemento['nombre_actividad']}</td>
         <td>${elemento['nombre_tipo']}</td>

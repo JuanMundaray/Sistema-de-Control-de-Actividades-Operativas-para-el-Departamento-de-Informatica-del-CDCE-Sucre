@@ -2,7 +2,8 @@ $(document).ready(function(){
     //Generar Codigo Aleatorio y colocarlo en un input
     var timestamp=new Date().getTime();
     var codigo=timestamp.toString(36);
-    codigo+=Math.floor(Math.random()*10000000000000000);
+    codigo+=Math.floor(Math.random()*10);
+    codigo='cdce'+codigo;
     $("#codigo_actividad").val(codigo);
     
     //obtener fecha actual

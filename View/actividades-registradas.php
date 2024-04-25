@@ -16,7 +16,7 @@
                 }
             }
             else{
-                header("Location:../Index.php");
+                header("Location:../index.php");
                 exit();
             }
         ?>
@@ -108,7 +108,7 @@
 
                     <!--La tabla-->
                     <div class="table-responsive">
-                        <table id="tabla_actividades" class="table table-bordered  text-nowrap table_default">
+                        <table id="tabla_actividades" class="table text-nowrap table_default">
                         <tr>
                             <th><label>Fecha de Registro</label></th>
                             <th><label>Actividad</label></th>

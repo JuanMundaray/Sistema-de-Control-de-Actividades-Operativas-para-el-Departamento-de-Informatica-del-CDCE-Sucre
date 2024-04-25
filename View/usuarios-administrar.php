@@ -27,7 +27,7 @@
                 exit();
             }
         }else{
-            header("Location:../Index.php");
+            header("Location:../index.php");
             exit();
         }
 
@@ -73,7 +73,7 @@
                     
                     <!--Tabla que sera rellenada por medio de js-->
                     <div class="table-responsive">
-                        <table id="tabla_usuarios" class="table table-bordered text-nowrap table_default">
+                        <table id="tabla_usuarios" class="table align-middle text-nowrap table_default">
                             <!--Tabla que sera rellenada por medio de js-->
                         </table>
                     </div>

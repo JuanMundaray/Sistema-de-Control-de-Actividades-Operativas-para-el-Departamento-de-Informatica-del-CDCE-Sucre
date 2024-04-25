@@ -21,7 +21,7 @@
                 exit();
             }
         }else{
-            header("Location:../Index.php");
+            header("Location:../index.php");
             exit();
         }
 
@@ -37,7 +37,7 @@
             <section>
                 <table class="table tabla-control-sistema">
                     <tr>
-                        <td><a href="administrar-usuarios.php">Administrar Usuarios</a></td>
+                        <td><a href="usuarios-administrar.php">Administrar Usuarios</a></td>
                     </tr>
                     <tr>
                         <td><a href="usuario-crear.php">Crear Usuarios</a></td>
@@ -50,6 +50,9 @@
                     </tr>
                     <tr>
                         <td><a href="departamentos-mostrar.php">Administrar Departamentos Registrados</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="tipo-actividad.php">Administrar Tipos de Actividad</a></td>
                     </tr>
                 </table>
             </section>

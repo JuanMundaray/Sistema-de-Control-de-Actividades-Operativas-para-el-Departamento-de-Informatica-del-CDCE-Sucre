@@ -25,7 +25,7 @@
                     exit();
                 }
             }else{
-                header("Location:../Index.php");
+                header("Location:../index.php");
                 exit();
             }
 
@@ -46,36 +46,16 @@
                         <input type="hidden" value="modificar" name="option">
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Codigo de Registro:</label>
-                            <input class="col-md-12 form-control" value="<?php echo $_REQUEST['codigo_actividad'];?>" type="text" readonly name="codigo_actividad" id="codigo_actividad">
+                            <input value="<?php echo $_REQUEST['codigo_actividad'];?>" type="hidden" readonly name="codigo_actividad" id="codigo_actividad">
+                            <input class="col-md-12 form-control" disabled value="<?php echo $_REQUEST['codigo_actividad'];?>">
                         </div>
-                        <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Observacion:</label>
-                                <textarea class="col-md-12 form-control"  maxlength="512" name="observacion" id="observacion"></textarea>
-                        </div>
-                        <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Informe:</label>
-                                <textarea class="col-md-12 form-control" maxlength="512" name="informe" id="informe" placeholder="Informe sobre la realizacion de esta Actividad" required></textarea>
 
-                                <div class="invalid-feedback">
-                                    *Este Campo es Obligatorio
-                                </div>
-                        </div>
-                        
-                        <div class="col-md-12 div_input_form" id="div_estado">
-                                <label class="col-md-12 form-label">Estado:</label>
-                                <select class="form-select" id="estado" name="estado" required>
-                                    <option selected disabled value="">Seleccione...</option>
-                                    <option value="PROCESO" id="select_proceso">PROCESO (60%)</option>
-                                    <option value="COMPLETADA" id="select_completada">COMPLETADA (100%)</option>
-                                    <option value="SUSPENDIDA" id="select_suspendida">SUSPENDIDA</option>
-                                </select>
-
-                                <div class="invalid-feedback">
-                                    *Seleccione un Estado de Actividad Válido
-                                </div>
-                        </div>
-                        
                         <div class="col-md-6 div_input_form">
+                            <label class="col-md-12 form-label">Tipo de Actividad:</label>
+                            <input type="text" class="col-md-12 form-control" disabled name="tipo" id="tipo" readonly>
+                        </div>
+                        
+                        <div class="col-md-12 div_input_form">
                             <label class="col-md-12 form-label">Nombre de Actividad:</label>
                             <input class="col-md-12 form-control" type="text" readonly disabled name="nombre" id="nombre">
                         </div>
@@ -89,11 +69,36 @@
                             <label class="col-md-12 form-label">Departamento Receptor:</label>
                             <input type="text" class="col-md-12 form-control" disabled name="dep_receptor" id="dep_receptor" readonly>
                         </div>
+                        
+                        <div class="col-md-12 div_input_form" id="div_estado">
+                                <label class="col-md-12 form-label">Estado:</label>
+                                <select class="form-select" id="estado" name="estado" required>
+                                    <option selected disabled value="">Seleccione el estado a marcar...</option>
+                                    <option value="PROCESO" id="select_proceso">PROCESO (60%)</option>
+                                    <option value="COMPLETADA" id="select_completada">COMPLETADA (100%)</option>
+                                    <option value="SUSPENDIDA" id="select_suspendida">SUSPENDIDA</option>
+                                </select>
 
-                        <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Tipo de Actividad:</label>
-                            <input type="text" class="col-md-12 form-control" disabled name="tipo" id="tipo" readonly>
+                                <div class="invalid-feedback">
+                                    *Seleccione un Estado de Actividad Válido
+                                </div>
                         </div>
+
+                        <div class="col-md-12 div_input_form">
+                                <label class="col-md-12 form-label">Observacion:</label>
+                                <textarea class="col-md-12 form-control"  maxlength="512" name="observacion" id="observacion"></textarea>
+                                <div class="form-text">*Este Campo es Opcional</div>
+                        </div>
+
+                        <div class="col-md-12 div_input_form">
+                                <label class="col-md-12 form-label">Informe:</label>
+                                <textarea class="col-md-12 form-control" maxlength="512" name="informe" id="informe" placeholder="Informe sobre la realizacion de esta Actividad" minlength="4" required></textarea>
+
+                                <div class="invalid-feedback">
+                                    *Este Campo Debe Tener Como Mínimo 15 Carácteres
+                                </div>
+                        </div>
+
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Nombre del responsable:</label>
                             <input class="col-md-12 form-control" disabled type="text" name="nom_responsable" id="nom_responsable" readonly>

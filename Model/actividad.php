@@ -274,6 +274,8 @@ class actividad{
         
         $export->connect();
 
+        $nombre_archivo='ACTIVIDADES REGISTRADAS';
+
         $campos=array(
             'codigo_actividad'=>'Codigo Actividad',
             'nombre_actividad'=>'Nombre de Actividad',
@@ -298,6 +300,7 @@ class actividad{
         
         if($id_usuario!=false){
             $consulta .=" AND id_usuario=$id_usuario";
+            $nombre_archivo='MIS ACTIVIDADES REGISTRADAS';
         }
         $export->query($consulta);
 
@@ -308,7 +311,7 @@ class actividad{
         $tabla=$export->build_table($campos);
         
         // Descargar archivo .xls
-        $export->download('ACTIVIDADES REGISTRADAS');
+        $export->download($nombre_archivo);
 
         if ($dbhex = $export->get_error()) {
             die($dbhex->getMessage());
@@ -327,7 +330,7 @@ class actividad{
         //nombres de columnas de la tabla
         $pdf->SetFont('Arial','B',7);
         $pdf->Cell(40,7,'Codigo de Actividad',1,0,'C');
-        $pdf->Cell(80,7,'Nombre de Actividad',1,0,'C');
+        $pdf->Cell(100,7,'Nombre de Actividad',1,0,'C');
         $pdf->Cell(25,7,'Fecha de Registro',1,0,'C');
         $pdf->Cell(25,7,'Estado de Actividad',1,0,'C');
         $pdf->Cell(35,7,'Responable del Registro',1,0,'C');
@@ -338,12 +341,12 @@ class actividad{
         //Anadir datos de la tablas
         foreach($data_sql as $fila){
             $pdf->Ln();
-            $pdf->Cell(40,$font_size_fila,$fila['codigo_actividad'],1);
-            $pdf->Cell(80,$font_size_fila,$fila['nombre_actividad'],1);
-            $pdf->Cell(25,$font_size_fila,$fila['fecha_registro'],1);
-            $pdf->Cell(25,$font_size_fila,$fila['estado_actividad'],1);
-            $pdf->Cell(35,$font_size_fila,$fila['nombre_personal'].' '.$fila['apellido_personal'],1);
-            $pdf->Cell(60,$font_size_fila,$fila['dep_receptor'],1);
+            $pdf->Cell(40,$font_size_fila,utf8_decode($fila['codigo_actividad']),1);
+            $pdf->Cell(100,$font_size_fila,utf8_decode($fila['nombre_actividad']),1);
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1);
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['estado_actividad']),1);
+            $pdf->Cell(35,$font_size_fila,utf8_decode($fila['nombre_personal']).' '.$fila['apellido_personal'],1);
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_receptor']),1);
         }
         $pdf->Output('','Tabla de Actividades Registradas',true);
     }
@@ -421,7 +424,7 @@ class actividad{
             $pdf->AddPage();
             $pdf->SetFont('Arial','BU',10);
             $pdf->Cell(0,7,'Evidencia de Completacion:',0,1,'L');
-            $pdf->Image('../../intranet/uploads_sca_cdce/'.utf8_decode($actividad[0]['evidencia']),null,null,100,100);$pdf->Ln();
+            $pdf->Image('../uploads/'.utf8_decode($actividad[0]['evidencia']),null,null,100,100);$pdf->Ln();
             $pdf->Ln();
         }
         $pdf->Output('','SCA_CDCE:REPORTE DE ACTIVIDAD '.$actividad[0]['codigo_actividad'],true);

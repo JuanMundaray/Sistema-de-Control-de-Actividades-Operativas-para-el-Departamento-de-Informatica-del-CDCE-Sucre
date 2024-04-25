@@ -25,7 +25,7 @@ switch($option){
         $usuario->set_fecha_creacion(date("Y-m-d"));
         $resultado=$usuario->guardar_usuario();
         if($resultado){
-            header('location:../View/administrar-usuarios.php');
+            header('location:../View/usuarios-administrar.php');
             exit();
         }
     break;
@@ -96,7 +96,7 @@ switch($option){
         $usuario->set_cedula($cedula);
         $resultado=$usuario->modificar_usuario();
         if($resultado){
-            header('location:../View/administrar-usuarios.php');
+            header('location:../View/usuarios-administrar.php');
             exit();
         }
     break;

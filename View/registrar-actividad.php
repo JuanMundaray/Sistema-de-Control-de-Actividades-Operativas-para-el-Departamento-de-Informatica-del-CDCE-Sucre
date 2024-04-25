@@ -21,7 +21,7 @@
             }
         }
         else{
-            header("Location:../Index.php");
+            header("Location:../index.php");
             exit();
         }
 
@@ -55,9 +55,9 @@
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Nombre de Actividad:</label>
-                            <input class="col-md-12 form-control" type="text" name="nombre_actividad" maxlength="50" id="nombre_actividad" required>
+                            <input class="col-md-12 form-control" type="text" name="nombre_actividad" minlength="4" maxlength="50" id="nombre_actividad" required>
                             <div class="invalid-feedback">
-                                Este Campo no puede esta vacío
+                                Este Campo Debe Tener Como Mínimo 4 Carácteres
                             </div>
                         </div>
 
@@ -99,7 +99,7 @@
                         <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Observacion:</label>
                                 <textarea class="col-md-12 form-control" name="observacion" id="observacion"></textarea>
-                                <div id="emailHelp" class="form-text">*Este Campo es Opcional</div>
+                                <div class="form-text">*Este Campo es Opcional</div>
                         </div>
                         
 
@@ -148,7 +148,10 @@
                             </div>
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Cedula del Funcionario Atendido:</label>
-                                <input class="col-md-12 form-control" type="text" maxlength="9" name="ced_atendido" id="ced_atendido" required>
+                                <input class="col-md-12 form-control" type="text" maxlength="8" name="ced_atendido" id="ced_atendido" required>
+                                <div class="invalid-feedback">
+                                    Este Campo Debe Tener Como Mínimo 7 Caracteres
+                                </div>
                             </div>
                         </div>
                         <input type="hidden" value="guardar" name="option" id="option">

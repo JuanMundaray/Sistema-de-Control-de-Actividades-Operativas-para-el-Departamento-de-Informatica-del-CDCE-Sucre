@@ -28,19 +28,19 @@
     <body>
         <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
         <main>
-            <div class="contenedor_login">
+            <div class="contenedor_login form-signin">
                 <form class="form_login needs-validation" method="post" action="../Controller/controllerUsuario.php" novalidate>
                     <h1>Ingresar al Sistema</h1>
                     <div class="row gy-4">
                         <div class="col-md-12">
-                            <label class="form-label">Nombre de Usuario:</label>
+                            <label for="username" class="username">Nombre de Usuario:</label>
                             <input class="form-control" type="text" name="username" id="username" placeholder="Nombre de Usuario" required>
                             <div class="invalid-feedback">
                                 *Este Campo no puede esta vacío
                             </div>
                         </div>
                         <div class="col-md-12 col-sm-8">
-                            <label class="form">Contraseña:</label>
+                            <label>Contraseña:</label>
                             <input class="form-control" type="password" name="password" id="password" placeholder="********" minlength="4" required>
                             <div class="invalid-feedback">
                                 *Contraseña Incorrecta. Debe ingresar minimo 4 digitos

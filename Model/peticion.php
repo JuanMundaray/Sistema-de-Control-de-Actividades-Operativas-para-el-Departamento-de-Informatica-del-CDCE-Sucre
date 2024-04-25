@@ -282,10 +282,20 @@ class peticion{
         ON peticiones.id_usuario=usuario.id_usuario
         LEFT JOIN actividades.departamentos
         ON peticiones.departamento_peticion=departamentos.id_departamento 
+        LEFT JOIN actividades.actividad
+        ON peticiones.actividad_originada=actividad.codigo_actividad 
         WHERE 1=1";
 
         if(!empty($id_usuario)){
-            $consulta.=" AND id_usuario=$id_usuario";
+            $consulta.=" AND peticiones.id_usuario=$id_usuario";
+            $campos=array(
+                'id_peticion'=>'ID',
+                'nombre_peticion'=>'Nombre de Peticion',
+                'nombre_departamento'=>'Departamento',
+                'fecha_peticion'=>'Fecha de Creacion',
+                'nombre_usuario'=>'Nombre de Usuario del Reponsable',
+                'estado_actividad'=>'Estado de Actividad Generada por Peticion'
+            );
             $nombre_archivo='LISTA DE MIS PETICIONES';
         }else{
             $consulta.=" AND estado_peticion<>'RECHAZADA'";

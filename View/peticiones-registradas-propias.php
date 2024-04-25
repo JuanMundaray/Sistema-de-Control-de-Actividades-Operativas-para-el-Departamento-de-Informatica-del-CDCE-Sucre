@@ -15,7 +15,7 @@
                 }
             }
             else{
-                header("Location:../Index.php");
+                header("Location:../index.php");
                 exit();
             }
         ?>
@@ -32,7 +32,7 @@
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
-        <script src="JS/js.peticiones/ajax.mispeticiones.js"></script>
+        <script src="JS/js.peticiones/ajax.misPeticiones.js"></script>
         <title>Mis Peticiones</title>
         
     </head>
@@ -50,7 +50,7 @@
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Lista de Peticiones</h2>
                 <section class="secciones">
-                    <!--Barra de Busqueda-->
+                    <!--Area de Busqueda-->
                     <nav class="navbar navbar-light row gy-4">
                         <form class="col-md-12 col-sm-12 gy-2 row">
                             <div class="col">
@@ -68,26 +68,27 @@
 
                         <div class="col-md-6">
                             <label class="form-label">Buscar Por Estado:</label>
-                            <select class="form-select" id="data_busq_estado" name="data_busq_estado">
-                                <option onclick="getPeticiones()" value="">Todas</option>
-                                <option onclick="getPeticiones()" value="ACEPTADA">Aceptadas</option>
-                                <option onclick="getPeticiones()" value="ESPERA">En Espera</option>
+                            <select class="form-select" id="data_busq_estado">
+                                <option value="">Todas</option>
+                                <option value="ACEPTADA">Aceptadas</option>
+                                <option value="ESPERA">En Espera</option>
                             </select>
                         </div>
 
                         <div class="col col-md-6">
                             <label class="form-label">Numero de Resultados:</label>
                             <select class="form-select" id="num_resultados">
-                                    <option onclick="getPeticiones()" value="5">5</option>
-                                    <option onclick="getPeticiones()" value="20">20</option>
-                                    <option onclick="getPeticiones()" value="50">50</option>
-                                    <option onclick="getPeticiones()" value="100">100</option>
+                                    <option value="5">5</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
                             </select>
                         </div>
                     </nav>
+                    
+                    <!--Tabla de Peticiones dibujada por medio de js-->
                     <div class="table-responsive">
-                        <table id="tabla_peticiones" class="table table-bordered text-nowrap table_default">
-                        <!--Tabla de Peticiones dibujada por medio de js-->
+                        <table id="tabla_peticiones" class="table  align-middle text-nowrap table_default">
                         <tr>
                             <th><label>Nombre de Peticion</label></th>
                             <th><label>Usuario que registro la peticion</label></th>
@@ -97,11 +98,14 @@
                         </tr>
                         </table>
                     </div>
+
+                    <!--Botones de Paginacion-->
                     <nav style="margin-top: 20px;">
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>
 
+                    <!--Botones para Generar Reportes de la tabla-->
                     <div class="row center-element">
                         <div class="col-md-6 center-element">
 

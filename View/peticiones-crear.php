@@ -13,7 +13,7 @@
             }
         }
         else{
-            header("Location:../Index.php");
+            header("Location:../index.php");
             exit();
         }
     ?>
@@ -50,15 +50,15 @@
                             <input class="form-control" type="text" id="nombre_peticion" name="nombre_peticion" required>
 
                             <div class="invalid-feedback">
-                                *Seleccione un Departamento Válido
+                                *Este Campo Debe Tener 4 Carácteres Como Mínimo
                             </div>
                         </div>
 
                         <div class="col-md-6 div_input_form">
-                            <label class=" form-label">Deparatamento que realiza la Petición:</label>
-                            <select class=" form-select" type="text" name="departamento_peticion" id="departamento_peticion" required>
-                                <option selected disabled value="">Seleccione...</option>
-                            </select>
+                            <label class=" form-label">Deparatamento que Realiza la Petición:</label>
+                            <input class="form-control" id="visualizar_departamento_peticion" type="text" disabled>
+
+                            <input type="hidden" value="" name="departamento_peticion" id="departamento_peticion">
 
                             <div class="invalid-feedback">
                                 *Seleccione un Departamento Válido
@@ -83,10 +83,10 @@
 
                         <div class="col-md-12 div_input_form">
                             <label class="form-label">Detalles de la Petición:</label>
-                            <textarea class=" form-control" name="detalles_peticion" id="detalles_peticion" placeholder="Se especifica con detalle como desea que se realice alguna actividad..." style="min-height: 200px;" required></textarea>
+                            <textarea class=" form-control" minlength="15" name="detalles_peticion" id="detalles_peticion" placeholder="Se especifica con detalle como desea que se realice alguna actividad..." style="min-height: 200px;" required></textarea>
 
                             <div class="invalid-feedback">
-                                *Este Campo es Obligatorio
+                                *Este Campo Debe Tener 15 Carácteres Como Mínimo
                             </div>
                         </div>
 

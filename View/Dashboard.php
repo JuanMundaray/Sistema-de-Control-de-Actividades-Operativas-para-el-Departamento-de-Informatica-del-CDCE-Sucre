@@ -16,7 +16,7 @@
             }
         }
         else{
-            header("Location:../Index.php");
+            header("Location:../index.php");
             exit();
         }
         require_once("Plantillas/Plantilla_cabecera.php");
@@ -167,7 +167,7 @@
                         </div>
 
                         <div class="LineaFinal">
-                            <a href="administrar-usuarios.php">Mas informacion</a>
+                            <a href="usuarios-administrar.php">Mas informacion</a>
                         </div>
 
                     </div>

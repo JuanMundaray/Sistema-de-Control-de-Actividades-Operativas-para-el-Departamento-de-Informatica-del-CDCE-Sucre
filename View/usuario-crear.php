@@ -26,7 +26,7 @@
             exit();
         }
     }else{
-        header("Location:../Index.php");
+        header("Location:../index.php");
         exit();
     }
     require_once("Plantillas/Plantilla_cabecera.php");
@@ -59,7 +59,7 @@
 
                         <div class="col-md-10 div_input_form">
                             <label class="col-md-12 form-label">Nombre:</label>
-                            <input type="text"class=" input_form col-md-12 form-control" name="nombre" id="nombre" placeholder="Nombre" required>
+                            <input type="text"class=" input_form col-md-12 form-control" name="nombre" id="nombre" placeholder="Nombre" maxlength="50" required>
 
                             <div class="invalid-feedback">
                                 *Este Campo no Puede Estar Vacío
@@ -68,7 +68,7 @@
 
                         <div class="col-md-10 div_input_form">
                             <label class="col-md-12 form-label">Apellido:</label>
-                            <input type="text"class=" input_form col-md-12 form-control" name="apellido" id="apellido" placeholder="Apellido" required>
+                            <input type="text"class=" input_form col-md-12 form-control" name="apellido" id="apellido" placeholder="Apellido" maxlength="50" required>
 
                             <div class="invalid-feedback">
                                 *Este Campo no Puede Estar Vacío
@@ -78,10 +78,10 @@
 
                         <div class="col-md-10 div_input_form">
                             <label class=" form-label" >Cedula de Identidad:</label>
-                            <input type="text" class=" input_form col-md-12 form-control" name="cedula" id="cedula" placeholder="Cédula de Identidad" maxlength=9 required>
+                            <input type="text" class=" input_form col-md-12 form-control" name="cedula" id="cedula" placeholder="Cédula de Identidad" maxlength=8 required>
 
                             <div class="invalid-feedback">
-                                *La Cédula debe tener como mínimo 9 dígitos
+                                *La Cédula debe tener como mínimo 8 dígitos
                             </div>
                         </div>
 

@@ -57,7 +57,7 @@ function RellenarTablaUsuario(msg){
 
                     <ul class="dropdown-menu dropdown-menu-lg-end">
                         <li><button class="dropdown-item" onclick="eliminarUsuario(${elemento['id_usuario']})">Eliminar Usuario</button></li>
-                        <li><a class="dropdown-item" href="editar-usuario.php?id_usuario=${elemento['id_usuario']}">Editar Usuario</a></li>
+                        <li><a class="dropdown-item" href="usuario-editar.php?id_usuario=${elemento['id_usuario']}">Editar Usuario</a></li>
                     </ul>
                 </div>
             </td>

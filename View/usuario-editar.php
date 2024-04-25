@@ -34,7 +34,7 @@
             exit();
         }
     }else{
-        header("Location:../Index.php");
+        header("Location:../index.php");
         exit();
     }
     require_once("Plantillas/Plantilla_cabecera.php");

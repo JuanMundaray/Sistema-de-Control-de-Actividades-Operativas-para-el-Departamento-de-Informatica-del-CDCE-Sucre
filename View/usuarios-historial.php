@@ -23,7 +23,7 @@
                 exit();
             }
         }else{
-            header("Location:../Index.php");
+            header("Location:../index.php");
             exit();
         }
 
@@ -63,7 +63,7 @@
                     
                     <!--Tabla del Historial-->
                     <div class="table-responsive">
-                        <table id="tabla_historial_usuarios" class="table table-bordered text-nowrap table_default">
+                        <table id="tabla_historial_usuarios" class="table align-middle text-nowrap table_default">
                         <tr>
                             <th><label>Nombre de Usuario</label></th>
                             <th><label>Nombre y Apellido</label></th>

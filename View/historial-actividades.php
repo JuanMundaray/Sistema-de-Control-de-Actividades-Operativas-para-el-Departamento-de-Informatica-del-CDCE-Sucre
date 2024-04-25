@@ -23,7 +23,7 @@
                 exit();
             }
         }else{
-            header("Location:../Index.php");
+            header("Location:../index.php");
             exit();
         }
 
@@ -85,7 +85,7 @@
 
                     <!--Tabla del Historial-->
                     <div class="table-responsive">
-                        <table id="tabla_historial_actividades" class="table table-bordered text-nowrap table_default">
+                        <table id="tabla_historial_actividades" class="table text-nowrap table_default">
                             <!--Tabla del Historial-->
                         </table>
                     </div>
@@ -103,7 +103,7 @@
                                         <input type="hidden" class="btn btn-success" name="option" value="exportarPDF">
                                         <input type="submit" class="btn btn-danger" value="Exportar a PDF">
                             </form>
-                            <form action="../Controller/controllerHistorialActividades.php">
+                            <form action="../Controller/controllerActividad.php">
                                 <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
                                 <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
                             </form>

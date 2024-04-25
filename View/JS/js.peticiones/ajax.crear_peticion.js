@@ -6,8 +6,7 @@ $(document).ready(function(){
         dataType:'json',
         success:function(msg){
             msg.forEach(function(elemento){
-                let tipo=$("#tipo_actividad");
-                tipo.append("<option value='"+elemento['id_tipo']+"'>"+elemento["nombre_tipo"]+"</option>");
+                $("#tipo_actividad").append("<option value='"+elemento['id_tipo']+"'>"+elemento["nombre_tipo"]+"</option>");
             });
         },
         error:function(jqXHR,textStatus,errorThrown){
@@ -24,8 +23,8 @@ $(document).ready(function(){
         dataType:'json',
         success:function(msg){
             msg.forEach(function(elemento){
-                let departamento_peticion=$("#departamento_peticion");
-                departamento_peticion.html("<option value='"+elemento['departamento_usuario']+"'>"+elemento["nombre_departamento"]+"</option>");
+                $("#departamento_peticion").val(elemento["nombre_departamento"]);
+                $("#visualizar_departamento_peticion").val(elemento["nombre_departamento"]);
                 $("#emisor_peticion").val(elemento['nombre_personal']+' '+elemento['apellido_personal']);
             });
         },

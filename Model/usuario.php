@@ -284,7 +284,7 @@ class usuario
         try{
             session_start();
             session_destroy();
-            header("location:../Index.php");
+            header("location:../index.php");
             exit();
         }
         catch(Exception $objeto){

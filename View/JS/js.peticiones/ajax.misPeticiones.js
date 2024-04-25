@@ -6,7 +6,14 @@ $(document).ready(function(){
     });
     $('#boton_buscar').click(function(){
         getPeticiones();
-    });$("#data_busq_fecha").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
+    });
+    $("#data_busq_fecha").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
+        getPeticiones();
+    });
+    $("#data_busq_estado option").on('click',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
+        getPeticiones();
+    });
+    $("#num_resultados option").on('click',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
         getPeticiones();
     });
 

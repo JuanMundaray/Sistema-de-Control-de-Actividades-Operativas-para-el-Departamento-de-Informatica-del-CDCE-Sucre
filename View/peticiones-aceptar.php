@@ -21,7 +21,7 @@
             }
         }
         else{
-            header("Location:../Index.php");
+            header("Location:../index.php");
             exit();
         }
         if(!isset($_REQUEST['id_peticion'])){
