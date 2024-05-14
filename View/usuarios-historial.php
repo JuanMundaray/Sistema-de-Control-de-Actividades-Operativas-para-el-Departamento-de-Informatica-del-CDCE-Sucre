@@ -76,18 +76,11 @@
                         
                     </div>
 
+                    <!--Botones de Paginacion-->
                     <nav style="margin-top: 20px;">
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>
-
-                    <div style="text-align: center;">
-                        <form action="../Controller/controllerUsuario.php">
-                            <input type="hidden" name="option" value="exportarExcel">
-                            <input type="hidden" name="todos_registros" value='true'>
-                            <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
-                        </form>
-                    </div>
                 <section>
             </div>
         </main>

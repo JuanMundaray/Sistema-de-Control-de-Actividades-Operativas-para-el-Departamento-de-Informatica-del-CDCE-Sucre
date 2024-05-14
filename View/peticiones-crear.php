@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="col-md-6 div_input_form">
-                            <label class=" form-label">Deparatamento que Realiza la Petición:</label>
+                            <label class="form-label">Deparatamento que Realiza la Petición:</label>
                             <input class="form-control" id="visualizar_departamento_peticion" type="text" disabled>
 
                             <input type="hidden" value="" name="departamento_peticion" id="departamento_peticion">

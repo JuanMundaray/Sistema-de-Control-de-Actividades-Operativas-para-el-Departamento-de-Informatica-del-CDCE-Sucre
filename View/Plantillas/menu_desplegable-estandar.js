@@ -16,7 +16,7 @@ centinela=true;
 
 			<li>
 				<div>
-					<a class="row" href='registrar-actividad.php'>
+					<a class="row" href='registrar-actividad-1.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/archive.png" class="icons-menudeslizante"></figure>
 						<span class="col">Registrar Actividad</span>
 					</a>

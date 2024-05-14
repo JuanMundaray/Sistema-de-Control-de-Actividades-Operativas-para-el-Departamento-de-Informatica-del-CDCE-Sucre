@@ -40,7 +40,7 @@
                         <td><a href="usuarios-administrar.php">Administrar Usuarios</a></td>
                     </tr>
                     <tr>
-                        <td><a href="usuario-crear.php">Crear Usuarios</a></td>
+                        <td><a href="usuario-crear-1.php">Crear Usuarios</a></td>
                     </tr>
                     <tr>
                         <td><a href="usuarios-historial.php">Historial de Usuarios</a></td>
@@ -54,6 +54,15 @@
                     <tr>
                         <td><a href="tipo-actividad.php">Administrar Tipos de Actividad</a></td>
                     </tr>
+                    <tr>
+                        <td><a href="generar_reporte_actividad.php">Generar Reportes de Actividad</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="generar_reporte_peticiones.php">Generar Reportes de Peticiones</a></td>
+                    </tr>
+                    <!--<tr>
+                        <td><a href="Generar Reportes de Usuarios.php">Generar Reportes de Usuarios</a></td>
+                    </tr>-->
                 </table>
             </section>
         </div>

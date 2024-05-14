@@ -10,7 +10,7 @@ $dbuser = 'root';
 $dbuserpass = 'jose25';
 
 // Asignar zona horaria por defecto
-date_default_timezone_set('America/Lima');
+  date_default_timezone_set('America/Caracas');
 
 // Inicializar librería
 $objExport = new YunhoDBExport($dbhost, $dbname, $dbuser, $dbuserpass);

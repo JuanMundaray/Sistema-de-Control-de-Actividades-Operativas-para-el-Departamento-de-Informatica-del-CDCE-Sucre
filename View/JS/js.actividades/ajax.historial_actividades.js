@@ -2,15 +2,15 @@ $(document).ready(function(){
         
     getHistorialActividades();//Se Dibujan todas las actividades registradas en la tabla de actividades
     tipo_usuario_sesion=$('#tipo_usuario_sesion').val();
-    
-    $("#buscar_actividad_boton").click(function(){ 
+    $("#data_busq_nombre").on('input',function(){
+        getHistorialActividades();
+    });
+
+    $("#buscar_aplicar_filtros_busq").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
         getHistorialActividades();
     });
-    $("#buscar_actividad_boton").click(function(){ 
-        //Funcion ajax para buscar una actividad por su codigo
-        getHistorialActividades();
-    });
+
 
 });
 
@@ -84,7 +84,7 @@ function RellenarTablaActividades(msg){
     msg.forEach(function(elemento){
         //Estas son los botones de accion que estaran disponibles segun si la actividad a sido completada o no
 
-        let btn_estilo=estilo_btn(elemento['estado_actividad']);
+        let btn_estilo=estilo_btn(elemento['nombre_estado_actividad']);
         tabla.append(`<tr class='align-middle'>
         <td>${elemento['fecha_registro']}</td>
         <td>${elemento['nombre_actividad']}</td>
@@ -95,7 +95,7 @@ function RellenarTablaActividades(msg){
         <td>${elemento['cedula']}</td> 
         <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
         <td>${elemento['ced_atendido']}</td>
-        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['estado_actividad']}</button></td>`);
+        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['nombre_estado_actividad']}</button></td>`);
     });
     tabla.append("</tbody>");
 }

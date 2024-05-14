@@ -1,6 +1,6 @@
 $(document).ready(function(){
-
-    $("#select_completada").click(function(){
+    obtenerEstadosActividad();
+    $("#COMPLETADA").click(function(){
         $("#div_estado").before(`
         <div class="col-md-12 div_input_form" id="div_evidencia">
             <label class="col-md-12 form-label">Evidencia:</label>
@@ -9,11 +9,11 @@ $(document).ready(function(){
         `);
     });
 
-    $("#select_suspendida").click(function(){
+    $("#INICIADA").click(function(){
         eliminarEvidenciaCampo();
     });
 
-    $("#select_proceso").click(function(){
+    $("#PROCESO").click(function(){
         eliminarEvidenciaCampo();
     });
 
@@ -55,4 +55,29 @@ $(document).ready(function(){
 
 function eliminarEvidenciaCampo(){
     $("#div_evidencia").remove();
+}
+
+function obtenerEstadosActividad(){
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerEstado_actividad.php",
+        data:{
+            option:"obtener"
+        },
+        dataType:'json',
+        success:function(msg){
+            msg.forEach(function(elemento){
+                let nombre_estado=elemento['nombre_estado_actividad'];
+                let id_estado=elemento['id_estado_actividad'];
+                
+                if(nombre_estado!='INICIADA'){
+                    $("#estado").append(`<option id='${nombre_estado}' value='${id_estado}'>${nombre_estado}</option>`);
+                }
+            });
+        },error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
 }

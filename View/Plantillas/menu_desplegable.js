@@ -9,7 +9,7 @@ centinela=true;
 				<a href='Dashboard.php'>Dashboard</a>
 			</li>
 			<li>
-				<a href='registrar-actividad.php'>Registrar Actividad</a>
+				<a href='registrar-actividad-1.php'>Registrar Actividad</a>
 			</li>
 			<li>
 				<a href='tipo-actividad.php'>Tipos de Actividad</a>

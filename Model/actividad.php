@@ -39,7 +39,6 @@ class actividad{
             $ape_atendido = $this->ape_atendido;
             $ced_atendido = $this->ced_atendido;
             $observacion=$this->observacion;
-            $estado_actividad=$this->estado_actividad;
             $id_usuario_responsable = $this->id_usuario_responsable;
             $evidencia = $this->evidencia;
             $informe = $this->informe;
@@ -55,7 +54,6 @@ class actividad{
             ape_atendido,
             ced_atendido,
             observacion,
-            estado_actividad,
             id_usuario_responsable,
             evidencia,
             informe)
@@ -69,7 +67,6 @@ class actividad{
             :ape_atendido,
             :ced_atendido,
             :observacion,
-            :estado_actividad,
             :id_usuario_responsable,
             :evidencia,
             :informe)";
@@ -85,10 +82,12 @@ class actividad{
             ":ape_atendido"=>$ape_atendido,
             ":ced_atendido"=>$ced_atendido,
             ":observacion"=>$observacion,
-            ":estado_actividad"=>$estado_actividad,
             ":id_usuario_responsable"=>$id_usuario_responsable,
             ":evidencia"=>$evidencia,
             ":informe"=>$informe));
+
+            $this->registrarModificacion();
+            
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();
         }
@@ -109,6 +108,8 @@ class actividad{
             $evidencia=$this->evidencia;
             $codigo_actividad=$this->codigo_actividad;
             $db = DataBase::getInstance();
+
+            //modificacion de la actividad
             $consulta = "UPDATE actividades.actividad
             SET 
             estado_actividad=:estado_actividad,
@@ -116,18 +117,65 @@ class actividad{
             informe=:informe,
             evidencia=:evidencia
             WHERE codigo_actividad='$codigo_actividad'";
+
             $resultadoPDO = $db->prepare($consulta);
+
             $resultado=$resultadoPDO->execute(array(":observacion"=>$observacion,
             ":informe"=>$informe,
             ":estado_actividad"=>$estado_actividad,
-            ":evidencia"=>$evidencia));
-            $resultadoPDO->closeCursor();             
+            ":evidencia"=>$evidencia));    
+            
+            $this->registrarModificacion();
+
+            $resultadoPDO->closeCursor(); 
         } 
         catch(Exception $objeto){
             $resultado = false;
             echo $objeto->getMessage();
         }
         return $resultado; 
+    }
+
+    private function registrarModificacion(){
+        $resultado = false;
+        try{
+            $estado_actividad=$this->estado_actividad;
+            $codigo_actividad=$this->codigo_actividad;
+            $db = DataBase::getInstance();
+
+            //guardar registro de modificacion
+            date_default_timezone_set('America/Caracas');
+            $fecha_modificacion=date("Y-m-d");          
+            $hora_modificacion=date("H:i:s");
+            $consulta = "INSERT INTO actividades.registro_modificaciones_actividad
+            (
+                codigo_actividad, 
+                fecha_modificacion,
+                hora_modificacion,
+                estado_modificado
+                )
+	        VALUES (
+                '$codigo_actividad',
+                :fecha_modificacion,
+                :hora_modificacion,
+                :estado_actividad
+                )";
+
+            $resultadoPDO = $db->prepare($consulta);
+
+            $resultado=$resultadoPDO->execute(array(
+            ":fecha_modificacion"=>$fecha_modificacion,
+            ":hora_modificacion"=>$hora_modificacion,
+            ":estado_actividad"=>$estado_actividad)); 
+
+            $resultadoPDO->closeCursor(); 
+        } 
+        catch(Exception $objeto){
+            $resultado = false;
+            echo $objeto->getMessage();
+        }
+        return $resultado;
+
     }
 
     public function eliminar()
@@ -159,6 +207,9 @@ class actividad{
             $fecha_registro=$this->fecha_registro;
             $estado_actividad=$this->estado_actividad;
             $id_usuario_responsable = $this->id_usuario_responsable;
+            $dep_emisor = $this->dep_emisor;
+            $dep_receptor = $this->dep_receptor;
+
             $db = DataBase::getInstance();  
             $orden=$this->orden;       
             $consulta = "SELECT *
@@ -167,6 +218,8 @@ class actividad{
             ON actividad.id_tipo_actividad=tipo_actividad.id_tipo
             LEFT JOIN actividades.usuario
             ON actividad.id_usuario_responsable=usuario.id_usuario
+            LEFT JOIN actividades.estado_actividad
+            ON actividad.estado_actividad=estado_actividad.id_estado_actividad
             WHERE 1=1";
 
             if(!empty($codigo_actividad)){
@@ -190,7 +243,15 @@ class actividad{
             }
 
             if($todas==false){
-                $consulta .=" AND estado_actividad<>'ELIMINADA'";
+                $consulta .=" AND estado_actividad<>5";
+            }
+
+            if(!empty($dep_emisor)){
+                $consulta .=" AND dep_emisor='$dep_emisor'";
+            }
+
+            if(!empty($dep_receptor)){
+                $consulta .=" AND dep_receptor='$dep_receptor'";
             }
 
             $consulta.=" ORDER BY fecha_registro $orden";
@@ -211,6 +272,36 @@ class actividad{
         
         return $resultado; 
     }
+    public function ObtenerSeguimientoActividad($pagina=false,$num_resultados=false,$todas=false)
+    {
+        $resultado = false;
+        try{
+            $codigo_actividad = $this->codigo_actividad;
+
+            $db = DataBase::getInstance();  
+            $orden=$this->orden;       
+            $consulta = "SELECT *
+            FROM actividades.actividad 
+            LEFT JOIN actividades.tipo_actividad
+            ON actividad.id_tipo_actividad=tipo_actividad.id_tipo
+            LEFT JOIN actividades.estado_actividad
+            ON actividad.estado_actividad=estado_actividad.id_estado_actividad
+            INNER JOIN
+            actividades.registro_modificaciones_actividad 
+            ON actividad.codigo_actividad=registro_modificaciones_actividad.codigo_actividad
+            WHERE actividad.codigo_actividad='$codigo_actividad'";
+
+            $resultadoPDO = $db->query($consulta);
+            $resultado = $resultadoPDO->fetchAll();
+            $resultadoPDO->closeCursor();              
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
+        }
+        
+        return $resultado; 
+    }
 
     public function contarNumRegistros($todas)
     {
@@ -219,12 +310,14 @@ class actividad{
         $fecha_registro=$this->fecha_registro;
         $estado_actividad=$this->estado_actividad;
         $id_usuario_responsable = $this->id_usuario_responsable;
+        $dep_emisor = $this->dep_emisor;
+        $dep_receptor = $this->dep_receptor;
         $resultado = false;
         try{
             $db = DataBase::getInstance(); 
             $estado_actividad=$this->estado_actividad; 
             $consulta = "SELECT *
-            FROM actividades.actividad WHERE estado_actividad<>'ELIMINADA'";
+            FROM actividades.actividad WHERE estado_actividad<>5";
 
 
             if(!empty($codigo_actividad)){
@@ -243,12 +336,16 @@ class actividad{
                 $consulta .=" AND estado_actividad='$estado_actividad'";
             }
 
-            if(!empty($id_usuario_responsable)){
-                $consulta .=" AND id_usuario_responsable=$id_usuario_responsable";
+            if(!empty($dep_emisor)){
+                $consulta .=" AND dep_emisor=$dep_emisor";
+            }
+
+            if(!empty($dep_receptor)){
+                $consulta .=" AND dep_receptor=$dep_receptor";
             }
 
             if($todas==false){
-                $consulta .=" AND estado_actividad<>'ELIMINADA'";
+                $consulta .=" AND estado_actividad<>5";
             }
 
             $resultadoPDO = $db->query($consulta);
@@ -264,12 +361,20 @@ class actividad{
     }
 
     //FUNCIONES PARA GENERAR REPORTES--------------------------------------------------------------------------
-    public function exportExcel($id_usuario=false){
+    public function exportExcel($id_usuario=false,$todas=false){
         
         require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
         require_once("../Model/configurarBD.php");
+          date_default_timezone_set('America/Caracas');
 
-        date_default_timezone_set('America/Lima');
+        $codigo_actividad = $this->codigo_actividad;
+        $nombre_actividad = $this->nombre_actividad;
+        $fecha_registro=$this->fecha_registro;
+        $estado_actividad=$this->estado_actividad;
+        $id_usuario_responsable = $this->id_usuario_responsable;
+        $dep_emisor = $this->dep_emisor;
+        $dep_receptor = $this->dep_receptor;
+
         $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
         
         $export->connect();
@@ -289,19 +394,50 @@ class actividad{
             'nombre_personal'=>'Nombre del Responsable de la Actividad',
             'apellido_personal'=>'Apellido del Responsable de la Actividad',
             'cedula'=>'Cedula del Responsable de la Actividad',
-            'estado_actividad'=>'Estado'
+            'nombre_estado_actividad'=>'Estado'
         );
         $consulta="SELECT * FROM actividades.actividad
         INNER JOIN actividades.tipo_actividad
         ON actividad.id_tipo_actividad=tipo_actividad.id_tipo
         LEFT JOIN actividades.usuario
         ON actividad.id_usuario_responsable=usuario.id_usuario
-        WHERE estado_actividad<>'ELIMINADA'";
+        LEFT JOIN actividades.estado_actividad
+        ON actividad.estado_actividad=estado_actividad.id_estado_actividad
+        WHERE 1=1";
         
-        if($id_usuario!=false){
-            $consulta .=" AND id_usuario=$id_usuario";
+        if($id_usuario_responsable!=false){
+            $consulta .=" AND id_usuario_responsable=$id_usuario_responsable";
             $nombre_archivo='MIS ACTIVIDADES REGISTRADAS';
         }
+
+        if(!empty($codigo_actividad)){
+            $consulta .=" AND codigo_actividad='$codigo_actividad'";
+        }
+
+        if(!empty($nombre_actividad)){
+            $consulta .=" AND nombre_actividad ILIKE '$nombre_actividad%'";
+        }
+
+        if(!empty($fecha_registro)){
+            $consulta .=" AND fecha_registro='$fecha_registro'";
+        }
+
+        if(!empty($estado_actividad)){
+            $consulta .=" AND estado_actividad=$estado_actividad";
+        }
+
+        if($todas==false){
+            $consulta .=" AND estado_actividad<>5";
+        }
+
+        if(!empty($dep_emisor)){
+            $consulta .=" AND dep_emisor='$dep_emisor'";
+        }
+
+        if(!empty($dep_receptor)){
+            $consulta .=" AND dep_receptor='$dep_receptor'";
+        }
+
         $export->query($consulta);
 
         // Formato MS Excel
@@ -321,32 +457,34 @@ class actividad{
     public function exportPDF($data_sql){
         
         require('../Plugins/fpdf186/fpdf.php');
-        $pdf = new FPDF('L');
+        $pdf = new FPDF('P','mm',array(400,400));
         $pdf->AddPage();
         //titulo
         $pdf->SetFont('Arial','UB',26);
-        $pdf->Cell(290,20,'Tabla de Actividades',0,0,'C');
+        $pdf->Cell(0,20,'Reporte Generado '.date("Y-m-d"),0,0);
         $pdf->Ln();
         //nombres de columnas de la tabla
         $pdf->SetFont('Arial','B',7);
-        $pdf->Cell(40,7,'Codigo de Actividad',1,0,'C');
-        $pdf->Cell(100,7,'Nombre de Actividad',1,0,'C');
+        $pdf->Cell(60,7,'Codigo de Actividad',1,0,'C');
+        $pdf->Cell(80,7,'Nombre de Actividad',1,0,'C');
         $pdf->Cell(25,7,'Fecha de Registro',1,0,'C');
         $pdf->Cell(25,7,'Estado de Actividad',1,0,'C');
-        $pdf->Cell(35,7,'Responable del Registro',1,0,'C');
+        $pdf->Cell(60,7,'Responable del Registro',1,0,'C');
         $pdf->Cell(60,7,'Departamento Receptor',1,0,'C');
+        $pdf->Cell(60,7,'Departamento Emisor',1,0,'C');
         $pdf->SetFont('Arial','',7);
 
         $font_size_fila=5;
         //Anadir datos de la tablas
         foreach($data_sql as $fila){
             $pdf->Ln();
-            $pdf->Cell(40,$font_size_fila,utf8_decode($fila['codigo_actividad']),1);
-            $pdf->Cell(100,$font_size_fila,utf8_decode($fila['nombre_actividad']),1);
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['codigo_actividad']),1);
+            $pdf->Cell(80,$font_size_fila,utf8_decode($fila['nombre_actividad']),1);
             $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1);
-            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['estado_actividad']),1);
-            $pdf->Cell(35,$font_size_fila,utf8_decode($fila['nombre_personal']).' '.$fila['apellido_personal'],1);
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['nombre_estado_actividad']),1);
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_personal']).' '.$fila['apellido_personal'],1);
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_receptor']),1);
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_emisor']),1);
         }
         $pdf->Output('','Tabla de Actividades Registradas',true);
     }
@@ -360,47 +498,56 @@ class actividad{
         $pdf->SetFont('Arial','UB',16);
         $pdf->Cell(200,20,'Detalles de Actividad ',0,0,'C');
         $pdf->Ln();
-        //nombres de columnas de la tabla
+
+        //Celda de Codigo Actividad
         $pdf->SetFont('Arial','BU',10);
         $pdf->Cell(0,7,'Codigo de Actividad:',0,1,'L');
         $pdf->SetFont('Arial','B',10);
         $pdf->Cell(0,7,utf8_decode($actividad[0]['codigo_actividad']),0,1,'L');$pdf->Ln();
 
+        //Celda de Nombre Actividad
         $pdf->SetFont('Arial','BU',10);
         $pdf->Cell(0,7,'Nombre de Actividad:',0,1,'L');
         $pdf->SetFont('Arial','B',10);
         $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_actividad']),0,1,'L'); $pdf->Ln();
 
+        //Celda de Fecha de Registro
         $pdf->SetFont('Arial','BU',10);
         $pdf->Cell(0,7,'Fecha de Registro:',0,1,'L'); 
         $pdf->SetFont('Arial','B',10);
         $pdf->Cell(0,7,utf8_decode($actividad[0]['fecha_registro']),0,1,'L'); $pdf->Ln();
 
+        //Celda de Departamento Emisor
         $pdf->SetFont('Arial','BU',10);
         $pdf->Cell(0,7,'Departameto Emisor:',0,1,'L');
         $pdf->SetFont('Arial','B',10);
         $pdf->Cell(0,7,utf8_decode($actividad[0]['dep_emisor']),0,1,'L');$pdf->Ln();
 
+        //Celda de Departameto Receptor
         $pdf->SetFont('Arial','BU',10);
         $pdf->Cell(0,7,'Departameto Receptor:',0,1,'L');
         $pdf->SetFont('Arial','B',10);
         $pdf->Cell(0,7,utf8_decode($actividad[0]['dep_receptor']),0,1,'L');$pdf->Ln();
 
+        //Celda de Estado de Actividad
         $pdf->SetFont('Arial','BU',10);
         $pdf->Cell(0,7,'Estado de Actividad:',0,1,'L');
         $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['estado_actividad']),0,1,'L');$pdf->Ln();
+        $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_estado_actividad']),0,1,'L');$pdf->Ln();
 
+        //Celda de Tipo de Actividad
         $pdf->SetFont('Arial','BU',10);
         $pdf->Cell(0,7,'Tipo de Actividad:',0,1,'L');
         $pdf->SetFont('Arial','B',10);
         $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_tipo']),0,1,'L');$pdf->Ln();
         
+        //Celda de Nombre y Apellido del Responsable
         $pdf->SetFont('Arial','BU',10);
         $pdf->Cell(0,7,'Nombre y Apellido del Responsable:',0,1,'L');
         $pdf->SetFont('Arial','B',10);
         $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_personal']).' '.$actividad[0]['apellido_personal'],0,1,'L');$pdf->Ln();
 
+        //Celda de Nombre y Apellido del Atendido
         $pdf->SetFont('Arial','BU',10);
         $pdf->Cell(0,7,'Nombre y Apellido del Atendido:',0,1,'L');
         $pdf->SetFont('Arial','B',10);

@@ -7,11 +7,11 @@
 
         <div class="raya"></div>
 
-        <div class="Parte-Inferior-Cabecera">
+        <div class="Parte-Inferior-Cabecera" style="display: flex;">
 
-            <div style="display: flex; margin-left: 20px;">
-                <h3>CDCE-SUCRE</h3>
+            <div style="display: flex;" >
                 <img id="boton_despliegue" src="Resources/png/512/navicon.png">
+                <h3>CDCE-SUCRE</h3>
             </div>
 
             <div class="imagen_perfil">

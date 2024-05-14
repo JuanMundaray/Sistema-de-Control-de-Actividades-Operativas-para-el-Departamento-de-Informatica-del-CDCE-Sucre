@@ -17,7 +17,7 @@ $user = 'usr';
 $password = 'pwd';
 
 // Asignar zona horaria por defecto
-date_default_timezone_set('America/Lima');
+  date_default_timezone_set('America/Caracas');
 
 // Inicializar librería
 $export = new YunhoDBExport($host, $name, $user, $password);

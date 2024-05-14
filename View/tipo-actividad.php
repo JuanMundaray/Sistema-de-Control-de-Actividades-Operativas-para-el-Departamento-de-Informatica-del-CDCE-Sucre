@@ -48,14 +48,14 @@
                     <nav class="navbar navbar-light barra_navegacion container">
                         <div style="margin-top: 20px; margin-left: -10px;" class="row gy-3">
                             <form class="form col-md-10 row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="form-label">Buscar Por Nombre:</label>
-                                    <input class="form-control" type="search" placeholder="Buscar Tipo de  Actividad..." id="data_busq_nombre" name="data_busq_nombre">
+                                    <input style="width: 100%;" class="form-control" type="search" placeholder="Buscar Tipo de  Actividad..." id="data_busq_nombre" name="data_busq_nombre">
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="form-label">Buscar Por Id:</label>
-                                    <input class="form-control" type="search" placeholder="Buscar Por ID..." id="data_busq_id" name="data_busq_id"> 
+                                    <input style="width: 100%;" class="form-control" type="search" placeholder="Buscar Por ID..." id="data_busq_id" name="data_busq_id"> 
                                 </div>
                                 <div class="col-md-2">
                                     <input type="button" style="margin-top: 30px;" class="btn btn-primary" id="buscar_nombre_boton" value="Buscar">

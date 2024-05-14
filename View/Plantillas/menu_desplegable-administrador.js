@@ -16,7 +16,7 @@ centinela=true;
 
 			<li>
 				<div>
-					<a class="row" href='registrar-actividad.php'>
+					<a class="row" href='registrar-actividad-1.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/archive.png" class="icons-menudeslizante"></figure>
 						<span class="col">Registrar Actividad</span>
 					</a>
@@ -27,7 +27,7 @@ centinela=true;
 				<div>
 					<a class="row" href='tipo-actividad.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-pricetags.png" class="icons-menudeslizante"></figure>
-						<span class="col">Agregar Tipos de Actividad</span>
+						<span class="col">Administrar Tipos de Actividad</span>
 					</a>
 				</div>
 			</li>
@@ -36,7 +36,7 @@ centinela=true;
 				<div>
 					<a class="row" href='departamentos-mostrar.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-home.png" class="icons-menudeslizante"></figure>
-						<span class="col">Agregar Departamentos</span>
+						<span class="col">Administrar Departamentos</span>
 					</a>
 				</div>
 			</li>
@@ -63,7 +63,7 @@ centinela=true;
 				<div>
 					<a class="row" href='control-sistema.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-settings-strong.png" class="icons-menudeslizante"></figure>
-						<span class="col">Opciones Administrador</span>
+						<span class="col">Administracion del Sistema</span>
 					</a>
 				</div>
 			</li>

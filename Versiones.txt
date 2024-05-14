@@ -1,5 +1,8 @@
-V 1.13 BETA
-*Problemas de Rutas Reparados
+V 1.0
+Primera Version
+
+V 1.1
+*Correcion de Problemas de Rutas
 *Peticiones enlazadas con actividades desde donde se realiza la peticion
 *Nueva Funcionalidad: Agregar Actividad
 *Cambios de diseño en las tablas

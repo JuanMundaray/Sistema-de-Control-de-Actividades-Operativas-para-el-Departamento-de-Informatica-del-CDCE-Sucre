@@ -23,7 +23,8 @@ $(document).ready(function(){
         dataType:'json',
         success:function(msg){
             msg.forEach(function(elemento){
-                $("#departamento_peticion").val(elemento["nombre_departamento"]);
+                $("#departamento_peticion").val(elemento["id_departamento"]);
+                console.log(elemento["id_departamento"]);
                 $("#visualizar_departamento_peticion").val(elemento["nombre_departamento"]);
                 $("#emisor_peticion").val(elemento['nombre_personal']+' '+elemento['apellido_personal']);
             });

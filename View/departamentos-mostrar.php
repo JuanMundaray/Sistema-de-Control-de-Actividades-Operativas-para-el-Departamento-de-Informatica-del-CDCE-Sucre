@@ -45,16 +45,16 @@
                     <a class="btn btn-primary" href="departamentos-agregar.php" role="button">Agregar Departamento</a>
 
                     <!--Barra de Busqueda-->
-                    <nav style="margin-top: 20px; margin-left: 20px;" class="navbar navbar-expand-lg navbar-light barra_navegacion container">
-                        <form class="form col row">
-                            <label class="form-label col-12">Buscar Por Nombre:</label>
-                            <input class="form-control col-8" type="search" placeholder="Buscar Departamento Por Nombre..." id="data_busq_nombre" name="data_busq_nombre">
-                        </form>
+                    <nav style="margin-top: 20px; margin-left: -10px;" class="navbar navbar-expand-lg navbar-light barra_navegacion row">
+                        <div class="col-md-3">
+                            <label class="form-label">Buscar Por Nombre:</label>
+                            <input style="width: 100%;" class="form-control" type="search" placeholder="Buscar Departamento Por Nombre..." id="data_busq_nombre" name="data_busq_nombre">
+                        </div>
                         
-                        <form class="form col row">
-                            <label class="form-label col-12">Buscar Por Id:</label>
-                            <input class="form-control col-10" type="search" placeholder="Buscar Por ID..." id="data_busq_id" name="data_busq_id">
-                        </form>
+                        <div class="col-md-3">
+                            <label class="form-label">Buscar Por Id:</label>
+                            <input style="width: 100%;"  class="form-control" type="search" placeholder="Buscar Por ID..." id="data_busq_id" name="data_busq_id">
+                        </div>
                     
                         <div class="col-md-3">
                                 <label class="form-label">Numero de Resultados:</label>

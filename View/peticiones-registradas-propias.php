@@ -28,11 +28,6 @@
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         <link rel="stylesheet" href="../Framework/jquery-ui-1.13.2.custom/jquery-ui.css" type="text/css">
-        
-        <script src="../Framework/jquery-3.6.3.min.js"></script>
-        <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
-        <script src="JS/js.peticiones/ajax.misPeticiones.js"></script>
         <title>Mis Peticiones</title>
         
     </head>
@@ -52,38 +47,51 @@
                 <section class="secciones">
                     <!--Area de Busqueda-->
                     <nav class="navbar navbar-light row gy-4">
-                        <form class="col-md-12 col-sm-12 gy-2 row">
-                            <div class="col">
-                                <label class="form-label">Buscar Por Nombre:</label>
+                        <div class="d-flex">
+                            
+                            <div>
                                 <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="" id="data_busq_nombre" name="data_busq_nombre">
+                                
+                                <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                                    </svg>
+                                </button>
                             </div>
+
+                        </div>
+                        
+                        <nav class="col-md-12 col-sm-12 collapse row gy-4 navbar navbar-light bg-light" id="collapse_filtros_busq" style="margin-left: 15px;">
 
                             <input type="hidden" value="<?php echo $_SESSION['id_usuario'] ?>" id="id_usuario_sesion">
 
-                            <div class="col">
-                                <label class="form-label">Buscar Por Fecha:</label>
-                                <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" aria-autocomplete="" id="data_busq_fecha" name="data_busq_fecha">
+                            <div class="col-md-3">
+                                <label class="form-label">Fecha de Peticion:</label>
+                                <input class="form-control" type="date" placeholder="Buscar por Fecha..." id="data_busq_fecha" name="data_busq_fecha">
                             </div>
-                        </form>
 
-                        <div class="col-md-6">
-                            <label class="form-label">Buscar Por Estado:</label>
-                            <select class="form-select" id="data_busq_estado">
-                                <option value="">Todas</option>
-                                <option value="ACEPTADA">Aceptadas</option>
-                                <option value="ESPERA">En Espera</option>
-                            </select>
-                        </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Estados de Peticion:</label>
+                                <select class="form-select" id="data_busq_estado">
+                                    <option value="">Todas</option>
+                                </select>
+                            </div>
 
-                        <div class="col col-md-6">
-                            <label class="form-label">Numero de Resultados:</label>
-                            <select class="form-select" id="num_resultados">
-                                    <option value="5">5</option>
-                                    <option value="20">20</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                            </select>
-                        </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Numero de Resultados:</label>
+                                <select class="form-select" id="num_resultados">
+                                        <option value="5">5</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" id='boton_aplicar_filtros_busq'  data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false">Aplicar</button>
+                            </div>
+
+                        </nav>
                     </nav>
                     
                     <!--Tabla de Peticiones dibujada por medio de js-->
@@ -104,21 +112,13 @@
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>
-
-                    <!--Botones para Generar Reportes de la tabla-->
-                    <div class="row center-element">
-                        <div class="col-md-6 center-element">
-
-                            <form action="../Controller/controllerPeticion.php">
-                                <input type="hidden" name="id_usuario" value=<?php echo $_SESSION['id_usuario'] ?>>
-                                <input type="hidden" name="option" value="exportarExcel">
-                                <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
-                            </form>
-                        <div>
-                    </div>
-                    </div>
                 <section>
             </div>
         </main>
+        
+        <script src="../Framework/jquery-3.6.3.min.js"></script>
+        <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
+        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script src="JS/js.peticiones/ajax.misPeticiones.js">import './funciones_modulares/ajax.obtener_estado_peticion';</script>
     </body>
 </html>

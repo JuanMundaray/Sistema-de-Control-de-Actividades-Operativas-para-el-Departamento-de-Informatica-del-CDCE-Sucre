@@ -1,13 +1,11 @@
 $(document).ready(function(){
+    obtenerDepartamentosSelect();
     getPeticiones();
     
     $("#data_busq_nombre").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
         getPeticiones();
     });
-    $('#boton_buscar').click(function(){
-        getPeticiones();
-    });
-    $('#data_busq_estado option').click(function(){
+    $('#boton_aplicar_filtros_busq').click(function(){
         getPeticiones();
     });
 
@@ -18,7 +16,7 @@ function getPeticiones(pagina=1){
     let nombre_peticion=$("#data_busq_nombre").val();
     let fecha_peticion=$("#data_busq_fecha").val();
     let id_usuario=$("#id_usuario_sesion").val();
-    let estado_peticion=$("#data_busq_estado").val();
+    let departamento_peticion=$("#departamento_peticion").val();
     $.ajax({
         type:"POST",
         url:"../Controller/controllerPeticion.php",
@@ -29,7 +27,7 @@ function getPeticiones(pagina=1){
             nombre_peticion:nombre_peticion,
             fecha_peticion:fecha_peticion,
             id_usuario:id_usuario,
-            estado_peticion:estado_peticion
+            departamento_peticion:departamento_peticion
         },
         dataType:'json',
         success:function(msg){
@@ -80,7 +78,7 @@ function RellenarTablaPeticiones(msg){
         <th colspan="1"><label>Accion</label></th>
     </tr>`);
     msg.forEach(function(elemento){
-        if(elemento['estado_peticion']=='ESPERA'){
+        if(elemento['nombre_estado_peticion']=='ESPERA'){
         //Dibujar la Tabla de Peticiones por medio del DOM de JavaScripts
             tabla.append(`<tr>
             <td>${elemento['nombre_peticion']}</td>
@@ -89,7 +87,7 @@ function RellenarTablaPeticiones(msg){
             <td>${elemento['fecha_peticion']}</td>
             <td>${elemento['nombre_tipo']}</td>
             <td>
-                <button class='tamano_boton btn ${estilo_btn(elemento['estado_peticion'])}'>${elemento['estado_peticion']}</button>
+                <button class='tamano_boton btn ${estilo_btn(elemento['nombre_estado_peticion'])}'>${elemento['nombre_estado_peticion']}</button>
                 </td>
             <td>
                 <div class="btn-group">
@@ -99,7 +97,7 @@ function RellenarTablaPeticiones(msg){
 
                     <ul class="dropdown-menu" dropdown-menu-lg-end>
                         <li>
-                            <a class="dropdown-item" href='./peticiones-aceptar.php?id_peticion=${elemento['id_peticion']}'>Aceptar</a>
+                            <a class="dropdown-item" href='./peticiones-aceptar-1.php?id_peticion=${elemento['id_peticion']}'>Aceptar</a>
                         </li>
                         <li>
                             <button class="dropdown-item" onclick="rechazarPeticion(${elemento['id_peticion']})">Rechazar</button>
@@ -121,7 +119,7 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
     let nombre_peticion=$("#data_busq_nombre").val();
     let fecha_peticion=$("#data_busq_fecha").val();
     let id_usuario=$("#id_usuario_sesion").val();
-    let estado_peticion=$("#data_busq_estado").val();
+    let nombre_estado_peticion=$("#data_busq_estado").val();
     let num_filas;
     
     $.ajax({ 
@@ -133,7 +131,7 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
             nombre_peticion:nombre_peticion,
             fecha_peticion:fecha_peticion,
             id_usuario:id_usuario,
-            estado_peticion:estado_peticion
+            nombre_estado_peticion:nombre_estado_peticion
         },
         dataType:'json',
         success:function(msg){
@@ -174,4 +172,26 @@ function rechazarPeticion(id_peticion){
             }
     });
     }
+}
+
+function obtenerDepartamentosSelect(){
+    
+    //Obtener Todos los Departamentos y agregarlos a un select
+    $.ajax({
+        type:"POST",
+        url:"../Controller/controllerDepartamentos.php",
+        data:{
+            option:"obtener"
+        },
+        dataType:'json',
+        success:function(msg){
+            msg.forEach(function(elemento){
+                let departamento_peticion=$("#departamento_peticion");
+                departamento_peticion.append("<option value='"+elemento['id_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
+            });
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+    });
 }

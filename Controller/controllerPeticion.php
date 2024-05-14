@@ -6,7 +6,7 @@ $option=$_REQUEST['option'];
 switch($option){
 
     case 'crear_peticion':
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Caracas');
         $peticion=new peticion();
         $id_usuario=$_REQUEST['id_usuario'];
         $nombre_peticion=$_REQUEST['nombre_peticion'];
@@ -18,7 +18,7 @@ switch($option){
         $peticion->setDepartamentoPeticion($departamento_peticion);
         $peticion->setDetallesPeticion($detalles_peticion);
         $peticion->setTipoActividad($tipo_actividad);
-        $peticion->setEstadoPeticion("ESPERA");
+        $peticion->setEstadoPeticion(1);
         $peticion->setFechaPeticion(date("Y-m-d"));
         $resultado=$peticion->guardar();
         if($resultado){
@@ -101,10 +101,37 @@ switch($option){
 
     case 'exportarExcel':
         $peticion=new peticion();
-        if(isset($_REQUEST['id_usuario'])){
-            $peticion->setIdUsuario($_REQUEST['id_usuario']);
+
+        if(isset($_REQUEST['departamento_peticion'])){
+            $peticion->setDepartamentoPeticion($_REQUEST['departamento_peticion']);
         }
+        if(isset($_REQUEST['fecha_peticion'])){
+            $peticion->setFechaPeticion($_REQUEST['fecha_peticion']);
+        }
+        if(isset($_REQUEST['estado_peticion'])){
+            $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
+        }
+
         $peticion->exportarExcel();
+        
+    break;
+
+    case 'exportarPDF':
+        $peticion=new peticion();
+
+        if(isset($_REQUEST['departamento_peticion'])){
+            $peticion->setDepartamentoPeticion($_REQUEST['departamento_peticion']);
+        }
+        if(isset($_REQUEST['fecha_peticion'])){
+            $peticion->setFechaPeticion($_REQUEST['fecha_peticion']);
+        }
+        if(isset($_REQUEST['estado_peticion'])){
+            $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
+        }
+        $resultado=$peticion->obtener();
+
+        $peticion->exportarPDF($resultado);
+        
     break;
 
     case 'rechazar':

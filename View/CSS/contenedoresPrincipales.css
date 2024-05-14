@@ -16,9 +16,8 @@ main{
     justify-content: center;
     position: relative;
     margin-left: 9vw;
-    margin-top: 3vh;
     margin-bottom: 3vh;
-    padding-top: 10vw;
+    margin-top: 10vw;
     display: flex;
     width: 100%;
 }
@@ -55,8 +54,7 @@ label{
     font-size:1.8vw;
     user-select: none;
 
-}
-
+}   
 
 .contenedor_login{
     background-color: rgb(255, 255, 255);
@@ -66,7 +64,6 @@ label{
     min-width: 300px;
     border-radius: 10px;
     margin-top: 15vh;
-    margin-left: 8vw;
 }
 
 .contenedor_login h1{
@@ -78,7 +75,7 @@ label{
     opacity: 0.8;
 }
 .secciones{
-    padding: 40px 40px 40px 40px;
+    padding: 20px 40px 40px 40px;
 
 }
 
@@ -128,6 +125,12 @@ label{
 
 .table-responsive{
     padding-bottom: 50px;
+}
+
+.is-disabled{
+    background-color: rgb(238, 238, 238);
+    user-select: none;
+    pointer-events: none;
 }
 
 @media screen and (max-width: 800px){

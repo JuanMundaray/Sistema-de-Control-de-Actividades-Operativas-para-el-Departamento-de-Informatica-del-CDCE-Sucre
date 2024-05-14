@@ -74,9 +74,6 @@
                                 <label class="col-md-12 form-label">Estado:</label>
                                 <select class="form-select" id="estado" name="estado" required>
                                     <option selected disabled value="">Seleccione el estado a marcar...</option>
-                                    <option value="PROCESO" id="select_proceso">PROCESO (60%)</option>
-                                    <option value="COMPLETADA" id="select_completada">COMPLETADA (100%)</option>
-                                    <option value="SUSPENDIDA" id="select_suspendida">SUSPENDIDA</option>
                                 </select>
 
                                 <div class="invalid-feedback">
@@ -128,8 +125,10 @@
                             <label class="col-md-12 form-label">Cedula del Funcionario Atendido:</label>
                             <input class="col-md-12 form-control" type="text" name="ced_atendido" id="ced_atendido" readonly disabled>
                         </div>
-
+                        
+                        <!--input hidden-->
                         <input type="hidden" value="modificar" name="option" id="option">
+
                         <div class="col-md-12 form_button">
                             <input type="submit" class=" input_submit btn btn-primary col-md-4" value="Modificar Actividad" name="modificar_actividad" id="modificar_actividad">
                         </div>

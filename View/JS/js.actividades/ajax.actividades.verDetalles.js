@@ -34,7 +34,7 @@ $(document).ready(function(){
                     div_evidencia.append('<label class="col-md-12 form-label"><strong >Evidencia:</strong></label>');
                     div_evidencia.append(`<img id="imagen_evidencia" src='../../sca_cdce/uploads/${elemento["evidencia"]}' width="400px" height="300px">`);
                 }
-                let estado=$("#estado_actividad").append(elemento["estado_actividad"]);
+                let estado=$("#estado_actividad").append(elemento["nombre_estado_actividad"]);
                 let nom_responsable=$("#nom_responsable").append(`${elemento["nombre_personal"]} ${elemento["apellido_personal"]}`);
                 let ced_responsable=$("#ced_responsable").append(elemento["cedula"]);
                 let nom_atendido=$("#nom_atendido").append(`${elemento["nom_atendido"]} ${elemento["ape_atendido"]}`);

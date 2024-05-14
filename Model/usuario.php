@@ -300,7 +300,7 @@ class usuario
         require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
         require_once("../Model/configurarBD.php");
 
-        date_default_timezone_set('America/Lima');
+          date_default_timezone_set('America/Caracas');
         $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
         
         $export->connect();

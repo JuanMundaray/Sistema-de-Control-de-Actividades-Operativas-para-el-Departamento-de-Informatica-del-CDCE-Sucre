@@ -3,12 +3,11 @@ $(document).ready(function(){
     getActividades();//Se Dibujan todas las actividades registradas en la tabla de actividades
     tipo_usuario_sesion=$('#tipo_usuario_sesion').val();
     
-    $("#buscar_actividad_boton").click(function(){ 
-        //Funcion ajax para buscar una actividad por su codigo
+    $("#data_busq_nombre").on('input',function(){
         getActividades();
     });
-    
-    $("#estado_actividad option").click(function(){ 
+
+    $("#buscar_aplicar_filtros_busq").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
         getActividades();
     });
@@ -96,19 +95,23 @@ function RellenarTablaActividades(msg){
         //Estas son los botones de accion que estaran disponibles segun si la actividad a sido completada o no
         let accion;
 
-        if(elemento['estado_actividad']=='COMPLETADA'){
+        if(elemento['nombre_estado_actividad']=='COMPLETADA'){
             accion=`
-            <li><a class="dropdown-item" href="actividades-detalles.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
+            <li><a class="dropdown-item" href="actividades-detalles.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>
+
+            <li><a class="dropdown-item" href="actividades-seguimiento.php?codigo_actividad=${elemento['codigo_actividad']}">Seguimiento de Actividad</a></li>`
         }
         else{
             accion=`<li><a class="dropdown-item" href="actividades-editar.php?codigo_actividad=${elemento['codigo_actividad']}">Modificar</a></li>
 
             <li><button class="dropdown-item" onclick="eliminarActividad('${elemento['codigo_actividad']}')">Eliminar</button></li>
 
-            <li><a class="dropdown-item" href="actividades-detalles.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>`
+            <li><a class="dropdown-item" href="actividades-detalles.php?codigo_actividad=${elemento['codigo_actividad']}">Ver Detalles</a></li>
+
+            <li><a class="dropdown-item" href="actividades-seguimiento.php?codigo_actividad=${elemento['codigo_actividad']}">Seguimiento de Actividad</a></li>`
         }
 
-        let btn_estilo=estilo_btn(elemento['estado_actividad']);
+        let btn_estilo=estilo_btn(elemento['nombre_estado_actividad']);
         tabla.append(`<tr class='align-middle'>
         <td>${elemento['fecha_registro']}</td>
         <td>${elemento['nombre_actividad']}</td>
@@ -119,7 +122,7 @@ function RellenarTablaActividades(msg){
         <td>${elemento['cedula']}</td> 
         <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
         <td>${elemento['ced_atendido']}</td>
-        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['estado_actividad']}</button></td>
+        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['nombre_estado_actividad']}</button></td>
         <td>
             <div class="btn-group">
                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">

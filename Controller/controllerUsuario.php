@@ -6,7 +6,7 @@ $option=$_REQUEST['option'];
 switch($option){
 
     case 'crear':
-        date_default_timezone_set('America/Lima');
+          date_default_timezone_set('America/Caracas');
         $usuario=new usuario();
         $nombre_usuario=$_REQUEST['username'];
         $contrasena=$_REQUEST['password'];

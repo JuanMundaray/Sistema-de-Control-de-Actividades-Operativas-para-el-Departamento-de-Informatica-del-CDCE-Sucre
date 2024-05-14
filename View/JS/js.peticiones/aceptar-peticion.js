@@ -52,7 +52,7 @@ $(document).ready(function(){
     
 });
 
-//Funcion par Cambiar el estado de la peticion a aceptada
+//Funcion para Cambiar el estado de la peticion a aceptada
 function AceptarPeticion(){  
     $.ajax({
         async:false,
@@ -65,7 +65,7 @@ function AceptarPeticion(){
             },
         dataType:'json',
         error:function(jqXHR,textStatus,errorThrown){
-            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+            alert("error cambiar estado de peticion"+jqXHR+" "+textStatus+" "+errorThrown);
         }
     });
 }

@@ -79,20 +79,13 @@
                     </div>
                     <!--Tabla que sera rellenada por medio de js-->
 
+                    <!--Botones de Paginacion-->
                     <div>
                         <nav>
                             <ul class="pagination" id="num_paginas">
                             </ul>
                         </nav>
                     </div>
-
-                    <div style="text-align: center;">
-                        <form action="../Controller/controllerUsuario.php">
-                            <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
-                            <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
-                        </form>
-                    </div>
-
                 <section>
             </div>
         </main>

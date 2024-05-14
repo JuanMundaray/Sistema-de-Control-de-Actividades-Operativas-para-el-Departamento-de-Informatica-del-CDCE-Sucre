@@ -6,7 +6,7 @@ $option=$_REQUEST['option'];
 switch($option){
 
     case 'guardar':
-        date_default_timezone_set('America/Lima');
+          date_default_timezone_set('America/Caracas');
         $actividad=new actividad();
         $codigo_actividad=$_REQUEST['codigo_actividad'];
         $nombre_actividad=$_REQUEST['nombre_actividad'];
@@ -29,7 +29,6 @@ switch($option){
         $actividad->setApeAtendido(strtoupper($ape_atendido));
         $actividad->setCedAtendido($ced_atendido);
         $actividad->setIdUsuario($id_usuario_responsable);
-        $actividad->setEstadoActividad('INICIADA');
         $resultado=$actividad->guardar();
         if($resultado){
             header("location:../View/actividades-registradas.php");
@@ -38,7 +37,7 @@ switch($option){
     break;
 
     case 'aceptarPeticion':
-        date_default_timezone_set('America/Lima');
+          date_default_timezone_set('America/Caracas');
         $actividad=new actividad();
         $codigo_actividad=$_REQUEST['codigo_actividad'];
         $nombre_actividad=$_REQUEST['nombre_actividad'];
@@ -132,10 +131,10 @@ switch($option){
             move_uploaded_file($_FILES['evidencia']['tmp_name'],$ruta_destino.$nombre_file);
             $actividad->setEvidencia(($nombre_file));
         }
+        $actividad->setCodigoActividad($codigo_actividad);
         $actividad->setEstadoActividad(strtoupper($estado));
         $actividad->setObservacion(strtoupper($observacion));
         $actividad->setInforme(strtoupper($informe));
-        $actividad->setCodigoActividad($codigo_actividad);
         $resultado=$actividad->modificar();
 
         if($resultado){
@@ -143,6 +142,25 @@ switch($option){
             exit();
         }
         break;
+
+        case 'obtenerRegistrosModificacion':
+            
+        $actividad=new actividad();
+        $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+        //-----------------paginacion
+        if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
+            $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
+            $num_resultados=$_REQUEST['num_resultados'];
+        }else{
+            $pagina=false;
+            $num_resultados=false;
+        }
+        //-----------------paginacion
+        $resultado=$actividad->ObtenerSeguimientoActividad($pagina,$num_resultados);
+
+        $resultado=json_encode($resultado);
+        echo $resultado;
+            break;
 
         case 'contarRegistros':
             $actividad=new actividad();
@@ -179,28 +197,73 @@ switch($option){
 
         case 'exportarExcel':
             $actividad=new actividad();
+            
+            //SE UTILIZAN LOS SET
+            if(isset($_REQUEST['nombre_actividad'])){
+                $actividad->setNombreActividad($_REQUEST['nombre_actividad']);
+            }
+            if(isset($_REQUEST['codigo_actividad'])){
+                $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+            }
+            if(isset($_REQUEST['estado_actividad'])){
+                $actividad->setEstadoActividad($_REQUEST['estado_actividad']);
+            }
+            if(isset($_REQUEST['fecha_registro'])){
+                $actividad->setfechaRegistro($_REQUEST['fecha_registro']);
+            }
+            if(isset($_REQUEST['id_usuario_sesion'])){
+                $actividad->setIdUsuario($_REQUEST['id_usuario_sesion']);
+            }
+            if(isset($_REQUEST['dep_emisor'])){
+                $actividad->setDepEmisor($_REQUEST['dep_emisor']);
+            }
+            if(isset($_REQUEST['dep_receptor'])){
+                $actividad->setDepReceptor($_REQUEST['dep_receptor']);
+            }
+
+            $todas=false;
+            if(isset($_REQUEST['todas'])){
+                $todas=true;
+            }
+
             $id_usuario=false;
             if(isset($_REQUEST['id_usuario_sesion'])){
                 $id_usuario=$_REQUEST['id_usuario_sesion'];
             }
-            $actividad->exportExcel($id_usuario);
+            $actividad->exportExcel($id_usuario,$todas);
         break;
         
         case 'exportarPDF':
             $actividad=new actividad();
             
             //SE REALIZA LA CONSULTA SQL Y SE RECIBE SU RESULTADO EN UNA VARIABLE LLAMADA RESULTADO
+            if(isset($_REQUEST['nombre_actividad'])){
+                $actividad->setNombreActividad($_REQUEST['nombre_actividad']);
+            }
+            if(isset($_REQUEST['codigo_actividad'])){
+                $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+            }
+            if(isset($_REQUEST['estado_actividad'])){
+                $actividad->setEstadoActividad($_REQUEST['estado_actividad']);
+            }
+            if(isset($_REQUEST['fecha_registro'])){
+                $actividad->setfechaRegistro($_REQUEST['fecha_registro']);
+            }
             if(isset($_REQUEST['id_usuario_sesion'])){
                 $actividad->setIdUsuario($_REQUEST['id_usuario_sesion']);
             }
-
-            $resultado=$actividad->ObtenerActividades(false,false);
-
-            //SI LA EXPORTACION ES PEDIDA POR EL HISOTORIAL ENTONCES SE RELIZA UNA CONSULTA EXTRAYENDO TODAS LAS ACTIVIDADES
-            if(isset($_REQUEST['historial'])){
-                $resultado=$actividad->ObtenerActividades(false,false,true);
+            if(isset($_REQUEST['dep_emisor'])){
+                $actividad->setDepEmisor($_REQUEST['dep_emisor']);
             }
-            
+            if(isset($_REQUEST['dep_receptor'])){
+                $actividad->setDepReceptor($_REQUEST['dep_receptor']);
+            }
+            if(isset($_REQUEST['todas'])){
+                $todas=true;
+            }else{
+                $todas=false;
+            }
+            $resultado=$actividad->ObtenerActividades(false,false,$todas);
             $actividad->exportPDF($resultado);
 
         break;

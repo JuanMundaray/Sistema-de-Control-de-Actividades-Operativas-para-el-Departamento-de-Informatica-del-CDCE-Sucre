@@ -60,29 +60,50 @@
                 <section class="secciones">
 
                     <!--Link a la Pagina de Registrar Actividades-->
-                    <a href="registrar-actividad.php"><button class="btn btn-primary" >Registrar Actividad</button></a>
+                    <a href="registrar-actividad-1.php"><button class="btn btn-primary" >Registrar Actividad</button></a>
                     
-                    <!--Barra de Busqueda-->
-                    
-                    <nav class="navbar navbar-light container" id="mostrarSolo">
-                        <div class="form-inline row">
-                            <div class="col-md-12 row">
-                                <div class="col-md-3">
+                    <!--Filtros de Busqueda-->
+                    <nav class="navbar navbar-light container" style="margin-top: 20px;" id="mostrarSolo">
+
+                        <div class="row gy-4 container">
+                            <!--Nombre de Actividad y boton para abrir los filtros-->
+                            <div class="col-md-6">
+                                <div>
+                                    <label class="form-label">Nombre de Actividad:</label>
+                                </div>
+
+                                <div>
                                     <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" id="data_busq_nombre" name="data_busq_nombre">
-                                </div>
-                                <div class="col-md-3">
-                                    <input style="width: 100%;" class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
-                                </div>
-                                <div class="col-md-3">
-                                    <input class="form-control" type="search" placeholder="Buscar por Codigo..." aria-label="Search" id="data_busq_codigo" name="data_busq_codigo">
-                                </div>
-                                <div class="col-md-1 ">
-                                    <button class="btn btn-primary" id="buscar_actividad_boton">Buscar</button>
+
+                                    <button class="btn btn-primary"  data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                                            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
+                    
+                            <!--Numero de Resultados de las actividades-->
+                            <div class=col-md-4 >
+                                <label class="form-label">Numero de Resultados:</label>
+                                <select class="form-select" id="num_resultados">
+                                        <option value="5">5</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                </select>
+                            </div>
 
-                            <div class="col row gy-3">
-                                <div class="col-md-6">
+                            <!--Filtros de Busqueda-->
+                            <div class="gy-4 col-md-12 collapse bg-light row" style="margin-left: 15px;" id="collapse_filtros_busq">
+                                <h3>Filtros de Búsqueda</h3>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Fecha de Actividad:</label>
+                                    <input style="width: 100%;" class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
+                                </div>
+
+                                <div class="col-md-3">
                                     <label class="form-label">Filtrar Por estado:</label>
                                     <select class="form-select" id="estado_actividad">
                                             <option value="">Todas</option>
@@ -92,21 +113,17 @@
                                             <option value="SUSPENDIDA">Suspendidas</option>
                                     </select>
                                 </div>
-                                <!--Numero de Resultados de las actividades-->
-                                <div class=col-md-6>
-                                    <label class="form-label">Numero de Resultados:</label>
-                                    <select class="form-select" id="num_resultados">
-                                            <option value="5">5</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                    </select>
+
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false" id="buscar_aplicar_filtros_busq">Aplicar
+                                    </button>
                                 </div>
+                            
                             </div>
                         </div>
                     </nav>
 
-                    <!--La tabla-->
+                    <!--La tabla de Actividades Registradas-->
                     <div class="table-responsive">
                         <table id="tabla_actividades" class="table text-nowrap table_default">
                         <tr>
@@ -125,6 +142,8 @@
                         <!--La tabla se rellena por medio de el archivo ajax.actividades.js-->
                         </table>
                     </div>
+
+                    <!--Botones de Paginacion-->
                     <div>
                         <nav style="margin-top: 20px;">
                             <ul class="pagination" id="num_paginas">
@@ -132,19 +151,37 @@
                         </nav>
                     </div>
 
-                    <div class="row center-element">
-                        <div class="col-md-6 center-element">
-                            <form action="../Controller/controllerActividad.php">
-                                <input type="hidden" class="btn btn-success" name="option" value="exportarPDF">
-                                <input type="submit" class="btn btn-danger" value="Exportar a PDF">
-                            </form>
+                    <!--Boton para Generar Reportes de las Actividades Registradas-->
+                    <div class="center-element dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <label>Exportar Tabla</label>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table" viewBox="0 2 16 16">
+                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+                            </svg>
+                        </button>
+                        <ul class="dropdown-menu">
 
-                            <form action="../Controller/controllerActividad.php">
-                                <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
-                                <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
-                            </form>
-                        <div>
+                            <li>
+                                <form method="post" action="./actividades-exportar.php">
+                                    <input type="hidden" name="option" value="exportarPDF">
+                                    <button class="dropdown-item">
+                                        <span class="d-inline-block bg-danger rounded-circle" style="width: .5em; height: .5em;"></span> Exportar a PDF
+                                    </button>
+                                </form>
+                            </li>
+
+                            <li>
+                                <form  method="POST" action="./actividades-exportar.php">
+                                    <input type="hidden" name="option" value="exportarExcel">
+                                    <button class="dropdown-item">
+                                        <span class="d-inline-block bg-success rounded-circle" style="width: .5em; height: .5em;"></span> Exportar a Excel
+                                    </button>
+                                </form>
+                            </li>
+
+                        </ul>
                     </div>
+                    
                 <section>
             </div>
         </main>

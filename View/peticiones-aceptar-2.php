@@ -40,78 +40,29 @@
     <script src="JS/js.actividades/js.registrar_actividad.js"></script>
     <script src="JS/js.peticiones/aceptar-peticion.js"></script>
 </head>
-<?php
-        ?>
 <body>
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
         <input type="hidden" value="<?PHP echo $_SESSION['id_usuario'] ?>" name="id_usuario_sesion" id="id_usuario_sesion">
         <h1 class="titleh1">Aceptar Peticion</h1>
         <div class="contenedorPrincipal">
-            <!--Comienzo del Formuloario-->
+            <!--Comienzo del Formulario-->
             <form class="needs-validation" id="crear_actividad_peticion" novalidate>
-                    <h2 class="titleh2">Datos de Registro</h2>
-                    <section class="secciones row">
-                        
-                        <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Codigo de Registro:</label>
-                            <input class="col-md-12 form-control" readonly type="text" name="codigo_actividad" id="codigo_actividad">
-                        </div>
-
-                        <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Nombre de Actividad:</label>
-                            <input class="col-md-12 form-control" type="text" name="nombre_actividad" id="nombre_actividad" required>
-                            <div class="invalid-feedback">
-                                Este Campo no puede esta vacío
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Tipo de Actividad:</label>
-                                <select class="col-md-12 input_form form-select" required name="id_tipo_actividad" id="id_tipo_actividad">
-                            <option selected disabled value="">Seleccione...</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Seleccione un Tipo de Actividad Válido
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 div_input_form"> 
-                            <label class="col-md-12 form-label">Fecha de Registro:</label>
-                            <input class="col-md-12 form-control" disabled type="date" name="fecha_registro" id="fecha_registro" placeholder="Fecha de Registro">
-                        </div>
-
-                        <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Departamento Emisor:</label>
-                            <input type="text" class="col-md-12 form-select" name="dep_emisor" id="dep_emisor" readonly required>
-                            <div class="invalid-feedback">
-                                Elija un Departamento Valido
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Departamento Receptor:</label>
-                            <input type="text" class="col-md-12 form-select" name="dep_receptor" id="dep_receptor" readonly required>
-                            <div class="invalid-feedback">
-                                Elija un Departamento Valido
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 div_input_form">
-                                <label class="col-md-12 form-label">Observacion:</label>
-                                <textarea class="col-md-12 form-control" name="observacion" id="observacion">Actividad Generada de Peticion.
-                                </textarea>
-                                <div id="emailHelp" class="form-text">*Este Campo es Opcional</div>
-                        </div>
-
-                        <button type="button" class="btn btn-primary col-md-3" data-bs-toggle="modal" data-bs-target="#modalDetallesPeticion">
-                            Leer Detalles de la Peticion
-                        </button>
-
-                    </section>
 
                     <!--Parte 2 del formulario de Registro de Actividades(Para datos del responsable del registro)-->
                     <h2 class="titleh2">Responsable del Registro</h2>
+
+                    <!--Datos enviados de la primera parte del formulario-->
+                    <?php
+                        echo '<input type="hidden" name="codigo_actividad" id="codigo_actividad" value="'.$_REQUEST['codigo_actividad'].'">';
+                        echo '<input type="hidden" name="nombre_actividad" id="nombre_actividad" value="'.$_REQUEST['nombre_actividad'].'">';
+                        echo '<input type="hidden" name="id_tipo_actividad" id="id_tipo_actividad" value="'.$_REQUEST['id_tipo_actividad'].'">';
+                        echo '<input type="hidden" name="dep_emisor" id="dep_emisor" value="'.$_REQUEST['dep_emisor'].'">';
+                        echo '<input type="hidden" name="dep_receptor" id="dep_receptor" value="'.$_REQUEST['dep_receptor'].'">';
+                        echo '<input type="hidden" name="observacion" id="observacion" value="'.$_REQUEST['observacion'].'">';
+                    ?>
+
+                    <!--cuerpo del formulario-->
                     <section class="secciones row">
                         <div class="col-md-6 div_input_form">
                             <div class="col-md-12 div_input_form">
@@ -139,21 +90,21 @@
                         <div class="col-md-6 div_input_form">
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Nombre del Solicitante:</label>
-                                <input class="col-md-12 form-control" required type="text" name="nom_atendido" id="nom_atendido" readonly>
+                                <input class="col-md-12 form-control is-disabled" required type="text" name="nom_atendido" id="nom_atendido" readonly>
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
                                 </div>
                             </div>
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Apellido del Solicitante:</label>
-                                <input class="col-md-12 form-control" required type="text" name="ape_atendido" id="ape_atendido" readonly>
+                                <input class="col-md-12 form-control is-disabled" required type="text" name="ape_atendido" id="ape_atendido" readonly>
                                 <div class="invalid-feedback">
                                     Este Campo no puede esta vacío
                                 </div>
                             </div>
                             <div class="col-md-12 div_input_form">
                                 <label class="col-md-12 form-label">Cedula del Solicitante:</label>
-                                <input class="col-md-12 form-control" type="text" maxlength="10" name="ced_atendido" id="ced_atendido" readonly required>
+                                <input class="col-md-12 form-control is-disabled" type="text" maxlength="10" name="ced_atendido" id="ced_atendido" readonly required>
                             </div>
                         </div>
 

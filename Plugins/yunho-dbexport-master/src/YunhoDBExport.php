@@ -199,7 +199,7 @@ class YunhoDBExport {
         $num++;
 
         // Fila
-        $table .= '<tr style="background-color:' . $bgcolor . ';">';
+        $table .= '<tr>';
         $table .= ' <td>' . $num . '</td>';
 
         // Filas con validaciones

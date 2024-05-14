@@ -36,7 +36,7 @@
     <main>
         <h1 class="titleh1">Departamentos</h1>
         <div class="contenedorPrincipal">
-        <h2 style="background-color: rgb(0, 180, 10);" class="titleh2">+ Agregar Nuevo Departamento</h2>
+        <h2 style="background-color: rgb(0, 180, 10);" class="titleh2">+ Agregar Departamento</h2>
             <section class="secciones">
                 <form class="needs-validation formulario row gy-3" method="post" action="../Controller/controllerDepartamentos.php" novalidate>
 

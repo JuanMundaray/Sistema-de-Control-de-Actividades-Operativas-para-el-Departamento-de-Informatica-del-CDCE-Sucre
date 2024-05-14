@@ -83,6 +83,8 @@ class peticion{
             ON peticiones.tipo_actividad=tipo_actividad.id_tipo
             LEFT JOIN actividades.actividad
             ON peticiones.actividad_originada=actividad.codigo_actividad
+            LEFT JOIN actividades.estado_peticion
+            ON estado_peticion.id_estado_peticion=peticiones.estado_peticion
             WHERE 1=1 ";
 
             if(!empty($nombre_peticion)){
@@ -90,7 +92,7 @@ class peticion{
             }
 
             if(!empty($departamento_peticion)){
-                $consulta .=" AND peticiones.departamento_peticion=$departamento_peticion";
+                $consulta .=" AND peticiones.departamento_peticion='$departamento_peticion'";
             }
 
             if(!empty($fecha_peticion)){
@@ -135,7 +137,7 @@ class peticion{
             $db=DataBase::getInstance();
 
             $consulta="UPDATE actividades.peticiones 
-            SET estado_peticion='RECHAZADA'
+            SET estado_peticion=3
             WHERE id_peticion=:id_peticion";
 
             $resultadoPDO = $db->prepare($consulta);
@@ -161,7 +163,7 @@ class peticion{
             $consulta="UPDATE actividades.peticiones 
             SET 
             actividad_originada=:actividad_originada,
-            estado_peticion='ACEPTADA'
+            estado_peticion=2
             WHERE id_peticion=:id_peticion";
 
             $resultadoPDO = $db->prepare($consulta);
@@ -260,11 +262,15 @@ class peticion{
     }
 
     public function exportarExcel(){
+        $departamento_peticion = $this->departamento_peticion;
+        $fecha_peticion = $this->fecha_peticion;
+        $estado_peticion=$this->estado_peticion;
+
         require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
         require_once("../Model/configurarBD.php");
 
         $id_usuario=$this->id_usuario;
-        date_default_timezone_set('America/Lima');
+          date_default_timezone_set('America/Caracas');
         $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
         
         $export->connect();
@@ -274,7 +280,9 @@ class peticion{
             'nombre_peticion'=>'Nombre de Peticion',
             'nombre_departamento'=>'Departamento',
             'fecha_peticion'=>'Fecha de Creacion',
-            'nombre_usuario'=>'Nombre de Usuario del Reponsable'
+            'nombre_usuario'=>'Nombre de Usuario del Reponsable',
+            'estado_peticion'=>'Estado de Peticion',
+            'estado_actividad'=>'Estado de Actividad Generada por Peticion'
         );
 
         $consulta="SELECT * FROM actividades.peticiones
@@ -297,9 +305,22 @@ class peticion{
                 'estado_actividad'=>'Estado de Actividad Generada por Peticion'
             );
             $nombre_archivo='LISTA DE MIS PETICIONES';
-        }else{
+        }
+        else{
             $consulta.=" AND estado_peticion<>'RECHAZADA'";
             $nombre_archivo='LISTA DE PETICIONES';
+        }
+        
+        if(!empty($departamento_peticion)){
+            $consulta .=" AND peticiones.departamento_peticion=$departamento_peticion";
+        }
+
+        if(!empty($fecha_peticion)){
+            $consulta .=" AND peticiones.fecha_peticion='$fecha_peticion'";
+        }
+
+        if(!empty($estado_peticion)){
+            $consulta .=" AND peticiones.estado_peticion='$estado_peticion'";
         }
 
         $export->query($consulta);
@@ -317,6 +338,41 @@ class peticion{
         if ($dbhex = $export->get_error()) {
             die($dbhex->getMessage());
           }
+    }
+    public function exportarPDF($data_sql){
+        
+        require('../Plugins/fpdf186/fpdf.php');
+        $pdf = new FPDF('P','mm',array(400,400));
+        $pdf->AddPage();
+        //titulo
+        $pdf->SetFont('Arial','UB',26);
+        $pdf->Cell(0,20,'Reporte Generado '.date("Y-m-d"),0,0);
+        $pdf->Ln();
+        //nombres de columnas de la tabla
+        $pdf->SetFont('Arial','B',7);
+        $pdf->Cell(80,7,'ID de Peticion',1,0,'C');
+        $pdf->Cell(80,7,'Nombre de Peticion',1,0,'C');
+        $pdf->Cell(25,7,'Departamento de Peticion',1,0,'C');
+        $pdf->Cell(25,7,'Fecha de Creacion',1,0,'C');
+        $pdf->Cell(60,7,'Nombre de Usuario Responsable de Peticion',1,0,'C');
+        $pdf->Cell(60,7,'Estado de Peticion',1,0,'C');
+        $pdf->Cell(60,7,'Estado de Actividad Generada por Peticion',1,0,'C');
+        $pdf->SetFont('Arial','',7);
+
+        $font_size_fila=5;
+        //Anadir datos de la tablas
+        foreach($data_sql as $fila){
+            $pdf->Ln();
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['id_peticion']),1);
+            $pdf->Cell(80,$font_size_fila,utf8_decode($fila['nombre_peticion']),1);
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['nombre_departamento']),1);
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_peticion']),1);
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_usuario']),1);
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_estado_peticion']),1);
+            echo $data_sql;
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['estado_actividad']),1);
+        }
+        $pdf->Output('','Tabla de Actividades Registradas',true);
     }
     
     public function setIdPeticion($id_peticion)

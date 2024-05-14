@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-date_default_timezone_set('America/Lima');
+  date_default_timezone_set('America/Caracas');
 
 function loader($class) {
   $file = "src/$class.php";

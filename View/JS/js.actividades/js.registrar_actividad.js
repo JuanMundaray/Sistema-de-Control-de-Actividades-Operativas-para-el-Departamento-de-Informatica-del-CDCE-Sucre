@@ -83,14 +83,11 @@ $(document).ready(function(){
         }
     });
     
-    //inpedir que en el campo cedula se puedan agregar letras
+    //inpedir que en el campo cedula no se puedan agregar letras
     $("#ced_atendido").on('input',function(){
         var valor=$(this).val();
         $(this).val(valor.replace(/\D/g,""));
-    });
-    $("#ced_responsable").on('input',function(){
-        var valor=$(this).val();
-        $(this).val(valor.replace(/\D/g,""));
+
     });
     
 });

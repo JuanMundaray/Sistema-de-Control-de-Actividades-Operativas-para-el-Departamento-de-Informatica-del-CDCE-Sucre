@@ -7,15 +7,6 @@ centinela=true;
 		<ul>
 			<li>
 				<div>
-					<a class="row" href='Dashboard.php'>
-						<figure class="col-md-1"><img src="./Resources/png/512/ios7-briefcase.png" class="icons-menudeslizante"></figure>
-						<span class="col">Dashboard</span>
-					</a>
-				</div>
-			</li>
-
-			<li>
-				<div>
 					<a class="row" href='peticiones-crear.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-compose.png" class="icons-menudeslizante"></figure>
 						<span class="col">Hacer Petición de Actividad</span>

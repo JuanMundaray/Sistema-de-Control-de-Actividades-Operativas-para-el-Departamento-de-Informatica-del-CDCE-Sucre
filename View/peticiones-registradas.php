@@ -48,46 +48,55 @@
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Lista de Peticiones</h2>
                 <section class="secciones">
-                    <!--Area de Busqueda-->
-                    <nav class="navbar navbar-light ">
-                    </nav>
 
-                    <nav class="row gy-4">
+                    <!--Área de Busqueda-->
+                    <nav class="navbar navbar-light row gy-4">
+                        <!--Busqueda Por Nombre-->
+                        <div class="d-flex">
+                            <div>
+                                <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="" id="data_busq_nombre" name="data_busq_nombre">
+                                
+                                <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                        </div>
+                        <!--Numero de Resultados-->
                         <div class="col-md-3">
                             <label class="form-label">Numero de Resultados:</label>
                             <select class="form-select" id="num_resultados">
-                                    <option onclick="getPeticiones()" value="5">5</option>
-                                    <option onclick="getPeticiones()" value="20">20</option>
-                                    <option onclick="getPeticiones()" value="50">50</option>
-                                    <option onclick="getPeticiones()" value="100">100</option>
+                                    <option value="5">5</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
                             </select>
                         </div>
-                        
-                        <form class="col-md-3">
-                            <label class="form-label">Buscar Por Nombre:</label>
-                            <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="" id="data_busq_nombre" name="data_busq_nombre">
-                        </form>
-                        
-                        <form class="col-md-3">
-                            <label class="form-label">Buscar Por Fecha:</label>
-                            <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" aria-autocomplete="" id="data_busq_fecha" name="data_busq_fecha">
-                        </form>
-                        
-                        <div class="col">
-                            <button style="margin-top: 30px;" class="btn btn-primary" id="boton_buscar">Buscar</button>
-                        </div>
-                        
-                        <form class="col-md-3">
-                            <label class="form-label">Buscar Por Estado:</label>
-                            <select class="form-select" id="data_busq_estado" name="data_busq_estado">
-                                <option value="">Todas</option>
-                                <option value="ACEPTADA">Aceptadas</option>
-                                <option value="ESPERA">En Espera</option>
+
+                        <!--Filtros de Busqueda-->
+                        <nav class="row gy-4 collapse navbar navbar-light bg-light" id="collapse_filtros_busq">
+                            <h3>Filtros de Búsqueda</h3>
+                            <div class="col-md-3 bg-light">
+                                <label class="form-label">Fecha de Peticion:</label>
+                                <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" aria-autocomplete="" id="data_busq_fecha" name="data_busq_fecha">
+                            </div>
+                            
+                            <div class="col-md-6 div_input_form">
+                                <label class="col-md-12 form-label">Departamento Receptor:</label>
+                                <select class="col-md-12 form-select" name="departamento_peticion" id="departamento_peticion" required>
+                                    <option selected disabled value="">Seleccione...</option>
+                                </select>
+                            </div>
                             </select>
-                        </form>
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" id="boton_aplicar_filtros_busq" data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false">Aplicar</button>
+                            </div>
+                        </nav>
 
                     </nav>
-                    
+
                     <!--Tabla de Peticiones dibujada por medio de js-->
                     <div class="table-responsive">
                         <table id="tabla_peticiones" class="table align-middle text-nowrap table_default">
@@ -96,41 +105,12 @@
                             
                         </table>
                     </div>
-
-                    <!--Paginacion-->
+                    
+                    <!--Botones de Paginacion-->
                     <nav style="margin-top: 20px;">
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>
-
-                    <!--Botones para generar Reportes de la Tabla de Peticiones-->
-                    <div class="row center-element" id="ExportarTabla">
-                        <div class="col-md-6 center-element">
-                            <form action="../Controller/controllerPeticion.php">
-                                <input type="hidden" class="btn btn-success" name="option" value="exportarExcel">
-                                <input type="submit" class="btn btn-success" value="Exportar a EXCEL">
-                            </form>
-                        <div>
-                    </div>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="modalDetallesPeticion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Detalle de La peticion</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary">Comprendido</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                 <section>
             </div>
@@ -141,11 +121,5 @@
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.min.js"></script>
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
         <script src="JS/js.peticiones/ajax.peticiones.js"></script>
-        
-        <script>
-            $('#myModal').on('shown.bs.modal', function () {
-                $('#myInput').trigger('focus')
-            })
-        </script>
     </body>
 </html>

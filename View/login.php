@@ -9,11 +9,9 @@
 
         <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
-        <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
         <script src="../Framework/jquery-3.6.3.min.js"></script>
-        <script src="./Plantillas/menu_desplegable-login.js"></script>
         <title>Actividades Registradas</title>
     </head>
     <?php
@@ -26,8 +24,7 @@
             
         ?>
     <body>
-        <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
-        <main>
+        <main class="contenedor_principal_login">
             <div class="contenedor_login form-signin">
                 <form class="form_login needs-validation" method="post" action="../Controller/controllerUsuario.php" novalidate>
                     <h1>Ingresar al Sistema</h1>

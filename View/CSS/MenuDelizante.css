@@ -8,6 +8,8 @@
     height: 100%;
 	box-shadow: 1px 1px 2px 1px #9c9c9c;
 	z-index: 2;
+	overflow-y: scroll;
+
 }
 /* menu */
 
@@ -112,13 +114,5 @@
 	}
 	#menuLateral ul a{
 		font-size: 10px;
-	}
-}
-
-@media screen and ((max-height: 500px)) {
-    
-	#menuLateral{
-		margin-top:70px;
-		overflow-y: scroll;
 	}
 }

@@ -1,19 +1,12 @@
+
 $(document).ready(function(){
+    obtener_estado_peticion();
     getPeticiones();
     
     $("#data_busq_nombre").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
         getPeticiones();
     });
-    $('#boton_buscar').click(function(){
-        getPeticiones();
-    });
-    $("#data_busq_fecha").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
-        getPeticiones();
-    });
-    $("#data_busq_estado option").on('click',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
-        getPeticiones();
-    });
-    $("#num_resultados option").on('click',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
+    $('#boton_aplicar_filtros_busq').click(function(){
         getPeticiones();
     });
 
@@ -39,7 +32,6 @@ function getPeticiones(pagina=1){
         },
         dataType:'json',
         success:function(msg){
-            console.log(msg);
             RellenarTablaPeticiones(msg);
             paginacion(num_resultados);
 
@@ -90,10 +82,10 @@ function RellenarTablaPeticiones(msg){
         <th colspan="1"><label>Accion</label></th>
     </tr>`);
     msg.forEach(function(elemento){
-        if(elemento['estado_peticion']=='ESPERA'){
+        if(elemento['nombre_estado_peticion']=='ESPERA'){
             boton_desplegable_accion=`<button class="dropdown-item" onclick="eliminarPeticion(${elemento['id_peticion']},'¿Seguro que desea cancelar esta peticion?')">Cancelar</button>`;
         }
-        if(elemento['estado_peticion']=='RECHAZADA'){
+        if(elemento['nombre_estado_peticion']=='RECHAZADA'){
             boton_desplegable_accion=`<button class="dropdown-item" onclick="eliminarPeticion(${elemento['id_peticion']},'¿Seguro que desea eliminar esta peticion?')">Eliminar</button>`;
         }
         else{
@@ -107,7 +99,7 @@ function RellenarTablaPeticiones(msg){
                 <td>${elemento['fecha_peticion']}</td>
                 <td>${elemento['nombre_tipo']}</td>
                 <td>
-                    <button class='tamano_boton btn ${estilo_btn(elemento['estado_peticion'])}'>${elemento['estado_peticion']}</button>
+                    <button class='tamano_boton btn ${estilo_btn(elemento['nombre_estado_peticion'])}'>${elemento['nombre_estado_peticion']}</button>
                 </td>
                 <td>
                     ${estado_actividad_originada(elemento)}
@@ -128,8 +120,8 @@ function RellenarTablaPeticiones(msg){
     tabla.append("</tbody>");
 
     function estado_actividad_originada(elemento){
-        if(elemento['estado_actividad']!=null){
-            return `<button class='tamano_boton btn ${estilo_btn(elemento['estado_actividad'])}'>${elemento['estado_actividad']}</button>`;
+        if(elemento['nombre_estado_actividad']!=null){
+            return `<button class='tamano_boton btn ${estilo_btn(elemento['nombre_estado_actividad'])}'>${elemento['nombre_estado_actividad']}</button>`;
         }
         else{
             return `------`;
@@ -199,4 +191,29 @@ function eliminarPeticion(id_peticion,texto){
             }
         });
     }
+}
+//funcion para obtener los estado de peticiones y colocarlos en el select de estados de peticion
+function obtener_estado_peticion(){
+    let resultado;
+
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerEstado_peticion.php",
+        data:{
+            option:'obtener'
+        },
+        dataType:'json',
+        success:function(msg){
+            resultado=msg;
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+    });
+
+    resultado.forEach(function(elemento){
+        estado_peticion=$("#data_busq_estado");
+        estado_peticion.append("<option value='"+elemento['id_estado_peticion']+"'>"+elemento["nombre_estado_peticion"]+"</option>");
+    });
 }
