@@ -48,22 +48,26 @@
                 <h2 class="titleh2">Datos de Actividad</h2>
                 <section class="secciones row gy-3">
                     
+                    <!--INPUT codigo de actividad-->
                     <div class="col-md-6">
                         <label class="col-md-12 form-label">Codigo de Registro:</label>
                         <input class="col-md-12 form-control is-disabled" readonly type="text" name="codigo_actividad" id="codigo_actividad">
                     </div>
 
+                    <!--INPUT nombre de actividad-->
                     <div class="col-md-6">
                         <label class="col-md-12 form-label">Nombre de Actividad:</label>
-                        <input class="col-md-12 form-control" type="text" name="nombre_actividad" minlength="4" maxlength="50" id="nombre_actividad" required>
+                        <input class="col-md-12 form-control" type="text" name="nombre_actividad" minlength="4" maxlength="50" id="nombre_actividad" title="Solo se permiten letras" required>
                         <div class="invalid-feedback">
                             Este Campo Debe Tener Como Mínimo 4 Carácteres
                         </div>
                     </div>
 
+                    <!--SELECT tipo de actividad-->
                     <div class="col-md-6">
                         <label class="col-md-12 form-label">Tipo de Actividad:</label>
                             <select class="col-md-12 input_form form-select" required name="id_tipo_actividad" id="id_tipo_actividad">
+                            <option id="agregar_tipo_actividad">+ Agregar Tipo de Actividad</option>
                             <option selected disabled value="">Seleccione...</option>
                         </select>
                         <div class="invalid-feedback">
@@ -71,14 +75,17 @@
                         </div>
                     </div>
 
+                    <!--INPUT fecha de registro-->
                     <div class="col-md-6"> 
                         <label class="col-md-12 form-label">Fecha de Registro:</label>
-                        <input class="col-md-12 form-control" disabled type="date" name="fecha_registro" id="fecha_registro" placeholder="Fecha de Registro">
+                        <input class="col-md-12 form-control" type="date" name="fecha_registro" id="fecha_registro" placeholder="Fecha de Registro">
                     </div>
 
+                    <!--SELECT departamento emisor-->
                     <div class="col-md-6">
                         <label class="col-md-12 form-label">Departamento Emisor:</label>
                         <select class="col-md-12 form-select" name="dep_emisor" id="dep_emisor" required>
+                            <option id="agregar_departamento">+ Agregar Departamento</option>
                             <option selected disabled value="">Seleccione...</option>
                         </select>
                         <div class="invalid-feedback">
@@ -86,6 +93,7 @@
                         </div>
                     </div>
 
+                    <!--SELECT departamento receptor-->
                     <div class="col-md-6">
                         <label class="col-md-12 form-label">Departamento Receptor:</label>
                         <select class="col-md-12 form-select is-disabled" name="dep_receptor" id="dep_receptor" required>
@@ -96,6 +104,7 @@
                         </div>
                     </div>
 
+                    <!--TEXTAREA observacion-->
                     <div class="col-md-12">
                             <label class="col-md-12 form-label">Observacion:</label>
                             <textarea class="col-md-12 form-control" name="observacion" id="observacion"></textarea>
@@ -110,7 +119,6 @@
             </form>
         </div>
     </main>
-    <script src="JS/js.actividades/js.formulario_paginacion.js"></script>
     <script src="JS/validar.formularios.js"></script>
     
 </body>

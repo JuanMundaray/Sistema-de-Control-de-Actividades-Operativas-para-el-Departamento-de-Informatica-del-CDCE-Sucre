@@ -85,9 +85,6 @@ label{
     user-select: none;
 
 }
-.table_default{
-    margin-top: 30px;
-}
 
 .table_default td{
     text-align: center;
@@ -131,6 +128,10 @@ label{
     background-color: rgb(238, 238, 238);
     user-select: none;
     pointer-events: none;
+}
+
+.label-sm{
+    font-size: 15px;
 }
 
 @media screen and (max-width: 800px){

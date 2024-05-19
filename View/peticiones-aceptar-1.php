@@ -94,8 +94,9 @@
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Tipo de Actividad:</label>
                                 <select class="col-md-12 input_form form-select" required name="id_tipo_actividad" id="id_tipo_actividad">
-                            <option selected disabled value="">Seleccione...</option>
-                            </select>
+                                    <option id="agregar_tipo_actividad">+ Agregar Tipo de Actividad</option>
+                                    <option selected disabled value="">Seleccione...</option>
+                                </select>
                             <div class="invalid-feedback">
                                 Seleccione un Tipo de Actividad Válido
                             </div>
@@ -103,7 +104,7 @@
 
                         <div class="col-md-6 div_input_form"> 
                             <label class="col-md-12 form-label">Fecha de Registro:</label>
-                            <input class="col-md-12 form-control" disabled type="date" name="fecha_registro" id="fecha_registro" placeholder="Fecha de Registro">
+                            <input class="col-md-12 form-control" type="date" name="fecha_registro" id="fecha_registro" placeholder="Fecha de Registro">
                         </div>
 
                         <div class="col-md-6 div_input_form">

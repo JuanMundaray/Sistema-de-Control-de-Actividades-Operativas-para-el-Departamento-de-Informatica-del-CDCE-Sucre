@@ -37,12 +37,11 @@
 <body>
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
-        <h1 class="titleh1">Administrar - Dashboard</h1>
+        <h1 class="titleh1">Dashboard</h1>
         <section class="seccionDashboard">
 
             <div style="margin-left: 11vw;" class="container">
 
-            <h2>Dashboard</h2>
                 <div class="row row-cols-3">
                     <!--Cuadro que muestra el Actividades Registradas-->
                     <div class="CuadroActividadesRegistradas col bloque_dashboard">

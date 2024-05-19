@@ -93,7 +93,7 @@
                                 </div>
 
                                 <div class="col-md-12">
-                                    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false" id="buscar_aplicar_filtros_busq">Aplicar
+                                    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false" id="collapseFiltros">Aplicar
                                     </button>
                                 </div>
                             

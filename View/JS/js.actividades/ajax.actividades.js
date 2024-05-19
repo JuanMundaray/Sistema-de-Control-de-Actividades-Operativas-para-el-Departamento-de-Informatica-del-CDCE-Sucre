@@ -2,11 +2,18 @@ $(document).ready(function(){
         
     getActividades();//Se Dibujan todas las actividades registradas en la tabla de actividades
     tipo_usuario_sesion=$('#tipo_usuario_sesion').val();
+    obtenerEstadosActividad();
+
     $("#data_busq_nombre").on('input',function(){
         getActividades();
     });
 
-    $("#buscar_aplicar_filtros_busq").click(function(){ 
+    $("#collapseFiltros").click(function(){ 
+        //Funcion ajax para buscar una actividad por su codigo
+        getActividades();
+    });
+    
+    $("#num_resultados option").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
         getActividades();
     });
@@ -52,34 +59,36 @@ function getActividades(pagina=1){
 
 function RellenarTablaActividades(msg){
     
-    function estilo_btn(elemento){
+    function estilo_bg(elemento){
         if(elemento=="INICIADA"){
-            var btn_estilo="btn-primary";
-        }if(elemento=="PROCESO"){
-            var btn_estilo="btn-warning";
-        }if(elemento=="COMPLETADA"){
-            var btn_estilo="btn-success";
+            var bg_estilo="bg-primary";
+        }
+        if(elemento=="CREADA"){
+            var bg_estilo="bg-primary";
+        }
+        if(elemento=="PROCESO"){
+            var bg_estilo="bg-warning";
+        }
+        if(elemento=="COMPLETADA"){
+            var bg_estilo="bg-success";
         }
         if(elemento=="SUSPENDIDA"){
-            var btn_estilo="btn-danger";
+            var bg_estilo="bg-danger";
         }
-        return btn_estilo;
+        return bg_estilo;
     }
 
     let tabla=$("#tabla_actividades");
     tabla.empty();
     tabla.append(`<thead><tr>
-            <th><label>Fecha de Registro</label></th>
-            <th><label>Actividad</label></th>
-            <th><label>Tipo de Actividad</label></th>
-            <th><label>Departamento Receptor</label></th>
-            <th><label>Departamento Emisor</label></th>
-            <th><label>Nombre del Responsable</label></th>
-            <th><label>Cedula del Responsable</label></th>
-            <th><label>Funcionario Atendido</label></th>
-            <th><label>Cedula del Funcionario Atendido</label></th>
-            <th><label>Estado</label></th>
-            <th><label>Accion</label></th>
+            <th scope='col'><label>Fecha de Registro</label></th>
+            <th scope='col'><label>Accion</label></th>
+            <th scope='col'><label>Nombre Actividad</label></th>
+            <th scope='col'><label>Tipo de Actividad</label></th>
+            <th scope='col'><label>Estado</label></th>
+            <th scope='col'><label>Departamento Receptor</label></th>
+            <th scope='col'><label>Nombre del Responsable</label></th>
+            <th scope='col'><label>Cedula del Responsable</label></th>
         </tr></thead>`);
     tabla.append('<tbody>');
 
@@ -110,35 +119,35 @@ function RellenarTablaActividades(msg){
             }
     
         }
-        let btn_estilo=estilo_btn(elemento['nombre_estado_actividad']);
-        tabla.append(`<tr class='align-middle'>
+        
+        let bg_estilo=estilo_bg(elemento['nombre_estado_actividad']);
+
+        tabla.append(`<tr class='align-middle '>
         <td>${elemento['fecha_registro']}</td>
-        <td>${elemento['nombre_actividad']}</td>
-        <td>${elemento['nombre_tipo']}</td>
-        <td>${elemento['dep_receptor']}</td>
-        <td>${elemento['dep_emisor']}</td>
-        <td>${elemento['nombre_personal']} ${elemento['apellido_personal']}</td>
-        <td>${elemento['cedula']}</td> 
-        <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
-        <td>${elemento['ced_atendido']}</td>
-        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['nombre_estado_actividad']}</button></td>
         <td>
             <div class="btn-group">
-                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                <button type="button" class="btn btn-success rounded-pill dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                     Seleccione...
                 </button>
+                
                 <ul class="dropdown-menu dropdown-menu-lg-end">
                     ${accion}    
                 </ul>
             </div>
         </td>
+        <td>${elemento['nombre_actividad']}</td>
+        <td>${elemento['nombre_tipo']}</td>
+        <td><h5><span class="badge rounded-pill  ${bg_estilo}" style="width: 120px;">${elemento['nombre_estado_actividad']}</span><h5></td>
+        <td>${elemento['dep_receptor']}</td>
+        <td>${elemento['nombre_personal']} ${elemento['apellido_personal']}</td>
+        <td>${elemento['cedula']}</td> 
         </tr>`);
-    tabla.append("</tbody>");
     });
+    tabla.append("</tbody>");
 }
 
-function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
-
+//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+function paginacion(num_resultados){
     let codigo_actividad=$("#data_busq_codigo").val();
     let nombre_actividad=$("#data_busq_nombre").val();
     let fecha_registro=$("#data_busq_fecha").val();
@@ -194,4 +203,26 @@ function eliminarActividad(codigo_actividad){
             }
     });
     }
+}
+
+function obtenerEstadosActividad(){
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerEstado_actividad.php",
+        data:{
+            option:"obtener"
+        },
+        dataType:'json',
+        success:function(msg){
+            msg.forEach(function(elemento){
+                let nombre_estado=elemento['nombre_estado_actividad'];
+                let id_estado=elemento['id_estado_actividad'];
+                $("#estado_actividad").append(`<option value='${id_estado}'>${nombre_estado}</option>`);
+            });
+        },error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
 }

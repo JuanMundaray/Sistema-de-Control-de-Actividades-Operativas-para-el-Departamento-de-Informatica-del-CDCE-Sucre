@@ -33,6 +33,7 @@
     padding: 1px;
     width: 100%;
     padding-left: 0.1vw;
+    gap: 20px;
 }
 
 .Parte-Inferior-Cabecera h3{
@@ -40,13 +41,16 @@
     margin-right: 20px;
     margin-top: 4px;
     color: aliceblue;
-    font-size: 5vh;
+    font-size: 4vh;
     font-weight: 600;
+    margin-left: 20px;
 }
 
 #boton_despliegue{
-    width:8vh;
-    height:8vh;
+    width:6vh;
+    height:6vh;
+    color: aliceblue;
+    margin-left: 10px;
 }
 
 #boton_despliegue:focus{
@@ -54,9 +58,14 @@
     transform: rotate(90deg);
 }
 
-.Parte-Inferior-Cabecera .imagen_perfil img{
+.Parte-Inferior-Cabecera .imagen_perfil{
+    color: aliceblue;
     width: 6vh;
     height: 6vh;
+}
+.Parte-Inferior-Cabecera .imagen_perfil svg{
+    width: 100%;
+    height: 100%;
 }
 
 @media screen and ((max-height: 500px)) {

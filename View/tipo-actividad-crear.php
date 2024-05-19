@@ -56,6 +56,18 @@
             </section>
         </div>
     </main>
+
+    <script>
+        $(document).ready(function(){
+            //impedir que en el campo nombre se le puedan agregar signos especiales o numeros
+            $("#nombre_tipo").on('input',function(){
+                var valor=$(this).val();
+                var nuevo_valor=valor.replace(/[0-9!@#$%^&*()_{}"'|<>?,.`~]/g,"");
+                $(this).val(nuevo_valor);
+
+            });
+        });
+    </script>
     
 </body>
 </html>

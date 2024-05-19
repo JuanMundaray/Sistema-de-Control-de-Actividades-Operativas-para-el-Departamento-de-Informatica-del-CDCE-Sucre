@@ -9,11 +9,6 @@
     <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
-    <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script> 
-    <script src="Plantillas/menu_desplegable-administrador.js"></script>
-    
-
 </head>
 <?php
     session_start();
@@ -58,6 +53,22 @@
                 </form>
             </section>
     </main>
+
+    <script src="../Framework/jquery-3.6.3.min.js"></script>
+    <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script> 
+    <script src="Plantillas/menu_desplegable-administrador.js"></script>
+    <script>
+        $(document).ready(function(){
+            //impedir que en el campo nombre se le puedan agregar signos especiales o numeros
+            $("#nombre_departamento").on('input',function(){
+                var valor=$(this).val();
+                var nuevo_valor=valor.replace(/[0-9!@#$%^&*()_{}"'|<>?,.`~]/g,"");
+                $(this).val(nuevo_valor);
+
+            });
+        });
+    </script>
+    
 </body>
 
 </html>

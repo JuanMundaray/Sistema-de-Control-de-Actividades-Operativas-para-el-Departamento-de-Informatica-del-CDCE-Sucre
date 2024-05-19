@@ -22,30 +22,12 @@ centinela=true;
 					</a>
 				</div>
 			</li>
-
-			<li>
-				<div>
-					<a class="row" href='tipo-actividad.php'>
-						<figure class="col-md-1"><img src="./Resources/png/512/ios7-pricetags.png" class="icons-menudeslizante"></figure>
-						<span class="col">Administrar Tipos de Actividad</span>
-					</a>
-				</div>
-			</li>
-
-			<li>
-				<div>
-					<a class="row" href='departamentos-mostrar.php'>
-						<figure class="col-md-1"><img src="./Resources/png/512/ios7-home.png" class="icons-menudeslizante"></figure>
-						<span class="col">Administrar Departamentos</span>
-					</a>
-				</div>
-			</li>
 			
 			<li>
 				<div>
 					<a class="row" href='actividades-registradas-propias.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-briefcase.png" class="icons-menudeslizante"></figure>
-						<span class="col">Mis Actividades Registradas</span>
+						<span class="col">Administrar Mis Actividades</span>
 					</a>
 				</div>
 			</li>
@@ -54,7 +36,7 @@ centinela=true;
 				<div>
 					<a class="row" href='actividades-registradas.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-paper.png" class="icons-menudeslizante"></figure>
-						<span class="col">Actividades Registradas</span>
+						<span class="col">Administrar Actividades</span>
 					</a>
 				</div>
 			</li>

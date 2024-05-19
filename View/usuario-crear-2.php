@@ -38,7 +38,7 @@
         <div class="contenedorPrincipal">
             <h2 class="titleh2">Datos de Cuenta de Usuario</h2>
 
-            <form class="formulario needs-validation" method="post" action="./usuario-crear-3.php" novalidate>
+            <form class="formulario needs-validation" method="post" action="../Controller/controllerUsuario.php" novalidate>
                 <?php 
                     echo '<input type="hidden" name="nombre" value="'.$_REQUEST['nombre'].'">';
                     echo '<input type="hidden" name="apellido" value="'.$_REQUEST['apellido'].'">';
@@ -66,6 +66,7 @@
                     <div class="col-md-10 div_input_form">
                         <label class="col-md-12 form-label">Departamento:</label>
                         <select class="col-md-12 form-select" name="departamento" id="departamento" required>
+                            <option id="agregar_departamento">+ Agregar Departamento</option>
                             <option selected disabled value="">Seleccione...</option>
                         </select>
                         <div class="invalid-feedback">

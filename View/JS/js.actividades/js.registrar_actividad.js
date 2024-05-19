@@ -61,7 +61,6 @@ $(document).ready(function(){
     });
 
     //Rellenar los datos del usuario responsable de registrar la actividad
-    console.log($('#id_usuario_sesion').val());
     $.ajax({
         type:"POST",
         url:"../Controller/controllerUsuario.php",
@@ -83,11 +82,51 @@ $(document).ready(function(){
         }
     });
     
-    //inpedir que en el campo cedula no se puedan agregar letras
+    //impedir que en el campo nombre se le puedan agregar signos especiales o numeros
+    $("#nombre_actividad").on('input',function(){
+        var valor=$(this).val();
+        var nuevo_valor=valor.replace(/[0-9!@#$%^&*()_{}"'|<>?,.`~]/g,"");
+        $(this).val(nuevo_valor);
+
+    });
+
+    //impedir que en el campo cedula no se puedan agregar letras
     $("#ced_atendido").on('input',function(){
         var valor=$(this).val();
         $(this).val(valor.replace(/\D/g,""));
 
     });
     
+    //impedir que en el campo ape_atendido se le puedan agregar signos especiales o numeros
+    $("#ape_atendido").on('input',function(){
+        var valor=$(this).val();
+        var nuevo_valor=valor.replace(/[0-9!@#$%^&*()_{}"'|<>?,.`~]/g,"");
+        $(this).val(nuevo_valor);
+
+    });
+    //impedir que en el campo nom_atendido se le puedan agregar signos especiales o numeros
+    $("#nom_atendido").on('input',function(){
+        var valor=$(this).val();
+        var nuevo_valor=valor.replace(/[0-9!@#$%^&*()_{}"'|<>?,.`~]/g,"");
+        $(this).val(nuevo_valor);
+
+    });
+
+    //impedir que en el campo nom_atendido se le puedan agregar signos especiales o numeros
+    $("#nom_atendido").on('input',function(){
+        var valor=$(this).val();
+        var nuevo_valor=valor.replace(/[0-9!@#$%^&*()_{}"'|<>?,.`~]/g,"");
+        $(this).val(nuevo_valor);
+
+    });
+    
+    //Redirigir a la pagina de tipo-actividad-crear.php
+    $("#agregar_tipo_actividad").on('click',function(){
+        location.href='./tipo-actividad-crear.php';
+    });
+
+    //Redirigir a la pagina de departamentos-agregar.php
+    $("#agregar_departamento").on('click',function(){
+        location.href='./departamentos-agregar.php';
+    });
 });

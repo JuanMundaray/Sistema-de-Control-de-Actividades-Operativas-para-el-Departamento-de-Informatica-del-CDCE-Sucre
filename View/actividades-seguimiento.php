@@ -42,18 +42,23 @@
             <section class="secciones row">
                     <input type="hidden" value=<?php echo $_REQUEST['codigo_actividad']?> name="codigo_actividad" id="codigo_actividad">
                     <!--La tabla de Actividades Registradas-->
-                    <h5  style="text-decoration:underline;">Actividad: <?php echo $_REQUEST['codigo_actividad']?></h5>
+
+                    <h5 class="pb-4">Tabla de Linea de Tiempo de Actividad</h5>
+                    
                     <div class="table-responsive">
                         <table id="tabla_actividades_registro_modificacion" class="table text-nowrap table_default">
-                        <thead>
-                            <tr>
-                                <th><label>Nombre de Actividad</label></th>
-                                <th><label>Fecha de Modificacion</label></th>
-                                <th><label>Tipo de Actividad</label></th>
-                                <th><label>Estado de Modificacion</label></th>
-                                <th><label>Estado de Actual</label></th>
-                            </tr>
-                        </thead>
+                            <thead>
+                                <tr>
+                                    <th scope='col'><label>Nombre de Actividad</label></th>
+                                    <th scope='col'><label>Estado al cual fue modificada</label></th>
+                                    <th scope='col'><label>Estado de Actual de Actividad</label></th>
+                                    <th scope='col'><label>Fecha de Modificacion</label></th>
+                                    <th scope='col'><label>Hora de Modificacion</label></th>
+                                    <th scope='col'><label>Tipo de Actividad</label></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
                         <!--La tabla se rellena por medio de el archivo ajax.actividades.js-->
                         </table>
                     </div>

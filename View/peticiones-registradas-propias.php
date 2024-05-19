@@ -45,40 +45,30 @@
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Lista de Peticiones</h2>
                 <section class="secciones">
-                    <!--Area de Busqueda-->
+                    <!--Área de Busqueda-->
                     <nav class="navbar navbar-light row gy-4">
-                        <div class="d-flex">
-                            
-                            <div>
-                                <input class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="" id="data_busq_nombre" name="data_busq_nombre">
-                                
-                                <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-                                    </svg>
-                                </button>
+                        <div class="collapse p-3 mb-2 bg-light bg-gradient rounded" id="collapseFiltros">
+                            <h4 class="py-2">Filtros de Busqueda</h4>
+                            <div class="d-flex align-items-end gap-4">
+                                <div>
+                                    <label class="form-label text-nowrap">Nombre de Peticion:</label>
+                                    <input class="form-control label-sm " type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="" id="data_busq_nombre" name="data_busq_nombre">
+                                </div>
+                                <div>
+                                    <label class="form-label">Fecha de Peticion:</label>
+                                    <input class="label-sm form-control text-nowrap" type="date" placeholder="Buscar por Fecha..." aria-label="Search" aria-autocomplete="" id="data_busq_fecha" name="data_busq_fecha">
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary" id="collapseFiltros" data-bs-toggle="collapse" data-bs-target="#collapseFiltros" aria-expanded="false">Aplicar</button>
+                                </div>
                             </div>
 
                         </div>
-                        
-                        <nav class="col-md-12 col-sm-12 collapse row gy-4 navbar navbar-light bg-light" id="collapse_filtros_busq" style="margin-left: 15px;">
 
-                            <input type="hidden" value="<?php echo $_SESSION['id_usuario'] ?>" id="id_usuario_sesion">
-
-                            <div class="col-md-3">
-                                <label class="form-label">Fecha de Peticion:</label>
-                                <input class="form-control" type="date" placeholder="Buscar por Fecha..." id="data_busq_fecha" name="data_busq_fecha">
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Estados de Peticion:</label>
-                                <select class="form-select" id="data_busq_estado">
-                                    <option value="">Todas</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Numero de Resultados:</label>
+                        <!--Numero de Resultados de las actividades y boton de filtro de busqueda-->
+                        <div style="width: 100%;" class='d-flex flex-row align-items-end mb-2'>
+                            <div class="me-auto">
+                                <label class="label-sm form-label">Numero de Resultados:</label>
                                 <select class="form-select" id="num_resultados">
                                         <option value="5">5</option>
                                         <option value="20">20</option>
@@ -87,11 +77,15 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-12">
-                                <button class="btn btn-primary" id='boton_aplicar_filtros_busq'  data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false">Aplicar</button>
+                            <div class="float-end">
+                                <button class="btn btn-primary rounded-3" data-bs-toggle="collapse" data-bs-target="#collapseFiltros" aria-expanded="false" aria-controls="collapseFiltros">
+                                    Filtrar Resultados
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                                        <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"/>
+                                    </svg>
+                                </button>
                             </div>
-
-                        </nav>
+                        </div>
                     </nav>
                     
                     <!--Tabla de Peticiones dibujada por medio de js-->
@@ -104,6 +98,10 @@
                             <th><label>Fecha de la Peticion</label></th>
                             <th><label>Estado de Peticion</label></th>
                         </tr>
+                        <tbody id="cuerpo">
+
+                        </tbody>
+
                         </table>
                     </div>
 
@@ -119,6 +117,6 @@
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
-        <script src="JS/js.peticiones/ajax.misPeticiones.js">import './funciones_modulares/ajax.obtener_estado_peticion';</script>
+        <script src="JS/js.peticiones/ajax.misPeticiones.js"></script>
     </body>
 </html>

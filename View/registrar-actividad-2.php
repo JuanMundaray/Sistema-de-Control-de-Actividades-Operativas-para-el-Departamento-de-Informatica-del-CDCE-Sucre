@@ -52,6 +52,7 @@
                     echo '<input type="hidden" name="dep_emisor" value="'.$_REQUEST['dep_emisor'].'">';
                     echo '<input type="hidden" name="dep_receptor" value="'.$_REQUEST['dep_receptor'].'">';
                     echo '<input type="hidden" name="observacion" value="'.$_REQUEST['observacion'].'">';
+                    echo '<input type="hidden" name="fecha_registro" value="'.$_REQUEST['fecha_registro'].'">';
                 ?>
                 <section class="secciones row">
                     <div class="col-md-6 div_input_form">
@@ -97,7 +98,7 @@
                         <div class="col-md-12">
                             <label class="col-md-12 form-label">Cedula del Funcionario Atendido:</label>
                             <input class="col-md-12 form-control" type="text" minlength="7" maxlength="8" name="ced_atendido" id="ced_atendido" pattern="[0-9]{7,}" required>
-                            <div class="invalid-feedback" title="hol">
+                            <div class="invalid-feedback">
                                 Este Campo Debe Tener Como Mínimo 7 Caracteres
                             </div>
                         </div>
@@ -117,7 +118,6 @@
             </form>
         </div>
     </main>
-    <script src="JS/js.actividades/js.formulario_paginacion.js"></script>
     <script src="JS/validar.formularios.js"></script>
     
 </body>

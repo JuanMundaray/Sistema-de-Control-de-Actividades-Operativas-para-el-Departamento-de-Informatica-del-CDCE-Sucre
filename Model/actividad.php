@@ -7,6 +7,9 @@ class actividad{
     private $dep_emisor;
     private $id_tipo_actividad;
     private $fecha_registro;
+    private $day;
+    private $month;
+    private $year;
     private $nom_atendido;
     private $ape_atendido;
     private $ced_atendido;
@@ -15,7 +18,8 @@ class actividad{
     private $informe;
     private $evidencia;
     private $id_usuario_responsable;
-    private $orden='DESC';
+    private $ultima_modificacion;
+    private $orden='ASC';
     
     public function __construct()
     {
@@ -24,7 +28,6 @@ class actividad{
         $this->evidencia="";
     }
 
-    
     public function guardar()
     {
         $resultado = false;
@@ -42,6 +45,7 @@ class actividad{
             $id_usuario_responsable = $this->id_usuario_responsable;
             $evidencia = $this->evidencia;
             $informe = $this->informe;
+            $ultima_modificacion=$this->ultima_modificacion;
             $db = DataBase::getInstance();
             $consulta = "INSERT INTO actividades.actividad(
             codigo_actividad,
@@ -56,7 +60,8 @@ class actividad{
             observacion,
             id_usuario_responsable,
             evidencia,
-            informe)
+            informe,
+            ultima_modificacion)
               VALUES (
             :codigo_actividad,
             :nombre_actividad,
@@ -69,7 +74,8 @@ class actividad{
             :observacion,
             :id_usuario_responsable,
             :evidencia,
-            :informe)";
+            :informe,
+            :ultima_modificacion)";
             $resultadoPDO = $db->prepare($consulta);
             $resultadoPDO->execute(array(
             ":codigo_actividad"=>$codigo_actividad,
@@ -84,7 +90,8 @@ class actividad{
             ":observacion"=>$observacion,
             ":id_usuario_responsable"=>$id_usuario_responsable,
             ":evidencia"=>$evidencia,
-            ":informe"=>$informe));
+            ":informe"=>$informe,
+            "ultima_modificacion"=>$ultima_modificacion));
 
             $this->registrarModificacion();
             
@@ -107,6 +114,7 @@ class actividad{
             $informe=$this->informe;
             $evidencia=$this->evidencia;
             $codigo_actividad=$this->codigo_actividad;
+            $ultima_modificacion=date("Y-m-d");
             $db = DataBase::getInstance();
 
             //modificacion de la actividad
@@ -115,15 +123,18 @@ class actividad{
             estado_actividad=:estado_actividad,
             observacion=:observacion,
             informe=:informe,
-            evidencia=:evidencia
+            evidencia=:evidencia,
+            ultima_modificacion=:ultima_modificacion
             WHERE codigo_actividad='$codigo_actividad'";
 
             $resultadoPDO = $db->prepare($consulta);
 
-            $resultado=$resultadoPDO->execute(array(":observacion"=>$observacion,
+            $resultado=$resultadoPDO->execute(array(
+            ":observacion"=>$observacion,
             ":informe"=>$informe,
             ":estado_actividad"=>$estado_actividad,
-            ":evidencia"=>$evidencia));    
+            ":evidencia"=>$evidencia,
+            ":ultima_modificacion"=>$ultima_modificacion));    
             
             $this->registrarModificacion();
 
@@ -142,6 +153,18 @@ class actividad{
             $estado_actividad=$this->estado_actividad;
             $codigo_actividad=$this->codigo_actividad;
             $db = DataBase::getInstance();
+            
+            //obtener el nombre del estado de actividad
+            $consulta = "SELECT 
+            nombre_estado_actividad
+            FROM
+            actividades.estado_actividad
+            WHERE
+            id_estado_actividad=$estado_actividad";
+
+            $resultado=$db->query($consulta);
+            $estado_actividad=$resultado->fetchAll();
+            $estado_actividad=$estado_actividad[0]['nombre_estado_actividad'];
 
             //guardar registro de modificacion
             date_default_timezone_set('America/Caracas');
@@ -198,7 +221,7 @@ class actividad{
         return $resultado;
     }
 
-    public function ObtenerActividades($pagina=false,$num_resultados=false,$todas=false)
+    public function obtener($pagina=false,$num_resultados=false,$todas=false)
     {
         $resultado = false;
         try{
@@ -209,10 +232,37 @@ class actividad{
             $id_usuario_responsable = $this->id_usuario_responsable;
             $dep_emisor = $this->dep_emisor;
             $dep_receptor = $this->dep_receptor;
+            $day = $this->day;
+            $month = $this->month;
+            $year = $this->year;
 
             $db = DataBase::getInstance();  
             $orden=$this->orden;       
-            $consulta = "SELECT *
+            $consulta = "SELECT 
+            codigo_actividad, 
+            nombre_actividad, 
+            TO_CHAR(fecha_registro,'DD-MM-YYYY') AS fecha_registro, 
+            dep_emisor, 
+            dep_receptor, 
+            nom_atendido, 
+            ape_atendido, 
+            ced_atendido, 
+            observacion, 
+            id_tipo_actividad, 
+            informe, 
+            evidencia, 
+            id_usuario_responsable, 
+            estado_actividad, 
+            ultima_modificacion,
+            nombre_estado_actividad,
+            nombre_tipo,
+            id_usuario, 
+            nombre_usuario, 
+            nombre_personal, 
+            cedula, 
+            tipo_usuario, 
+            departamento_usuario, 
+            apellido_personal
             FROM actividades.actividad
             LEFT JOIN actividades.tipo_actividad
             ON actividad.id_tipo_actividad=tipo_actividad.id_tipo
@@ -254,7 +304,19 @@ class actividad{
                 $consulta .=" AND dep_receptor='$dep_receptor'";
             }
 
-            $consulta.=" ORDER BY fecha_registro $orden";
+            if(!empty($day)){
+                $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+            }
+
+            if(!empty($month)){
+                $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+            }
+
+            if(!empty($year)){
+                $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
+            }
+
+            $consulta.=" ORDER BY ultima_modificacion $orden";
 
             if($pagina==true){
                 $punto_inicio=($pagina-1)*$num_resultados; 
@@ -272,7 +334,7 @@ class actividad{
         
         return $resultado; 
     }
-    public function ObtenerSeguimientoActividad($pagina=false,$num_resultados=false,$todas=false)
+    public function obtenerSeguimientoActividad($pagina=false,$num_resultados=false,$todas=false)
     {
         $resultado = false;
         try{
@@ -312,6 +374,9 @@ class actividad{
         $id_usuario_responsable = $this->id_usuario_responsable;
         $dep_emisor = $this->dep_emisor;
         $dep_receptor = $this->dep_receptor;
+        $day = $this->day;
+        $month = $this->month;
+        $year = $this->year;
         $resultado = false;
         try{
             $db = DataBase::getInstance(); 
@@ -344,6 +409,18 @@ class actividad{
                 $consulta .=" AND dep_receptor=$dep_receptor";
             }
 
+            if(!empty($day)){
+                $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+            }
+
+            if(!empty($month)){
+                $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+            }
+
+            if(!empty($year)){
+                $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
+            }
+            
             if($todas==false){
                 $consulta .=" AND estado_actividad<>5";
             }
@@ -456,16 +533,28 @@ class actividad{
 
     public function exportPDF($data_sql){
         
-        require('../Plugins/fpdf186/fpdf.php');
+        require('../Librarys/fpdf186/fpdf.php');
         $pdf = new FPDF('P','mm',array(400,400));
         $pdf->AddPage();
+        $pdf->SetMargins(25.4, 25.4, 25.4);
+        // Logo
+        $pdf->Image('../View/Resources/Imagenes/logo.jpg', 330, 0, 60);
         //titulo
-        $pdf->SetFont('Arial','UB',26);
+        $pdf->SetFont('Arial','',12);
+        $pdf->Ln();
+        $pdf->Cell(0,6,'Ministerio del Poder Popular para la Educacion',0,0,'C');
+        $pdf->Ln();
+        $pdf->Cell(0,6,'Republica Bolivariana de Venezuela',0,0,'C');
+        $pdf->Ln();
+        $pdf->Cell(0,6,'Centro de Desarrollo de Calidad Educativa',0,0,'C');
+        for($i=0;$i<3;$i++){$pdf->Ln();}
+        //titulo
+        $pdf->SetFont('Arial','UB',10);
         $pdf->Cell(0,20,'Reporte Generado '.date("Y-m-d"),0,0);
         $pdf->Ln();
         //nombres de columnas de la tabla
         $pdf->SetFont('Arial','B',7);
-        $pdf->Cell(60,7,'Codigo de Actividad',1,0,'C');
+        $pdf->Cell(30,7,'Codigo de Actividad',1,0,'C');
         $pdf->Cell(80,7,'Nombre de Actividad',1,0,'C');
         $pdf->Cell(25,7,'Fecha de Registro',1,0,'C');
         $pdf->Cell(25,7,'Estado de Actividad',1,0,'C');
@@ -478,103 +567,85 @@ class actividad{
         //Anadir datos de la tablas
         foreach($data_sql as $fila){
             $pdf->Ln();
-            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['codigo_actividad']),1);
-            $pdf->Cell(80,$font_size_fila,utf8_decode($fila['nombre_actividad']),1);
-            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1);
-            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['nombre_estado_actividad']),1);
-            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_personal']).' '.$fila['apellido_personal'],1);
-            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_receptor']),1);
-            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_emisor']),1);
+            $pdf->Cell(30,$font_size_fila,utf8_decode($fila['codigo_actividad']),1,0,'C');
+            $pdf->Cell(80,$font_size_fila,utf8_decode($fila['nombre_actividad']),1,0,'C');
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1,0,'C');
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['nombre_estado_actividad']),1,0,'C');
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_personal']).' '.$fila['apellido_personal'],1,0,'C');
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_receptor']),1,0,'C');
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_emisor']),1,0,'C');
         }
         $pdf->Output('','Tabla de Actividades Registradas',true);
     }
-    public function exportDetalles($actividad){
+    public function exportDetalles($data_sql){
         
-        require('../Plugins/fpdf186/fpdf.php');
-        $pdf = new FPDF();
+        require('../Librarys/fpdf186/fpdf.php');
+        $pdf = new FPDF('L');
         $pdf->AddPage();
-        $pdf->SetMargins(20,30,20);
+        $pdf->SetMargins(25.4, 25.4, 25.4);
+        // Logo
+        $pdf->Image('../View/Resources/Imagenes/logo.jpg', 230, 0, 60);
         //titulo
-        $pdf->SetFont('Arial','UB',16);
-        $pdf->Cell(200,20,'Detalles de Actividad ',0,0,'C');
+        $pdf->SetFont('Arial','',10);
+        $pdf->Ln();
+        $pdf->Cell(0,5,'Ministerio del Poder Popular para la Educacion',0,0,'C');
+        $pdf->Ln();
+        $pdf->Cell(0,5,'Republica Bolivariana de Venezuela',0,0,'C');
+        $pdf->Ln();
+        $pdf->Cell(0,5,'Centro de Desarrollo de Calidad Educativa',0,0,'C');
+        $pdf->Ln();
+        $pdf->Ln();
         $pdf->Ln();
 
-        //Celda de Codigo Actividad
-        $pdf->SetFont('Arial','BU',10);
-        $pdf->Cell(0,7,'Codigo de Actividad:',0,1,'L');
-        $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['codigo_actividad']),0,1,'L');$pdf->Ln();
+        //nombres de columnas de la tabla
+        $pdf->SetFont('Arial','B',7);
+        $pdf->Cell(30,7,'Codigo de Actividad',1,0,'C');
+        $pdf->Cell(60,7,'Nombre de Actividad',1,0,'C');
+        $pdf->Cell(25,7,'Fecha de Registro',1,0,'C');
+        $pdf->Cell(25,7,'Estado de Actividad',1,0,'C');
+        $pdf->Cell(60,7,'Departamento Receptor',1,0,'C');
+        $pdf->Cell(60,7,'Departamento Emisor',1,0,'C');
+        $font_size_fila=5;
 
-        //Celda de Nombre Actividad
-        $pdf->SetFont('Arial','BU',10);
-        $pdf->Cell(0,7,'Nombre de Actividad:',0,1,'L');
-        $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_actividad']),0,1,'L'); $pdf->Ln();
-
-        //Celda de Fecha de Registro
-        $pdf->SetFont('Arial','BU',10);
-        $pdf->Cell(0,7,'Fecha de Registro:',0,1,'L'); 
-        $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['fecha_registro']),0,1,'L'); $pdf->Ln();
-
-        //Celda de Departamento Emisor
-        $pdf->SetFont('Arial','BU',10);
-        $pdf->Cell(0,7,'Departameto Emisor:',0,1,'L');
-        $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['dep_emisor']),0,1,'L');$pdf->Ln();
-
-        //Celda de Departameto Receptor
-        $pdf->SetFont('Arial','BU',10);
-        $pdf->Cell(0,7,'Departameto Receptor:',0,1,'L');
-        $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['dep_receptor']),0,1,'L');$pdf->Ln();
-
-        //Celda de Estado de Actividad
-        $pdf->SetFont('Arial','BU',10);
-        $pdf->Cell(0,7,'Estado de Actividad:',0,1,'L');
-        $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_estado_actividad']),0,1,'L');$pdf->Ln();
-
-        //Celda de Tipo de Actividad
-        $pdf->SetFont('Arial','BU',10);
-        $pdf->Cell(0,7,'Tipo de Actividad:',0,1,'L');
-        $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_tipo']),0,1,'L');$pdf->Ln();
-        
-        //Celda de Nombre y Apellido del Responsable
-        $pdf->SetFont('Arial','BU',10);
-        $pdf->Cell(0,7,'Nombre y Apellido del Responsable:',0,1,'L');
-        $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['nombre_personal']).' '.$actividad[0]['apellido_personal'],0,1,'L');$pdf->Ln();
-
-        //Celda de Nombre y Apellido del Atendido
-        $pdf->SetFont('Arial','BU',10);
-        $pdf->Cell(0,7,'Nombre y Apellido del Atendido:',0,1,'L');
-        $pdf->SetFont('Arial','B',10);
-        $pdf->Cell(0,7,utf8_decode($actividad[0]['nom_atendido']).' '.$actividad[0]['ape_atendido'],0,1,'L');$pdf->Ln();
-
-        if($actividad[0]['observacion']!=''){
-            $pdf->SetFont('Arial','BU',10);
-            $pdf->Cell(0,7,'Observacion de Actividad:',0,1,'L');
-            $pdf->SetFont('Arial','B',10);
-            $pdf->MultiCell(0,7,utf8_decode($actividad[0]['observacion']),0,'J');$pdf->Ln();
-        }
-
-        if($actividad[0]['informe']!=''){
-            $pdf->SetFont('Arial','BU',10);
-            $pdf->Cell(0,7,'Informe de Actividad:',0,1,'L');
-            $pdf->SetFont('Arial','B',10);
-            $pdf->MultiCell(0,7,utf8_decode($actividad[0]['informe']),0,'J');$pdf->Ln();
-        }
-
-        if($actividad[0]['evidencia']!=''){
-            $pdf->AddPage();
-            $pdf->SetFont('Arial','BU',10);
-            $pdf->Cell(0,7,'Evidencia de Completacion:',0,1,'L');
-            $pdf->Image('../uploads/'.utf8_decode($actividad[0]['evidencia']),null,null,100,100);$pdf->Ln();
+        //Anadir datos de la tablas
+        $pdf->SetFont('Arial','',7);
+        foreach($data_sql as $fila){
+            $pdf->Ln();
+            $pdf->Cell(30,$font_size_fila,utf8_decode($fila['codigo_actividad']),1,0,'C');
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_actividad']),1,0,'C');
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1,0,'C');
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['nombre_estado_actividad']),1,0,'C');
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_receptor']),1,0,'C');
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_emisor']),1,0,'C');
+            $pdf->Ln();
             $pdf->Ln();
         }
-        $pdf->Output('','SCA_CDCE:REPORTE DE ACTIVIDAD '.$actividad[0]['codigo_actividad'],true);
+
+        if($fila['observacion']!=''){
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(0,7,'Observacion de Actividad:',1,1,'L');
+            $pdf->SetFont('Arial','',10);
+            $pdf->MultiCell(0,7,utf8_decode($fila['observacion']),1,'J');$pdf->Ln();
+        }
+
+        if($fila['informe']!=''){
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(0,7,'Informe de Actividad:',1,1,'L');
+            $pdf->SetFont('Arial','',10);
+            $pdf->MultiCell(0,7,utf8_decode($fila['informe']),1,'J');$pdf->Ln();
+        }
+
+        if($fila['evidencia']!=''){
+            $pdf->AddPage();
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(0,7,'Evidencia de Completacion:',1,1,'L');
+            $pdf->Image('../uploads/'.utf8_decode($fila['evidencia']),null,null,100,100);$pdf->Ln();
+            $pdf->Ln();
+        }
+        // Sello y Firma
+        $pdf->Image('../View/Resources/Imagenes/firma_sello_JORA.jpg', null,170,60);
+
+        $pdf->Output('','SCA_CDCE:REPORTE DE ACTIVIDAD '.$fila['codigo_actividad'],true);
     }
     //-----------------------------------funciones set
     
@@ -626,6 +697,18 @@ class actividad{
     {
         $this->fecha_registro = trim($fecha_registro);
     }
+    public function setDay($day)
+    {
+        $this->day = trim($day);
+    }
+    public function setMonth($month)
+    {
+        $this->month = trim($month);
+    }
+    public function setYear($year)
+    {
+        $this->year = trim($year);
+    }
     public function setInforme($informe)
     {
         $this->informe = trim($informe);
@@ -635,6 +718,9 @@ class actividad{
     }
     public function setIdUsuario($id_usuario_responsable){
         $this->id_usuario_responsable = trim($id_usuario_responsable);
+    }
+    public function setUltimaModificacion($ultima_modificacion){
+        $this->ultima_modificacion = trim($ultima_modificacion);
     }
 
     //-----------------------------------funciones get
@@ -687,6 +773,18 @@ class actividad{
     {
         return $this->fecha_registro;
     }
+    public function getDay($day)
+    {
+        return $this->day;
+    }
+    public function getMonth($month)
+    {
+        return $this->month;
+    }
+    public function getYear($year)
+    {
+        return $this->year;
+    }
     public function getInforme()
     {
         return $this->informe;
@@ -696,5 +794,8 @@ class actividad{
     }
     public function getIdUsuario(){
         return $this->id_usuario_responsable;
+    }
+    public function getUltimaModificaion(){
+        return $this->ultima_modificacion;
     }
 }

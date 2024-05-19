@@ -5,8 +5,13 @@ $(document).ready(function(){
     $("#data_busq_nombre").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
         getPeticiones();
     });
-    $('#boton_aplicar_filtros_busq').click(function(){
+    $('#collapseFiltros').click(function(){
         getPeticiones();
+    });
+    
+    $("#num_resultados option").click(function(){ 
+        //Funcion ajax para buscar una actividad por su codigo
+        getActividades();
     });
 
 });
@@ -46,52 +51,52 @@ function RellenarTablaPeticiones(msg){
     let tabla=$("#tabla_peticiones");
     let tipo_usuario=$('#tipo_usuario').val();
     
-    function estilo_btn(estado){
+    function estilo_bg(estado){
         if(estado=="ESPERA"){
-            var btn_estilo="btn-warning";
+            var bg_estilo="bg-warning";
         }if(estado=="RECHAZADA"){
-            var btn_estilo="btn-danger";
+            var bg_estilo="bg-danger";
         }if(estado=="ACEPTADA"){
-            var btn_estilo="btn-success";
+            var bg_estilo="bg-success";
         }
         if(estado=="INICIADA"){
-            var btn_estilo="btn-primary";
+            var bg_estilo="bg-primary";
         }if(estado=="PROCESO"){
-            var btn_estilo="btn-warning";
+            var bg_estilo="bg-warning";
         }if(estado=="COMPLETADA"){
-            var btn_estilo="btn-success";
+            var bg_estilo="bg-success";
         }
         if(estado=="SUSPENDIDA"){
-            var btn_estilo="btn-danger";
+            var bg_estilo="bg-danger";
         }
-        return btn_estilo;
+        if(estado=="ELIMINADA"){
+            var bg_estilo="bg-danger";
+        }
+        if(estado=="------"){
+            var bg_estilo="bg-light";
+        }
+        return bg_estilo;
     }
 
     tabla.empty();
     tabla.append(`<tbody><tr>
         <th><label>Nombre de Peticion</label></th>
-        <th><label>Usuario que registro la peticion</label></th>
-        <th><label>Departamento de la Peticion</label></th>
+        <th colspan="1"><label>Accion</label></th>
+        <th><label>Estado de la Peticion</label></th>
         <th><label>Fecha de la Peticion</label></th>
         <th><label>Tipo de Actividad de la Peticion</label></th>
-        <th><label>Estado de la Peticion</label></th>
-        <th colspan="1"><label>Accion</label></th>
+        <th><label>Departamento de la Peticion</label></th>
+        <th><label>Usuario que registro la peticion</label></th>
     </tr>`);
     msg.forEach(function(elemento){
+        let bg_estilo=estilo_bg(elemento['nombre_estado_peticion']);
         if(elemento['nombre_estado_peticion']=='ESPERA'){
         //Dibujar la Tabla de Peticiones por medio del DOM de JavaScripts
             tabla.append(`<tr>
             <td>${elemento['nombre_peticion']}</td>
-            <td>${elemento['nombre_usuario']}</td>
-            <td>${elemento['nombre_departamento']}</td>
-            <td>${elemento['fecha_peticion']}</td>
-            <td>${elemento['nombre_tipo']}</td>
-            <td>
-                <button class='tamano_boton btn ${estilo_btn(elemento['nombre_estado_peticion'])}'>${elemento['nombre_estado_peticion']}</button>
-                </td>
             <td>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                    <button type="button" class="btn btn-success rounded-pill dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                         Seleccione...
                     </button>
 
@@ -106,9 +111,15 @@ function RellenarTablaPeticiones(msg){
                             <a class="dropdown-item" href="peticiones-detalles.php?id_peticion=${elemento['id_peticion']}">Ver Detalles</a>
                         </li>
                     </ul>
-
                 </div>
             </td>
+            <td>
+                <h5><span class='badge rounded-pill ${bg_estilo}' style="width: 120px;">${elemento['nombre_estado_peticion']}</span></h5>
+            </td>
+            <td>${elemento['fecha_peticion']}</td>
+            <td>${elemento['nombre_tipo']}</td>
+            <td>${elemento['nombre_departamento']}</td>
+            <td>${elemento['nombre_usuario']}</td>
             </tr>`);
         }
     });
@@ -122,10 +133,10 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
     let nombre_estado_peticion=$("#data_busq_estado").val();
     let num_filas;
     
-    $.ajax({ 
+    $.ajax({
         async:false,
         type:"POST",
-        url:"../Controller/controllerActividad.php",
+        url:"../Controller/controllerPeticion.php",
         data:{
             option:'contarRegistros',
             nombre_peticion:nombre_peticion,

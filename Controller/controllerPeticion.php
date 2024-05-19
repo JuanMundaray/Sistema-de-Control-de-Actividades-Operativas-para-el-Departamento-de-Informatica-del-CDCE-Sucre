@@ -129,7 +129,6 @@ switch($option){
             $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
         }
         $resultado=$peticion->obtener();
-
         $peticion->exportarPDF($resultado);
         
     break;

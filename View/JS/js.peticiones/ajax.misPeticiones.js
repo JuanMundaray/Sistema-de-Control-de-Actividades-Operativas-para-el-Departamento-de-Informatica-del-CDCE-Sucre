@@ -6,8 +6,13 @@ $(document).ready(function(){
     $("#data_busq_nombre").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
         getPeticiones();
     });
-    $('#boton_aplicar_filtros_busq').click(function(){
+    $('#collapseFiltros').click(function(){
         getPeticiones();
+    });
+    
+    $("#num_resultados option").click(function(){ 
+        //Funcion ajax para buscar una actividad por su codigo
+        getActividades();
     });
 
 });
@@ -45,30 +50,6 @@ function getPeticiones(pagina=1){
 function RellenarTablaPeticiones(msg){
     let tabla=$("#tabla_peticiones");
     let tipo_usuario=$('#tipo_usuario').val();
-    
-    function estilo_btn(estado){
-        if(estado=="ESPERA"){
-            var btn_estilo="btn-warning";
-        }if(estado=="RECHAZADA"){
-            var btn_estilo="btn-danger";
-        }if(estado=="ACEPTADA"){
-            var btn_estilo="btn-success";
-        }
-        if(estado=="INICIADA"){
-            var btn_estilo="btn-primary";
-        }if(estado=="PROCESO"){
-            var btn_estilo="btn-warning";
-        }if(estado=="COMPLETADA"){
-            var btn_estilo="btn-success";
-        }
-        if(estado=="SUSPENDIDA"){
-            var btn_estilo="btn-danger";
-        }
-        if(estado=="ELIMINADA"){
-            var btn_estilo="btn-danger";
-        }
-        return btn_estilo;
-    }
 
     tabla.empty();
     tabla.append(`<tbody><tr>
@@ -81,7 +62,11 @@ function RellenarTablaPeticiones(msg){
         <th><label>Estado de Actividad Originada</label></th>
         <th colspan="1"><label>Accion</label></th>
     </tr>`);
+
     msg.forEach(function(elemento){
+        let estado_actividad=estado_actividad_originada(elemento);
+        let bg_estilo=estilo_bg(elemento['nombre_estado_peticion']);
+        let bg_estilo_actividad=estilo_bg(estado_actividad);
         if(elemento['nombre_estado_peticion']=='ESPERA'){
             boton_desplegable_accion=`<button class="dropdown-item" onclick="eliminarPeticion(${elemento['id_peticion']},'¿Seguro que desea cancelar esta peticion?')">Cancelar</button>`;
         }
@@ -91,6 +76,7 @@ function RellenarTablaPeticiones(msg){
         else{
             boton_desplegable_accion=`<button class="dropdown-item">OK</button>`;
         }
+
         //Dibujar la Tabla de Peticiones por medio del DOM de JavaScripts
             tabla.append(`<tr>
                 <td>${elemento['nombre_peticion']}</td>
@@ -99,13 +85,13 @@ function RellenarTablaPeticiones(msg){
                 <td>${elemento['fecha_peticion']}</td>
                 <td>${elemento['nombre_tipo']}</td>
                 <td>
-                    <button class='tamano_boton btn ${estilo_btn(elemento['nombre_estado_peticion'])}'>${elemento['nombre_estado_peticion']}</button>
+                    <h5><span class='badge rounded-pill ${bg_estilo}' style="width: 120px;">${elemento['nombre_estado_peticion']}</span></h5>
                 </td>
                 <td>
-                    ${estado_actividad_originada(elemento)}
+                    <h5><span class="badge rounded-pill  ${bg_estilo_actividad}" style="width: 120px;">${estado_actividad}</span><h5>
                 </td>
                 <td>
-                    <div class="btn-group">
+                    <div class="btn-group rounded-pill">
                         <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                             Seleccione...
                         </button>
@@ -119,12 +105,59 @@ function RellenarTablaPeticiones(msg){
     });
     tabla.append("</tbody>");
 
+    function estilo_bg(estado){
+        if(estado=="ESPERA"){
+            var bg_estilo="bg-warning";
+        }if(estado=="RECHAZADA"){
+            var bg_estilo="bg-danger";
+        }if(estado=="ACEPTADA"){
+            var bg_estilo="bg-success";
+        }
+        if(estado=="CREADA"){
+            var bg_estilo="bg-primary";
+        }
+        if(estado=="INICIADA"){
+            var bg_estilo="bg-primary";
+        }if(estado=="PROCESO"){
+            var bg_estilo="bg-warning";
+        }if(estado=="COMPLETADA"){
+            var bg_estilo="bg-success";
+        }
+        if(estado=="SUSPENDIDA"){
+            var bg_estilo="bg-danger";
+        }
+        if(estado=="ELIMINADA"){
+            var bg_estilo="bg-danger";
+        }
+        if(estado=="------"){
+            var bg_estilo="bg-light";
+        }
+        return bg_estilo;
+    }
+
     function estado_actividad_originada(elemento){
-        if(elemento['nombre_estado_actividad']!=null){
-            return `<button class='tamano_boton btn ${estilo_btn(elemento['nombre_estado_actividad'])}'>${elemento['nombre_estado_actividad']}</button>`;
+        let nombre_estado_actividad;
+        $.ajax({
+            async:false,
+            type:"POST",
+            url:"../Controller/controllerActividad.php",
+            data:{
+                option:'obtener',
+                codigo_actividad:elemento['actividad_originada']
+            },
+            dataType:'json',
+            success:function(msg){
+                nombre_estado_actividad=msg[0]['nombre_estado_actividad']
+            },error:function(jqXHR,textStatus,errorThrown){
+                alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+            }
+    
+        });
+        if(nombre_estado_actividad!=null){
+            return nombre_estado_actividad
         }
         else{
-            return `------`;
+            return '------';
 
         }
     }

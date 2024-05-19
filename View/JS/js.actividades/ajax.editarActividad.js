@@ -10,11 +10,11 @@ $(document).ready(function(){
     });
 
     $("#INICIADA").click(function(){
-        eliminarEvidenciaCampo();
+        eliminarCampoEvidecia();
     });
 
     $("#PROCESO").click(function(){
-        eliminarEvidenciaCampo();
+        eliminarCampoEvidecia();
     });
 
     $.ajax({
@@ -52,8 +52,27 @@ $(document).ready(function(){
 
     });
 });
+function obtenerActividadPorCodigo(codigo){
+    let resultado;
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{
+            option:"obtener",
+            codigo_actividad:codigo
+        },
+        dataType:'json',
+        success:function(msg){
+            resultado=msg;
+        },error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
 
-function eliminarEvidenciaCampo(){
+    });
+    return resultado;
+}
+function eliminarCampoEvidecia(){
     $("#div_evidencia").remove();
 }
 
@@ -63,7 +82,8 @@ function obtenerEstadosActividad(){
         type:"POST",
         url:"../Controller/controllerEstado_actividad.php",
         data:{
-            option:"obtener"
+            option:"obtener",
+            codigo_actividad:$("#codigo_actividad").val()
         },
         dataType:'json',
         success:function(msg){
@@ -71,7 +91,10 @@ function obtenerEstadosActividad(){
                 let nombre_estado=elemento['nombre_estado_actividad'];
                 let id_estado=elemento['id_estado_actividad'];
                 
-                if(nombre_estado!='INICIADA'){
+                let rc=obtenerActividadPorCodigo($("#codigo_actividad").val());
+                estado_actividad_actual=rc[0]['nombre_estado_actividad'];
+
+                if((nombre_estado!='CREADA')&&(nombre_estado!=estado_actividad_actual)){
                     $("#estado").append(`<option id='${nombre_estado}' value='${id_estado}'>${nombre_estado}</option>`);
                 }
             });

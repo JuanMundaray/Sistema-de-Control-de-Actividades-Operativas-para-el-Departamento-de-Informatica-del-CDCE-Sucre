@@ -2,12 +2,13 @@ $(document).ready(function(){
         
     getActividades();//Se Dibujan todas las actividades registradas en la tabla de actividades
     tipo_usuario_sesion=$('#tipo_usuario_sesion').val();
+    obtenerEstadosActividad();
     
     $("#data_busq_nombre").on('input',function(){
         getActividades();
     });
 
-    $("#buscar_aplicar_filtros_busq").click(function(){ 
+    $("#collapseFiltros").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
         getActividades();
     });
@@ -59,34 +60,34 @@ function getActividades(pagina=1){
 
 function RellenarTablaActividades(msg){
     
-    function estilo_btn(elemento){
+    function bg_estilo(elemento){
         if(elemento=="INICIADA"){
-            var btn_estilo="btn-primary";
-        }if(elemento=="PROCESO"){
-            var btn_estilo="btn-warning";
-        }if(elemento=="COMPLETADA"){
-            var btn_estilo="btn-success";
+            var bg_estilo="bg-primary";
+        }
+        if(elemento=="CREADA"){
+            var bg_estilo="bg-primary";
+        }
+        if(elemento=="PROCESO"){
+            var bg_estilo="bg-warning";
+        }
+        if(elemento=="COMPLETADA"){
+            var bg_estilo="bg-success";
         }
         if(elemento=="SUSPENDIDA"){
-            var btn_estilo="btn-danger";
+            var bg_estilo="bg-danger";
         }
-        return btn_estilo;
+        return bg_estilo;
     }
 
     let tabla=$("#tabla_actividades");
     tabla.empty();
     tabla.append(`<thead><tr>
             <th><label>Fecha de Registro</label></th>
+            <th><label>Accion</label></th>
             <th><label>Actividad</label></th>
             <th><label>Tipo de Actividad</label></th>
             <th><label>Departamento Receptor</label></th>
-            <th><label>Departamento Emisor</label></th>
-            <th><label>Nombre del Responsable</label></th>
-            <th><label>Cedula del Responsable</label></th>
-            <th><label>Funcionario Atendido</label></th>
-            <th><label>Cedula del Funcionario Atendido</label></th>
             <th><label>Estado</label></th>
-            <th><label>Accion</label></th>
         </tr></thead>`);
 
 
@@ -111,21 +112,13 @@ function RellenarTablaActividades(msg){
             <li><a class="dropdown-item" href="actividades-seguimiento.php?codigo_actividad=${elemento['codigo_actividad']}">Seguimiento de Actividad</a></li>`
         }
 
-        let btn_estilo=estilo_btn(elemento['nombre_estado_actividad']);
+        let bg_estilo_bage=bg_estilo(elemento['nombre_estado_actividad']);
+
         tabla.append(`<tr class='align-middle'>
         <td>${elemento['fecha_registro']}</td>
-        <td>${elemento['nombre_actividad']}</td>
-        <td>${elemento['nombre_tipo']}</td>
-        <td>${elemento['dep_receptor']}</td>
-        <td>${elemento['dep_emisor']}</td>
-        <td>${elemento['nombre_personal']} ${elemento['apellido_personal']}</td>
-        <td>${elemento['cedula']}</td> 
-        <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
-        <td>${elemento['ced_atendido']}</td>
-        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['nombre_estado_actividad']}</button></td>
         <td>
             <div class="btn-group">
-                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                <button type="button" class="btn btn-success rounded-pill dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                     Seleccione...
                 </button>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
@@ -133,9 +126,13 @@ function RellenarTablaActividades(msg){
                 </ul>
             </div>
         </td>
+        <td>${elemento['nombre_actividad']}</td>
+        <td>${elemento['nombre_tipo']}</td>
+        <td>${elemento['dep_receptor']}</td>
+        <td><h5><span class="badge rounded-pill  ${bg_estilo_bage}" style="width: 120px;">${elemento['nombre_estado_actividad']}</span><h5></td>
         </tr>`);
-    tabla.append("</tbody>");
     });
+    tabla.append("</tbody>");
 }
 
 function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
@@ -197,4 +194,25 @@ function eliminarActividad(codigo_actividad){
             }
     });
     }
+}
+function obtenerEstadosActividad(){
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerEstado_actividad.php",
+        data:{
+            option:"obtener"
+        },
+        dataType:'json',
+        success:function(msg){
+            msg.forEach(function(elemento){
+                let nombre_estado=elemento['nombre_estado_actividad'];
+                let id_estado=elemento['id_estado_actividad'];
+                $("#estado_actividad").append(`<option id='${nombre_estado}' value='${id_estado}'>${nombre_estado}</option>`);
+            });
+        },error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
 }
