@@ -93,7 +93,6 @@ function obtenerEstadosActividad(){
                 
                 let rc=obtenerActividadPorCodigo($("#codigo_actividad").val());
                 estado_actividad_actual=rc[0]['nombre_estado_actividad'];
-
                 if((nombre_estado!='CREADA')&&(nombre_estado!=estado_actividad_actual)){
                     $("#estado").append(`<option id='${nombre_estado}' value='${id_estado}'>${nombre_estado}</option>`);
                 }

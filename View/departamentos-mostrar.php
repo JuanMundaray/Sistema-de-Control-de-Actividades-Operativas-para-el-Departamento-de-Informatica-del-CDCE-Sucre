@@ -21,7 +21,7 @@
     
     if(isset($_SESSION["tipo_usuario"])){
         if(($_SESSION["tipo_usuario"]!="administrador")){
-            header("Location:./Dashboard.php");
+            header("Location:./registrar-actividad-1.php");
             exit();
         }
     }else{

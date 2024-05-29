@@ -1,12 +1,12 @@
 $(document).ready(function(){
-        
+    obtenerEstadosActividad();
     getHistorialActividades();//Se Dibujan todas las actividades registradas en la tabla de actividades
     tipo_usuario_sesion=$('#tipo_usuario_sesion').val();
-    $("#data_busq_nombre").on('input',function(){
+    $("#num_resultados option").on('input',function(){
         getHistorialActividades();
     });
 
-    $("#buscar_aplicar_filtros_busq").click(function(){ 
+    $("#aplicar_filtro").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
         getHistorialActividades();
     });
@@ -20,6 +20,9 @@ function getHistorialActividades(pagina=1){
     let nombre_actividad=$("#data_busq_nombre").val();
     let fecha_registro=$("#data_busq_fecha").val();
     let estado_actividad=$("#estado_actividad").val();
+    let day=$("#day").val();
+    let year=$("#year").val();
+    let month=$("#month").val();
 
     $.ajax({
         type:"POST",
@@ -32,6 +35,9 @@ function getHistorialActividades(pagina=1){
             nombre_actividad:nombre_actividad,
             fecha_registro:fecha_registro,
             estado_actividad:estado_actividad,
+            day:day,
+            month:month,
+            year:year,
             todas:true
         },
         dataType:'json',
@@ -50,6 +56,9 @@ function RellenarTablaActividades(msg){
     
     function estilo_btn(elemento){
         if(elemento=="INICIADA"){
+            var btn_estilo="btn-primary";
+        }
+        if(elemento=="CREADA"){
             var btn_estilo="btn-primary";
         }if(elemento=="PROCESO"){
             var btn_estilo="btn-warning";
@@ -71,13 +80,13 @@ function RellenarTablaActividades(msg){
             <th><label>Fecha de Registro</label></th>
             <th><label>Actividad</label></th>
             <th><label>Tipo de Actividad</label></th>
+            <th><label>Estado</label></th>
             <th><label>Departamento Receptor</label></th>
             <th><label>Departamento Emisor</label></th>
             <th><label>Nombre del Responsable</label></th>
             <th><label>Cedula del Responsable</label></th>
             <th><label>Funcionario Atendido</label></th>
             <th><label>Cedula del Funcionario Atendido</label></th>
-            <th><label>Estado</label></th>
         </tr></thead>`);
     tabla.append('<tbody>');
 
@@ -89,13 +98,13 @@ function RellenarTablaActividades(msg){
         <td>${elemento['fecha_registro']}</td>
         <td>${elemento['nombre_actividad']}</td>
         <td>${elemento['nombre_tipo']}</td>
+        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['nombre_estado_actividad']}</button></td>
         <td>${elemento['dep_receptor']}</td>
         <td>${elemento['dep_emisor']}</td>
         <td>${elemento['nombre_personal']} ${elemento['apellido_personal']}</td>
         <td>${elemento['cedula']}</td> 
         <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
-        <td>${elemento['ced_atendido']}</td>
-        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['nombre_estado_actividad']}</button></td>`);
+        <td>${elemento['ced_atendido']}</td>`);
     });
     tabla.append("</tbody>");
 }
@@ -106,6 +115,9 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
     let nombre_actividad=$("#data_busq_nombre").val();
     let fecha_registro=$("#data_busq_fecha").val();
     let estado_actividad=$("#estado_actividad").val();
+    let day=$("#day").val();
+    let year=$("#year").val();
+    let month=$("#month").val();
     let num_filas;
 
     $.ajax({ 
@@ -118,7 +130,10 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
             nombre_actividad:nombre_actividad,
             fecha_registro:fecha_registro,
             estado_actividad:estado_actividad,
-            todas:true
+            todas:true,
+            day:day,
+            month:month,
+            year:year
         },
         dataType:'json',
         success:function(msg){
@@ -157,4 +172,25 @@ function eliminarActividad(codigo_actividad){
             }
     });
     }
+}
+function obtenerEstadosActividad(){
+    $.ajax({
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerEstado_actividad.php",
+        data:{
+            option:"obtener"
+        },
+        dataType:'json',
+        success:function(msg){
+            msg.forEach(function(elemento){
+                let nombre_estado=elemento['nombre_estado_actividad'];
+                let id_estado=elemento['id_estado_actividad'];
+                $("#estado_actividad").append(`<option value='${id_estado}'>${nombre_estado}</option>`);
+            });
+        },error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
 }

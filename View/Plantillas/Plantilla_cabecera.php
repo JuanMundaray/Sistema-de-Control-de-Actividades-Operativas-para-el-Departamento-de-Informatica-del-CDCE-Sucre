@@ -1,7 +1,8 @@
 <header class="header">
     <div>
         <div class="Imagenes-Cabecera">
-            <img src="Resources/Imagenes/logo_me_zees_negro.png">
+            <img src="./Resources/Imagenes/logo_ministerio.png">
+            <img class="px-1" src="./Resources/Imagenes/CDCE-logo-ministerio-de-educacion.webp">
             <img class="img2" style="float:right;" src="Resources/Imagenes/logo-zamora-03.png">
         </div>
         <div class="raya"></div>
@@ -10,9 +11,14 @@
 
             <div class="d-flex">
                 <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="boton_despliegue" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-                    </svg>
+                    <?php
+                        if(isset($_SESSION["nombre_usuario"])){
+                            echo '
+                            <svg xmlns="http://www.w3.org/2000/svg" id="boton_despliegue" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                            </svg>';
+                        } 
+                    ?>
                 </div>
                 <h3>CDCE-SUCRE</h3>
             </div>

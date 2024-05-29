@@ -62,7 +62,7 @@
                     </nav>
                     
                     <!--Tabla del Historial-->
-                    <div class="table-responsive">
+                    <div class="table-responsive py-5">
                         <table id="tabla_historial_usuarios" class="table align-middle text-nowrap table_default">
                         <tr>
                             <th><label>Nombre de Usuario</label></th>

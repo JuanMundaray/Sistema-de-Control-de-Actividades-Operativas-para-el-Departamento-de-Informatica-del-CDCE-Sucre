@@ -54,15 +54,37 @@
                     <div class="container">
                         <form class="needs-validation row gy-3 gx-4" method="post" action="../Controller/controllerPeticion.php" novalidate>
 
-                            <div class="col-md-4">
-                                <label class="form-label">Fecha de Peticion:</label>
-                                <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" name="fecha_peticion">
+                                        
+                            <div class="col-md-3 ">
+                                <label class="label-sm form-label text-nowrap">Día de Registro:</label>
+                                <select class="form-select" id="day" name="day">
+                                    <option value="">Cuaquiera</option>
+                                </select>
                             </div>
 
-                            <div class="col-md-4 offset-md-2">
-                                <label class="form-label">Estado de Peticion:</label>
-                                <select class="form-select" name="estado_peticion" id="estado_peticion">
-                                    <option value="">Todas</option>
+                            <div class="col-md-3">
+                                <label class="label-sm form-label text-nowrap">Mes de Registro:</label>
+                                <select class="form-select" id="month" name="month">
+                                    <option value="">Cuaquiera</option>
+                                    <option value="1">Enero</option>
+                                    <option value="2">Febrero</option>
+                                    <option value="3">Marzo</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Mayo</option>
+                                    <option value="6">Junio</option>
+                                    <option value="7">Julio</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="label-sm form-label text-nowrap">Año de Registro:</label>
+                                <select class="form-select" id="year" name="year">
+                                    <option value="">Cuaquiera</option>
                                 </select>
                             </div>
 
@@ -70,6 +92,13 @@
                             <div class="w-100 d-none d-md-block"></div>
 
                             <div class="col-md-4">
+                                <label class="form-label">Estado de Peticion:</label>
+                                <select class="form-select" name="estado_peticion" id="estado_peticion">
+                                    <option value="">Todas</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 offset-2">
                                 <label class="form-label">Departamento de Peticion:</label>
                                 <select class="form-select" name="departamento_peticion" id="departamento_peticion">
                                     <option selected value="">Todos...</option>
@@ -112,5 +141,13 @@
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="./JS/validar.formularios.js"></script>
         <script src="./JS/js.generar_reportes/generar_reportes_peticiones.js"></script>
+        <script src="./JS/obtenerListaDay_Month_Year.js"></script>
+        <script>
+            $(document).ready(function(){
+                const date=new Date();
+                $(month).val((date.getMonth())+1);
+                $(year).val(date.getFullYear());
+            });
+        </script>
     </body>
 </html>

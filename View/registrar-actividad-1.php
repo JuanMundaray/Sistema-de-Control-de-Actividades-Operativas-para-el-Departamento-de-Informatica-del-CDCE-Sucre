@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Actividad</title>
     <?php
-            
+        ini_set('session.cache_limiter','public');
+        session_cache_limiter(false);
         session_start();
         if(isset($_SESSION["tipo_usuario"])){
             if($_SESSION["tipo_usuario"]=="estandar"){
@@ -67,8 +68,8 @@
                     <div class="col-md-6">
                         <label class="col-md-12 form-label">Tipo de Actividad:</label>
                             <select class="col-md-12 input_form form-select" required name="id_tipo_actividad" id="id_tipo_actividad">
-                            <option id="agregar_tipo_actividad">+ Agregar Tipo de Actividad</option>
                             <option selected disabled value="">Seleccione...</option>
+                            <option id="agregar_tipo_actividad">+ Agregar Tipo de Actividad</option>
                         </select>
                         <div class="invalid-feedback">
                             Seleccione un Tipo de Actividad Válido
@@ -85,8 +86,8 @@
                     <div class="col-md-6">
                         <label class="col-md-12 form-label">Departamento Emisor:</label>
                         <select class="col-md-12 form-select" name="dep_emisor" id="dep_emisor" required>
-                            <option id="agregar_departamento">+ Agregar Departamento</option>
                             <option selected disabled value="">Seleccione...</option>
+                            <option id="agregar_departamento">+ Agregar Departamento</option>
                         </select>
                         <div class="invalid-feedback">
                             Elija un Departamento Valido

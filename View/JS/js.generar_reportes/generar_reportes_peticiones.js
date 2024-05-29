@@ -38,7 +38,7 @@ function obtenerDepartamentos(){
         success:function(msg){
             msg.forEach(function(elemento){
                 let departamento_peticion=$("#departamento_peticion");
-                departamento_peticion.append("<option value='"+elemento['nombre_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
+                departamento_peticion.append("<option value='"+elemento['id_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
                 });
         },
         error:function(jqXHR,textStatus,errorThrown){

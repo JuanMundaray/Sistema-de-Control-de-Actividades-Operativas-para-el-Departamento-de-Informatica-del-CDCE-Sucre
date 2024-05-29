@@ -3,7 +3,7 @@ $(document).ready(function(){
     $.ajax({
         type:"POST",
         url:"../Controller/controllerUsuario.php",
-        data:{option:"obtener",id_usuario:'id_usuario'},
+        data:{option:"obtener",id_usuario:id},
         dataType:'json',
         success:function(msg){
             msg.forEach(function(elemento){

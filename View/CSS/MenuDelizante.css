@@ -36,6 +36,16 @@
 	padding-top: 2px;
 }
 
+/* items del menu */
+#menuLateral li{
+	display:block;
+	float: none;
+	margin:0px;
+	padding:0px;
+	float:none;
+	border-bottom:rgb(255, 255, 255) 2px solid;
+}
+
 #menuLateral ul li div{
 	padding: 0;
 	margin-bottom: 0px;
@@ -52,15 +62,6 @@
 	margin-bottom: 0px;
 }
 
-/* items del menu */
-#menuLateral li{
-	display:block;
-	float: none;
-	margin:0px;
-	padding:0px;
-	float:none;
-	border-bottom:rgb(255, 255, 255) 2px solid;
-}
 
 #menuLateral ul ul{
 	display:none;
@@ -74,38 +75,41 @@
 	font-size:small;
 	display:inline-block;
 	padding: 12px;
-
-
 }
 
 /* efecto al pasar el ratón por los items del menu */
 #menuLateral ul li:hover{
 	transition: all 0.2s ease-in-out;
-	background:rgb(219, 219, 219);
+	background:rgb(230, 230, 230);
 	border-color:var(--ColorCabecera);
 }
 
 #menuLateral ul li div:hover{
 	transition: all 0.4s;
-	transform: scale(1.1);
 	transform: translate(10px);
 }
 
+/*desplegar elementos dentro de cada li*/
 #menuLateral ul li:hover> ul{
 	display:block;
+}
+#menuLateral ul li ul li{
+	border: none;
+	transform: translate(10px);
+}
+
+#menuLateral ul li ul li:hover{
+	transition: all 0.4s;
+	transform: translate(20px);
+}
+#menuLateral ul li ul li a:hover{
+	text-decoration: underline;
 }
 
 #menuLateral ul ul li{
 	display:block;
 	width: 100%;
 
-}
-
-
-/*Marca la pagina en la que estas en el menu deslizante*/
-
-.marca{
-	background:rgb(219, 219, 219);
 }
 
 @media screen and (max-width: 800px){

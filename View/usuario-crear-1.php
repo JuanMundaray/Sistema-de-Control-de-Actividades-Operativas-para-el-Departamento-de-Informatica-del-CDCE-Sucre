@@ -18,8 +18,10 @@
     <script>
     </script>
 <?php
-    session_start();
     
+    ini_set('session.cache_limiter','public');
+    session_cache_limiter(false);
+    session_start();
     if(isset($_SESSION["tipo_usuario"])){
         if(($_SESSION["tipo_usuario"]!="administrador")){
             header("Location:./Dashboard.php");

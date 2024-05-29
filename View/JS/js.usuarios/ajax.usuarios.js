@@ -32,26 +32,17 @@ function getUsuarios(pagina=1){
 
 function RellenarTablaUsuario(msg){
 
-    let tabla=$("#tabla_usuarios");
-    tabla.empty();
-    tabla.append(`<tbody><tr>
-        <th><label>ID</label></th>
-        <th><label>Eliminar/Editar Usuario</label></th>
-        <th><label>Nombre de Usuario</label></th>
-        <th><label>Nombre y Apellido</label></th>
-        <th><label>Cedula</label></th>
-        <th><label>Departamento</label></th>
-        <th><label>Tipo de Usuario</label></th>
-        <th><label>Fecha de Creacion</label></th>
-    </tr>`);
+    let cuerpo_tabla=$("#tabla_usuarios tbody");
+    cuerpo_tabla.empty();
+    
     msg.forEach(function(elemento){
         if(elemento['marca_existencia']==true){
 
-            tabla.append(`<tr>
+            cuerpo_tabla.append(`<tr>
             <td>${elemento['id_usuario']}</td>
             <td>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                    <button type="button" class="btn btn-success dropdown-toggle rounded-pill" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                         Seleccione...
                     </button>
 
@@ -71,7 +62,6 @@ function RellenarTablaUsuario(msg){
 
         }
     });
-    tabla.append("</tbody>");
 }
 
 function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos

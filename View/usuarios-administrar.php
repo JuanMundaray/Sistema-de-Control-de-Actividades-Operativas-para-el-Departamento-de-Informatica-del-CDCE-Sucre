@@ -72,15 +72,29 @@
                     </nav>
                     
                     <!--Tabla que sera rellenada por medio de js-->
-                    <div class="table-responsive">
+                    <div class="table-responsive py-5">
                         <table id="tabla_usuarios" class="table align-middle text-nowrap table_default">
-                            <!--Tabla que sera rellenada por medio de js-->
+                            <thead>
+                                <tr>
+                                    <th><label>ID</label></th>
+                                    <th><label>Eliminar/Editar Usuario</label></th>
+                                    <th><label>Nombre de Usuario</label></th>
+                                    <th><label>Nombre y Apellido</label></th>
+                                    <th><label>Cedula</label></th>
+                                    <th><label>Departamento</label></th>
+                                    <th><label>Tipo de Usuario</label></th>
+                                    <th><label>Fecha de Creacion</label></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
                         </table>
                     </div>
-                    <!--Tabla que sera rellenada por medio de js-->
+                    
 
                     <!--Botones de Paginacion-->
-                    <div>
+                    <div class="pt-4">
                         <nav>
                             <ul class="pagination" id="num_paginas">
                             </ul>

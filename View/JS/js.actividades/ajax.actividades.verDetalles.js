@@ -17,19 +17,23 @@ $(document).ready(function(){
                 let tipo=$("#tipo").append(elemento["nombre_tipo"]);
 
                 //Agrega informe,observacion o evidencia solo si no es nulo o esta vacio
+
+                let observacion=elemento["observacion"];
+                let informe=elemento["informe"];
+
                 if(elemento["observacion"]!=""){
                     let div_observacion=$("#div_observacion");
-                    div_observacion.append('<label class="col-md-12 form-label"><strong >Observacion:</strong></label>');
-                    div_observacion.append(`<p  style="text-align: justify;" id="observacion">${elemento["observacion"]}</p>`);
+                    div_observacion.append('<label class="text-break col-md-12 form-label"><strong >Observacion:</strong></label>');
+                    div_observacion.append(`<p style="text-align: justify;" id="observacion">${observacion}</p>`);
                 }
 
-                if((elemento["informe"]!="")&&(elemento["informe"]!=null)){
-                    let div_informe=$("#div_informe");
-                    div_informe.append('<label class="col-md-12 form-label"><strong >Informe:</strong></label>');
-                    div_informe.append(`<p style="text-align: justify;" id="informe">${elemento["informe"]}</p>`);
+                if((elemento["informe"]!="")){
+                    let div_informe=$("#div_observacion");
+                    div_informe.append('<label class="col-md-12 form-label"><strong>Informe:</strong></label>');
+                    div_informe.append(`<p style="text-align: justify;" id="informe">${informe}</p>`);
                 }
+
                 if((elemento["evidencia"]!="")&&(elemento["evidencia"]!=null)){
-                console.log(elemento['evidencia']);
                     let div_evidencia=$("#evidencia");
                     div_evidencia.append('<label class="col-md-12 form-label"><strong >Evidencia:</strong></label>');
                     div_evidencia.append(`<img id="imagen_evidencia" src='../../sca_cdce/uploads/${elemento["evidencia"]}' width="400px" height="300px">`);

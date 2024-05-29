@@ -7,6 +7,8 @@
     <title>Registrar Actividad</title>
     <?php
             
+        ini_set('session.cache_limiter','public');
+        session_cache_limiter(false);
         session_start();
         if(isset($_SESSION["tipo_usuario"])){
             if($_SESSION["tipo_usuario"]=="estandar"){
@@ -93,10 +95,11 @@
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Tipo de Actividad:</label>
-                                <select class="col-md-12 input_form form-select" required name="id_tipo_actividad" id="id_tipo_actividad">
-                                    <option id="agregar_tipo_actividad">+ Agregar Tipo de Actividad</option>
-                                    <option selected disabled value="">Seleccione...</option>
-                                </select>
+                            <select class="col-md-12 input_form form-select" required name="id_tipo_actividad" id="id_tipo_actividad">
+                                <option selected disabled value="">Seleccione...</option>
+                                <option id="agregar_tipo_actividad">+ Agregar Tipo de Actividad</option>
+                            </select>
+                                
                             <div class="invalid-feedback">
                                 Seleccione un Tipo de Actividad Válido
                             </div>

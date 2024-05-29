@@ -19,7 +19,7 @@ class actividad{
     private $evidencia;
     private $id_usuario_responsable;
     private $ultima_modificacion;
-    private $orden='ASC';
+    private $orden='DESC';
     
     public function __construct()
     {
@@ -440,7 +440,7 @@ class actividad{
     //FUNCIONES PARA GENERAR REPORTES--------------------------------------------------------------------------
     public function exportExcel($id_usuario=false,$todas=false){
         
-        require '../Plugins/yunho-dbexport-master/src/YunhoDBExport.php';
+        require '../Librarys/yunho-dbexport-master/src/YunhoDBExport.php';
         require_once("../Model/configurarBD.php");
           date_default_timezone_set('America/Caracas');
 
@@ -451,6 +451,9 @@ class actividad{
         $id_usuario_responsable = $this->id_usuario_responsable;
         $dep_emisor = $this->dep_emisor;
         $dep_receptor = $this->dep_receptor;
+        $day = $this->day;
+        $month = $this->month;
+        $year = $this->year;
 
         $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
         
@@ -515,6 +518,18 @@ class actividad{
             $consulta .=" AND dep_receptor='$dep_receptor'";
         }
 
+        if(!empty($day)){
+            $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+        }
+
+        if(!empty($month)){
+            $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+        }
+
+        if(!empty($year)){
+            $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
+        }
+
         $export->query($consulta);
 
         // Formato MS Excel
@@ -538,15 +553,15 @@ class actividad{
         $pdf->AddPage();
         $pdf->SetMargins(25.4, 25.4, 25.4);
         // Logo
+        $pdf->Image('../View/Resources/Imagenes/logo_ministerio.png', 5, 0, 100);
         $pdf->Image('../View/Resources/Imagenes/logo.jpg', 330, 0, 60);
         //titulo
         $pdf->SetFont('Arial','',12);
         $pdf->Ln();
-        $pdf->Cell(0,6,'Ministerio del Poder Popular para la Educacion',0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,6,'Republica Bolivariana de Venezuela',0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,6,'Centro de Desarrollo de Calidad Educativa',0,0,'C');
+        $pdf->Cell(0,6,utf8_decode('Ministerio del Poder Popular para la Educación'),0,1,'C');
+        $pdf->Cell(0,6,utf8_decode('República Bolivariana de Venezuela'),0,1,'C');
+        $pdf->Cell(0,6,utf8_decode('Centro de Desarrollo de Calidad Educativa'),0,1,'C');
+        $pdf->Cell(0,6,utf8_decode('Cumaná - Municipio Sucre - Estado Sucre'),0,0,'C');
         for($i=0;$i<3;$i++){$pdf->Ln();}
         //titulo
         $pdf->SetFont('Arial','UB',10);
@@ -575,6 +590,10 @@ class actividad{
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_receptor']),1,0,'C');
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_emisor']),1,0,'C');
         }
+        // Sello y Firma
+        for($i=0;$i<3;$i++){$pdf->Ln();}
+        $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', 160,null,90);
+
         $pdf->Output('','Tabla de Actividades Registradas',true);
     }
     public function exportDetalles($data_sql){
@@ -584,15 +603,15 @@ class actividad{
         $pdf->AddPage();
         $pdf->SetMargins(25.4, 25.4, 25.4);
         // Logo
+        $pdf->Image('../View/Resources/Imagenes/logo_ministerio.png', 5, 0, 100);
         $pdf->Image('../View/Resources/Imagenes/logo.jpg', 230, 0, 60);
         //titulo
         $pdf->SetFont('Arial','',10);
         $pdf->Ln();
-        $pdf->Cell(0,5,'Ministerio del Poder Popular para la Educacion',0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,5,'Republica Bolivariana de Venezuela',0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,5,'Centro de Desarrollo de Calidad Educativa',0,0,'C');
+        $pdf->Cell(0,5,utf8_decode('Ministerio del Poder Popular para la Educación'),0,1,'C');
+        $pdf->Cell(0,5,utf8_decode('República Bolivariana de Venezuela'),0,1,'C');
+        $pdf->Cell(0,5,utf8_decode('Centro de Desarrollo de Calidad Educativa'),0,1,'C');
+        $pdf->Cell(0,5,utf8_decode('Cumaná - Municipio Sucre - Estado Sucre'),0,0,'C');
         $pdf->Ln();
         $pdf->Ln();
         $pdf->Ln();
@@ -624,26 +643,19 @@ class actividad{
         if($fila['observacion']!=''){
             $pdf->SetFont('Arial','B',10);
             $pdf->Cell(0,7,'Observacion de Actividad:',1,1,'L');
-            $pdf->SetFont('Arial','',10);
+            $pdf->SetFont('Arial','',7);
             $pdf->MultiCell(0,7,utf8_decode($fila['observacion']),1,'J');$pdf->Ln();
         }
 
         if($fila['informe']!=''){
             $pdf->SetFont('Arial','B',10);
             $pdf->Cell(0,7,'Informe de Actividad:',1,1,'L');
-            $pdf->SetFont('Arial','',10);
+            $pdf->SetFont('Arial','',7);
             $pdf->MultiCell(0,7,utf8_decode($fila['informe']),1,'J');$pdf->Ln();
         }
-
-        if($fila['evidencia']!=''){
-            $pdf->AddPage();
-            $pdf->SetFont('Arial','B',10);
-            $pdf->Cell(0,7,'Evidencia de Completacion:',1,1,'L');
-            $pdf->Image('../uploads/'.utf8_decode($fila['evidencia']),null,null,100,100);$pdf->Ln();
-            $pdf->Ln();
-        }
         // Sello y Firma
-        $pdf->Image('../View/Resources/Imagenes/firma_sello_JORA.jpg', null,170,60);
+        for($i=0;$i<1;$i++){$pdf->Ln();}
+        $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', null,null,90);
 
         $pdf->Output('','SCA_CDCE:REPORTE DE ACTIVIDAD '.$fila['codigo_actividad'],true);
     }

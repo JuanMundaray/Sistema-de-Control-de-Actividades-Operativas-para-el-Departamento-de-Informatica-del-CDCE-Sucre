@@ -8,7 +8,7 @@ $(document).ready(function(){
         getActividades();
     });
 
-    $("#collapseFiltros").click(function(){ 
+    $("#aplicar_filtro").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
         getActividades();
     });
@@ -28,6 +28,9 @@ function getActividades(pagina=1){
     let fecha_registro=$("#data_busq_fecha").val();
     let estado_actividad=$("#estado_actividad").val();
     let id_usuario_responsable=$("#id_usuario_sesion").val();
+    let day=$("#day").val();
+    let year=$("#year").val();
+    let month=$("#month").val();
 
 
     $.ajax({
@@ -41,7 +44,10 @@ function getActividades(pagina=1){
             nombre_actividad:nombre_actividad,
             fecha_registro:fecha_registro,
             estado_actividad:estado_actividad,
-            id_usuario_responsable:id_usuario_responsable
+            id_usuario_responsable:id_usuario_responsable,
+            day:day,
+            month:month,
+            year:year
         },
         dataType:'json',
         success:function(msg){
@@ -144,6 +150,9 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
     let estado_actividad=$("#estado_actividad").val();
     let id_usuario_responsable=$("#id_usuario_sesion").val();
     let num_filas;
+    let day=$("#day").val();
+    let year=$("#year").val();
+    let month=$("#month").val();
 
     $.ajax({ 
         async:false,
@@ -155,7 +164,10 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
             nombre_actividad:nombre_actividad,
             fecha_registro:fecha_registro,
             estado_actividad:estado_actividad,
-            id_usuario_responsable:id_usuario_responsable
+            id_usuario_responsable:id_usuario_responsable,
+            day:day,
+            month:month,
+            year:year
         },
         dataType:'json',
         success:function(msg){

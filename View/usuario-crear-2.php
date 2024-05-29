@@ -18,6 +18,8 @@
     <script>
     </script>
 <?php
+    ini_set('session.cache_limiter','public');
+    session_cache_limiter(false);
     session_start();
     
     if(isset($_SESSION["tipo_usuario"])){
@@ -66,8 +68,8 @@
                     <div class="col-md-10 div_input_form">
                         <label class="col-md-12 form-label">Departamento:</label>
                         <select class="col-md-12 form-select" name="departamento" id="departamento" required>
-                            <option id="agregar_departamento">+ Agregar Departamento</option>
                             <option selected disabled value="">Seleccione...</option>
+                            <option  id="agregar_departamento">+ Agregar Departamento</option>
                         </select>
                         <div class="invalid-feedback">
                             *Elija un Departamento Valido
@@ -87,6 +89,9 @@
                             *Elija un Tipo de Usuario Válido
                         </div>
                     </div>
+
+                <!--input hidden-->
+                <input type="hidden" name="option" value="crear">
 
                     <div class="col-md-12 form_button">
                         <input type="submit" class=" btn btn-primary col-md-3" value="Crear Usuario" name="crear_usuario" id="create_user">

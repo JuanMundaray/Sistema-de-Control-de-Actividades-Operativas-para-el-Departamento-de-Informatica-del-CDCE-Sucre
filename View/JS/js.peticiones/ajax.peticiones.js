@@ -5,13 +5,13 @@ $(document).ready(function(){
     $("#data_busq_nombre").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre o codigo
         getPeticiones();
     });
-    $('#collapseFiltros').click(function(){
+    $("#aplicar_filtro").click(function(){
         getPeticiones();
     });
     
     $("#num_resultados option").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
-        getActividades();
+        getPeticiones();
     });
 
 });
@@ -22,6 +22,9 @@ function getPeticiones(pagina=1){
     let fecha_peticion=$("#data_busq_fecha").val();
     let id_usuario=$("#id_usuario_sesion").val();
     let departamento_peticion=$("#departamento_peticion").val();
+    let day=$("#day").val();
+    let month=$("#month").val();
+    let year=$("#year").val();
     $.ajax({
         type:"POST",
         url:"../Controller/controllerPeticion.php",
@@ -32,7 +35,10 @@ function getPeticiones(pagina=1){
             nombre_peticion:nombre_peticion,
             fecha_peticion:fecha_peticion,
             id_usuario:id_usuario,
-            departamento_peticion:departamento_peticion
+            departamento_peticion:departamento_peticion,
+            day:day,
+            montn:month,
+            year:year
         },
         dataType:'json',
         success:function(msg){
@@ -131,6 +137,9 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
     let fecha_peticion=$("#data_busq_fecha").val();
     let id_usuario=$("#id_usuario_sesion").val();
     let nombre_estado_peticion=$("#data_busq_estado").val();
+    let day=$("#day").val();
+    let month=$("#month").val();
+    let year=$("#year").val();
     let num_filas;
     
     $.ajax({
@@ -142,7 +151,10 @@ function paginacion(num_resultados){//Esta funcion hace apararecerlos botones pa
             nombre_peticion:nombre_peticion,
             fecha_peticion:fecha_peticion,
             id_usuario:id_usuario,
-            nombre_estado_peticion:nombre_estado_peticion
+            nombre_estado_peticion:nombre_estado_peticion,
+            day:day,
+            montn:month,
+            year:year
         },
         dataType:'json',
         success:function(msg){

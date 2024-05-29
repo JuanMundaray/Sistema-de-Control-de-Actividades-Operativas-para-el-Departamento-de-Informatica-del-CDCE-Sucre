@@ -27,7 +27,11 @@
         <main class="contenedor_principal_login">
             <div class="contenedor_login form-signin">
                 <form class="form_login needs-validation" method="post" action="../Controller/controllerUsuario.php" novalidate>
-                    <h1>Ingresar al Sistema</h1>
+                <div class="text-center">
+                    <img src="./Resources/Imagenes/CDCE-logo-ministerio-de-educacion.webp" width="50"/>   
+
+                </div> 
+                <h1>Ingresar al Sistema</h1>
                     <div class="row gy-4">
                         <div class="col-md-12">
                             <label for="username" class="username">Nombre de Usuario:</label>

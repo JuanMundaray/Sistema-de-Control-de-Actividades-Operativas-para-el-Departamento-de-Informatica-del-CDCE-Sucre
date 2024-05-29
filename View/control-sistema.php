@@ -46,7 +46,7 @@
                         <td><a href="usuarios-historial.php">Historial de Usuarios</a></td>
                     </tr>
                     <tr>
-                        <td><a href="historial-actividades.php">Historial de Actividades</a></td>
+                        <td><a href="actividades-historial.php">Historial de Actividades</a></td>
                     </tr>
                     <tr>
                         <td><a href="departamentos-mostrar.php">Administrar Departamentos Registrados</a></td>

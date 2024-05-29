@@ -10,6 +10,9 @@ class peticion{
     private $tipo_actividad;
     private $estado_peticion;
     private $actividad_originada;
+    private $day;
+    private $month;
+    private $year;
     private $orden='DESC';
 
     
@@ -72,9 +75,27 @@ class peticion{
             $departamento_peticion = $this->departamento_peticion;
             $fecha_peticion = $this->fecha_peticion;
             $estado_peticion=$this->estado_peticion;
+            $day = $this->day;
+            $month = $this->month;
+            $year = $this->year;
             $db = DataBase::getInstance();
 
-            $consulta="SELECT *
+            $consulta="SELECT 
+            peticiones.id_peticion, 
+            peticiones.nombre_peticion, 
+            peticiones.departamento_peticion, 
+            peticiones.detalles_peticion, 
+            TO_CHAR(fecha_peticion,'DD-MM-YYYY') AS fecha_peticion, 
+            peticiones.id_usuario, 
+            peticiones.actividad_originada, 
+            estado_peticion.nombre_estado_peticion,
+            departamentos.nombre_departamento,
+            tipo_actividad.nombre_tipo,
+            usuario.id_usuario,
+            usuario.nombre_personal,
+            usuario.cedula,
+            usuario.apellido_personal,
+            usuario.nombre_usuario
             FROM actividades.peticiones
             LEFT JOIN actividades.usuario
             ON peticiones.id_usuario=usuario.id_usuario
@@ -110,6 +131,18 @@ class peticion{
 
             if(!empty($id_peticion)){
                 $consulta .=" AND peticiones.id_peticion=$id_peticion";
+            }
+
+            if(!empty($day)){
+                $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+            }
+    
+            if(!empty($month)){
+                $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+            }
+    
+            if(!empty($year)){
+                $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
             }
 
             $consulta .=" ORDER BY id_peticion $orden";
@@ -214,6 +247,9 @@ class peticion{
             $departamento_peticion = $this->departamento_peticion;
             $fecha_peticion = $this->fecha_peticion;
             $estado_peticion=$this->estado_peticion;
+            $day = $this->day;
+            $month = $this->month;
+            $year = $this->year;
             $db = DataBase::getInstance();
 
             $consulta="SELECT * FROM actividades.peticiones
@@ -253,6 +289,18 @@ class peticion{
                 $consulta .=" AND peticiones.id_peticion=$id_peticion";
             }
 
+            if(!empty($day)){
+                $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+            }
+    
+            if(!empty($month)){
+                $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+            }
+    
+            if(!empty($year)){
+                $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
+            }
+
             $consulta .=" ORDER BY id_peticion $orden";
 
             $resultadoPDO = $db->query($consulta);
@@ -271,6 +319,9 @@ class peticion{
         $departamento_peticion = $this->departamento_peticion;
         $fecha_peticion = $this->fecha_peticion;
         $estado_peticion=$this->estado_peticion;
+        $day = $this->day;
+        $month = $this->month;
+        $year = $this->year;
 
         require '../Librarys/yunho-dbexport-master/src/YunhoDBExport.php';
         require_once("../Model/configurarBD.php");
@@ -330,6 +381,18 @@ class peticion{
             $consulta .=" AND peticiones.estado_peticion='$estado_peticion'";
         }
 
+        if(!empty($day)){
+            $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+        }
+
+        if(!empty($month)){
+            $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+        }
+
+        if(!empty($year)){
+            $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
+        }
+
         $export->query($consulta);
 
         // Formato MS Excel
@@ -353,15 +416,15 @@ class peticion{
         $pdf->AddPage();
         $pdf->SetMargins(25.4, 25.4, 25.4);
         // Logo
+        $pdf->Image('../View/Resources/Imagenes/logo_ministerio.png', 5, 0, 100);
         $pdf->Image('../View/Resources/Imagenes/logo.jpg', 330, 0, 60);
         //Encabezado
         $pdf->SetFont('Arial','',12);
         $pdf->Ln();
-        $pdf->Cell(0,6,'Ministerio del Poder Popular para la Educacion',0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,6,'Republica Bolivariana de Venezuela',0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,6,'Centro de Desarrollo de Calidad Educativa',0,0,'C');
+        $pdf->Cell(0,6,utf8_decode('Ministerio del Poder Popular para la Educación'),0,1,'C');
+        $pdf->Cell(0,6,utf8_decode('República Bolivariana de Venezuela'),0,1,'C');
+        $pdf->Cell(0,6,utf8_decode('Centro de Desarrollo de Calidad Educativa'),0,1,'C');
+        $pdf->Cell(0,6,utf8_decode('Cumaná - Municipio Sucre - Estado Sucre'),0,0,'C');
         for($i=0;$i<3;$i++){$pdf->Ln();}
         //titulo
         $pdf->SetFont('Arial','UB',12);
@@ -388,6 +451,10 @@ class peticion{
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_usuario']),1,0,'C');
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_estado_peticion']),1,0,'C');
         }
+        // Sello y Firma
+        for($i=0;$i<3;$i++){$pdf->Ln();}
+        $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', 160,null,90);
+
         $pdf->Output('','Tabla de Peticiones Registradas',true);
     }
     
@@ -414,6 +481,18 @@ class peticion{
     public function setFechaPeticion($fecha_peticion)
     {
         $this->fecha_peticion = trim($fecha_peticion);
+    }
+    public function setDay($day)
+    {
+        $this->day = trim($day);
+    }
+    public function setMonth($month)
+    {
+        $this->month = trim($month);
+    }
+    public function setYear($year)
+    {
+        $this->year = trim($year);
     }
     public function setEstadoPeticion($estado_peticion)
     {
@@ -451,6 +530,18 @@ class peticion{
     public function getFechaPeticion()
     {
         return $this->fecha_peticion;
+    }
+    public function getDay($day)
+    {
+        return $this->day;
+    }
+    public function getMonth($month)
+    {
+        return $this->month;
+    }
+    public function getYear($year)
+    {
+        return $this->year;
     }
     public function getEstadoPeticion()
     {

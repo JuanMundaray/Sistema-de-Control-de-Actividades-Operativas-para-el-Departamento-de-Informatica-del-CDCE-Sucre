@@ -48,6 +48,15 @@ switch($option){
         if(isset($_REQUEST['estado_peticion'])){
             $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
         }
+        if(isset($_REQUEST['day'])){
+            $peticion->setDay($_REQUEST['day']);
+        }
+        if(isset($_REQUEST['month'])){
+            $peticion->setMonth($_REQUEST['month']);
+        }
+        if(isset($_REQUEST['year'])){
+            $peticion->setYear($_REQUEST['year']);
+        }
         //-----------------paginacion
         if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
             $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
@@ -111,6 +120,15 @@ switch($option){
         if(isset($_REQUEST['estado_peticion'])){
             $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
         }
+        if(isset($_REQUEST['day'])){
+            $peticion->setDay($_REQUEST['day']);
+        }
+        if(isset($_REQUEST['month'])){
+            $peticion->setMonth($_REQUEST['month']);
+        }
+        if(isset($_REQUEST['year'])){
+            $peticion->setYear($_REQUEST['year']);
+        }
 
         $peticion->exportarExcel();
         
@@ -127,6 +145,15 @@ switch($option){
         }
         if(isset($_REQUEST['estado_peticion'])){
             $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
+        }
+        if(isset($_REQUEST['day'])){
+            $peticion->setDay($_REQUEST['day']);
+        }
+        if(isset($_REQUEST['month'])){
+            $peticion->setMonth($_REQUEST['month']);
+        }
+        if(isset($_REQUEST['year'])){
+            $peticion->setYear($_REQUEST['year']);
         }
         $resultado=$peticion->obtener();
         $peticion->exportarPDF($resultado);

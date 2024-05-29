@@ -36,6 +36,7 @@
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
         <script src="JS/js.actividades/ajax.actividades.js"></script>
         <script src="JS/js.actividades/ajax.actividades.autocompletar.js"></script>
+        <script src="JS/obtenerListaDay_Month_Year.js"></script>
         <title>Actividades Registradas</title>
 
     </head>
@@ -54,7 +55,7 @@
             <!--id del usuario que tienen abierta la sesion-->
             <input type="hidden" value="<?PHP echo $_SESSION['tipo_usuario']?>" id="tipo_usuario">
             <!----------------------------------------------->
-            <h1 class="titleh1">Actividades Registradas</h1>
+            <h1 class="titleh1">Actividades Operativas Registradas</h1>
             
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Actividades Registradas</h2>
@@ -76,10 +77,38 @@
                                             <label class="label-sm form-label  text-nowrap">Nombre de Actividad:</label>
                                             <input style="width: 100%;" class="form-control" type="search" placeholder="Buscar por Nombre..." aria-label="Search" id="data_busq_nombre" name="data_busq_nombre">
                                         </div>
+                                        
+                                        <div class="p-2 no-wrap">
+                                            <label class="label-sm form-label text-nowrap">Día de Registro:</label>
+                                            <select class="form-select" id="day">
+                                                <option value="">Cuaquiera</option>
+                                            </select>
+                                        </div>
 
-                                        <div class="p-2 no-wrap ">
-                                            <label class="label-sm form-label text-nowrap">Fecha de Actividad:</label>
-                                            <input style="width: 100%;" class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" id="data_busq_fecha" name="data_busq_fecha">
+                                        <div class="p-2 no-wrap">
+                                            <label class="label-sm form-label text-nowrap">Mes de Registro:</label>
+                                            <select class="form-select" id="month">
+                                                <option value="">Cuaquiera</option>
+                                                <option value="1">Enero</option>
+                                                <option value="2">Febrero</option>
+                                                <option value="3">Marzo</option>
+                                                <option value="4">Abril</option>
+                                                <option value="5">Mayo</option>
+                                                <option value="6">Junio</option>
+                                                <option value="7">Julio</option>
+                                                <option value="8">Agosto</option>
+                                                <option value="9">Septiembre</option>
+                                                <option value="10">Octubre</option>
+                                                <option value="11">Noviembre</option>
+                                                <option value="12">Diciembre</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="p-2 no-wrap">
+                                            <label class="label-sm form-label text-nowrap">Año de Registro:</label>
+                                            <select class="form-select" id="year">
+                                                <option value="">Cuaquiera</option>
+                                            </select>
                                         </div>
 
                                         <div class="p-2  text-nowrap">
@@ -92,7 +121,7 @@
                                 </div>
 
                                 <div class="p-2">
-                                    <button class="btn btn-primary" id="collapseFiltros">Aplicar
+                                    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseFiltros" aria-expanded="false" aria-controls="collapseFiltros" id="aplicar_filtro">Aplicar
                                     </button>
                                 </div>
                                 

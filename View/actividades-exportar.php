@@ -67,9 +67,40 @@
                                 <input class="form-control" type="search" placeholder="Nombre..." aria-label="Search" name="nombre_actividad">
                             </div>
 
-                            <div class="col-md-4 offset-md-2">
-                                <label class="form-label">Fecha de Registro:</label>
-                                <input class="form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" name="fecha_registro">
+                            <!-- Obligar a las siguientes columnas a pasar a una nueva línea en el breakpoint md y hacia arriba -->
+                            <div class="w-100 d-none d-md-block"></div>
+                                        
+                            <div class="col-md-3 ">
+                                <label class="label-sm form-label text-nowrap">Día de Registro:</label>
+                                <select class="form-select" id="day" name="day">
+                                    <option value="">Cuaquiera</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="label-sm form-label text-nowrap">Mes de Registro:</label>
+                                <select class="form-select" id="month" name="month">
+                                    <option value="">Cuaquiera</option>
+                                    <option value="1">Enero</option>
+                                    <option value="2">Febrero</option>
+                                    <option value="3">Marzo</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Mayo</option>
+                                    <option value="6">Junio</option>
+                                    <option value="7">Julio</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="label-sm form-label text-nowrap">Año de Registro:</label>
+                                <select class="form-select" id="year" name="year">
+                                    <option value="">Cuaquiera</option>
+                                </select>
                             </div>
 
                             <!-- Obligar a las siguientes columnas a pasar a una nueva línea en el breakpoint md y hacia arriba -->
@@ -134,5 +165,13 @@
 
         <script src="../Framework/jquery-3.6.3.min.js"></script>
         <script src="./JS/js.generar_reportes/generar_reportes_actividad.js"></script>
+        <script src="./JS/obtenerListaDay_Month_Year.js"></script>
+        <script>
+            $(document).ready(function(){
+                const date=new Date();
+                $(month).val((date.getMonth())+1);
+                $(year).val(date.getFullYear());
+            });
+        </script>
     </body>
 </html>

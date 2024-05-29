@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Actividad</title>
     <?php
-            
+        ini_set('session.cache_limiter','public');
+        session_cache_limiter(false);
         session_start();
         if(isset($_SESSION["tipo_usuario"])){
             if($_SESSION["tipo_usuario"]=="estandar"){
@@ -56,10 +57,12 @@
                     <?php
                         echo '<input type="hidden" name="codigo_actividad" id="codigo_actividad" value="'.$_REQUEST['codigo_actividad'].'">';
                         echo '<input type="hidden" name="nombre_actividad" id="nombre_actividad" value="'.$_REQUEST['nombre_actividad'].'">';
-                        echo '<input type="hidden" name="id_tipo_actividad" id="id_tipo_actividad" value="'.$_REQUEST['id_tipo_actividad'].'">';
+                        echo '<input type="hidden" name="id_tipo_actividad" value="'.$_REQUEST['id_tipo_actividad'].'">';
+                        
                         echo '<input type="hidden" name="dep_emisor" id="dep_emisor" value="'.$_REQUEST['dep_emisor'].'">';
                         echo '<input type="hidden" name="dep_receptor" id="dep_receptor" value="'.$_REQUEST['dep_receptor'].'">';
                         echo '<input type="hidden" name="observacion" id="observacion" value="'.$_REQUEST['observacion'].'">';
+                        echo '<input type="hidden" name="fecha_registro" id="fecha_registro" value="'.$_REQUEST['fecha_registro'].'">';
                     ?>
 
                     <!--cuerpo del formulario-->

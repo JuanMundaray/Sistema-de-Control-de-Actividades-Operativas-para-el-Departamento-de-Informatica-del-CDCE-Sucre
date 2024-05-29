@@ -8,7 +8,7 @@ $(document).ready(function(){
         getActividades();
     });
 
-    $("#collapseFiltros").click(function(){ 
+    $("#aplicar_filtro").click(function(){ 
         //Funcion ajax para buscar una actividad por su codigo
         getActividades();
     });
@@ -28,6 +28,9 @@ function getActividades(pagina=1){
     let nombre_actividad=$("#data_busq_nombre").val();
     let fecha_registro=$("#data_busq_fecha").val();
     let estado_actividad=$("#estado_actividad").val();
+    let day=$("#day").val();
+    let month=$("#month").val();
+    let year=$("#year").val();
 
     $.ajax({
         type:"POST",
@@ -39,7 +42,10 @@ function getActividades(pagina=1){
             codigo_actividad:codigo_actividad,
             nombre_actividad:nombre_actividad,
             fecha_registro:fecha_registro,
-            estado_actividad:estado_actividad
+            estado_actividad:estado_actividad,
+            day:day,
+            month:month,
+            year:year
         },
         dataType:'json',
         success:function(msg){
@@ -152,6 +158,9 @@ function paginacion(num_resultados){
     let nombre_actividad=$("#data_busq_nombre").val();
     let fecha_registro=$("#data_busq_fecha").val();
     let estado_actividad=$("#estado_actividad").val();
+    let day=$("#day").val();
+    let year=$("#year").val();
+    let month=$("#month").val();
     let num_filas;
     
     $.ajax({ 
@@ -163,7 +172,10 @@ function paginacion(num_resultados){
             codigo_actividad:codigo_actividad,
             nombre_actividad:nombre_actividad,
             fecha_registro:fecha_registro,
-            estado_actividad:estado_actividad
+            estado_actividad:estado_actividad,
+            day:day,
+            month:month,
+            year:year
         },
         dataType:'json',
         success:function(msg){

@@ -54,12 +54,41 @@
                             <h4 class="py-2">Filtros de Busqueda</h4>
                             <div class="d-flex align-items-end gap-4">
                                 <div>
-                                    <label class="form-label">Nombre de Peticion:</label>
+                                    <label class="label-sm form-label">Nombre de Peticion:</label>
                                     <input class="form-control label-sm " type="search" placeholder="Buscar por Nombre..." aria-label="Search" aria-autocomplete="" id="data_busq_nombre" name="data_busq_nombre">
                                 </div>
+                                
                                 <div>
-                                    <label class="form-label">Fecha de Peticion:</label>
-                                    <input class="label-sm form-control" type="date" placeholder="Buscar por Fecha..." aria-label="Search" aria-autocomplete="" id="data_busq_fecha" name="data_busq_fecha" />
+                                    <label class="label-sm form-label text-nowrap">Día de Registro:</label>
+                                    <select class="form-select" id="day">
+                                        <option value="">Cuaquiera</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="label-sm form-label text-nowrap">Mes de Registro:</label>
+                                    <select class="form-select" id="month">
+                                        <option value="">Cuaquiera</option>
+                                        <option value="1">Enero</option>
+                                        <option value="2">Febrero</option>
+                                        <option value="3">Marzo</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Mayo</option>
+                                        <option value="6">Junio</option>
+                                        <option value="7">Julio</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Septiembre</option>
+                                        <option value="10">Octubre</option>
+                                        <option value="11">Noviembre</option>
+                                        <option value="12">Diciembre</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="label-sm form-label text-nowrap">Año de Registro:</label>
+                                    <select class="form-select" id="year">
+                                        <option value="">Cuaquiera</option>
+                                    </select>
                                 </div>
                                 
                                 <div>
@@ -69,7 +98,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <button class="btn btn-primary" id="boton_aplicar_filtros_busq" data-bs-toggle="collapse" data-bs-target="#collapse_filtros_busq" aria-expanded="false">Aplicar</button>
+                                    <button class="btn btn-primary" id="aplicar_filtro" data-bs-toggle="collapse" data-bs-target="#collapseFiltros" aria-expanded="false" >Aplicar</button>
                                 </div>
                             </div>
 
@@ -120,5 +149,6 @@
         <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
         <script src="JS/js.peticiones/ajax.peticiones.js"></script>
+        <script src="JS/obtenerListaDay_Month_Year.js"></script>
     </body>
 </html>

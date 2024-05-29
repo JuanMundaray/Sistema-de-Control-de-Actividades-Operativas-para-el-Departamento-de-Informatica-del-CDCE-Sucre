@@ -26,7 +26,7 @@ centinela=true;
 			<li>
 				<div>
 					<a class="row" href='actividades-registradas-propias.php'>
-						<figure class="col-md-1"><img src="./Resources/png/512/ios7-briefcase.png" class="icons-menudeslizante"></figure>
+						<figure class="col-md-1"><img src="./Resources/png/512/folder.png" class="icons-menudeslizante"></figure>
 						<span class="col">Administrar Mis Actividades</span>
 					</a>
 				</div>
@@ -57,6 +57,23 @@ centinela=true;
 						<span class="col">Lista de Peticiones</span>
 					</a>
 				</div>
+			</li>
+			<li>
+				<div>
+					<a class="row" href='#'.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-printer.png" class="icons-menudeslizante"></figure>
+						<span class="col">Generar Reportes</span>
+					</a>
+				</div>
+
+				<ul>
+					<li>
+						<a class="row" href='generar_reporte_actividad.php'><span class="col">Generar Reportes de Actividades</span></a>
+					</li>
+					<li>
+						<a class="row" href='generar_reporte_peticiones.php'><span class="col">Generar Reportes de Peticiones</span></a>
+					</li>
+				</ul>
 			</li>
 
 			<li>

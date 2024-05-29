@@ -151,7 +151,7 @@ class usuario
             $id_usuario = $this->id_usuario;
 
             $db = DataBase::getInstance();
-            $orden='ASC';
+            $orden='DESC';
             $consulta = "SELECT * FROM actividades.usuario
             LEFT JOIN actividades.departamentos
             ON usuario.departamento_usuario=departamentos.id_departamento

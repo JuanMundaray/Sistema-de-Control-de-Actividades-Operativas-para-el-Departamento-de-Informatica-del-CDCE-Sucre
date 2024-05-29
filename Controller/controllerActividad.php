@@ -67,6 +67,7 @@ switch($option){
         $actividad->setApeAtendido(strtoupper($ape_atendido));
         $actividad->setCedAtendido($ced_atendido);
         $actividad->setIdUsuario($id_usuario_responsable);
+        $actividad->setUltimaModificacion(date("Y-m-d"));
         $resultado=$actividad->guardar();
         if($resultado){
             $resultado=json_encode($resultado);
@@ -92,6 +93,15 @@ switch($option){
         }
         if(isset($_REQUEST['id_usuario_responsable'])){
             $actividad->setIdUsuario($_REQUEST['id_usuario_responsable']);
+        }
+        if(isset($_REQUEST['day'])){
+            $actividad->setDay($_REQUEST['day']);
+        }
+        if(isset($_REQUEST['month'])){
+            $actividad->setMonth($_REQUEST['month']);
+        }
+        if(isset($_REQUEST['year'])){
+            $actividad->setYear($_REQUEST['year']);
         }
         if(isset($_REQUEST['todas'])){
             $todas=true;
@@ -186,6 +196,15 @@ switch($option){
         if(isset($_REQUEST['id_usuario_responsable'])){
             $actividad->setIdUsuario($_REQUEST['id_usuario_responsable']);
         }
+        if(isset($_REQUEST['day'])){
+            $actividad->setDay($_REQUEST['day']);
+        }
+        if(isset($_REQUEST['month'])){
+            $actividad->setMonth($_REQUEST['month']);
+        }
+        if(isset($_REQUEST['year'])){
+            $actividad->setYear($_REQUEST['year']);
+        }
         if(isset($_REQUEST['todas'])){
             $todas=true;
         }else{
@@ -226,6 +245,15 @@ switch($option){
         if(isset($_REQUEST['dep_receptor'])){
             $actividad->setDepReceptor($_REQUEST['dep_receptor']);
         }
+        if(isset($_REQUEST['day'])){
+            $actividad->setDay($_REQUEST['day']);
+        }
+        if(isset($_REQUEST['month'])){
+            $actividad->setMonth($_REQUEST['month']);
+        }
+        if(isset($_REQUEST['year'])){
+            $actividad->setYear($_REQUEST['year']);
+        }
 
         $todas=false;
         if(isset($_REQUEST['todas'])){
@@ -263,6 +291,15 @@ switch($option){
         }
         if(isset($_REQUEST['dep_receptor'])){
             $actividad->setDepReceptor($_REQUEST['dep_receptor']);
+        }
+        if(isset($_REQUEST['day'])){
+            $actividad->setDay($_REQUEST['day']);
+        }
+        if(isset($_REQUEST['month'])){
+            $actividad->setMonth($_REQUEST['month']);
+        }
+        if(isset($_REQUEST['year'])){
+            $actividad->setYear($_REQUEST['year']);
         }
         if(isset($_REQUEST['todas'])){
             $todas=true;
