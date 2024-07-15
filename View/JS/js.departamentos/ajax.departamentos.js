@@ -1,12 +1,16 @@
 $(document).ready(function(){
-
+    
     getDepartamentos();
 
-    $("#buscar_nombre_boton").click(function(){ //Funcion ajax para buscar una actividad por su nombre
+    $("#data_busq_nombre").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre
         getDepartamentos();
     });
 
-    $("#buscar_id").click(function(){ //Funcion ajax para buscar una actividad por su nombre
+    $("#data_busq_id").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre
+        getDepartamentos();
+    });
+
+    $("#num_resultados").click(function(){
         getDepartamentos();
     });
 });
@@ -50,7 +54,7 @@ function getDepartamentos(pagina=1){
             });
             tabla.append("</tbody>");
 
-            paginacion(num_resultados,num_filas);
+            paginacion(num_resultados);
         },
         error:function(jqXHR,textStatus,errorThrown){
             alert("Sin Resultados");
@@ -60,7 +64,30 @@ function getDepartamentos(pagina=1){
     });
 }
 
-function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+    
+    let nombre_departamento=$("#data_busq_nombre").val();
+    let id_departamento=$("#data_busq_id").val();
+    let num_filas;
+    
+    $.ajax({ 
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{
+            option:'contarRegistros',
+            nombre_departamento:nombre_departamento,
+            id_departamento:id_departamento
+        },
+        dataType:'json',
+        success:function(msg){
+            num_filas=msg;
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
 
     let num_paginas=Math.ceil((num_filas)/(num_resultados));
     $("#num_paginas").empty();

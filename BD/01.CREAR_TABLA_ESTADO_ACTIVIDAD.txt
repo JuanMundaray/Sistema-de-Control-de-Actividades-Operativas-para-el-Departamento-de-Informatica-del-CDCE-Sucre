@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS actividades.estado_actividad
+(id_estado_actividad serial NOT NULL,
+nombre_estado_actividad character varying(20) NOT NULL,
+CONSTRAINT estado_actividad_pkey PRIMARY KEY (id_estado_actividad)
+);
+INSERT INTO actividades."estado_actividad"(nombre_estado_actividad)VALUES ('INICIADA');
+INSERT INTO actividades."estado_actividad"(nombre_estado_actividad)VALUES ('PROCESO');
+INSERT INTO actividades."estado_actividad"(nombre_estado_actividad)VALUES ('COMPLETADA');
+INSERT INTO actividades."estado_actividad"(nombre_estado_actividad) VALUES ('SUSPENDIDA');
+INSERT INTO actividades."estado_actividad"(nombre_estado_actividad) VALUES ('ELIMINADA');

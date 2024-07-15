@@ -16,7 +16,7 @@ centinela=true;
 
 			<li>
 				<div>
-					<a class="row" href='registrar-actividad-1.php'>
+					<a class="row" href='actividades-registrar-actividad-1.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/archive.png" class="icons-menudeslizante"></figure>
 						<span class="col">Registrar Actividad</span>
 					</a>
@@ -31,11 +31,21 @@ centinela=true;
 					</a>
 				</div>
 			</li>
+			
 			<li>
 				<div>
 					<a class="row" href='actividades-registradas.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/ios7-paper.png" class="icons-menudeslizante"></figure>
 						<span class="col">Actividades Registradas</span>
+					</a>
+				</div>
+			</li>
+
+			<li>
+				<div>
+					<a class="row" href='peticiones-registradas.php'>
+						<figure class="col-md-1"><img src="./Resources/png/512/ios7-box.png" class="icons-menudeslizante"></figure>
+						<span class="col">Lista de Peticiones</span>
 					</a>
 				</div>
 			</li>

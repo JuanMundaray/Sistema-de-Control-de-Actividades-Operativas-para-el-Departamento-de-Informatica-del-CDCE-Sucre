@@ -5,7 +5,6 @@
         <meta charset="UTF-8"><link rel="icon" href="../favicon.ico" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
         <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.css" type="text/css">
         <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
@@ -59,13 +58,7 @@
                 <h2 class="titleh2" <?PHP if($_REQUEST['option']=='exportarExcel'){echo 'style="background-color:#157347"';} ?>>Preferencias de Exportación</h2>
                 <section class="secciones container">
                     <div class="container">
-                        <form class="row gy-3 gx-4" method="post" action="../Controller/controllerActividad.php">
-
-
-                            <div class="col-md-4">
-                                <label class="form-label">Nombre de Actividad:</label>
-                                <input class="form-control" type="search" placeholder="Nombre..." aria-label="Search" name="nombre_actividad">
-                            </div>
+                        <form class="row gy-3 gx-4" method="post" action="../Controller/controllerActividad.php" target="_blank">
 
                             <!-- Obligar a las siguientes columnas a pasar a una nueva línea en el breakpoint md y hacia arriba -->
                             <div class="w-100 d-none d-md-block"></div>

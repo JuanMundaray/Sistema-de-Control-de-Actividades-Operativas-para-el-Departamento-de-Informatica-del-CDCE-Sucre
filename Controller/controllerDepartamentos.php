@@ -13,10 +13,11 @@ switch($option){
         $departamento->setNombreDepartamento(strtoupper($nombre_departamento));
         $resultado=$departamento->crear();
         if($resultado){
-            header("location:../View/departamentos-mostrar.php");
+            header("location:../View/departamentos-administrar.php");
             exit();
         }
     break;
+
     case 'obtener':
         $departamento=new departamento();
 
@@ -42,7 +43,26 @@ switch($option){
             echo $resultado;
         }
     break;
-        
+
+    case 'contarRegistros':
+
+        $departamento=new departamento();
+
+        if(isset($_REQUEST['nombre_departamento'])){
+            $departamento->setNombreDepartamento($_REQUEST['nombre_departamento']);
+        }
+        if(isset($_REQUEST['id_usuario'])){
+            $departamento->setIdDepartamento(($_REQUEST['id_departamento']));
+        }
+
+        $resultado=$departamento->contarNumRegistros();
+
+        if($resultado){
+            $resultado=json_encode($resultado);
+            echo $resultado;
+        }else{
+            echo $resultado;
+        }   
 
 }
 

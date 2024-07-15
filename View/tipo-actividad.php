@@ -6,22 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tipos de Actividad</title>
         <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.css" type="text/css">
-    <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
-    <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
-    <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
-    <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-    <script src="JS/js.tipo_actividad/ajax.tipo_actividad.js"></script>
-    <script src="Plantillas/menu_desplegable-administrador.js"></script>
-    
-
+        <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
+        <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
+        <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
+        <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
+        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.js"></script>
+        <script src="../Framework/jquery-3.6.3.min.js"></script>
+        <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
+        <script src="JS/js.tipo_actividad/ajax.tipo_actividad.js"></script>
+        <script src="Plantillas/menu_desplegable-administrador.js"></script>
 </head>
 <?php
     session_start();
     
     if(isset($_SESSION["tipo_usuario"])){
         if(($_SESSION["tipo_usuario"]!="administrador")){
-            header("Location:./registrar-actividad-1.php");
+            header("Location:./actividades-registrar-actividad-1.php");
             exit();
         }
     }else{
@@ -42,27 +42,26 @@
                 <div>
 
                     <!--Boton Para ingresar al formulario para crear una nueva actividad predefinida-->
-                    <a class="btn btn-primary" href="tipo-actividad-crear.php" role="button">Crear Tipo de Actividad</a>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTipoActividad">Agregar Tipo de Actividad</button>
+
 
                     <!--Barra de Busqueda-->
                     <nav class="navbar navbar-light barra_navegacion container">
                         <div style="margin-top: 20px; margin-left: -10px;" class="row gy-3">
-                            <form class="form col-md-10 row">
-                                <div class="col-md-3">
+                            <form class="form col-md-12 row">
+                                <div class="col-md-4">
                                     <label class="form-label">Buscar Por Nombre:</label>
                                     <input style="width: 100%;" class="form-control" type="search" placeholder="Buscar Tipo de  Actividad..." id="data_busq_nombre" name="data_busq_nombre">
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label class="form-label">Buscar Por Id:</label>
                                     <input style="width: 100%;" class="form-control" type="search" placeholder="Buscar Por ID..." id="data_busq_id" name="data_busq_id"> 
                                 </div>
-                                <div class="col-md-2">
-                                    <input type="button" style="margin-top: 30px;" class="btn btn-primary" id="buscar_nombre_boton" value="Buscar">
-                                </div>
-                            </form>
+                                
+                            
                         
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                     <label class="form-label">Numero de Resultados:</label>
                                     <select class="form-select" id="num_resultados">
                                             <option value="5">5</option>
@@ -71,6 +70,7 @@
                                             <option value="100">100</option>
                                     </select>
                             </div>
+                            </form>
                         </div>
                     </nav>
 
@@ -89,6 +89,13 @@
                 </div>
             </section>
     </main>
+
+    <?php require_once("./Plantillas/administrarTipoActividad/modalRegistrarTipoActividad.php") ?>
+    <?php require_once("./Plantillas/administrarTipoActividad/notificacionRegistro.php") ?>
+
+    <script src="JS/js.tipo_actividad/sumit.tipo_actividad.js"></script>
+    <script src="JS/js.tipo_actividad/modalTipoActividad.js"></script>
+    <script src="JS/validar.formularios.js"></script>
 </body>
 
 </html>

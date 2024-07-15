@@ -30,12 +30,6 @@
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         <link rel="stylesheet" href="../Framework/jquery-ui-1.13.2.custom/jquery-ui.css" type="text/css">
-        
-        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
-        <script src="../Framework/jquery-3.6.3.min.js"></script>
-        <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-        <script src="JS/js.actividades/ajax.mis_actividades.js"></script>
-        <script src="JS/obtenerListaDay_Month_Year.js"></script>
         <title>Mis Actividades Registradas</title>
 
     </head>
@@ -55,7 +49,7 @@
                 <section class="secciones">
 
                     <!--Link a la Pagina de Registrar Actividades-->
-                    <a href="registrar-actividad.php"><button class="btn btn-primary" >Registrar Actividad</button></a>   
+                    <a href="actividades-registrar-actividad-1.php"><button class="btn btn-primary" >Registrar Actividad</button></a>   
                     
                     <!--Filtros de Busqueda-->
                     <nav class="navbar navbar-light container"  style="margin-top: 20px;" id="mostrarSolo">
@@ -145,25 +139,8 @@
                     </nav>
                     
 
-                    <!--La tabla-->
-                    <div class="table-responsive ">
-                        <table id="tabla_actividades" class="table text-nowrap table_default">
-                        <tr>
-                            <th><label>Fecha de Registro</label></th>
-                            <th><label>Actividad</label></th>
-                            <th><label>Tipo de Actividad</label></th>
-                            <th><label>Departamento Receptor</label></th>
-                            <th><label>Departamento Emisor</label></th>
-                            <th><label>Nombre del Responsable</label></th>
-                            <th><label>Cedula del Responsable</label></th>
-                            <th><label>Funcionario Atendido</label></th>
-                            <th><label>Cedula del Funcionario Atendido</label></th>
-                            <th><label>Estado</label></th>
-                            <th><label>Accion</label></th>
-                        </tr>
-                        <!--La tabla se rellena por medio de el archivo ajax.actividades.js-->
-                        </table>
-                    </div>
+                    <!--La tabla de Actividades-->
+                    <?php require_once("./Plantillas/administrarActividades/tabla_actividades/tabla.php") ?>
                     
                     <!--Botones de Paginacion-->
                     <div>
@@ -207,6 +184,22 @@
                     <div>
                 <section>
             </div>
+
+        <!--Requerir los Modales para las acciones que el usuario puede hacer con la actividad-->
+            <?php require_once("./Plantillas/administrarActividades/modals/modal_VerSeguimientoActividad.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/modals/modal_EditarActividad.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/modals/modal_VerDetalles.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/modals/modal_Eliminar.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/toast/toast.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/toast/toastSinResultados.php") ?>
+            
+        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
+        <script src="../Framework/jquery-3.6.3.min.js"></script>
+        <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
+        <script src="JS/js.actividades/VerActividades/ajax.mis_actividades.js" type="module"></script>
+        <script src="JS/obtenerListaDay_Month_Year.js"></script>
+                <script src="./JS/js.actividades/mensaje.js"></script>
+
         </main>
     </body>
 </html>

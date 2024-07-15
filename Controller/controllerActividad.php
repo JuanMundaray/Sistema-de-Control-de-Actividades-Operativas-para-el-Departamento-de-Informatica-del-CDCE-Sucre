@@ -15,7 +15,7 @@ switch($option){
         $id_tipo_actividad=$_REQUEST['id_tipo_actividad'];
         $dep_receptor=$_REQUEST['dep_receptor'];
         $dep_emisor=$_REQUEST['dep_emisor'];
-        $fecha_registro=$_REQUEST['fecha_registro'];
+        $fecha_inicio=$_REQUEST['fecha_inicio'];
         $observacion=$_REQUEST['observacion'];
         $nom_atendido=$_REQUEST['nom_atendido'];
         $ape_atendido=$_REQUEST['ape_atendido'];
@@ -26,23 +26,19 @@ switch($option){
         $actividad->setIdTipo($id_tipo_actividad);
         $actividad->setDepReceptor($dep_receptor);
         $actividad->setDepEmisor($dep_emisor);
-        $actividad->setfechaRegistro($fecha_registro);
+        $actividad->setfechaRegistro(date("Y-m-d H:i:s"));
         $actividad->setObservacion($observacion);
-        $actividad->setEstadoActividad(6);
+        $actividad->setEstadoActividad(1);
         $actividad->setNomAtendido(strtoupper($nom_atendido));
         $actividad->setApeAtendido(strtoupper($ape_atendido));
         $actividad->setCedAtendido($ced_atendido);
         $actividad->setIdUsuario($id_usuario_responsable);
-        $actividad->setUltimaModificacion(date("Y-m-d"));
+        $actividad->setUltimaModificacion(date("Y-m-d H:i:s"));
+        $actividad->setFechaInicio($fecha_inicio);
         $resultado=$actividad->guardar();
-        if($resultado){
-            header("location:../View/actividades-registradas.php");
-            exit();
-        }
-    break;
 
     case 'aceptarPeticion':
-          date_default_timezone_set('America/Caracas');
+        date_default_timezone_set('America/Caracas');
         $actividad=new actividad();
         $codigo_actividad=$_REQUEST['codigo_actividad'];
         $nombre_actividad=$_REQUEST['nombre_actividad'];
@@ -50,24 +46,25 @@ switch($option){
         $dep_receptor=$_REQUEST['dep_receptor'];
         $dep_emisor=$_REQUEST['dep_emisor'];
         $observacion=$_REQUEST['observacion'];
-        $fecha_registro=$_REQUEST['fecha_registro'];
+        $fecha_inicio=$_REQUEST['fecha_inicio'];
         $nom_atendido=$_REQUEST['nom_atendido'];
         $ape_atendido=$_REQUEST['ape_atendido'];
         $ced_atendido=$_REQUEST['ced_atendido'];
         $id_usuario_responsable=$_REQUEST['id_usuario_responsable'];
-        $actividad->setEstadoActividad(6);
+        $actividad->setEstadoActividad(1);
         $actividad->setCodigoActividad($codigo_actividad);
         $actividad->setNombreActividad(strtoupper($nombre_actividad));
         $actividad->setIdTipo($id_tipo_actividad);
         $actividad->setDepReceptor($dep_receptor);
         $actividad->setDepEmisor($dep_emisor);
-        $actividad->setfechaRegistro($fecha_registro);
+        $actividad->setfechaRegistro(date("Y-m-d H:i:s"));
         $actividad->setObservacion($observacion);
         $actividad->setNomAtendido(strtoupper($nom_atendido));
         $actividad->setApeAtendido(strtoupper($ape_atendido));
         $actividad->setCedAtendido($ced_atendido);
         $actividad->setIdUsuario($id_usuario_responsable);
-        $actividad->setUltimaModificacion(date("Y-m-d"));
+        $actividad->setUltimaModificacion(date("Y-m-d H:i:s"));
+        $actividad->setFechaInicio($fecha_inicio);
         $resultado=$actividad->guardar();
         if($resultado){
             $resultado=json_encode($resultado);
@@ -128,7 +125,8 @@ switch($option){
         $actividad=new actividad();
         $actividad->setCodigoActividad($codigo_actividad);
         $resultado=$actividad->eliminar();
-        echo json_encode($resultado);
+        echo $resultado;
+        json_encode($resultado);
     break;
 
     case 'modificar':
@@ -255,16 +253,19 @@ switch($option){
             $actividad->setYear($_REQUEST['year']);
         }
 
+        if(isset($_REQUEST['id_usuario_sesion'])){
+            $id_usuario=$_REQUEST['id_usuario_sesion'];
+        }
+
         $todas=false;
+
         if(isset($_REQUEST['todas'])){
             $todas=true;
         }
 
-        $id_usuario=false;
-        if(isset($_REQUEST['id_usuario_sesion'])){
-            $id_usuario=$_REQUEST['id_usuario_sesion'];
-        }
-        $actividad->exportExcel($id_usuario,$todas);
+        $consulta=$actividad->obtener(false,false,$todas);
+        $actividad->exportExcel($consulta,$todas);
+
     break;
     
     case 'exportarPDF':

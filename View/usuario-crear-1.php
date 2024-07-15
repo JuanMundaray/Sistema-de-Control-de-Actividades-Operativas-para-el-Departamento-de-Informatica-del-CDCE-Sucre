@@ -5,14 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.css" type="text/css">
-    <link rel="stylesheet" href="../Framework/bootstrap-icons-1.11.1/bootstrap-icons.min.css" type="text/css">
     <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
-    <link rel="stylesheet" href="CSs/formulario.css" type="text/css">
+    <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
-    <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="./JS/js.usuarios/js.registrar_usuario.js"></script>
-    <script src="./Plantillas/menu_desplegable-administrador.js"></script>
     <title>Crear Usuario</title>
 </head>
     <script>
@@ -36,32 +32,32 @@
 <body>
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
-        <h1 class="titleh1">Crear Usuario</h1>
+        <h1 class="titleh1">Crear Usuario 1/2</h1>
         <div class="contenedorPrincipal">
             <h2 class="titleh2">Datos Personales del Usuario</h2>
 
-            <form class="formulario needs-validation" method="post" action="./usuario-crear-2.php" novalidate>
+            <form id="form_crear_usuario_part1" class="formulario needs-validation" method="post" action="./usuario-crear-2.php" novalidate>
                     <section id="secciones" class="secciones row">
-                        <div class="col-md-10 div_input_form">
+                        <div class="col-md-10 div_input_form" id="nombre_container">
                             <label class="col-md-12 form-label">Nombre:</label>
-                            <input type="text"class=" input_form col-md-12 form-control" name="nombre" id="nombre" placeholder="Nombre" maxlength="50" required>
+                            <input type="text"class=" input_form col-md-12 form-control" name="nombre" id="nombre" placeholder="Nombre" maxlength="50" pattern="[á-úña-zA-Z ]{4,}" required>
 
                             <div class="invalid-feedback">
-                                *Este Campo no Puede Estar Vacío
+                                *Este Campo Debe Tener Como Mínimmo 4 Carácteres
                             </div>
                         </div>
 
-                        <div class="col-md-10 div_input_form">
+                        <div class="col-md-10 div_input_form" id="container_apellido">
                             <label class="col-md-12 form-label">Apellido:</label>
-                            <input type="text"class=" input_form col-md-12 form-control" name="apellido" id="apellido" placeholder="Apellido" maxlength="50" required>
+                            <input type="text"class=" input_form col-md-12 form-control" name="apellido" id="apellido" placeholder="Apellido" maxlength="50" pattern="[á-úña-zA-Z ]{4,}" required>
 
                             <div class="invalid-feedback">
-                                *Este Campo no Puede Estar Vacío
+                                *Este Campo Debe Tener Como Mínimmo 4 Carácteres
                             </div>
 
                         </div>
 
-                        <div class="col-md-10 div_input_form">
+                        <div class="col-md-10 div_input_form" id="container_cedula">
                             <label class=" form-label" >Cedula de Identidad:</label>
                             <input type="text" class=" input_form col-md-12 form-control" name="cedula" id="cedula" placeholder="Cédula de Identidad" maxlength=8 pattern="[0-9]{7,}" required>
 
@@ -75,7 +71,12 @@
                         </div>
                         
                     </section>
+                    <script src="../Framework/jquery-3.6.3.min.js"></script>
+                    <script src="./JS/js.usuarios/js.registrarUsuario/js.registrar_usuario.js"></script>
+                    <script src="./Plantillas/menu_desplegable-administrador.js"></script>
                     <script src="./JS/validar.formularios.js"></script>
+                    <script src="./JS/js.usuarios/js.registrarUsuario/registrarUsuario1/submit.form.registrar_usuario.part1.js"></script>
+
             </form>
         </div>
     </main>

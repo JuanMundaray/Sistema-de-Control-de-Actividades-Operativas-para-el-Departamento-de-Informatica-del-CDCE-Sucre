@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS actividades.peticiones
+(
+    id_peticion serial NOT NULL,
+    nombre_peticion character varying(50)  NOT NULL,
+    departamento_peticion integer NOT NULL,
+    detalles_peticion character varying(512)  NOT NULL,
+    fecha_registro timestamp without time zone NOT NULL,
+    id_usuario integer NOT NULL,
+    tipo_actividad integer,
+    actividad_originada character varying(50),
+    estado_peticion integer NOT NULL DEFAULT 1,
+    CONSTRAINT peticiones_pkey PRIMARY KEY (id_peticion),
+    CONSTRAINT peticiones_actividad_originada_fkey FOREIGN KEY (actividad_originada)
+        REFERENCES actividades.actividad (codigo_actividad) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE SET NULL
+        NOT VALID,
+    CONSTRAINT peticiones_departamento_peticion_fkey FOREIGN KEY (departamento_peticion)
+        REFERENCES actividades.departamentos (id_departamento) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT peticiones_tipo_actividad_fkey FOREIGN KEY (tipo_actividad)
+        REFERENCES actividades.tipo_actividad (id_tipo) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);

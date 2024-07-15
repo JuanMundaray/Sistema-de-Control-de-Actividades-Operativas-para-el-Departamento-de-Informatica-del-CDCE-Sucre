@@ -12,7 +12,6 @@ $(document).ready(function(){
                 dataType:'json',
                 success:function(msg){
                     AceptarPeticion();
-                    location.replace('./actividades-registradas.php');
                 },
                 error:function(jqXHR,textStatus,errorThrown){
                     alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
@@ -35,7 +34,6 @@ $(document).ready(function(){
             },
         dataType:'json',
         success:function(msg){
-            console.log(msg);
             msg.forEach(function(elemento){
                 $("#nom_atendido").val(elemento['nombre_personal']);
                 $("#ape_atendido").val(elemento['apellido_personal']);
@@ -64,6 +62,11 @@ function AceptarPeticion(){
             actividad_originada:$("#codigo_actividad").val()
             },
         dataType:'json',
+        success:function(msg){
+            let m=4;
+            sessionStorage.setItem('mensaje',m);
+            location.href='./actividades-registradas.php';
+        },
         error:function(jqXHR,textStatus,errorThrown){
             alert("error cambiar estado de peticion"+jqXHR+" "+textStatus+" "+errorThrown);
         }

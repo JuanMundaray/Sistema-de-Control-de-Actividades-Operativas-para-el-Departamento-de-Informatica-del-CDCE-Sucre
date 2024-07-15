@@ -20,6 +20,7 @@
                 exit();
             }
         ?>
+
         <link rel="icon" href="../favicon.ico" />
         <meta charset="UTF-8"><link rel="icon" href="../favicon.ico" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,13 +31,6 @@
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         <link rel="stylesheet" href="../Framework/jquery-ui-1.13.2.custom/jquery-ui.css" type="text/css">
-        
-        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
-        <script src="../Framework/jquery-3.6.3.min.js"></script>
-        <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-        <script src="JS/js.actividades/ajax.actividades.js"></script>
-        <script src="JS/js.actividades/ajax.actividades.autocompletar.js"></script>
-        <script src="JS/obtenerListaDay_Month_Year.js"></script>
         <title>Actividades Registradas</title>
 
     </head>
@@ -62,7 +56,7 @@
                 <section class="secciones">
 
                     <!--Link a la Pagina de Registrar Actividades-->
-                    <a href="registrar-actividad-1.php"><button class="btn btn-primary" >Registrar Actividad</button></a>
+                    <a href="actividades-registrar-actividad-1.php"><button class="btn btn-primary" >Registrar Actividad</button></a>
                     
                     <!--Filtros de Busqueda-->
                     <nav class="navbar navbar-light container" style="margin-top: 20px;" id="mostrarSolo">
@@ -150,27 +144,8 @@
                             </div>
                         </div>
                     </nav>
-
-                    <!--La tabla de Actividades Registradas-->
-                    <div class="table-responsive">
-                        <table id="tabla_actividades" class="table text-nowrap table_default">
-                        <tr>
-                            <th><label>Fecha de Registro</label></th>
-                            <th><label>Actividad</label></th>
-                            <th><label>Tipo de Actividad</label></th>
-                            <th><label>Departamento Receptor</label></th>
-                            <th><label>Departamento Emisor</label></th>
-                            <th><label>Nombre del Responsable</label></th>
-                            <th><label>Cedula del Responsable</label></th>
-                            <th><label>Funcionario Atendido</label></th>
-                            <th><label>Cedula del Funcionario Atendido</label></th>
-                            <th><label>Estado</label></th>
-                            <th><label>Accion</label></th>
-                        </tr>
-                        <!--La tabla se rellena por medio de el archivo ajax.actividades.js-->
-                        </table>
-                    </div>
-
+                    
+                    <?php require_once("./Plantillas/administrarActividades/tabla_actividades/tabla.php") ?>
                     <!--Botones de Paginacion-->
                     <div>
                         <nav style="margin-top: 20px;">
@@ -188,8 +163,8 @@
                                 <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
                             </svg>
                         </button>
+                        
                         <ul class="dropdown-menu">
-
                             <li>
                                 <form method="post" action="./actividades-exportar.php">
                                     <input type="hidden" name="option" value="exportarPDF">
@@ -200,7 +175,7 @@
                             </li>
 
                             <li>
-                                <form  method="POST" action="./actividades-exportar.php">
+                                <form method="post" action="./actividades-exportar.php">
                                     <input type="hidden" name="option" value="exportarExcel">
                                     <button class="dropdown-item">
                                         <span class="d-inline-block bg-success rounded-circle" style="width: .5em; height: .5em;"></span> Exportar a Excel
@@ -210,9 +185,29 @@
 
                         </ul>
                     </div>
-                    
+                </div>
                 <section>
             </div>
+
+        <!--Requerir los Modales para las acciones que el usuario puede hacer con la actividad-->
+            <?php require_once("./Plantillas/administrarActividades/modals/modal_VerSeguimientoActividad.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/modals/modal_EditarActividad.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/modals/modal_VerDetalles.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/modals/modal_Eliminar.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/toast/toast.php") ?>
+            <?php require_once("./Plantillas/administrarActividades/toast/toastSinResultados.php") ?>
+            <?php require_once("./Plantillas/Peticiones/toast/toast.php") ?>
+
+        
+        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
+        <script src="../Framework/jquery-3.6.3.min.js"></script>
+        <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
+        <script src="JS/js.actividades/VerActividades/ajax.actividades.js" type="module"></script>
+        <script src="JS/obtenerListaDay_Month_Year.js"></script>
+        <script src="./JS/validar.formularios.js"></script>
+        <script src="./JS/js.actividades/mensaje.js"></script>
+        <script src="./JS/js.peticiones/mensaje.js"></script>
+
         </main>
     </body>
 </html>

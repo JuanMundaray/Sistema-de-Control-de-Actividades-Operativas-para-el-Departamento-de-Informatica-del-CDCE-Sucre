@@ -5,7 +5,6 @@
 }
 
 body{
-    display: flex;
     background-color: var(--ColorFondo);
     padding:0;
 }
@@ -15,18 +14,20 @@ main{
     flex-wrap: wrap;
     justify-content: center;
     position: relative;
-    margin-left: 9vw;
+    margin-left: 8vw;
     margin-bottom: 3vh;
-    margin-top: 10vw;
     display: flex;
     width: 100%;
 }
 
 .contenedorPrincipal{
-    margin-left: 6vw;
     background-color: rgb(255, 255, 255);
     width: 72vw;
     box-shadow: 2px 0px 10px rgb(134, 134, 134);
+}
+
+.contenedor_principal_login{
+    margin-left: 0vw;
 }
 
 label{
@@ -43,7 +44,7 @@ label{
     padding:1vw 0vw 1vw 0vw;
     opacity: 0.8;
     width: 100%;
-    margin-left: 12vw;
+    margin-left: 14vw;
 }
 
 .titleh2{
@@ -137,17 +138,11 @@ label{
 @media screen and (max-width: 800px){
 	main{
 		margin-left: 70px;
-		margin-top: 70px;
-	}
+    }
     .titleh1{
 		margin-left: 120px;
 	}
     .contenedorPrincipal{
         width: 62vw;
-    }
-}
-@media screen and ((max-height: 500px)) {
-    main{
-        margin-top: 2vw;
     }
 }

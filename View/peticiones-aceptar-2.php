@@ -37,15 +37,12 @@
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
-    <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="JS/js.actividades/js.registrar_actividad.js"></script>
-    <script src="JS/js.peticiones/aceptar-peticion.js"></script>
 </head>
 <body>
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
         <input type="hidden" value="<?PHP echo $_SESSION['id_usuario'] ?>" name="id_usuario_sesion" id="id_usuario_sesion">
-        <h1 class="titleh1">Aceptar Peticion</h1>
+        <h1 class="titleh1">Aceptar Peticion 2/2</h1>
         <div class="contenedorPrincipal">
             <!--Comienzo del Formulario-->
             <form class="needs-validation" id="crear_actividad_peticion" novalidate>
@@ -62,7 +59,7 @@
                         echo '<input type="hidden" name="dep_emisor" id="dep_emisor" value="'.$_REQUEST['dep_emisor'].'">';
                         echo '<input type="hidden" name="dep_receptor" id="dep_receptor" value="'.$_REQUEST['dep_receptor'].'">';
                         echo '<input type="hidden" name="observacion" id="observacion" value="'.$_REQUEST['observacion'].'">';
-                        echo '<input type="hidden" name="fecha_registro" id="fecha_registro" value="'.$_REQUEST['fecha_registro'].'">';
+                        echo '<input type="hidden" name="fecha_inicio" id="fecha_inicio" value="'.$_REQUEST['fecha_inicio'].'">';
                     ?>
 
                     <!--cuerpo del formulario-->
@@ -142,9 +139,11 @@
                 </div>
             </div>
         </div>
-                    
-        <script src="JS/validar.formularios.js"></script>
-        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js"></script>
+    <script src="../Framework/jquery-3.6.3.min.js"></script>
+    <script src="JS/js.actividades/RegistrarActividad/js.registrar_actividad-2.js"></script>
+    <script src="JS/js.peticiones/aceptar-peticion.js"></script>   
+    <script src="JS/validar.formularios.js"></script>
+    <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js"></script>
     </main>
     
 </body>

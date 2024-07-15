@@ -54,59 +54,73 @@ function getHistorialActividades(pagina=1){
 
 function RellenarTablaActividades(msg){
     
-    function estilo_btn(elemento){
-        if(elemento=="INICIADA"){
-            var btn_estilo="btn-primary";
+    function estilo_bg(elemento){
+
+        ESTADO_ACTIVIDAD={
+            INICIADA:"INICIADA",
+            PROCESO:"PROCESO",
+            COMPLETADA:"COMPLETADA",
+            SUSPENDIDA:"SUSPENDIDA",
+            ELIMINADA:"ELIMINADA",
         }
-        if(elemento=="CREADA"){
-            var btn_estilo="btn-primary";
-        }if(elemento=="PROCESO"){
-            var btn_estilo="btn-warning";
-        }if(elemento=="COMPLETADA"){
-            var btn_estilo="btn-success";
+
+        if(elemento=="INICIADA"){
+            var bg_estilo="bg-primary";
+        }
+        if(elemento=="PROCESO"){
+            var bg_estilo="bg-warning";
+        }
+        if(elemento=="COMPLETADA"){
+            var bg_estilo="bg-success";
         }
         if(elemento=="SUSPENDIDA"){
-            var btn_estilo="btn-danger";
+            var bg_estilo="bg-danger";
         }
         if(elemento=="ELIMINADA"){
-            var btn_estilo="btn-danger";
+            var bg_estilo="bg-danger";
         }
-        return btn_estilo;
+        return bg_estilo;
     }
 
-    let tabla=$("#tabla_historial_actividades");
-    tabla.empty();
-    tabla.append(`<thead><tr>
-            <th><label>Fecha de Registro</label></th>
-            <th><label>Actividad</label></th>
-            <th><label>Tipo de Actividad</label></th>
-            <th><label>Estado</label></th>
-            <th><label>Departamento Receptor</label></th>
-            <th><label>Departamento Emisor</label></th>
-            <th><label>Nombre del Responsable</label></th>
-            <th><label>Cedula del Responsable</label></th>
-            <th><label>Funcionario Atendido</label></th>
-            <th><label>Cedula del Funcionario Atendido</label></th>
-        </tr></thead>`);
-    tabla.append('<tbody>');
+    let tabla_part_1=$("#tabla_historial_actividades_1 tbody");
+    let tabla_part_2=$("#tabla_historial_actividades_2 tbody");
+    let tabla_part_3=$("#tabla_historial_actividades_3 tbody");
+    tabla_part_1.empty();
+    tabla_part_2.empty();
+    tabla_part_3.empty();
 
-    msg.forEach(function(elemento){
+    msg.forEach(function(elemento,index){
         //Estas son los botones de accion que estaran disponibles segun si la actividad a sido completada o no
+        index+=1;
 
-        let btn_estilo=estilo_btn(elemento['nombre_estado_actividad']);
-        tabla.append(`<tr class='align-middle'>
-        <td>${elemento['fecha_registro']}</td>
-        <td>${elemento['nombre_actividad']}</td>
-        <td>${elemento['nombre_tipo']}</td>
-        <td><button class="btn ${btn_estilo} tamano_boton">${elemento['nombre_estado_actividad']}</button></td>
-        <td>${elemento['dep_receptor']}</td>
-        <td>${elemento['dep_emisor']}</td>
-        <td>${elemento['nombre_personal']} ${elemento['apellido_personal']}</td>
-        <td>${elemento['cedula']}</td> 
-        <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
-        <td>${elemento['ced_atendido']}</td>`);
+        let bg_estilo=estilo_bg(elemento['nombre_estado_actividad']);
+        
+        tabla_part_1.append(
+        `<tr class='align-middle'>
+            <td>${index}</td>
+            <td>${elemento['fecha_registro']}</td>
+            <td>${elemento['nombre_actividad']}</td>
+            <td>${elemento['nombre_tipo']}</td>
+            <td><h5><span class="badge rounded-pill  ${bg_estilo}" style="width: 120px;">${elemento['nombre_estado_actividad']}</span><h5></td>
+        </tr>
+        `);
+        tabla_part_2.append(`
+        <tr>
+            <td>${index}</td>
+            <td>${elemento['nombre_personal']} ${elemento['apellido_personal']}</td>
+            <td>${elemento['cedula']}</td> 
+            <td>${elemento['dep_receptor']}</td>
+        </tr>
+            `);
+        tabla_part_3.append(`
+        <tr>
+            <td>${index}</td>
+            <td>${elemento['nom_atendido']+" "+elemento['ape_atendido']}</td>
+            <td>${elemento['ced_atendido']}</td>
+            <td>${elemento['dep_emisor']}</td>
+        </tr>
+            `);
     });
-    tabla.append("</tbody>");
 }
 
 function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos

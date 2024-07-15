@@ -20,6 +20,7 @@ class actividad{
     private $id_usuario_responsable;
     private $ultima_modificacion;
     private $orden='DESC';
+    private $fecha_inicio;
     
     public function __construct()
     {
@@ -43,9 +44,11 @@ class actividad{
             $ced_atendido = $this->ced_atendido;
             $observacion=$this->observacion;
             $id_usuario_responsable = $this->id_usuario_responsable;
+            $estado_actividad= $this->estado_actividad;
             $evidencia = $this->evidencia;
             $informe = $this->informe;
             $ultima_modificacion=$this->ultima_modificacion;
+            $fecha_inicio=$this->fecha_inicio;
             $db = DataBase::getInstance();
             $consulta = "INSERT INTO actividades.actividad(
             codigo_actividad,
@@ -61,7 +64,10 @@ class actividad{
             id_usuario_responsable,
             evidencia,
             informe,
-            ultima_modificacion)
+            estado_actividad,
+            ultima_modificacion,
+            fecha_inicio
+            )
               VALUES (
             :codigo_actividad,
             :nombre_actividad,
@@ -75,8 +81,12 @@ class actividad{
             :id_usuario_responsable,
             :evidencia,
             :informe,
-            :ultima_modificacion)";
+            :estado_actividad,
+            :ultima_modificacion,
+            :fecha_inicio)";
+
             $resultadoPDO = $db->prepare($consulta);
+            
             $resultadoPDO->execute(array(
             ":codigo_actividad"=>$codigo_actividad,
             ":nombre_actividad"=>$nombre_actividad,
@@ -91,7 +101,9 @@ class actividad{
             ":id_usuario_responsable"=>$id_usuario_responsable,
             ":evidencia"=>$evidencia,
             ":informe"=>$informe,
-            "ultima_modificacion"=>$ultima_modificacion));
+            ":estado_actividad"=>$estado_actividad,
+            "ultima_modificacion"=>$ultima_modificacion,
+            "fecha_inicio"=>$fecha_inicio));
 
             $this->registrarModificacion();
             
@@ -114,7 +126,7 @@ class actividad{
             $informe=$this->informe;
             $evidencia=$this->evidencia;
             $codigo_actividad=$this->codigo_actividad;
-            $ultima_modificacion=date("Y-m-d");
+            $ultima_modificacion=date("Y-m-d H:i:s");
             $db = DataBase::getInstance();
 
             //modificacion de la actividad
@@ -155,7 +167,7 @@ class actividad{
             $db = DataBase::getInstance();
             
             //obtener el nombre del estado de actividad
-            $consulta = "SELECT 
+            $consulta = "SELECT
             nombre_estado_actividad
             FROM
             actividades.estado_actividad
@@ -167,12 +179,14 @@ class actividad{
             $estado_actividad=$estado_actividad[0]['nombre_estado_actividad'];
 
             //guardar registro de modificacion
+
             date_default_timezone_set('America/Caracas');
-            $fecha_modificacion=date("Y-m-d");          
+            $fecha_modificacion=date("Y-m-d");
+            
             $hora_modificacion=date("H:i:s");
             $consulta = "INSERT INTO actividades.registro_modificaciones_actividad
             (
-                codigo_actividad, 
+                codigo_actividad,
                 fecha_modificacion,
                 hora_modificacion,
                 estado_modificado
@@ -207,7 +221,7 @@ class actividad{
         try{
             $codigo_actividad=$this->codigo_actividad;
             $db=DataBase::getInstance();
-            $consulta="UPDATE actividades.actividad SET estado_actividad='ELIMINADA' WHERE codigo_actividad=:codigo_actividad";
+            $consulta="UPDATE actividades.actividad SET estado_actividad=5 WHERE codigo_actividad=:codigo_actividad";
             $resultadoPDO = $db->prepare($consulta);
             $resultadoPDO->execute(array(':codigo_actividad'=>$codigo_actividad));
             $resultado=$resultadoPDO->rowCount();
@@ -239,30 +253,33 @@ class actividad{
             $db = DataBase::getInstance();  
             $orden=$this->orden;       
             $consulta = "SELECT 
-            codigo_actividad, 
-            nombre_actividad, 
-            TO_CHAR(fecha_registro,'DD-MM-YYYY') AS fecha_registro, 
-            dep_emisor, 
-            dep_receptor, 
-            nom_atendido, 
-            ape_atendido, 
-            ced_atendido, 
-            observacion, 
-            id_tipo_actividad, 
-            informe, 
-            evidencia, 
-            id_usuario_responsable, 
-            estado_actividad, 
-            ultima_modificacion,
-            nombre_estado_actividad,
-            nombre_tipo,
-            id_usuario, 
-            nombre_usuario, 
-            nombre_personal, 
-            cedula, 
-            tipo_usuario, 
-            departamento_usuario, 
-            apellido_personal
+            actividad.codigo_actividad, 
+            actividad.nombre_actividad, 
+            TO_CHAR(actividad.fecha_registro,'DD-MM-YYYY') AS fecha_registro, 
+            actividad.dep_emisor, 
+            actividad.dep_receptor, 
+            actividad.nom_atendido, 
+            actividad.ape_atendido, 
+            actividad.ced_atendido, 
+            actividad.observacion, 
+            actividad.id_tipo_actividad, 
+            actividad.informe, 
+            actividad.evidencia, 
+            actividad.id_usuario_responsable, 
+            actividad.estado_actividad, 
+            actividad.ultima_modificacion,
+            estado_actividad.nombre_estado_actividad,
+            tipo_actividad.nombre_tipo,
+            usuario.id_usuario, 
+            usuario.nombre_usuario, 
+            usuario.nombre_personal, 
+            usuario.cedula, 
+            usuario.tipo_usuario, 
+            usuario.departamento_usuario, 
+            usuario.apellido_personal,
+            EXTRACT(DAY FROM fecha_registro) AS day,
+            EXTRACT(MONTH FROM fecha_registro) AS month,
+            EXTRACT(YEAR FROM fecha_registro) AS year
             FROM actividades.actividad
             LEFT JOIN actividades.tipo_actividad
             ON actividad.id_tipo_actividad=tipo_actividad.id_tipo
@@ -273,50 +290,50 @@ class actividad{
             WHERE 1=1";
 
             if(!empty($codigo_actividad)){
-                $consulta .=" AND codigo_actividad='$codigo_actividad'";
+                $consulta .=" AND actividad.codigo_actividad='$codigo_actividad'";
             }
 
             if(!empty($nombre_actividad)){
-                $consulta .=" AND nombre_actividad ILIKE '$nombre_actividad%'";
+                $consulta .=" AND actividad.nombre_actividad ILIKE '$nombre_actividad%'";
             }
 
             if(!empty($fecha_registro)){
-                $consulta .=" AND fecha_registro='$fecha_registro'";
+                $consulta .=" AND actividad.fecha_registro='$fecha_registro'";
             }
 
             if(!empty($estado_actividad)){
-                $consulta .=" AND estado_actividad='$estado_actividad'";
+                $consulta .=" AND actividad.estado_actividad='$estado_actividad'";
             }
 
             if(!empty($id_usuario_responsable)){
-                $consulta .=" AND id_usuario_responsable=$id_usuario_responsable";
+                $consulta .=" AND actividad.id_usuario_responsable=$id_usuario_responsable";
             }
 
             if($todas==false){
-                $consulta .=" AND estado_actividad<>5";
+                $consulta .=" AND actividad.estado_actividad<>5";
             }
 
             if(!empty($dep_emisor)){
-                $consulta .=" AND dep_emisor='$dep_emisor'";
+                $consulta .=" AND actividad.dep_emisor='$dep_emisor'";
             }
 
             if(!empty($dep_receptor)){
-                $consulta .=" AND dep_receptor='$dep_receptor'";
+                $consulta .=" AND actividad.dep_receptor='$dep_receptor'";
             }
 
             if(!empty($day)){
-                $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+                $consulta .=" AND EXTRACT(DAY FROM actividad.fecha_registro)='$day'";
             }
 
             if(!empty($month)){
-                $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+                $consulta .=" AND EXTRACT(MONTH FROM actividad.fecha_registro)='$month'";
             }
 
             if(!empty($year)){
-                $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
+                $consulta .=" AND EXTRACT(YEAR FROM actividad.fecha_registro)='$year'";
             }
 
-            $consulta.=" ORDER BY ultima_modificacion $orden";
+            $consulta.=" ORDER BY actividad.ultima_modificacion $orden";
 
             if($pagina==true){
                 $punto_inicio=($pagina-1)*$num_resultados; 
@@ -386,43 +403,47 @@ class actividad{
 
 
             if(!empty($codigo_actividad)){
-                $consulta .=" AND codigo_actividad='$codigo_actividad'";
+                $consulta .=" AND actividad.codigo_actividad='$codigo_actividad'";
             }
 
             if(!empty($nombre_actividad)){
-                $consulta .=" AND nombre_actividad ILIKE '$nombre_actividad%'";
+                $consulta .=" AND actividad.nombre_actividad ILIKE '$nombre_actividad%'";
             }
 
             if(!empty($fecha_registro)){
-                $consulta .=" AND fecha_registro='$fecha_registro'";
+                $consulta .=" AND actividad.fecha_registro='$fecha_registro'";
             }
 
             if(!empty($estado_actividad)){
-                $consulta .=" AND estado_actividad='$estado_actividad'";
+                $consulta .=" AND actividad.estado_actividad='$estado_actividad'";
+            }
+
+            if(!empty($id_usuario_responsable)){
+                $consulta .=" AND actividad.id_usuario_responsable=$id_usuario_responsable";
             }
 
             if(!empty($dep_emisor)){
-                $consulta .=" AND dep_emisor=$dep_emisor";
+                $consulta .=" AND actividad.dep_emisor=$dep_emisor";
             }
 
             if(!empty($dep_receptor)){
-                $consulta .=" AND dep_receptor=$dep_receptor";
+                $consulta .=" AND actividad.dep_receptor=$dep_receptor";
             }
 
             if(!empty($day)){
-                $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+                $consulta .=" AND EXTRACT(DAY FROM actividad.fecha_registro)='$day'";
             }
 
             if(!empty($month)){
-                $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+                $consulta .=" AND EXTRACT(MONTH FROM actividad.fecha_registro)='$month'";
             }
 
             if(!empty($year)){
-                $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
+                $consulta .=" AND EXTRACT(YEAR FROM actividad.fecha_registro)='$year'";
             }
             
             if($todas==false){
-                $consulta .=" AND estado_actividad<>5";
+                $consulta .=" AND actividad.estado_actividad<>5";
             }
 
             $resultadoPDO = $db->query($consulta);
@@ -438,112 +459,60 @@ class actividad{
     }
 
     //FUNCIONES PARA GENERAR REPORTES--------------------------------------------------------------------------
-    public function exportExcel($id_usuario=false,$todas=false){
-        
-        require '../Librarys/yunho-dbexport-master/src/YunhoDBExport.php';
-        require_once("../Model/configurarBD.php");
-          date_default_timezone_set('America/Caracas');
+    public function exportExcel($consulta,$todas=false){
+        $salida=utf8_decode('
+        <table>
+            <tbody>
+                <tr>
+                    <th colspan=7>
+                        <h2>TABLA DE ACTIVIDADES REGISTRADAS- REPORTE GENERADO '.date('Y-m-d').'</h2>
+                    </th>
+                </tr>
+                
+                <tr>
+                    <th colspan=7>Ministerio del Poder Popular para la Educación</th>
+                </tr>
 
-        $codigo_actividad = $this->codigo_actividad;
-        $nombre_actividad = $this->nombre_actividad;
-        $fecha_registro=$this->fecha_registro;
-        $estado_actividad=$this->estado_actividad;
-        $id_usuario_responsable = $this->id_usuario_responsable;
-        $dep_emisor = $this->dep_emisor;
-        $dep_receptor = $this->dep_receptor;
-        $day = $this->day;
-        $month = $this->month;
-        $year = $this->year;
+                <tr>
+                    <th colspan=7>Centro de Desarrollo de Calidad Educativa</th>
+                </tr>
 
-        $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
-        
-        $export->connect();
-
-        $nombre_archivo='ACTIVIDADES REGISTRADAS';
-
-        $campos=array(
-            'codigo_actividad'=>'Codigo Actividad',
-            'nombre_actividad'=>'Nombre de Actividad',
-            'fecha_registro'=>'Fecha de Registro',
-            'nombre_tipo'=>'Tipo de Actividad',
-            'dep_emisor'=>'Departamento Emisor',
-            'dep_receptor'=>'Departamento Receptor',
-            'nom_atendido'=>'Nombre del Funcionario Atendido',
-            'ape_atendido'=>'Apellido del Funcionario Atendido',
-            'ced_atendido'=>'Cedula del Funcionario Atendido',
-            'nombre_personal'=>'Nombre del Responsable de la Actividad',
-            'apellido_personal'=>'Apellido del Responsable de la Actividad',
-            'cedula'=>'Cedula del Responsable de la Actividad',
-            'nombre_estado_actividad'=>'Estado'
-        );
-        $consulta="SELECT * FROM actividades.actividad
-        INNER JOIN actividades.tipo_actividad
-        ON actividad.id_tipo_actividad=tipo_actividad.id_tipo
-        LEFT JOIN actividades.usuario
-        ON actividad.id_usuario_responsable=usuario.id_usuario
-        LEFT JOIN actividades.estado_actividad
-        ON actividad.estado_actividad=estado_actividad.id_estado_actividad
-        WHERE 1=1";
-        
-        if($id_usuario_responsable!=false){
-            $consulta .=" AND id_usuario_responsable=$id_usuario_responsable";
-            $nombre_archivo='MIS ACTIVIDADES REGISTRADAS';
+                <tr>
+                    <th colspan=7>Cumaná - Municipio Sucre - Estado Sucre</th>
+                </tr><tr></tr>
+                
+                <tr style="text-align: center;">
+                    <td>Codigo de Actividad</td>
+                    <td>Nombre de Actividad</td>
+                    <td>Fecha de Registro</td>
+                    <td>Estado de Actividad</td>
+                    <td>Responable del Registro</td>
+                    <td>Departamento Receptor</td>
+                    <td>Departamento Emisor</td>
+                </tr>');
+        foreach($consulta as $data){
+            $salida.='
+                    <tr style="text-align: center;">
+                        <td>'.utf8_decode($data['codigo_actividad']).'</td>
+                        <td>'.utf8_decode($data['nombre_actividad']).'</td>
+                        <td>'.utf8_decode($data['fecha_registro']).'</td>
+                        <td>'.utf8_decode($data['nombre_estado_actividad']).'</td>
+                        <td>'.utf8_decode($data['nombre_personal']).'</td>
+                        <td>'.utf8_decode($data['dep_receptor']).'</td>
+                        <td>'.utf8_decode($data['dep_emisor']).'</td>
+                    </tr>';
         }
+        $salida.='
+                </tbody>
+            </table>
+            ';
+        $filename = "Tabla de Actividades_".date('Y-m-d') . ".xls";
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=$filename");
+        header('Pragma:no-cache');
+        header('Expires:0');
+        echo $salida;
 
-        if(!empty($codigo_actividad)){
-            $consulta .=" AND codigo_actividad='$codigo_actividad'";
-        }
-
-        if(!empty($nombre_actividad)){
-            $consulta .=" AND nombre_actividad ILIKE '$nombre_actividad%'";
-        }
-
-        if(!empty($fecha_registro)){
-            $consulta .=" AND fecha_registro='$fecha_registro'";
-        }
-
-        if(!empty($estado_actividad)){
-            $consulta .=" AND estado_actividad=$estado_actividad";
-        }
-
-        if($todas==false){
-            $consulta .=" AND estado_actividad<>5";
-        }
-
-        if(!empty($dep_emisor)){
-            $consulta .=" AND dep_emisor='$dep_emisor'";
-        }
-
-        if(!empty($dep_receptor)){
-            $consulta .=" AND dep_receptor='$dep_receptor'";
-        }
-
-        if(!empty($day)){
-            $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
-        }
-
-        if(!empty($month)){
-            $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
-        }
-
-        if(!empty($year)){
-            $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
-        }
-
-        $export->query($consulta);
-
-        // Formato MS Excel
-        $export->to_excel();
-
-        // Construir tabla de datos
-        $tabla=$export->build_table($campos);
-        
-        // Descargar archivo .xls
-        $export->download($nombre_archivo);
-
-        if ($dbhex = $export->get_error()) {
-            die($dbhex->getMessage());
-          }
     }
 
     public function exportPDF($data_sql){
@@ -569,7 +538,7 @@ class actividad{
         $pdf->Ln();
         //nombres de columnas de la tabla
         $pdf->SetFont('Arial','B',7);
-        $pdf->Cell(30,7,'Codigo de Actividad',1,0,'C');
+        $pdf->Cell(30,7,utf8_decode('Código de Actividad'),1,0,'C');
         $pdf->Cell(80,7,'Nombre de Actividad',1,0,'C');
         $pdf->Cell(25,7,'Fecha de Registro',1,0,'C');
         $pdf->Cell(25,7,'Estado de Actividad',1,0,'C');
@@ -586,7 +555,7 @@ class actividad{
             $pdf->Cell(80,$font_size_fila,utf8_decode($fila['nombre_actividad']),1,0,'C');
             $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1,0,'C');
             $pdf->Cell(25,$font_size_fila,utf8_decode($fila['nombre_estado_actividad']),1,0,'C');
-            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_personal']).' '.$fila['apellido_personal'],1,0,'C');
+            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_personal']).' '.utf8_decode($fila['apellido_personal']),1,0,'C');
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_receptor']),1,0,'C');
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_emisor']),1,0,'C');
         }
@@ -594,7 +563,7 @@ class actividad{
         for($i=0;$i<3;$i++){$pdf->Ln();}
         $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', 160,null,90);
 
-        $pdf->Output('','Tabla de Actividades Registradas',true);
+        $pdf->Output('I','Tabla de Actividades Registradas',true);
     }
     public function exportDetalles($data_sql){
         
@@ -618,24 +587,22 @@ class actividad{
 
         //nombres de columnas de la tabla
         $pdf->SetFont('Arial','B',7);
-        $pdf->Cell(30,7,'Codigo de Actividad',1,0,'C');
-        $pdf->Cell(60,7,'Nombre de Actividad',1,0,'C');
+        $pdf->Cell(75,7,'Nombre de Actividad',1,0,'C');
         $pdf->Cell(25,7,'Fecha de Registro',1,0,'C');
         $pdf->Cell(25,7,'Estado de Actividad',1,0,'C');
-        $pdf->Cell(60,7,'Departamento Receptor',1,0,'C');
-        $pdf->Cell(60,7,'Departamento Emisor',1,0,'C');
+        $pdf->Cell(70,7,'Departamento Receptor',1,0,'C');
+        $pdf->Cell(0,7,'Departamento Emisor',1,0,'C');
         $font_size_fila=5;
 
         //Anadir datos de la tablas
         $pdf->SetFont('Arial','',7);
         foreach($data_sql as $fila){
             $pdf->Ln();
-            $pdf->Cell(30,$font_size_fila,utf8_decode($fila['codigo_actividad']),1,0,'C');
-            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_actividad']),1,0,'C');
+            $pdf->Cell(75,$font_size_fila,utf8_decode($fila['nombre_actividad']),1,0,'C');
             $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1,0,'C');
             $pdf->Cell(25,$font_size_fila,utf8_decode($fila['nombre_estado_actividad']),1,0,'C');
-            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_receptor']),1,0,'C');
-            $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_emisor']),1,0,'C');
+            $pdf->Cell(70,$font_size_fila,utf8_decode($fila['dep_receptor']),1,0,'C');
+            $pdf->Cell(0,$font_size_fila,utf8_decode($fila['dep_emisor']),1,0,'C');
             $pdf->Ln();
             $pdf->Ln();
         }
@@ -651,13 +618,13 @@ class actividad{
             $pdf->SetFont('Arial','B',10);
             $pdf->Cell(0,7,'Informe de Actividad:',1,1,'L');
             $pdf->SetFont('Arial','',7);
-            $pdf->MultiCell(0,7,utf8_decode($fila['informe']),1,'J');$pdf->Ln();
+            $pdf->MultiCell(0,7,utf8_decode($fila['informe']),1,'J');
         }
+        
         // Sello y Firma
-        for($i=0;$i<1;$i++){$pdf->Ln();}
-        $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', null,null,90);
+        $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', 100,null,90);
 
-        $pdf->Output('','SCA_CDCE:REPORTE DE ACTIVIDAD '.$fila['codigo_actividad'],true);
+        $pdf->Output('I','SCA_CDCE:REPORTE DE ACTIVIDAD '.$fila['codigo_actividad'],true);
     }
     //-----------------------------------funciones set
     
@@ -734,6 +701,9 @@ class actividad{
     public function setUltimaModificacion($ultima_modificacion){
         $this->ultima_modificacion = trim($ultima_modificacion);
     }
+    public function setFechaInicio($fecha_inicio){
+        $this->fecha_inicio = trim($fecha_inicio);
+    }
 
     //-----------------------------------funciones get
     
@@ -809,5 +779,8 @@ class actividad{
     }
     public function getUltimaModificaion(){
         return $this->ultima_modificacion;
+    }
+    public function getFechaInicio(){
+        return $this->fecha_inicio;
     }
 }

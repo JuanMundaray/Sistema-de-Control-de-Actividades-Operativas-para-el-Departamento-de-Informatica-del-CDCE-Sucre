@@ -1,6 +1,5 @@
 @import url(Variables.css);
 #menuLateral{
-    margin-top:14.5vh;
     background-color: rgb(255, 255, 255);
     width: 18vw;
     position: fixed;
@@ -18,7 +17,6 @@
 	list-style:none;
 	margin: 0;
 	padding: 0;
-	padding-top: 10px;
 
 }
 

@@ -46,13 +46,13 @@
             <!--id del usuario que tienen abierta la sesion-->
             <input type="hidden" value="<?PHP echo $_SESSION['tipo_usuario']?>" id="tipo_usuario">
             <!----------------------------------------------->
-            <h1 class="titleh1">Exportar Peticiones Creadas</h1>
+            <h1 class="titleh1">Generar Reporte de Peticiones</h1>
             
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Preferencias de Exportación</h2>
                 <section class="secciones container">
                     <div class="container">
-                        <form class="needs-validation row gy-3 gx-4" method="post" action="../Controller/controllerPeticion.php" novalidate>
+                        <form class="needs-validation row gy-3 gx-4" method="post" action="../Controller/controllerPeticion.php" target="_blank" novalidate>
 
                                         
                             <div class="col-md-3 ">

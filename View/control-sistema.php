@@ -49,7 +49,7 @@
                         <td><a href="actividades-historial.php">Historial de Actividades</a></td>
                     </tr>
                     <tr>
-                        <td><a href="departamentos-mostrar.php">Administrar Departamentos Registrados</a></td>
+                        <td><a href="departamentos-administrar.php">Administrar Departamentos Registrados</a></td>
                     </tr>
                     <tr>
                         <td><a href="tipo-actividad.php">Administrar Tipos de Actividad</a></td>

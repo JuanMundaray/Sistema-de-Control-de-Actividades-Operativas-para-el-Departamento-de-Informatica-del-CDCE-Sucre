@@ -19,11 +19,11 @@ switch($option){
         $peticion->setDetallesPeticion($detalles_peticion);
         $peticion->setTipoActividad($tipo_actividad);
         $peticion->setEstadoPeticion(1);
-        $peticion->setFechaPeticion(date("Y-m-d"));
+        $peticion->setFechaRegistro(date("Y-m-d H:i:s"));
         $resultado=$peticion->guardar();
         if($resultado){
-            header("location:../View/peticiones-registradas.php");
-            exit();
+            $json=json_encode($resultado);
+            echo $json;
         }
     break;
 
@@ -42,8 +42,8 @@ switch($option){
         if(isset($_REQUEST['departamento_peticion'])){
             $peticion->setDepartamentoPeticion($_REQUEST['departamento_peticion']);
         }
-        if(isset($_REQUEST['fecha_peticion'])){
-            $peticion->setFechaPeticion($_REQUEST['fecha_peticion']);
+        if(isset($_REQUEST['fecha_registro'])){
+            $peticion->setFechaRegistro($_REQUEST['fecha_registro']);
         }
         if(isset($_REQUEST['estado_peticion'])){
             $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
@@ -87,8 +87,17 @@ switch($option){
         if(isset($_REQUEST['departamento_peticion'])){
             $peticion->setDepartamentoPeticion($_REQUEST['departamento_peticion']);
         }
-        if(isset($_REQUEST['fecha_peticion'])){
-            $peticion->setFechaPeticion($_REQUEST['fecha_peticion']);
+        if(isset($_REQUEST['fecha_registro'])){
+            $peticion->setFechaRegistro($_REQUEST['fecha_registro']);
+        }
+        if(isset($_REQUEST['day'])){
+            $peticion->setDay($_REQUEST['day']);
+        }
+        if(isset($_REQUEST['month'])){
+            $peticion->setMonth($_REQUEST['month']);
+        }
+        if(isset($_REQUEST['year'])){
+            $peticion->setYear($_REQUEST['year']);
         }
         if(isset($_REQUEST['estado_peticion'])){
             $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
@@ -114,8 +123,8 @@ switch($option){
         if(isset($_REQUEST['departamento_peticion'])){
             $peticion->setDepartamentoPeticion($_REQUEST['departamento_peticion']);
         }
-        if(isset($_REQUEST['fecha_peticion'])){
-            $peticion->setFechaPeticion($_REQUEST['fecha_peticion']);
+        if(isset($_REQUEST['fecha_registro'])){
+            $peticion->setFechaRegistro($_REQUEST['fecha_registro']);
         }
         if(isset($_REQUEST['estado_peticion'])){
             $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);
@@ -129,8 +138,9 @@ switch($option){
         if(isset($_REQUEST['year'])){
             $peticion->setYear($_REQUEST['year']);
         }
+        $consulta=$peticion->obtener();
 
-        $peticion->exportarExcel();
+        $peticion->exportarExcel($consulta);
         
     break;
 
@@ -140,8 +150,8 @@ switch($option){
         if(isset($_REQUEST['departamento_peticion'])){
             $peticion->setDepartamentoPeticion($_REQUEST['departamento_peticion']);
         }
-        if(isset($_REQUEST['fecha_peticion'])){
-            $peticion->setFechaPeticion($_REQUEST['fecha_peticion']);
+        if(isset($_REQUEST['fecha_registro'])){
+            $peticion->setFechaRegistro($_REQUEST['fecha_registro']);
         }
         if(isset($_REQUEST['estado_peticion'])){
             $peticion->setEstadoPeticion($_REQUEST['estado_peticion']);

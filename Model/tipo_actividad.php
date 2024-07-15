@@ -10,15 +10,27 @@ class tipo_actividad{
     public function crear()
     {
         $resultado = false;
+
         try{
             $nombre_tipo = $this->nombre_tipo;
             $db = DataBase::getInstance();
-            $consulta = "INSERT INTO actividades.tipo_actividad(nombre_tipo) VALUES (:nombre_tipo)";
-            $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":nombre_tipo"=>$nombre_tipo));
-            $resultado = $resultadoPDO->rowCount();
-            $resultadoPDO->closeCursor();            
+
+            $consulta = "SELECT * FROM actividades.tipo_actividad WHERE nombre_tipo='$nombre_tipo'";
+            $PDO = $db->query($consulta);
+            $NumTipoActividades = $PDO->rowCount();
+
+            if($NumTipoActividades==0){
+                $consulta = "INSERT INTO actividades.tipo_actividad(nombre_tipo) VALUES (:nombre_tipo)";
+                $resultadoPDO = $db->prepare($consulta);
+                $resultadoPDO->execute(array(":nombre_tipo"=>$nombre_tipo));
+                $resultado = $resultadoPDO->rowCount();
+                $resultadoPDO->closeCursor();    
+            }        
+            else{
+                echo "ERR_DUPLICADO";
+            }
         }
+        
         catch(Exception $objeto){
             $resultado = false;
             echo $objeto->getMessage();
@@ -59,6 +71,36 @@ class tipo_actividad{
         catch(Exception $objeto){
             $resultado = false;
             echo $objeto->getMessage();
+        }
+        
+        return $resultado; 
+    }
+
+    public function contarNumRegistros(){
+        $resultado = false;
+        try{
+            $nombre_tipo = $this->nombre_tipo;
+            $id_tipo = $this->id_tipo;
+            $db = DataBase::getInstance();
+
+            $consulta = "SELECT * FROM 
+            actividades.tipo_actividad WHERE 1=1";
+
+            if(!empty($nombre_tipo)){
+                $consulta .=" AND nombre_tipo ILIKE '$nombre_tipo%'";
+            }
+            if(!empty($id_tipo)){
+                $consulta .=" AND id_tipo=$id_tipo";
+            }
+
+
+            $resultadoPDO = $db->query($consulta);
+            $resultado = $resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
         }
         
         return $resultado; 

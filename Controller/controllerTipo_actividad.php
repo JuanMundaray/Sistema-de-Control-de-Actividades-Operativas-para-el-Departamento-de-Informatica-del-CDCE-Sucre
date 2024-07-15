@@ -11,10 +11,6 @@ switch($option){
         $nombre_tipo=$_REQUEST['nombre_tipo'];
         $tipo_actividad->setNombreTipo(strtoupper($nombre_tipo));
         $resultado=$tipo_actividad->crear();
-        if($resultado){
-            header("location:../View/actividades-registradas.php");
-            exit();
-        }
     break;
 
 
@@ -44,6 +40,25 @@ switch($option){
         echo $resultado;
     break;
 
+    case 'contarRegistros':
+
+        $tipo_actividad=new tipo_actividad();
+
+        if(isset($_REQUEST['nombre_tipo'])){
+            $tipo_actividad->setNombreTipo($_REQUEST['nombre_tipo']);
+        }
+        if(isset($_REQUEST['id_tipo'])){
+            $tipo_actividad->setIDTipo(($_REQUEST['id_tipo']));
+        }
+
+        $resultado=$tipo_actividad->contarNumRegistros();
+
+        if($resultado){
+            $resultado=json_encode($resultado);
+            echo $resultado;
+        }else{
+            echo $resultado;
+        }
 }
 
 ?>

@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS actividades.usuario
+(
+    id_usuario serial NOT NULL,
+    nombre_usuario character varying(50),
+    nombre_personal character varying(50),
+    cedula character varying(9),
+    contrasena character varying(72),
+    tipo_usuario character varying(50),
+    fecha_creacion date NOT NULL,
+    departamento_usuario integer NOT NULL,
+    apellido_personal character varying(50),
+    marca_existencia boolean NOT NULL,
+    CONSTRAINT usuario_pkey PRIMARY KEY (id_usuario),
+    CONSTRAINT nombre_usuariouni UNIQUE (nombre_usuario),
+    CONSTRAINT usuario_id_departamento_fkey FOREIGN KEY (departamento_usuario)
+        REFERENCES actividades.departamentos (id_departamento) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+INSERT INTO actividades.usuario(nombre_usuario, nombre_personal, cedula, contrasena, tipo_usuario, fecha_creacion, departamento_usuario, apellido_personal, marca_existencia) VALUES ('demo','LUIS MANUEL',15288839,'1234','administrador','2024-03-03',1,'LÓPEZ FLORES',true);

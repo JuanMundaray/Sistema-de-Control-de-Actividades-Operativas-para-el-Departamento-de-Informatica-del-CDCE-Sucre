@@ -62,6 +62,37 @@ class departamento{
         
         return $resultado; 
     }
+
+
+    public function contarNumRegistros(){
+        $resultado = false;
+        try{
+            $nombre_departamento = $this->nombre_departamento;
+            $id_departamento = $this->id_departamento;
+            $db = DataBase::getInstance();
+
+            $consulta = "SELECT * FROM 
+            actividades.departamentos WHERE 1=1";
+
+            if(!empty($nombre_departamento)){
+                $consulta .=" AND nombre_departamento ILIKE '$nombre_departamento%'";
+            }
+            if(!empty($id_departamento)){
+                $consulta .=" AND id_departamento=$id_departamento";
+            }
+
+
+            $resultadoPDO = $db->query($consulta);
+            $resultado = $resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
+        }
+        
+        return $resultado; 
+    }
     
     public function setNombreDepartamento($nombre_departamento)
     {

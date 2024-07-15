@@ -6,7 +6,7 @@ class peticion{
     private $nombre_peticion;
     private $departamento_peticion;
     private $detalles_peticion;
-    private $fecha_peticion;
+    private $fecha_registro;
     private $tipo_actividad;
     private $estado_peticion;
     private $actividad_originada;
@@ -24,7 +24,7 @@ class peticion{
             $nombre_peticion = $this->nombre_peticion;
             $departamento_peticion = $this->departamento_peticion;
             $detalles_peticion = $this->detalles_peticion;
-            $fecha_peticion = $this->fecha_peticion;
+            $fecha_registro = $this->fecha_registro;
             $tipo_actividad=$this->tipo_actividad;
             $estado_peticion=$this->estado_peticion;
             $db = DataBase::getInstance();
@@ -33,27 +33,30 @@ class peticion{
             nombre_peticion,
             departamento_peticion,
             detalles_peticion,
-            fecha_peticion,
+            fecha_registro,
             tipo_actividad,
             estado_peticion)
-              VALUES (
+            VALUES (
             :id_usuario,
             :nombre_peticion,
             :departamento_peticion,
             :detalles_peticion,
-            :fecha_peticion,
+            :fecha_registro,
             :tipo_actividad,
             :estado_peticion)";
+            
             $resultadoPDO = $db->prepare($consulta);
             $resultadoPDO->execute(array(
             ":id_usuario"=>$id_usuario,
             ":nombre_peticion"=>$nombre_peticion,
             ":departamento_peticion"=>$departamento_peticion,
             ":detalles_peticion"=>$detalles_peticion,
-            ":fecha_peticion"=>$fecha_peticion,
+            ":fecha_registro"=>$fecha_registro,
             ":tipo_actividad"=>$tipo_actividad,
             ":estado_peticion"=>$estado_peticion));
+            
             $resultado = $resultadoPDO->rowCount();
+            
             $resultadoPDO->closeCursor();            
         }
         catch(Exception $objeto){
@@ -73,11 +76,12 @@ class peticion{
             $id_usuario = $this->id_usuario;
             $nombre_peticion = $this->nombre_peticion;
             $departamento_peticion = $this->departamento_peticion;
-            $fecha_peticion = $this->fecha_peticion;
+            $fecha_registro = $this->fecha_registro;
             $estado_peticion=$this->estado_peticion;
             $day = $this->day;
             $month = $this->month;
             $year = $this->year;
+            
             $db = DataBase::getInstance();
 
             $consulta="SELECT 
@@ -85,7 +89,7 @@ class peticion{
             peticiones.nombre_peticion, 
             peticiones.departamento_peticion, 
             peticiones.detalles_peticion, 
-            TO_CHAR(fecha_peticion,'DD-MM-YYYY') AS fecha_peticion, 
+            TO_CHAR(peticiones.fecha_registro,'DD-MM-YYYY') AS fecha_registro, 
             peticiones.id_usuario, 
             peticiones.actividad_originada, 
             estado_peticion.nombre_estado_peticion,
@@ -95,7 +99,8 @@ class peticion{
             usuario.nombre_personal,
             usuario.cedula,
             usuario.apellido_personal,
-            usuario.nombre_usuario
+            usuario.nombre_usuario,
+            actividad.estado_actividad
             FROM actividades.peticiones
             LEFT JOIN actividades.usuario
             ON peticiones.id_usuario=usuario.id_usuario
@@ -117,8 +122,8 @@ class peticion{
                 $consulta .=" AND peticiones.departamento_peticion='$departamento_peticion'";
             }
 
-            if(!empty($fecha_peticion)){
-                $consulta .=" AND peticiones.fecha_peticion='$fecha_peticion'";
+            if(!empty($fecha_registro)){
+                $consulta .=" AND peticiones.fecha_registro='$fecha_registro'";
             }
 
             if(!empty($estado_peticion)){
@@ -134,15 +139,15 @@ class peticion{
             }
 
             if(!empty($day)){
-                $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+                $consulta .=" AND EXTRACT(DAY FROM peticiones.fecha_registro)='$day'";
             }
     
             if(!empty($month)){
-                $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+                $consulta .=" AND EXTRACT(MONTH FROM peticiones.fecha_registro)='$month'";
             }
     
             if(!empty($year)){
-                $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
+                $consulta .=" AND EXTRACT(YEAR FROM peticiones.fecha_registro)='$year'";
             }
 
             $consulta .=" ORDER BY id_peticion $orden";
@@ -245,7 +250,7 @@ class peticion{
             $id_usuario = $this->id_usuario;
             $nombre_peticion = $this->nombre_peticion;
             $departamento_peticion = $this->departamento_peticion;
-            $fecha_peticion = $this->fecha_peticion;
+            $fecha_registro = $this->fecha_registro;
             $estado_peticion=$this->estado_peticion;
             $day = $this->day;
             $month = $this->month;
@@ -273,8 +278,8 @@ class peticion{
                 $consulta .=" AND peticiones.departamento_peticion=$departamento_peticion";
             }
 
-            if(!empty($fecha_peticion)){
-                $consulta .=" AND peticiones.fecha_peticion='$fecha_peticion'";
+            if(!empty($fecha_registro)){
+                $consulta .=" AND peticiones.fecha_registro='$fecha_registro'";
             }
 
             if(!empty($estado_peticion)){
@@ -290,15 +295,15 @@ class peticion{
             }
 
             if(!empty($day)){
-                $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
+                $consulta .=" AND EXTRACT(DAY FROM peticiones.fecha_registro)='$day'";
             }
     
             if(!empty($month)){
-                $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
+                $consulta .=" AND EXTRACT(MONTH FROM peticiones.fecha_registro)='$month'";
             }
     
             if(!empty($year)){
-                $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
+                $consulta .=" AND EXTRACT(YEAR FROM peticiones.fecha_registro)='$year'";
             }
 
             $consulta .=" ORDER BY id_peticion $orden";
@@ -315,99 +320,56 @@ class peticion{
         return $resultado; 
     }
 
-    public function exportarExcel(){
-        $departamento_peticion = $this->departamento_peticion;
-        $fecha_peticion = $this->fecha_peticion;
-        $estado_peticion=$this->estado_peticion;
-        $day = $this->day;
-        $month = $this->month;
-        $year = $this->year;
+    public function exportarExcel($consulta){
+        $salida=utf8_decode('
+        <table>
+            <tbody>
+                <tr>
+                    <th colspan=7>
+                        <h2>TABLA DE PETICIONES REGISTRADAS- REPORTE GENERADO '.date('Y-m-d').'</h2>
+                    </th>
+                </tr>
+                
+                <tr>
+                    <th colspan=7>Ministerio del Poder Popular para la Educación</th>
+                </tr>
 
-        require '../Librarys/yunho-dbexport-master/src/YunhoDBExport.php';
-        require_once("../Model/configurarBD.php");
+                <tr>
+                    <th colspan=7>Centro de Desarrollo de Calidad Educativa</th>
+                </tr>
 
-        $id_usuario=$this->id_usuario;
-          date_default_timezone_set('America/Caracas');
-        $export=new YunhoDBExport(SERVIDOR,BD,USUARIO,CLAVE);
-        
-        $export->connect();
-
-        $campos=array(
-            'id_peticion'=>'ID',
-            'nombre_peticion'=>'Nombre de Peticion',
-            'nombre_departamento'=>'Departamento',
-            'fecha_peticion'=>'Fecha de Creacion',
-            'nombre_usuario'=>'Nombre de Usuario del Reponsable',
-            'nombre_estado_peticion'=>'Estado de Peticion'
-        );
-
-        $consulta="SELECT * FROM 
-        LEFT JOIN actividades.usuario
-        ON peticiones.id_usuario=usuario.id_usuario
-        LEFT JOIN actividades.departamentos
-        ON peticiones.departamento_peticion=departamentos.id_departamento
-        LEFT JOIN actividades.tipo_actividad
-        ON peticiones.tipo_actividad=tipo_actividad.id_tipo
-        LEFT JOIN actividades.actividad
-        ON peticiones.actividad_originada=actividad.codigo_actividad
-        LEFT JOIN actividades.estado_peticion
-        ON estado_peticion.id_estado_peticion=peticiones.estado_peticion
-        WHERE 1=1";
-
-        if(!empty($id_usuario)){
-            $consulta.=" AND peticiones.id_usuario=$id_usuario";
-            $campos=array(
-                'id_peticion'=>'ID',
-                'nombre_peticion'=>'Nombre de Peticion',
-                'nombre_departamento'=>'Departamento',
-                'fecha_peticion'=>'Fecha de Creacion',
-                'nombre_usuario'=>'Nombre de Usuario del Reponsable',
-            );
-            $nombre_archivo='LISTA DE MIS PETICIONES';
+                <tr>
+                    <th colspan=7>Cumaná - Municipio Sucre - Estado Sucre</th>
+                </tr><tr></tr>
+                <tr style="text-align: center;">
+                    <td>Id de Petición</td>
+                    <td>Nombre de Petición</td>
+                    <td>Departameto de Petición</td>
+                    <td>Fecha de Petición</td>
+                    <td>Nombre de Usuario de Petición</td>
+                    <td>Estado de Peticion</td>
+                </tr>');
+        foreach($consulta as $data){
+            $salida.='
+                    <tr style="text-align: center;">
+                        <td>'.$data[utf8_decode('id_peticion')].'</td>
+                        <td>'.$data[utf8_decode('nombre_peticion')].'</td>
+                        <td>'.$data[utf8_decode('nombre_departamento')].'</td>
+                        <td>'.$data[utf8_decode('fecha_registro')].'</td>
+                        <td>'.$data[utf8_decode('nombre_usuario')].'</td>
+                        <td>'.$data[utf8_decode('nombre_estado_peticion')].'</td>
+                    </tr>';
         }
-        else{
-            $nombre_archivo='LISTA DE PETICIONES';
-        }
-        
-        if(!empty($departamento_peticion)){
-            $consulta .=" AND peticiones.departamento_peticion=$departamento_peticion";
-        }
-
-        if(!empty($fecha_peticion)){
-            $consulta .=" AND peticiones.fecha_peticion='$fecha_peticion'";
-        }
-
-        if(!empty($estado_peticion)){
-            $consulta .=" AND peticiones.estado_peticion='$estado_peticion'";
-        }
-
-        if(!empty($day)){
-            $consulta .=" AND EXTRACT(DAY FROM fecha_registro)='$day'";
-        }
-
-        if(!empty($month)){
-            $consulta .=" AND EXTRACT(MONTH FROM fecha_registro)='$month'";
-        }
-
-        if(!empty($year)){
-            $consulta .=" AND EXTRACT(YEAR FROM fecha_registro)='$year'";
-        }
-
-        $export->query($consulta);
-
-        // Formato MS Excel
-        $export->to_excel();
-
-        // Construir tabla de datos
-        $tabla=$export->build_table($campos);
-        
-        // Descargar archivo .xls
-        $export->download($nombre_archivo);
-
-
-        if ($dbhex = $export->get_error()) {
-            die($dbhex->getMessage());
-          }
+        $salida.='
+                </tbody>
+            </table>
+            ';
+        $filename = "Tabla de Peticiones_".date('Y-m-d') . ".xls";
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=$filename");
+        header('Pragma:no-cache');
+        header('Expires:0');
+        echo $salida;
     }
     public function exportarPDF($data_sql){
         
@@ -447,7 +409,7 @@ class peticion{
             $pdf->Cell(40,$font_size_fila,utf8_decode($fila['id_peticion']),1,0,'C');
             $pdf->Cell(80,$font_size_fila,utf8_decode($fila['nombre_peticion']),1,0,'C');
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_departamento']),1,0,'C');
-            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_peticion']),1,0,'C');
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1,0,'C');
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_usuario']),1,0,'C');
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_estado_peticion']),1,0,'C');
         }
@@ -455,7 +417,7 @@ class peticion{
         for($i=0;$i<3;$i++){$pdf->Ln();}
         $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', 160,null,90);
 
-        $pdf->Output('','Tabla de Peticiones Registradas',true);
+        $pdf->Output('I','Tabla de Peticiones Registradas',true);
     }
     
     public function setIdPeticion($id_peticion)
@@ -478,9 +440,9 @@ class peticion{
     {
         $this->detalles_peticion = trim($detalles_peticion);
     }
-    public function setFechaPeticion($fecha_peticion)
+    public function setFechaRegistro($fecha_registro)
     {
-        $this->fecha_peticion = trim($fecha_peticion);
+        $this->fecha_registro = trim($fecha_registro);
     }
     public function setDay($day)
     {
@@ -527,9 +489,9 @@ class peticion{
     {
         return $this->detalles_peticion;
     }
-    public function getFechaPeticion()
+    public function getFechaRegistro()
     {
-        return $this->fecha_peticion;
+        return $this->fecha_registro;
     }
     public function getDay($day)
     {

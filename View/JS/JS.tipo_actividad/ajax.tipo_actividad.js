@@ -2,11 +2,16 @@ $(document).ready(function(){
 
     getTipoActividad();
 
-    $("#buscar_nombre_boton").click(function(){ //Funcion ajax para buscar una actividad por su nombre
+    
+    $("#data_busq_nombre").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre
         getTipoActividad();
     });
 
-    $("#buscar_id").click(function(){ //Funcion ajax para buscar una actividad por su nombre
+    $("#data_busq_id").on('input',function(){ //Funcion ajax para buscar una actividad por su nombre
+        getTipoActividad();
+    });
+
+    $("#num_resultados").click(function(){
         getTipoActividad();
     });
 });
@@ -45,7 +50,7 @@ function getTipoActividad(pagina=1){
             });
             tabla.append("</tbody>");
 
-            paginacion(num_resultados,num_filas);
+            paginacion(num_resultados);
         },
         error:function(jqXHR,textStatus,errorThrown){
             alert("Sin Resultados");
@@ -55,7 +60,30 @@ function getTipoActividad(pagina=1){
     });
 }
 
-function paginacion(num_resultados,num_filas){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+function paginacion(num_resultados){//Esta funcion hace apararecerlos botones para paginar los registros obtenidos
+
+    let nombre_tipo=$("#data_busq_nombre").val();
+    let id_tipo=$("#data_busq_id").val();
+    let num_filas;
+    
+    $.ajax({ 
+        async:false,
+        type:"POST",
+        url:"../Controller/controllerActividad.php",
+        data:{
+            option:'contarRegistros',
+            nombre_tipo:nombre_tipo,
+            id_tipo:id_tipo
+        },
+        dataType:'json',
+        success:function(msg){
+            num_filas=msg;
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
+        }
+
+    });
 
     let num_paginas=Math.ceil((num_filas)/(num_resultados));
     $("#num_paginas").empty();

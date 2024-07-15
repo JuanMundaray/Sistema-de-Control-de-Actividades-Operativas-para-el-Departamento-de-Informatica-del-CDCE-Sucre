@@ -1,11 +1,3 @@
-.header{
-    width: 100%;
-    position: fixed;
-    z-index: 9;
-    padding: 0;
-    background-color: rgb(196, 51, 51);
-}
-
 .Imagenes-Cabecera{
    background-color: rgb(207, 207, 207);
    height: 7vh;
@@ -22,13 +14,12 @@
 .raya{
     margin: 0 !important;
     padding: 0;
-    background-color: rgb(30, 110, 214);
+    background-color: rgb(93, 173, 226);
     height: 7px;
 }
 
 .Parte-Inferior-Cabecera{
-    display: flex;
-    background-color: var(--ColorCabecera);
+    background-color:#eb984e; /*var(--ColorCabecera);*/
     margin: 0;
     padding: 1px;
     width: 100%;
@@ -36,14 +27,8 @@
     gap: 20px;
 }
 
-.Parte-Inferior-Cabecera h3{
-    position: relative;
-    margin-right: 20px;
-    margin-top: 4px;
-    color: aliceblue;
-    font-size: 4vh;
-    font-weight: 600;
-    margin-left: 20px;
+.bg-Header{
+    background-color:#eb984e; /*var(--ColorCabecera);*/
 }
 
 #boton_despliegue{
@@ -58,14 +43,11 @@
     transform: rotate(90deg);
 }
 
-.Parte-Inferior-Cabecera .imagen_perfil{
-    color: aliceblue;
-    width: 6vh;
-    height: 6vh;
-}
-.Parte-Inferior-Cabecera .imagen_perfil svg{
-    width: 100%;
-    height: 100%;
+.imagen_perfil{
+    border-radius: 60px;
+    border: 3px white solid;
+    width: 40px;
+    height: 40px;
 }
 
 @media screen and ((max-height: 500px)) {

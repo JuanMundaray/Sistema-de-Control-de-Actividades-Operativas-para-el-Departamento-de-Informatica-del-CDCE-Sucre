@@ -33,7 +33,7 @@
 
         require_once("Plantillas/Plantilla_cabecera.php");
         ?>
-    <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
@@ -74,7 +74,7 @@
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
         <input type="hidden" value="<?PHP echo $_SESSION['id_usuario'] ?>" name="id_usuario_sesion" id="id_usuario_sesion">
-        <h1 class="titleh1">Aceptar Peticion</h1>
+        <h1 class="titleh1">Aceptar Peticion 1/2</h1>
         <div class="contenedorPrincipal">
             <!--Comienzo del Formuloario-->
             <form class="needs-validation" id="crear_actividad_peticion" action="./peticiones-aceptar-2.php" novalidate>
@@ -87,7 +87,7 @@
 
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Nombre de Actividad:</label>
-                            <input class="col-md-12 form-control" type="text" name="nombre_actividad" id="nombre_actividad" required>
+                            <input class="col-md-12 form-control" type="text" name="nombre_actividad" id="nombre_actividad" pattern="[a-zA-Z0-9 ]{4,}" required>
                             <div class="invalid-feedback">
                                 Este Campo no puede esta vacío
                             </div>
@@ -97,7 +97,6 @@
                             <label class="col-md-12 form-label">Tipo de Actividad:</label>
                             <select class="col-md-12 input_form form-select" required name="id_tipo_actividad" id="id_tipo_actividad">
                                 <option selected disabled value="">Seleccione...</option>
-                                <option id="agregar_tipo_actividad">+ Agregar Tipo de Actividad</option>
                             </select>
                                 
                             <div class="invalid-feedback">
@@ -106,8 +105,8 @@
                         </div>
 
                         <div class="col-md-6 div_input_form"> 
-                            <label class="col-md-12 form-label">Fecha de Registro:</label>
-                            <input class="col-md-12 form-control" type="date" name="fecha_registro" id="fecha_registro" placeholder="Fecha de Registro">
+                            <label class="col-md-12 form-label">Fecha de Inicio:</label>
+                            <input class="col-md-12 form-control" type="date" name="fecha_inicio" id="fecha_inicio" placeholder="Fecha de Registro" required>
                         </div>
 
                         <div class="col-md-6 div_input_form">
@@ -169,9 +168,12 @@
             </div>
         </div>
     </main>                    
-        <script src="JS/js.actividades/js.registrar_actividad.js"></script>
+        <?php require_once("./Plantillas/administrarTipoActividad/notificacionRegistro.php") ?>
+        <?php require_once("./Plantillas/administrarTipoActividad/modalRegistrarTipoActividad.php") ?>
+        <script src="JS/js.actividades/RegistrarActividad/js.registrar_actividad-1.js"></script>
         <script src="JS/validar.formularios.js"></script>
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js"></script>
+        <script src="./JS/js.tipo_actividad/modalTipoActividad.js"></script>
     
 </body>
 </html>

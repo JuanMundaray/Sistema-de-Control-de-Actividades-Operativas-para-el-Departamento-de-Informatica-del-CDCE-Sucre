@@ -46,19 +46,13 @@
             <!--id del usuario que tienen abierta la sesion-->
             <input type="hidden" value="<?PHP echo $_SESSION['tipo_usuario']?>" id="tipo_usuario">
             <!----------------------------------------------->
-            <h1 class="titleh1">Exportar Actividades Registradas</h1>
+            <h1 class="titleh1">Generar Reporte de Actividades Operativas</h1>
             
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Preferencias de Exportación</h2>
                 <section class="secciones container">
                     <div class="container">
-                        <form class="needs-validation row gy-3 gx-4" method="post" action="../Controller/controllerActividad.php" novalidate>
-
-
-                            <div class="col-md-4">
-                                <label class="form-label">Nombre de Actividad:</label>
-                                <input class="form-control" type="search" placeholder="Nombre..." aria-label="Search" name="nombre_actividad">
-                            </div>
+                        <form class="needs-validation row gy-3 gx-4" method="post" action="../Controller/controllerActividad.php" target="_blank" novalidate>
 
                             <!-- Obligar a las siguientes columnas a pasar a una nueva línea en el breakpoint md y hacia arriba -->
                             <div class="w-100 d-none d-md-block"></div>

@@ -5,18 +5,12 @@
         <link rel="icon" href="../favicon.ico" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Lista de Usuarios</title>
-
         <link rel="stylesheet" href="../Framework/bootstrap-5.3.0/css/bootstrap.css" type="text/css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
         <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
-
-        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js"></script>
-        <script src="../Framework/jquery-3.6.3.min.js"></script>
-        <script src="./JS/js.usuarios/ajax.usuarios.js"></script>
-        <script src="./Plantillas/menu_desplegable-administrador.js"></script>
-        <title>Document</title>
+        <title>Administrar Usuarios</title>
     </head>
     <?php
         session_start();
@@ -41,17 +35,21 @@
         <main>
             <h1 class="titleh1">Usuarios</h1>
             <div class="contenedorPrincipal">
-                <h2 class="titleh2">Lista de Usuarios</h2>
+                <h2 class="titleh2">Administrar Usuarios</h2>
                 <section class="secciones">
+                    <div class="pb-5">
+                        <a href="usuario-crear-1.php" class="btn btn-primary">
+                            Crear usaurio
+                        </a>
+                    </div>
                     <!--Barra de Busqueda-->
                     <nav class='container'>
-                        <div class="row gx-5">
+                        <div class="row">
                             <!--Barras de Busqueda-->
                             <div class="col-md-4">
                                 <form class="row">
-                                    <label class="form-label">Buscar Por Nombre de Usuario:</label>
-                                    <input class="form-control col" type="search" placeholder="Buscar Usuario..." aria-label="Search" name="nombre_usuario" id="nombre_usuario">
-                                    <input type="button" class="btn btn-primary col-md-3 col-sm-3" id="buscar_nombre_usuario" value="Buscar">
+                                    <label class="form-label label-sm">Buscar Por Nombre de Usuario:</label>
+                                    <input class="form-control form-control-sm col" type="search" placeholder="Buscar Usuario..." aria-label="Search" name="nombre_usuario" id="nombre_usuario">
                                 </form>
                             </div>
                             <div class="col">
@@ -60,8 +58,8 @@
 
                             <!--Numero de Resultados de las Usuarios-->
                             <div class="col-md-3">
-                                <label class="form-label">Numero de Resultados:</label>
-                                <select class="form-select" id="num_resultados">
+                                <label class="form-label label-sm">Numero de Resultados:</label>
+                                <select class="form-select form-select-sm" id="num_resultados">
                                         <option onclick="getUsuarios()" value="5">5</option>
                                         <option onclick="getUsuarios()" value="20">20</option>
                                         <option onclick="getUsuarios()" value="50">50</option>
@@ -70,26 +68,58 @@
                             </div>
                         </div>
                     </nav>
-                    
-                    <!--Tabla que sera rellenada por medio de js-->
-                    <div class="table-responsive py-5">
-                        <table id="tabla_usuarios" class="table align-middle text-nowrap table_default">
-                            <thead>
-                                <tr>
-                                    <th><label>ID</label></th>
-                                    <th><label>Eliminar/Editar Usuario</label></th>
-                                    <th><label>Nombre de Usuario</label></th>
-                                    <th><label>Nombre y Apellido</label></th>
-                                    <th><label>Cedula</label></th>
-                                    <th><label>Departamento</label></th>
-                                    <th><label>Tipo de Usuario</label></th>
-                                    <th><label>Fecha de Creacion</label></th>
-                                </tr>
-                            </thead>
-                            <tbody>
 
-                            </tbody>
-                        </table>
+                    <!--Tabla de Contenido sobre Actividades-->
+                    <div class="container mt-5">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs pb-2" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="tabla1-tab" data-bs-toggle="tab" data-bs-target="#tabla_datos_usuario" type="button" role="tab" aria-controls="tabla1" aria-selected="true">Datos de Usuario</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tabla2-tab" data-bs-toggle="tab" data-bs-target="#tabla_datos_personales" type="button" role="tab" aria-controls="tabla2" aria-selected="false">Datos Personales del Usuario</button>
+                            </li>
+                        </ul>
+                        
+                        <!--La tabla de Usuarios Registrados-->
+                        <div class="tab-content">
+                            <div class="table-responsive tab-pane fade show active" id="tabla_datos_usuario" role="tabpanel">
+                                <table id="tabla_usuario_1" class="table text-nowrap table_default">
+                                    <thead>
+                                        <tr>
+                                            <th><label>ID</label></th>
+                                            <th><label>Acción</label></th>
+                                            <th><label>Nombre de Usuario</label></th>
+                                            <th><label>Departamento</label></th>
+                                            <th><label>Tipo de Usuario</label></th>
+                                            <th><label>Fecha de Creación</label></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="table-responsive tab-pane fade" id="tabla_datos_personales" role="tabpanel">
+                                <table id="tabla_usuario_2" class="table text-nowrap table_default">
+                                    <thead>
+                                        <tr>
+                                            <th><label>ID</label></th>
+                                            <th scope='col'><label>Nombre Completo</label></th>
+                                            <th scope='col'><label>Cédula</label></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     
 
@@ -102,6 +132,17 @@
                     </div>
                 <section>
             </div>
+            <?php require_once("./Plantillas/administrarUsuarios/toast/toast.php") ?>
+            <?php require_once("./Plantillas/administrarUsuarios/modals/modal_cambiarClave.php") ?>
+            <?php require_once("./Plantillas/administrarUsuarios/modals/modal_EditarUsuario.php") ?>
+            <?php require_once("./Plantillas/administrarUsuarios/modals/modal_Eliminar.php") ?>
+            <script src="../Framework/bootstrap-5.3.0/js/bootstrap.js"></script>            
+            <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js"></script>
+            <script src="../Framework/jquery-3.6.3.min.js"></script>
+            <script src="./JS/js.usuarios/verUsuario/ajax.usuarios.js" type="module"></script>
+            <script src="./Plantillas/menu_desplegable-administrador.js"></script>
+            <script src="./JS/validar.formularios.js"></script>
+            <script src="./JS/js.usuarios/js.mensaje.js"></script>
         </main>
     </body>
 </html>

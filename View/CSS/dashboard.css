@@ -2,11 +2,11 @@
     display: grid;
     grid-template-columns:2fr 1fr;
     align-items: center;
-    padding: 1vw;
+    padding: 2vw;
     margin: 0;
     color: rgb(255, 255, 255);
     font-weight: 600;
-    font-size: small;
+    font-size: medium;
     user-select: none;
 }
 
@@ -28,90 +28,107 @@
     opacity: 0.2;
 }
 
-.LineaFinal{
-    color: rgb(255, 255, 255);
-    text-align: center;
-    font-weight: 400;
-    width: 100%;
-    padding: 0.2vw;
-}
-
-/*Estilo Actividades Registradas*/
-
-.CuadroActividadesRegistradas{
-    padding: 0;
-    margin: 0;
-    background-color: rgb(85, 179, 255);
-    box-shadow: 2px 2px 3px rgb(117, 117, 117);
-}
-
-.CuadroActividadesRegistradas .LineaFinal{
-    background-color: rgb(48, 162, 255);
-}
-
-/*Estilo Actividades Iniciadas*/
-.CuadroActividadesIniciadas{
-    padding: 0;
-    margin: 0;
-    box-shadow: 2px 2px 3px rgb(117, 117, 117);
+h2{
+    user-select: none;
 }
 
 /*Cuadro del numero de Usuarios Registrados*/
 .CuadroUsuariosRegistrados{
-    padding: 0;
-    margin: 0;
-    background-color: rgb(212, 105, 34);
-    box-shadow: 2px 2px 3px rgb(117, 117, 117);
+    background-color: rgb(195,155,211);
+    border: solid 3px rgb(175,122,197);
 }
 
-.CuadroUsuariosRegistrados .LineaFinal{
-    background-color: rgb(194, 100, 37);
+/*cuadro del números de usuarios administradores registrados*/
+.CuadroUsuariosAdministradores{
+    background-color:  rgb(127,179,213);  
+    border: solid 3px rgb(84,153,199);
 }
 
-/*Estilo Actividades Suspendidas*/
-.CuadroActividadesSuspendidas{
-    padding: 0;
-    margin: 0;
-    background-color: rgb(194, 24, 24); 
-    box-shadow: 2px 2px 3px rgb(117, 117, 117);
+/*cuadro del número de usuarios tecnicos registrados*/
+.CuadroUsuariosTecnicos{
+    background-color: rgb(241,148,138);     
+    border: solid 3px rgb(236,112,99);
 }
 
-.CuadroActividadesSuspendidas .LineaFinal{
-    background-color: rgb(173, 15, 15);
+/*cuadro del número de usuarios solicitantes registrados*/
+.CuadroUsuariosSolicitantes{
+    background-color: rgb(240,178,122); ;
+    border: solid 3px rgb(235,152,78);
 }
-
-/*Estilo Actividades en Proceso*/
-.CuadroActividadesProceso{
-    padding: 0;
-    margin: 0;
-    background-color: rgb(207, 178, 10); 
-    box-shadow: 2px 2px 3px rgb(117, 117, 117);
-}
-
-.CuadroActividadesProceso .LineaFinal{
-    background-color: rgb(190, 164, 16); 
-}
-
-h2{
-    user-select: none;
+.titleh2{
+    background-color: rgb(235, 237, 239);
+    margin-left:  -10px; 
+    color: black;
 }
 
 a:hover{
     text-decoration: none;
     color: rgb(255, 255, 255);
 }
-
+button{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
 a:visited{
     text-decoration: none;
     color: rgb(255, 255, 255);
 }
 
 a{
+    text-decoration: none;
     color: rgb(255, 255, 255); 
     font-weight: 400;
 }
 
 .bloque_dashboard{
     margin-right: 2vw;
-    margin-bottom: 5vh;
+    margin-bottom: 4vh;
+    box-shadow:gray 1px 2px 5px;
+}
+
+canvas{
+    background-color: rgb(239, 240, 238);
+    width: 5px;
+    height: 5px;
+
+}
+
+.card-body{
+    background-color: rgb(239, 240, 238);
+}
+
+.panel-pastel-purple{
+    background-color: rgb(195,155,211);
+    border: solid 3px rgb(175,122,197);
+}
+
+.panel-pastel-yellow{
+    background-color:rgb(247,220,111);
+    border: solid 3px rgb(244,208,63);
+}
+
+.panel-pastel-green{
+    background-color: rgb(130,224,170); 
+    border: solid 3px rgb(88,214,141);
+
+}
+
+.panel-paste-light_green{
+    background-color: rgb(118,215,196);
+    border: solid 3px rgb(72,201,176);
+
+}
+
+.panel-pastel-red{
+    background-color: rgb(217,136,128);
+    border: solid 3px rgb(205,97,85);
+}
+
+.panel-pastel-blue{
+    background-color: rgb(133,193,233);
+    border: solid 3px rgb(93, 173, 226);
+}
+
+.bg-light_green{
+    background-color: rgb(118,215,196);
 }

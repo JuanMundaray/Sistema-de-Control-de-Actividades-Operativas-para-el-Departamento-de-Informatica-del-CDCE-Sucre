@@ -4,6 +4,7 @@ centinela=true;
 		//Creacion del menu lateral en html
 		var nav_aside=document.querySelector("#menuLateral");
 		nav_aside.innerHTML=`
+                            
 		<ul>
 			<li>
 				<div>
@@ -16,7 +17,7 @@ centinela=true;
 
 			<li>
 				<div>
-					<a class="row" href='registrar-actividad-1.php'>
+					<a class="row" href='actividades-registrar-actividad-1.php'>
 						<figure class="col-md-1"><img src="./Resources/png/512/archive.png" class="icons-menudeslizante"></figure>
 						<span class="col">Registrar Actividad</span>
 					</a>

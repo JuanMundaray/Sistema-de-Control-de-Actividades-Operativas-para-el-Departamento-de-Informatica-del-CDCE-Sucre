@@ -124,11 +124,7 @@
 
 
                     <!--Tabla del Historial-->
-                    <div class="table-responsive">
-                        <table id="tabla_historial_actividades" class="table text-nowrap table_default">
-                            <!--Tabla del Historial-->
-                        </table>
-                    </div>
+                    <?php require_once("./Plantillas/administrarActividades/tabla_actividades/tabla_historial.php") ?>
                     
                     <!--Botones de Paginacion-->
                     <nav style="margin-top: 20px;">

@@ -128,11 +128,8 @@
                     </nav>
                     <!--Tabla de Peticiones dibujada por medio de js-->
                     <div class="table-responsive">
-                        <table id="tabla_peticiones" class="table align-middle text-nowrap table_default">
-                        <!--Tabla de Peticiones dibujada por medio de js-->
                         <input type="hidden" value="<?php echo $_SESSION['tipo_usuario'] ?>" id="tipo_usuario">
-                            
-                        </table>
+                        <?php require_once("./Plantillas/Peticiones/TablaPeticiones/tablaPeticiones.php") ?>
                     </div>
                     
                     <!--Botones de Paginacion-->
@@ -140,15 +137,20 @@
                         <ul class="pagination" id="num_paginas">
                         </ul>
                     </nav>
-
+                    <?php require_once("./Plantillas/Peticiones/toast/toast.php") ?>
+                    <?php require_once("./Plantillas/Peticiones/Modals/modal_Rechazar.php") ?>
+                    <?php require_once("./Plantillas/Peticiones/Modals/modal_VerDetalles.php") ?>
                 </section>
             </div>
+            
+            <script src="../Framework/jquery-3.6.3.min.js"></script>
+            <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
+            <script src="../Framework/bootstrap-5.3.0/js/bootstrap.js"></script>
+            <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.js "></script>
+            <script src="JS/js.peticiones/ajax.peticiones.js" type="module"></script>
+            <script src="JS/js.peticiones/mensaje.js"></script>
+            <script src="JS/obtenerListaDay_Month_Year.js"></script>
         </main>
 
-        <script src="../Framework/jquery-3.6.3.min.js"></script>
-        <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
-        <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
-        <script src="JS/js.peticiones/ajax.peticiones.js"></script>
-        <script src="JS/obtenerListaDay_Month_Year.js"></script>
     </body>
 </html>

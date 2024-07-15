@@ -6,7 +6,7 @@ $option=$_REQUEST['option'];
 switch($option){
 
     case 'crear':
-          date_default_timezone_set('America/Caracas');
+        date_default_timezone_set('America/Caracas');
         $usuario=new usuario();
         $nombre_usuario=$_REQUEST['username'];
         $contrasena=$_REQUEST['password'];
@@ -15,18 +15,23 @@ switch($option){
         $cedula=$_REQUEST['cedula'];
         $departamento_usuario=$_REQUEST['departamento'];
         $tipo_usuario=$_REQUEST['tipo_usuario'];
+        
         $usuario->set_nombre_usuario($nombre_usuario);
+
+        $correspondiente = $usuario->contarNumRegistros(false);
         $usuario->set_contrasena($contrasena);
-        $usuario->set_tipoUsuario($tipo_usuario);
         $usuario->set_departamento_usuario($departamento_usuario);
         $usuario->set_nombre_personal(strtoupper($nombre));
         $usuario->setApellido_personal(strtoupper($apellido));
         $usuario->set_cedula($cedula);
         $usuario->set_fecha_creacion(date("Y-m-d"));
-        $resultado=$usuario->guardar_usuario();
-        if($resultado){
-            header('location:../View/usuarios-administrar.php');
-            exit();
+        $usuario->set_tipoUsuario($tipo_usuario);
+
+
+        if ($correspondiente==1) {
+            echo 'ERROR_UNICIDAD';
+        }else{
+            $resultado=$usuario->guardar_usuario();
         }
     break;
 
@@ -39,6 +44,9 @@ switch($option){
         }
         if(isset($_REQUEST['id_usuario'])){
             $usuario->set_id_usuario(($_REQUEST['id_usuario']));
+        }
+        if(isset($_REQUEST['cedula'])){
+            $usuario->set_cedula(($_REQUEST['cedula']));
         }
 
         if(isset($_REQUEST['extraer_todos'])){
@@ -80,14 +88,12 @@ switch($option){
 
     case 'modificar':
         $usuario=new usuario();
-        $contrasena=$_REQUEST['password'];
         $id_usuario=$_REQUEST['id_usuario'];
+        $tipo_usuario=$_REQUEST['tipo_usuario'];
         $nombre_personal=$_REQUEST['nombre_personal'];
         $apellido_personal=$_REQUEST['apellido_personal'];
         $cedula=$_REQUEST['cedula'];
         $departamento_usuario=$_REQUEST['departamento'];
-        $tipo_usuario=$_REQUEST['tipo_usuario'];
-        $usuario->set_contrasena($contrasena);
         $usuario->set_tipoUsuario($tipo_usuario);
         $usuario->set_id_usuario($id_usuario);
         $usuario->set_departamento_usuario($departamento_usuario);
@@ -101,6 +107,21 @@ switch($option){
         }
     break;
 
+    case 'cambiar_clave':
+        
+        $usuario=new usuario();
+        $id_usuario=$_REQUEST['id_usuario'];
+        $contrasena=$_REQUEST['password'];
+        $usuario->set_contrasena($contrasena);
+        $usuario->set_id_usuario($id_usuario);
+        $resultado=$usuario->cambiar_clave();
+        if($resultado){
+            header('location:../View/usuarios-administrar.php');
+            exit();
+        }
+
+    break;
+
     case 'contarRegistros':
 
         $usuario=new usuario();
@@ -111,7 +132,12 @@ switch($option){
         if(isset($_REQUEST['id_usuario'])){
             $usuario->set_id_usuario(($_REQUEST['id_usuario']));
         }
-
+        if(isset($_REQUEST['tipo_usuario'])){
+            $usuario->set_tipoUsuario(($_REQUEST['tipo_usuario']));
+        }
+        if(isset($_REQUEST['cedula'])){
+            $usuario->set_cedula(($_REQUEST['cedula']));
+        }
         if(isset($_REQUEST['extraer_todos'])){
             if($_REQUEST['extraer_todos']=='true'){
                $todos=true; 

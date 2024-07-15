@@ -25,8 +25,6 @@
     <link rel="stylesheet" href="CSS/MenuDelizante.css" type="text/css">
     <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
     <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
-    <script src="../Framework/jquery-3.6.3.min.js"></script>
-    <script src="./JS/js.peticiones/ajax.crear_peticion.js"></script>
     <title>Hacer Peticion</title>
 </head>
 <?php
@@ -37,17 +35,16 @@
     <main>
         <h1 class="titleh1">Petición de Actividad</h1>
         <div class="contenedorPrincipal">
-            <!--id del usuario con sesion activa-->
-            <input type="hidden" value="<?PHP echo $_SESSION['id_usuario']; ?>" id="id_usuario_sesion">
-            <!--id del usuario con sesion activa-->
 
-            <form class="formulario needs-validation" method="post" action="../Controller/controllerPeticion.php" novalidate>
-                    <h2 class="titleh2">Realizar Petición de Actividad</h2>
+            <form class="formulario needs-validation" method="post" novalidate id="formularioRegistrarPeticion">
+                    <h2 class="titleh2">Crear Petición de Actividad</h2>
                     <section class="secciones row">
-
+                            <!--id del usuario con sesion activa-->
+                            <input type="hidden" value="<?PHP echo $_SESSION['id_usuario']; ?>" id="id_usuario">
+                            <!--id del usuario con sesion activa-->
                         <div class="col-md-6 div_input_form">
-                            <label class="col-md-12 form-label">Nombre de La Peticion:</label>
-                            <input class="form-control" type="text" id="nombre_peticion" name="nombre_peticion" required>
+                            <label class="col-md-12 form-label">Nombre:</label>
+                            <input class="form-control" type="text" id="nombre_peticion" name="nombre_peticion" maxlength="50" required>
 
                             <div class="invalid-feedback">
                                 *Este Campo Debe Tener 4 Carácteres Como Mínimo
@@ -66,23 +63,23 @@
                         </div>
 
                         <div class="col-md-6 div_input_form">
-                            <label class="form-label">Tipo de Actividad:</label>
+                            <label class="form-label">Tipo:</label>
                             <select class="form-select" type="text" name="tipo_actividad" id="tipo_actividad" required>
                                 <option selected disabled value="">Seleccione...</option>
                             </select>
 
                             <div class="invalid-feedback">
-                                *Seleccione un Departamento Válido
+                                *Seleccione un Tipo Válido
                             </div>
                         </div>
 
                         <div class="col-md-12 div_input_form">
-                            <label class="form-label">Emisor de la Peticion:</label>
+                            <label class="form-label">Emisor:</label>
                             <input class="form-control" type="text" id="emisor_peticion" disabled>
                         </div>
 
                         <div class="col-md-12 div_input_form">
-                            <label class="form-label">Detalles de la Petición:</label>
+                            <label class="form-label">Detalles:</label>
                             <textarea class=" form-control" minlength="15" name="detalles_peticion" id="detalles_peticion" placeholder="Se especifica con detalle como desea que se realice alguna actividad..." style="min-height: 200px;" required></textarea>
 
                             <div class="invalid-feedback">
@@ -96,13 +93,65 @@
 
                         <div class="col-12 form_button">
                             <input type="submit" class="btn btn-primary" value="Crear Petición" name="crear_peticion" id="crear_peticion">
-                        </div>>
+                        </div>
                     </section>
 
                     <script src="JS/validar.formularios.js"></script>
             </form>
         </div>
     </main>
-    
+            <!-- Modal -->
+
+            <div class="modal fade" id="ModalConfirmarRegistroPeticion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmarRegistro" aria-hidden="true">
+
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white ">
+                            <h1 class="modal-title fs-5">¿Seguro que desea Registrar Esta Petición?</h1>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row justify-content-between gx-3">
+                                    <div class="row col-md-12 pb-4">
+                                        <div class="col-md-12 text-nowrap">Nombre de Petición:</div>
+                                        <div class="col-md-12" id="label_nombre"></div>
+                                    </div>
+
+                                    <div class="row col-md-6 pb-4">
+                                        <div class="col-md-12 text-nowrap">Departamento de Petición:</div>
+                                        <div class="col-md-12" id="label_departamento"></div>
+                                    </div>
+
+                                    <div class="row col-md-6 pb-4">
+                                        <div class="col-md-12 text-nowrap">Tipo de Actividad Esperada:</div>
+                                        <div class="col-md-12" id="label_tipo_actividad"></div>
+                                    </div>
+
+                                    <div class="row col-md-6 pb-4">
+                                        <div class="col-md-12 text-nowrap">Emisor de la Petición:</div>
+                                        <div class="col-md-12" id="label_emisor"></div>
+                                    </div>
+
+                                    <div class="row col-md-6 pb-4">
+                                        <div class="col-md-12 text-nowrap">Detalles de la Petición:</div>
+                                        <div class="col-md-12" id="label_detalles"></div>
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" id="ConfirmarRegistrarPeticion" class="btn btn-primary">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <script src="../Framework/jquery-3.6.3.min.js"></script>
+    <script src="./JS/js.peticiones/RegistrarPeticion/index.js" type="module"></script>
+    <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="../Framework/bootstrap-5.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>

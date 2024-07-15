@@ -40,7 +40,9 @@
         <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
 
         <main>
-
+            <!--id del usuario con sesion activa-->
+            <input type="hidden" value="<?PHP echo $_SESSION['id_usuario']; ?>" id="id_usuario">
+            <!--id del usuario con sesion activa-->
             <h1 class="titleh1">Mis Peticiones</h1>
             <div class="contenedorPrincipal">
                 <h2 class="titleh2">Lista de Peticiones</h2>
@@ -119,19 +121,7 @@
                     
                     <!--Tabla de Peticiones dibujada por medio de js-->
                     <div class="table-responsive">
-                        <table id="tabla_peticiones" class="table  align-middle text-nowrap table_default">
-                        <tr>
-                            <th><label>Nombre de Peticion</label></th>
-                            <th><label>Usuario que registro la peticion</label></th>
-                            <th><label>Departamento de la Peticion</label></th>
-                            <th><label>Fecha de la Peticion</label></th>
-                            <th><label>Estado de Peticion</label></th>
-                        </tr>
-                        <tbody id="cuerpo">
-
-                        </tbody>
-
-                        </table>
+                        <?php require_once("./Plantillas/Peticiones/TablaPeticiones/tablaPeticionesMisPeticiones.php") ?>
                     </div>
 
                     <!--Botones de Paginacion-->
@@ -141,6 +131,8 @@
                     </nav>
                 <section>
             </div>
+            <?php require_once("./Plantillas/Peticiones/toast/toast.php") ?>
+            <?php require_once("./Plantillas/Peticiones/Modals/modal_Cancelar.php") ?>
         </main>
         
         <script src="../Framework/jquery-3.6.3.min.js"></script>
@@ -148,5 +140,6 @@
         <script src="../Framework/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
         <script src="JS/js.peticiones/ajax.misPeticiones.js"></script>
         <script src="JS/obtenerListaDay_Month_Year.js"></script>
+        <script src="JS/js.peticiones/mensaje.js"></script>
     </body>
 </html>

@@ -58,7 +58,7 @@ class usuario
             ":nombre_usuario"=>$nombre_usuario,
             ":nombre_personal"=>$nombre_personal,
             ":apellido_personal"=>$apellido_personal,
-            ":contrasena"=>$contrasena,
+            ":contrasena"=>password_hash($contrasena, PASSWORD_DEFAULT),
             ":tipo_usuario"=>$tipo_usuario,
             ":cedula"=>$cedula,
             ":departamento_usuario"=>$departamento_usuario,
@@ -91,7 +91,6 @@ class usuario
             $db = DataBase::getInstance();
             $consulta = "UPDATE actividades.usuario
             SET 
-            contrasena=:contrasena,
             tipo_usuario=:tipo_usuario,
             nombre_personal=:nombre_personal,
             apellido_personal=:apellido_personal,
@@ -100,13 +99,37 @@ class usuario
             marca_existencia=:marca_existencia
           	WHERE id_usuario='$id_usuario'";
             $resultadoPDO = $db->prepare($consulta);
-            $resultadoPDO->execute(array(":contrasena"=>$contrasena,
+            $resultadoPDO->execute(array(
             ":tipo_usuario"=>$tipo_usuario,
             ":nombre_personal"=>$nombre_personal,
             ":apellido_personal"=>$apellido_personal,
             ":cedula"=>$cedula,
             ":departamento_usuario"=>$departamento_usuario,
             "marca_existencia"=>$marca_existencia));
+            $resultado=$resultadoPDO->rowCount();
+            $resultadoPDO->closeCursor();                   
+        } 
+        catch(Exception $objeto){
+            $resultado = false;
+            echo $objeto->getMessage();
+        }
+        return $resultado; 
+    }
+    public function cambiar_clave()
+    {
+        $resultado = false;
+        try{
+            $contrasena = $this->contrasena;
+            $id_usuario=$this->id_usuario;
+
+            $db = DataBase::getInstance();
+            $consulta = "UPDATE actividades.usuario
+            SET 
+            contrasena=:contrasena
+          	WHERE id_usuario='$id_usuario'";
+            $resultadoPDO = $db->prepare($consulta);
+            $resultadoPDO->execute(array(":contrasena"=>$contrasena));
+
             $resultado=$resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();                   
         } 
@@ -149,10 +172,25 @@ class usuario
         try{
             $nombre_usuario = $this->nombre_usuario;
             $id_usuario = $this->id_usuario;
+            $cedula = $this->cedula;
 
             $db = DataBase::getInstance();
-            $orden='DESC';
-            $consulta = "SELECT * FROM actividades.usuario
+            $orden='ASC';
+            $consulta = "SELECT 
+            usuario.id_usuario,
+            usuario.nombre_usuario,
+            usuario.nombre_personal,
+            usuario.cedula,
+            usuario.contrasena,
+            usuario.tipo_usuario,
+            usuario.fecha_creacion,
+            usuario.departamento_usuario,
+            usuario.apellido_personal,
+            usuario.marca_existencia,
+            departamentos.id_departamento,
+            departamentos.nombre_departamento
+            
+            FROM actividades.usuario
             LEFT JOIN actividades.departamentos
             ON usuario.departamento_usuario=departamentos.id_departamento
             WHERE 1=1";
@@ -162,6 +200,9 @@ class usuario
             }
             if(!empty($id_usuario)){
                 $consulta .=" AND id_usuario=$id_usuario";
+            }
+            if(!empty($cedula)){
+                $consulta .=" AND cedula='$cedula'";
             }
 
             if($todos==false){
@@ -188,13 +229,13 @@ class usuario
         return $resultado; 
     }
 
-    
-
     public function contarNumRegistros($todos){
         $resultado = false;
         try{
             $nombre_usuario = $this->nombre_usuario;
             $id_usuario = $this->id_usuario;
+            $tipo_usuario = $this->tipo_usuario;
+            $cedula = $this->cedula;
             $db = DataBase::getInstance();
 
             $consulta = "SELECT * FROM actividades.usuario
@@ -208,7 +249,12 @@ class usuario
             if(!empty($id_usuario)){
                 $consulta .=" AND id_usuario=$id_usuario";
             }
-
+            if(!empty($tipo_usuario)){
+                $consulta .=" AND tipo_usuario='$tipo_usuario'";
+            }
+            if(!empty($cedula)){
+                $consulta .=" AND cedula='$cedula'";
+            }
             if($todos==false){
                 // Si la variable todos, es decir que dice si se quieren extraer a todos los usuarios incluyendo a los eliminados es igual a false, entonces solo se muestran los usuarios existentes
                 $consulta .=" AND marca_existencia='true'";
@@ -231,28 +277,38 @@ class usuario
     {
         $resultado = false;
         try{
-            $nombre_usuario=$nombre_usuario;
-            $contrasena=$contrasena;
             $db = DataBase::getInstance();  
+            
+            //COMPROBAR SI EL USUARIO EXISTE
+
             $consulta = "SELECT * FROM 
             actividades.usuario
-            LEFT JOIN actividades.departamentos
-            ON usuario.departamento_usuario=departamentos.id_departamento
-            WHERE nombre_usuario = :nombre_usuario
-            AND contrasena=:contrasena" ;
+            WHERE nombre_usuario = :nombre_usuario AND marca_existencia=true";
+
             $resultadoPDO = $db->prepare($consulta);
+
             $resultadoPDO->execute(array(
-            ":nombre_usuario"=>$nombre_usuario,
-            ":contrasena"=>$contrasena));
-            $resultado=$resultadoPDO->fetchAll();
-            $correspondientes = $resultadoPDO->rowCount();
-            $resultadoPDO->closeCursor();
-            if(empty($resultado)){
-                header('location:../View/login.php?noExiste');
-                exit();
-            }
-            if($resultado[0]['marca_existencia']==true){
-                if($correspondientes==1){
+            ":nombre_usuario"=>$nombre_usuario));
+
+            $coincidencia=$resultadoPDO->rowCount();
+            $usuario_coincidencia=$resultadoPDO->fetchAll();
+            
+            //SI EL USUARIO EXISTE REALIZAR ESTO
+
+            if ($coincidencia==1) {
+                //COMPROBAR SI LA CONTRASEÑA COINCIDE
+                if((password_verify($contrasena,$usuario_coincidencia[0]['contrasena'])||($contrasena==$usuario_coincidencia[0]['contrasena']))){
+                    $consulta="SELECT * FROM 
+                    actividades.usuario
+                    LEFT JOIN actividades.departamentos
+                    ON usuario.departamento_usuario=departamentos.id_departamento
+                    WHERE nombre_usuario = :nombre_usuario";
+                    $resultadoPDO = $db->prepare($consulta);
+                    $resultadoPDO->execute(array(
+                    ":nombre_usuario"=>$nombre_usuario));
+                    $resultado=$resultadoPDO->fetchAll();
+                    $resultadoPDO->closeCursor();
+
                     session_start();
                     $_SESSION["tipo_usuario"]=$resultado[0]["tipo_usuario"];
                     $_SESSION["id_usuario"]=$resultado[0]["id_usuario"];
@@ -261,11 +317,17 @@ class usuario
                     $_SESSION["nombre_usuario"]=$nombre_usuario;
                     header('location:../View/Dashboard.php');
                     exit();
-    
                 }
+                //ESTO SUCEDE SI LA CONTRASEÑA NO COINCIDE
+                else{
+                    echo $usuario_coincidencia[0]['contrasena'];
+                    header('location:../View/login.php?ERR_PASSWORD');
+                    exit();
+                }
+            }   
 
-            }else{
-                header('location:../View/login.php?noExiste');
+            elseif(empty($resultado)){
+                header('location:../View/login.php?ERR_INEXISTENCIA');
                 exit();
             }
         }

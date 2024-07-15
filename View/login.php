@@ -11,7 +11,6 @@
         <link rel="stylesheet" href="CSS/EstiloCabecera.css" type="text/css">
         <link rel="stylesheet" href="CSS/contenedoresPrincipales.css" type="text/css">
         <link rel="stylesheet" href="CSS/formulario.css" type="text/css">
-        <script src="../Framework/jquery-3.6.3.min.js"></script>
         <title>Actividades Registradas</title>
     </head>
     <?php
@@ -25,6 +24,7 @@
         ?>
     <body>
         <main class="contenedor_principal_login">
+            
             <div class="contenedor_login form-signin">
                 <form class="form_login needs-validation" method="post" action="../Controller/controllerUsuario.php" novalidate>
                 <div class="text-center">
@@ -34,25 +34,23 @@
                 <h1>Ingresar al Sistema</h1>
                     <div class="row gy-4">
                         <div class="col-md-12">
-                            <label for="username" class="username">Nombre de Usuario:</label>
-                            <input class="form-control" type="text" name="username" id="username" placeholder="Nombre de Usuario" required>
+                            <input class="form-control" type="text" name="username" id="username" placeholder="Nombre de Usuario" required data-bs-toggle="tooltip" data-bs-placement="top" title="Nombre de Usuario">
                             <div class="invalid-feedback">
                                 *Este Campo no puede esta vacío
                             </div>
                         </div>
                         <div class="col-md-12 col-sm-8">
-                            <label>Contraseña:</label>
-                            <input class="form-control" type="password" name="password" id="password" placeholder="********" minlength="4" required>
+                            <input class="form-control" type="password" name="password" id="password" placeholder="Contraseña" minlength="4" required data-bs-toggle="tooltip" data-bs-placement="top" title="Contraseña">
                             <div class="invalid-feedback">
                                 *Contraseña Incorrecta. Debe ingresar minimo 4 digitos
                             </div>
                             <?php
-                                if(isset($_GET["incorrecto"])){
-                                    echo '<span style="color: red; font-size:14px">*Este usuario no corresponde con la contraseña ingresada</span>';
+                                if(isset($_GET["ERR_PASSWORD"])){
+                                    echo '<span style="color: red; font-size:14px">*Esta contraseña no corresponde con el usuario ingresado</span>';
                                 }
 
-                                if(isset($_GET['noExiste'])){
-                                    echo '<span style="color: red; font-size:14px">*Este usuario no Existe</span>';
+                                if(isset($_GET['ERR_INEXISTENCIA'])){
+                                    echo '<span style="color: red; font-size:14px">*Este usuario no Existe'.$_GET['ERR_INEXISTENCIA'].'</span>';
                                 }
                             ?>
                         </div>
@@ -67,5 +65,6 @@
                 </form>
             </div>
         </main>
+        <script src="../Framework/jquery-3.6.3.min.js"></script>
     </body>
 </html>
