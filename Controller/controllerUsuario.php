@@ -21,9 +21,9 @@ switch($option){
         $correspondiente = $usuario->contarNumRegistros(false);
         $usuario->set_contrasena($contrasena);
         $usuario->set_departamento_usuario($departamento_usuario);
-        $usuario->set_nombre_personal(strtoupper($nombre));
-        $usuario->setApellido_personal(strtoupper($apellido));
-        $usuario->set_cedula($cedula);
+        $usuario->setNombrePersona(strtoupper($nombre));
+        $usuario->setApellidoPersona(strtoupper($apellido));
+        $usuario->setCedula($cedula);
         $usuario->set_fecha_creacion(date("Y-m-d"));
         $usuario->set_tipoUsuario($tipo_usuario);
 
@@ -46,7 +46,7 @@ switch($option){
             $usuario->set_id_usuario(($_REQUEST['id_usuario']));
         }
         if(isset($_REQUEST['cedula'])){
-            $usuario->set_cedula(($_REQUEST['cedula']));
+            $usuario->setCedula(($_REQUEST['cedula']));
         }
 
         if(isset($_REQUEST['extraer_todos'])){
@@ -97,9 +97,9 @@ switch($option){
         $usuario->set_tipoUsuario($tipo_usuario);
         $usuario->set_id_usuario($id_usuario);
         $usuario->set_departamento_usuario($departamento_usuario);
-        $usuario->set_nombre_personal(strtoupper($nombre_personal));
-        $usuario->setApellido_personal(strtoupper($apellido_personal));
-        $usuario->set_cedula($cedula);
+        $usuario->setNombrePersona(strtoupper($nombre_personal));
+        $usuario->setApellidoPersona(strtoupper($apellido_personal));
+        $usuario->setCedula($cedula);
         $resultado=$usuario->modificar_usuario();
         if($resultado){
             header('location:../View/usuarios-administrar.php');
@@ -136,7 +136,7 @@ switch($option){
             $usuario->set_tipoUsuario(($_REQUEST['tipo_usuario']));
         }
         if(isset($_REQUEST['cedula'])){
-            $usuario->set_cedula(($_REQUEST['cedula']));
+            $usuario->setCedula(($_REQUEST['cedula']));
         }
         if(isset($_REQUEST['extraer_todos'])){
             if($_REQUEST['extraer_todos']=='true'){
@@ -170,7 +170,7 @@ switch($option){
     
     case 'cerrarSesion':
         $usuario=new usuario();
-        $resultado=$usuario->cerrarSesion($nombre_usuario,$contrasena);
+        $resultado=$usuario->cerrarSesion();
     break;
 
     case 'exportarExcel':

@@ -1,15 +1,13 @@
 <?php 
 require_once('DataBase.php');
+require_once('persona.php');
 
-class usuario
+class usuario extends persona
 {
 	private $id_usuario;
 	private $nombre_usuario;
 	private $contrasena;
 	private $tipo_usuario;
-	private $nombre_personal;
-	private $apellido_personal;
-	private $cedula;
 	private $departamento_usuario;
     private $fecha_creacion;
     private $marca_existencia;
@@ -26,8 +24,8 @@ class usuario
             $nombre_usuario = $this->nombre_usuario;
             $contrasena = $this->contrasena;
             $tipo_usuario = $this->tipo_usuario;
-            $nombre_personal = $this->nombre_personal;
-            $apellido_personal = $this->apellido_personal;
+            $nombre_personal = $this->nombre_persona;
+            $apellido_personal = $this->apellido_persona;
             $cedula = $this->cedula;
             $departamento_usuario = $this->departamento_usuario;
             $fecha_creacion=$this->fecha_creacion;
@@ -82,8 +80,8 @@ class usuario
         try{
             $contrasena = $this->contrasena;
             $tipo_usuario = $this->tipo_usuario;
-            $nombre_personal = $this->nombre_personal;
-            $apellido_personal=$this->apellido_personal;
+            $nombre_personal = $this->nombre_persona;
+            $apellido_personal=$this->apellido_persona;
             $cedula = $this->cedula;
             $departamento_usuario = $this->departamento_usuario;
             $id_usuario=$this->id_usuario;
@@ -423,22 +421,6 @@ class usuario
       $this->tipo_usuario=trim($tipo_usuario);
 	}
 
-	public function set_nombre_personal($nombre_personal)
-	{
-      $this->nombre_personal=trim($nombre_personal);
-	}
-    
-
-	public function setApellido_personal($apellido_personal)
-	{
-      $this->apellido_personal=trim($apellido_personal);
-	}
-
-	public function set_cedula($cedula)
-	{
-      $this->cedula=trim($cedula);
-	}
-
 	public function set_departamento_usuario($departamento_usuario)
 	{
       $this->departamento_usuario=trim($departamento_usuario);
@@ -474,21 +456,6 @@ class usuario
 	public function get_tipo()
 	{
       return $this->tipo_usuario;
-	}
-
-	public function getNombre_personal()
-	{
-      return $this->nombre_personal;
-	}
-
-	public function getApellido_personal()
-	{
-      return $this->apellido_personal;
-	}
-
-	public function get_cedula()
-	{
-      return $this->id_usuario;
 	}
 
 	public function get_departamento_usuario()

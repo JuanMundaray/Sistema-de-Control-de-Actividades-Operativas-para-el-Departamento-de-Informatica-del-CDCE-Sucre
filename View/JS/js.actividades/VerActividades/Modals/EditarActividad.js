@@ -1,6 +1,11 @@
 window.EditarActividad=function(codigo_actividad){
 
     $("#ModalEditarActividad").modal("show");
+    
+    $("#ModalEditarActividad").on("hidden.bs.modal", function () {
+        eliminarCampoEvidecia();
+    });
+
     $("#cancel").on("click",()=>{
         let mytoast = document.querySelector("#intento-actividad");
         let Toast = new bootstrap.Toast(mytoast);
@@ -9,22 +14,21 @@ window.EditarActividad=function(codigo_actividad){
 
     obtenerEstadosActividad(codigo_actividad);
 
-    $("#edit_estado #COMPLETADA").click(function(){
-        $("#div_estado").before(`
-        <div class="col-md-12 div_input_form" id="div_evidencia">
-            <label class="col-md-12 form-label">Evidencia:</label>
-            <input class="form-control" type="file" size=100 name="evidencia" id="evidencia" accept="image/jpeg,image/png" required>
-        </div>
-        `);
+    $("#edit_estado").change(function(){
+
+        let option=$("#edit_estado").val();
+
+        if(option==3){
+            $("#div_evidencia").removeAttr("hidden");
+            $("#evidencia").attr("required","");
+        }
+
+        if(option!=3){
+            eliminarCampoEvidecia();
+            console.log('hola');
+        }
     });
 
-    $("#edit_estado #INICIADA").click(function(){
-    eliminarCampoEvidecia();
-    });
-
-    $("#edit_estado #PROCESO").click(function(){
-    eliminarCampoEvidecia();
-    });
 
     $.ajax({
 
@@ -51,12 +55,8 @@ window.EditarActividad=function(codigo_actividad){
                 let nom_atendido=$("#edit_nom_atendido").val(elemento["nom_atendido"]);
                 let ape_atendido=$("#edit_ape_atendido").val(elemento["ape_atendido"]);
                 let ced_atendido=$("#edit_ced_atendido").val(elemento["ced_atendido"]);
-                let m=3;
-                sessionStorage.setItem('mensaje',m);
-
-
-                
             });
+            
         },error:function(jqXHR,textStatus,errorThrown){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
         }
@@ -85,7 +85,8 @@ function obtenerActividadPorCodigo(codigo){
 }
 
 function eliminarCampoEvidecia(){
-    $("#div_evidencia").remove();
+    $("#div_evidencia").attr("hidden","");
+    $("#evidencia").removeAttr("required");
 }
 
 function obtenerEstadosActividad(codigo_actividad){
@@ -99,20 +100,33 @@ function obtenerEstadosActividad(codigo_actividad){
         },
         dataType:'json',
         success:function(msg){
+            
+            $("#edit_estado").empty();
+
+            $("#edit_estado").append(`<option selected disabled value="">Seleccione el estado a marcar...</option>`);
             msg.forEach(function(elemento){
+
                 let nombre_estado=elemento['nombre_estado_actividad'];
+
                 let id_estado=elemento['id_estado_actividad'];
-                
+
                 let rc=obtenerActividadPorCodigo(codigo_actividad);
+
                 let estado_actividad_actual=rc[0]['nombre_estado_actividad'];
 
                 if((nombre_estado!='INICIADA' && nombre_estado!='CREADA')&&(nombre_estado!=estado_actividad_actual)){
                     $("#edit_estado").append(`<option id='${nombre_estado}' value='${id_estado}'>${nombre_estado}</option>`);
                 }
             });
+
         },error:function(jqXHR,textStatus,errorThrown){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
         }
 
     });
 }
+
+$("#form_editar_actividad").submit(function(){
+    let m=3;
+    sessionStorage.setItem('mensaje',m);
+});

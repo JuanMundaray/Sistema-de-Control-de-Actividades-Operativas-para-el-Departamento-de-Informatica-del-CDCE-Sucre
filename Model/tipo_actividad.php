@@ -105,6 +105,39 @@ class tipo_actividad{
         
         return $resultado; 
     }
+
+    public function eliminar(){
+        $resultado = false;
+        try{
+            $id_tipo = $this->id_tipo;
+            $db = DataBase::getInstance();
+
+            // Comprobar si existen registros relacionados en la tabla
+            $resultadoPDO = $db->prepare('SELECT COUNT(*) FROM actividades.actividad WHERE id_tipo_actividad = :id_tipo');
+            $resultadoPDO->execute(['id_tipo' => $id_tipo]);
+            $relatedCount = $resultadoPDO->fetchColumn();
+
+            if($relatedCount){
+                echo 23;
+            }
+            else{
+                $consulta = "DELETE FROM 
+                actividades.tipo_actividad WHERE id_tipo=:id_tipo";
+                
+                $resultadoPDO = $db->prepare($consulta);    
+                $resultadoPDO->execute(array(":id_tipo"=>$id_tipo));
+                $resultado = $resultadoPDO->rowCount();
+            }
+
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
+        }
+        
+        return $resultado; 
+    }
     
     public function setNombreTipo($nombre_tipo)
     {

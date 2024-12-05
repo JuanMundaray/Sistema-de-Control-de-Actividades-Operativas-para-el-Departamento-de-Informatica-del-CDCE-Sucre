@@ -21,8 +21,8 @@ switch($option){
         $ape_atendido=$_REQUEST['ape_atendido'];
         $ced_atendido=$_REQUEST['ced_atendido'];
         $id_usuario_responsable=$_REQUEST['id_usuario_responsable'];
-        $actividad->setCodigoActividad($codigo_actividad);
-        $actividad->setNombreActividad(strtoupper($nombre_actividad));
+        $actividad->setCodigo($codigo_actividad);
+        $actividad->setNombre(strtoupper($nombre_actividad));
         $actividad->setIdTipo($id_tipo_actividad);
         $actividad->setDepReceptor($dep_receptor);
         $actividad->setDepEmisor($dep_emisor);
@@ -52,8 +52,8 @@ switch($option){
         $ced_atendido=$_REQUEST['ced_atendido'];
         $id_usuario_responsable=$_REQUEST['id_usuario_responsable'];
         $actividad->setEstadoActividad(1);
-        $actividad->setCodigoActividad($codigo_actividad);
-        $actividad->setNombreActividad(strtoupper($nombre_actividad));
+        $actividad->setCodigo($codigo_actividad);
+        $actividad->setNombre(strtoupper($nombre_actividad));
         $actividad->setIdTipo($id_tipo_actividad);
         $actividad->setDepReceptor($dep_receptor);
         $actividad->setDepEmisor($dep_emisor);
@@ -77,10 +77,10 @@ switch($option){
         $actividad=new actividad();
 
         if(isset($_REQUEST['nombre_actividad'])){
-            $actividad->setNombreActividad($_REQUEST['nombre_actividad']);
+            $actividad->setNombre($_REQUEST['nombre_actividad']);
         }
         if(isset($_REQUEST['codigo_actividad'])){
-            $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+            $actividad->setCodigo($_REQUEST['codigo_actividad']);
         }
         if(isset($_REQUEST['estado_actividad'])){
             $actividad->setEstadoActividad($_REQUEST['estado_actividad']);
@@ -123,7 +123,7 @@ switch($option){
     case 'eliminar':
         $codigo_actividad=$_REQUEST['codigo_actividad'];
         $actividad=new actividad();
-        $actividad->setCodigoActividad($codigo_actividad);
+        $actividad->setCodigo($codigo_actividad);
         $resultado=$actividad->eliminar();
         echo $resultado;
         json_encode($resultado);
@@ -135,17 +135,28 @@ switch($option){
         $codigo_actividad=$_REQUEST['codigo_actividad'];
         $informe=$_REQUEST['informe'];
         $estado=$_REQUEST['estado'];
-        if(isset($_FILES['evidencia'])){
-            $nombre_file=$_FILES["evidencia"]['name'];
-            $tipo_file=$_FILES["evidencia"]["type"];
-            $file_size=$_FILES["evidencia"]["size"];
-            //Ruta de destino donde se guardara el archivo en el servidor
-            $ruta_destino=$_SERVER['DOCUMENT_ROOT'].'/sca_cdce/uploads/';
-            //mover la imagen a la carpeta de destino
-            move_uploaded_file($_FILES['evidencia']['tmp_name'],$ruta_destino.$nombre_file);
-            $actividad->setEvidencia(($nombre_file));
+        if(isset($_FILES['evidencia']) && $_FILES['evidencia']['error'] == UPLOAD_ERR_OK){
+            $fileType = mime_content_type($_FILES['evidencia']['tmp_name']);
+            
+            // Verificar si el tipo de archivo es PDF
+            if (($fileType === 'image/png')||($fileType === 'image/jpg')||$fileType === 'image/jpeg') {
+                $nombre_file=$_FILES["evidencia"]['name'];
+                $tipo_file=$_FILES["evidencia"]["type"];
+                $file_size=$_FILES["evidencia"]["size"];
+                //Ruta de destino donde se guardara el archivo en el servidor
+                $ruta_destino=$_SERVER['DOCUMENT_ROOT'].'/sca_cdce/uploads/';
+                //mover la imagen a la carpeta de destino
+                move_uploaded_file($_FILES['evidencia']['tmp_name'],$ruta_destino.$nombre_file);
+                $actividad->setEvidencia(($nombre_file));
+            }
+            
+            else {
+                header("location:../View/error_subir_archivo.php");
+                exit();
+            }
         }
-        $actividad->setCodigoActividad($codigo_actividad);
+
+        $actividad->setCodigo($codigo_actividad);
         $actividad->setEstadoActividad(strtoupper($estado));
         $actividad->setObservacion(strtoupper($observacion));
         $actividad->setInforme(strtoupper($informe));
@@ -160,7 +171,7 @@ switch($option){
     case 'obtenerRegistrosModificacion':
         
         $actividad=new actividad();
-        $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+        $actividad->setCodigo($_REQUEST['codigo_actividad']);
         //-----------------paginacion
         if((isset($_REQUEST['pagina']))&&(isset($_REQUEST['num_resultados']))){
             $pagina=$_REQUEST['pagina'];//Pagina actual en la paginacion
@@ -180,10 +191,10 @@ switch($option){
         $actividad=new actividad();
 
         if(isset($_REQUEST['nombre_actividad'])){
-            $actividad->setNombreActividad($_REQUEST['nombre_actividad']);
+            $actividad->setNombre($_REQUEST['nombre_actividad']);
         }
         if(isset($_REQUEST['codigo_actividad'])){
-            $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+            $actividad->setCodigo($_REQUEST['codigo_actividad']);
         }
         if(isset($_REQUEST['estado_actividad'])){
             $actividad->setEstadoActividad($_REQUEST['estado_actividad']);
@@ -223,10 +234,10 @@ switch($option){
         
         //SE UTILIZAN LOS SET
         if(isset($_REQUEST['nombre_actividad'])){
-            $actividad->setNombreActividad($_REQUEST['nombre_actividad']);
+            $actividad->setNombre($_REQUEST['nombre_actividad']);
         }
         if(isset($_REQUEST['codigo_actividad'])){
-            $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+            $actividad->setCodigo($_REQUEST['codigo_actividad']);
         }
         if(isset($_REQUEST['estado_actividad'])){
             $actividad->setEstadoActividad($_REQUEST['estado_actividad']);
@@ -273,10 +284,10 @@ switch($option){
         
         //SE REALIZA LA CONSULTA SQL Y SE RECIBE SU RESULTADO EN UNA VARIABLE LLAMADA RESULTADO
         if(isset($_REQUEST['nombre_actividad'])){
-            $actividad->setNombreActividad($_REQUEST['nombre_actividad']);
+            $actividad->setNombre($_REQUEST['nombre_actividad']);
         }
         if(isset($_REQUEST['codigo_actividad'])){
-            $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+            $actividad->setCodigo($_REQUEST['codigo_actividad']);
         }
         if(isset($_REQUEST['estado_actividad'])){
             $actividad->setEstadoActividad($_REQUEST['estado_actividad']);
@@ -316,7 +327,7 @@ switch($option){
     
     case 'exportarDetalles':
         $actividad=new actividad();
-        $actividad->setCodigoActividad($_REQUEST['codigo_actividad']);
+        $actividad->setCodigo($_REQUEST['codigo_actividad']);
         $resultado=$actividad->obtener();
         $actividad->exportDetalles($resultado);
 

@@ -1,6 +1,6 @@
 
 <h2 class="titleh2" id="tituloActividadesRegistradas">Actividades</h2>
-<div class="row">
+<div class="row"  title="Haga click en los cuadros para ver gráficas">
     <!--Cuadro que muestra el Actividades Registradas-->
     <button class="panel-pastel-blue col-md-10 bloque_dashboard" data-bs-toggle="modal" data-bs-target="#graficasActividad">
             <div class="cuadro_hijo01">

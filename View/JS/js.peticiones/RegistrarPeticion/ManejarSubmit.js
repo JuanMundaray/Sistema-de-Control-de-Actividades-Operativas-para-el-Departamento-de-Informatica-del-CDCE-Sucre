@@ -72,7 +72,7 @@ function ObtenerTipoActividad(id_tipo_actividad){
         },
         dataType:'json',
         success:function(msg){
-            resultado=msg[0]['nombre_tipo_actividad'];
+            resultado=msg[0]['nombre_tipo'];
         },
         error:function(jqXHR,textStatus,errorThrown){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);

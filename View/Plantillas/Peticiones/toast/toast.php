@@ -1,6 +1,6 @@
 <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
 
-       <div class="toast bg-success text-white border-0" role="alert" aria-live="assertive" aria-atomic="true"data-delay="4000" id="registrar-peticion" >
+       <div class="toast bg-success text-white border-0" role="alert" aria-live="assertive" aria-atomic="true"data-delay="4000" id="registrar-peticion">
             <div class="d-flex"> 
                 <div class="toast-body">
                     <STRONG> SE REGISTRÓ LA PETICION CORRECTAMENTE</STRONG>

@@ -36,11 +36,10 @@
 <body>
     <nav id="menuLateral"></nav><!--Menu lateral creado por medio del DOM de js-->
     <main>
-        <h1 class="titleh1" style="margin-left: 12vw;">Dashboard</h1>
         <section class="seccionDashboard">
             <div style="margin-left: 11vw;" class="container">
 
-                <h2>Area de Trabajo</h2>
+                <h2 class="mt-5">Área de Trabajo</h2>
 
                 <?php 
                     if($_SESSION["tipo_usuario"]!="invitado"){

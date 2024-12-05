@@ -3,9 +3,9 @@
 
         <div>
             <div class="Imagenes-Cabecera">
-                <img src="./Resources/Imagenes/logo_ministerio.png">
-                <img class="px-1" src="./Resources/Imagenes/CDCE-logo-ministerio-de-educacion.webp">
-                <img class="img2" style="float:right;" src="Resources/Imagenes/logo-zamora-03.png">
+                <img src="./Resources/Imagenes/logo_ministerio.png<?php echo "?v=".rand(1000,9999)?>">
+                <img class="px-1" src="./Resources/Imagenes/CDCE-logo-ministerio-de-educacion.png<?php echo "?v=".rand(1000,9999)?>">
+                <img class="img2" style="float:right;" src="Resources/Imagenes/logo-zamora-03.png<?php echo "?v=".rand(1000,9999)?>">
             </div>
 
             <div class="raya"></div>

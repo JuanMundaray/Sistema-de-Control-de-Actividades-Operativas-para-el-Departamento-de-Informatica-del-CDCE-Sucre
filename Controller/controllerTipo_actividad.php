@@ -59,6 +59,16 @@ switch($option){
         }else{
             echo $resultado;
         }
+    break;
+    
+    case 'eliminar':
+        $id_tipo=$_REQUEST['id_tipo'];
+        $tipo_actividad=new tipo_actividad();
+        $tipo_actividad->setIDTipo($id_tipo);
+        $resultado=$tipo_actividad->eliminar();
+        echo $resultado;
+        json_encode($resultado);
+    break;
 }
 
 ?>

@@ -325,6 +325,8 @@ class peticion{
         <table>
             <tbody>
                 <tr>
+                </tr>
+                <tr>
                     <th colspan=7>
                         <h2>TABLA DE PETICIONES REGISTRADAS- REPORTE GENERADO '.date('Y-m-d').'</h2>
                     </th>
@@ -341,7 +343,11 @@ class peticion{
                 <tr>
                     <th colspan=7>Cumaná - Municipio Sucre - Estado Sucre</th>
                 </tr><tr></tr>
-                <tr style="text-align: center;">
+                <tr>
+                </tr>
+                <tr>
+                </tr>
+                <tr style="text-align: center; font-weight: bold;">
                     <td>Id de Petición</td>
                     <td>Nombre de Petición</td>
                     <td>Departameto de Petición</td>
@@ -415,7 +421,7 @@ class peticion{
         }
         // Sello y Firma
         for($i=0;$i<3;$i++){$pdf->Ln();}
-        $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', 160,null,90);
+        $pdf->Image('../View/Resources/firmas/firma_cdce.jpg', 160,null,90);
 
         $pdf->Output('I','Tabla de Peticiones Registradas',true);
     }

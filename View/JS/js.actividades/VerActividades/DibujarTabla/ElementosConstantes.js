@@ -1,8 +1,7 @@
 export const contenido=function(elemento,accion){
-
     let bg_estilo=estilo_bg(elemento['nombre_estado_actividad']);
     return `<tr class='align-middle '>
-        <td>${elemento['fecha_registro']}</td>
+        <td>${elemento['fecha_inicio']}</td>
         <td>
             <div class="btn-group">
                 <button type="button" class="btn btn-success rounded-pill dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
@@ -15,8 +14,9 @@ export const contenido=function(elemento,accion){
             </div>
         </td>
         <td>${elemento['nombre_actividad']}</td>
-        <td>${elemento['nombre_tipo']}</td>
         <td><h5><span class="badge rounded-pill  ${bg_estilo}" style="width: 120px;">${elemento['nombre_estado_actividad']}</span><h5></td>
+        <td>${elemento['nombre_tipo']}</td>
+        <td>${elemento['fecha_registro']}</td>
 
     </tr>
         `;

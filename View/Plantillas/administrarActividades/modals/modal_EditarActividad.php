@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body">
 
-            <form class="formulario needs-validation" method="post" action="../Controller/controllerActividad.php" enctype="multipart/form-data" novalidate>
+            <form id="form_editar_actividad" class="formulario needs-validation" method="post" action="../Controller/controllerActividad.php" enctype="multipart/form-data" novalidate>
                     <section class="secciones row">
                         <input type="hidden" value="modificar" name="option">
                         <input type="hidden" id="edit_codigo" value="" name="codigo_actividad">
@@ -42,6 +42,11 @@
                                 <div class="invalid-feedback">
                                     *Seleccione un Estado de Actividad Válido
                                 </div>
+                        </div>
+
+                        <div class="col-md-12 div_input_form" id="div_evidencia" hidden>
+                            <label class="col-md-12 form-label">Evidencia:</label>
+                            <input class="form-control" type="file" size=100 name="evidencia" id="evidencia" accept="image/jpeg,image/png" required>
                         </div>
 
                         <div class="col-md-12 py-2">

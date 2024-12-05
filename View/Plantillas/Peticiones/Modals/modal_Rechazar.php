@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row justify-content-between">
-                        <label><strong>¿Estas seguro que quiere rechazar esta Peticion?<strong></label>
+                        <label>¿Estas seguro que quiere rechazar esta Peticion?</label>
                     </div>
                 </div>
             </div>

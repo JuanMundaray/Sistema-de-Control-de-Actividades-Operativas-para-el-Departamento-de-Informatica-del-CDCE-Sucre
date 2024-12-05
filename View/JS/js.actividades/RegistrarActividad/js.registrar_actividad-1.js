@@ -34,10 +34,12 @@ $(document).ready(function(){
                 tipo.append("<option value='"+elemento['id_tipo']+"'>"+elemento["nombre_tipo"]+"</option>");
             });
             tipo.append(`<option id="agregarTipoActividad" value="">+ Agregar Tipo de Actividad</option>`);
-            $("#agregarTipoActividad").on("click",()=>{
-                $("#modalTipoActividad").modal("show");
+            
+            tipo.on("change",()=>{
+                if($(tipo).val()==""){
+                    $("#modalTipoActividad").modal("show");
+                }
             });
-
         },
         error:function(jqXHR,textStatus,errorThrown){
             alert("error"+jqXHR+" "+textStatus+" "+errorThrown);
@@ -53,16 +55,20 @@ $(document).ready(function(){
         },
         dataType:'json',
         success:function(msg){
+
             let dep_emisor=$("#dep_emisor");
             let dep_receptor=$("#dep_receptor");
+
             msg.forEach(function(elemento){
                 dep_emisor.append("<option value='"+elemento['nombre_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
                 dep_receptor.append("<option value='"+elemento['nombre_departamento']+"'>"+elemento["nombre_departamento"]+"</option>");
             });
             dep_emisor.append(`<option id="agregarDepartamento" value=''>+Agregar Departamento</option>`);
             
-            $("#agregarDepartamento").on("click",()=>{
-                $("#modal-departamento").modal("show");
+            dep_emisor.on("change",()=>{
+                if($(dep_emisor).val()==""){
+                    $("#modal-departamento").modal("show");
+                }
             });
         },
         error:function(jqXHR,textStatus,errorThrown){
@@ -92,8 +98,10 @@ $(document).ready(function(){
     //impedir que en el campo nombre de Actividad se le puedan agregar signos especiales o numeros
     $("#nombre_actividad").on('input',function(){
         var valor=$(this).val();
-        var nuevo_valor=valor.replace(/[!@#$%^&*()_{}"´'¡¿°:|<>?,.`~+=/;[]/g,"");
+        var nuevo_valor=valor.replace(/[^\w\s]/g,"");
+        //var nuevo_valor=nuevo_valor.replace(/\\/g,"");
         $(this).val(nuevo_valor);
+        console.log(nuevo_valor);
 
     });
     

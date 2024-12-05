@@ -62,7 +62,18 @@ switch($option){
             echo $resultado;
         }else{
             echo $resultado;
-        }   
+        }
+           
+    break;
+
+    case 'eliminar':
+        $id_departamento=$_REQUEST['id_departamento'];
+        $departamento=new departamento();
+        $departamento->setIdDepartamento($id_departamento);
+        $resultado=$departamento->eliminar();
+        echo $resultado;
+        json_encode($resultado);
+    break;
 
 }
 

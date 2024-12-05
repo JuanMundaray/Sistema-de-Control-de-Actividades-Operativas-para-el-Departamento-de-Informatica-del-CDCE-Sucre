@@ -72,7 +72,16 @@
                     <!--Tabla que muestra los tipos de actividad que existen-->
                     <div class="table-responsive">
                         <table id="tabla_departamentos" class="table table-hover text-nowrap table_default">
+                            <thead>
+                                <tr>
+                                    <th><label>ID</label></th>
+                                    <th><label>Nombre de Departamento</label></th>
+                                    <th><label>Acción</label></th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <!--Datos que mostrara la tabla actividades gracias a ajax.departamentos.js-->
+                            </tbody>
                         </table>
                     </div>
                     <div>
@@ -86,11 +95,13 @@
     </main>
     <?php require_once("./Plantillas/administrarDepartamentos/modalRegistrarDepartametos.php") ?>
     <?php require_once("./Plantillas/administrarDepartamentos/notificacionRegistro.php") ?>
+    <?php require_once("./Plantillas/administrarDepartamentos/modalEliminarDepartametos.php") ?>
 
  <script src="JS/validar.formularios.js"></script>
  <script src="../Framework/jquery-3.6.3.min.js"></script> 
  <script src="../Framework/jquery-ui-1.13.2.custom/jquery-ui.js"></script> 
  <script src="JS/js.departamentos/modalDepartamentos.js"></script>
+ <script src="JS/js.departamentos/modal_eliminarDepartamento.js"></script>
 </body>
 
 </html>                     

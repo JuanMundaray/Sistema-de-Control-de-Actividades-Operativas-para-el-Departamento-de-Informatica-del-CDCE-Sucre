@@ -1,7 +1,7 @@
 
 <!--Parte de Peticiones -->
 <h2 class="titleh2">Peticiones</h2>
-<div class="row col">
+<div class="row col"  title="Haga click en los cuadros para ver gráficas">
     <!--Cuadro de numero Usuarios Registrados-->
         <button class="panel-pastel-purple col-md-10 bloque_dashboard" data-bs-toggle="modal" data-bs-target="#graficaPeticiones">
             <div class="cuadro_hijo01">

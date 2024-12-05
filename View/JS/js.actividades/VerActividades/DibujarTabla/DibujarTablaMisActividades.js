@@ -13,7 +13,7 @@ export function RellenarTablaActividades(msg){
         //Estas son los botones de accion que estaran disponibles segun si la actividad a sido completada o no
         let accion=`
         <li>
-            <button class="dropdown-item" onclick="MostrarDetalles('${elemento['codigo_actividad']}')"}">Seguimiento de Actividad</button>
+            <button class="dropdown-item" onclick="SeguimientoActividad('${elemento['codigo_actividad']}')"}">Seguimiento de Actividad</button>
         </li>
         <li>
             <button class="dropdown-item"  onclick="MostrarDetalles('${elemento['codigo_actividad']}')">Ver Detalles</button>

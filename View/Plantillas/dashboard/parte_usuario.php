@@ -1,7 +1,7 @@
 
 <!--Parte de Usuarios -->
 <h2 class="titleh2">Usuarios</h2>
-<div class="row col">
+<div class="row col"  title="Haga click en los cuadros para ver gráficas">
     <!--Cuadro de numero Usuarios Registrados-->
     <button class="CuadroUsuariosRegistrados col-md-10 bloque_dashboard" data-bs-toggle="modal" data-bs-target="#graficaUsuario">
             <div class="cuadro_hijo01">

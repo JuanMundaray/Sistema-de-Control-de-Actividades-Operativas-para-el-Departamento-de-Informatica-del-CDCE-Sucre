@@ -45,6 +45,7 @@
                         <div class="col-md-6 div_input_form">
                             <label class="col-md-12 form-label">Nombre:</label>
                             <input class="form-control" type="text" id="nombre_peticion" name="nombre_peticion" maxlength="50" required>
+                            <div class="form-text">*Use un nombre sencillo para describir su petición, Ejemplo: "Desarrollar un Sistema de Control de Actividades"</div>
 
                             <div class="invalid-feedback">
                                 *Este Campo Debe Tener 4 Carácteres Como Mínimo
@@ -52,7 +53,7 @@
                         </div>
 
                         <div class="col-md-6 div_input_form">
-                            <label class="form-label">Deparatamento que Realiza la Petición:</label>
+                            <label class="form-label">Departamento que Realiza la Petición:</label>
                             <input class="form-control" id="visualizar_departamento_peticion" type="text" disabled>
 
                             <input type="hidden" value="" name="departamento_peticion" id="departamento_peticion">

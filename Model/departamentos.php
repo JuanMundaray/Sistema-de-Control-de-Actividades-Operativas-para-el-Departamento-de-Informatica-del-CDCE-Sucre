@@ -93,6 +93,38 @@ class departamento{
         
         return $resultado; 
     }
+    public function eliminar(){
+        $resultado = false;
+        try{
+            $id_departamento = $this->id_departamento;
+            $db = DataBase::getInstance();
+
+            // Comprobar si existen registros relacionados en la tabla
+            $resultadoPDO = $db->prepare('SELECT COUNT(*) FROM actividades.usuario WHERE departamento_usuario = :id_departamento');
+            $resultadoPDO->execute(['id_departamento' => $id_departamento]);
+            $relatedCount = $resultadoPDO->fetchColumn();
+
+            if($relatedCount){
+                echo 23;
+            }
+            else{
+                $consulta = "DELETE FROM 
+                actividades.departamentos WHERE id_departamento=:id_departamento";
+                
+                $resultadoPDO = $db->prepare($consulta);    
+                $resultadoPDO->execute(array(":id_departamento"=>$id_departamento));
+                $resultado = $resultadoPDO->rowCount();
+            }
+
+            $resultadoPDO->closeCursor();                        
+        }
+        catch(Exception $objeto){
+            echo $objeto->getMessage();
+            $resultado = false;
+        }
+        
+        return $resultado; 
+    }
     
     public function setNombreDepartamento($nombre_departamento)
     {

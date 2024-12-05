@@ -138,8 +138,8 @@
                         </ul>
                     </nav>
                     <?php require_once("./Plantillas/Peticiones/toast/toast.php") ?>
-                    <?php require_once("./Plantillas/Peticiones/Modals/modal_Rechazar.php") ?>
                     <?php require_once("./Plantillas/Peticiones/Modals/modal_VerDetalles.php") ?>
+                    <?php require_once("./Plantillas/Peticiones/Modals/modal_Rechazar.php") ?>
                 </section>
             </div>
             

@@ -1,17 +1,18 @@
 window.$(document).ready(function(){
 
-    //impedir que en el campo username se le puedan agregar signos especiales o numeros
+    //impedir que en el campo username se le puedan agregar signos especiales
     $("#username").on('input',function(){
         var valor=$(this).val();
-        var nuevo_valor=valor.replace(/[!@#$%^&*()_{}"'|<>?,.`~]/g,"");
+        var nuevo_valor=valor.replace(/[^\w]/g,"");
         $(this).val(nuevo_valor);
+        console.log("sda");
     
     });
 
-    //impedir que en el campo username se le puedan agregar signos especiales o numeros
+    //impedir que en el campo username se le puedan agregar signos especiales
     $("#password").on('input',function(){
         var valor=$(this).val();
-        var nuevo_valor=valor.replace(/[!@#$%^&*()_{}"'|<>?,.`~]/g,"");
+        var nuevo_valor=valor.replace(/[^\w\s]/g,"");
         $(this).val(nuevo_valor);
     
     });

@@ -73,7 +73,7 @@
                         <!--Lo agrega js en caso de que este campo tenga informacion-->
                     </div>
 
-                    <form class="py-5" style="text-align: center;" action="../Controller/controllerActividad.php" method="post">
+                    <form class="py-5" style="text-align: center;" target="_blank" action="../Controller/controllerActividad.php" method="post">
                         <input type="hidden" value="exportarDetalles" name="option" id="option">
                         <input type="hidden" id="input_codigo_actividad" value="" name="codigo_actividad">
                         <button class="btn btn-primary" type="submit">

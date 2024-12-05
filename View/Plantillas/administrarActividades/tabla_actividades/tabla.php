@@ -20,11 +20,12 @@
             <table id="tabla_actividades_1" class="table text-nowrap table_default">
                 <thead>
                     <tr>
-                        <th scope='col'><label>Fecha de Registro</label></th>
+                        <th scope='col'><label>Fecha de Inicio</label></th>
                         <th scope='col'><label>Accion</label></th>
                         <th scope='col'><label>Nombre</label></th>
-                        <th scope='col'><label>Tipo</label></th>
                         <th scope='col'><label>Estado</label></th>
+                        <th scope='col'><label>Tipo</label></th>
+                        <th scope='col'><label>Fecha de Registro</label></th>
                     </tr>
                 </thead>
 

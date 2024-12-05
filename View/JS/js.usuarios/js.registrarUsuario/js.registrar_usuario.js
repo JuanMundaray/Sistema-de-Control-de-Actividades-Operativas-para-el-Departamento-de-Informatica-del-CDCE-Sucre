@@ -4,7 +4,7 @@ $(document).ready(function(){
     //impedir que en el campo nombre se le puedan agregar signos especiales o numeros
     $("#nombre").on('input',function(){
         var valor=$(this).val();
-        var nuevo_valor=valor.replace(/[0-9!@#$%^&*()_{}"´'¡¿°:|<>?,.`~+=/;[-]/g,"");
+        var nuevo_valor=valor.replace(/[^a-zA-Z\s]/g,"");
         $(this).val(nuevo_valor);
     
     });
@@ -12,7 +12,7 @@ $(document).ready(function(){
     //impedir que en el campo apellido se le puedan agregar signos especiales o numeros
     $("#apellido").on('input',function(){
         var valor=$(this).val();
-        var nuevo_valor=valor.replace(/[0-9!@#$%^&*()_{}"´'¡¿°:|<>?,.`~+=/;[-]/g,"");
+        var nuevo_valor=valor.replace(/[^a-zA-Z\s]/g,"");
         $(this).val(nuevo_valor);
     
     });
@@ -20,7 +20,7 @@ $(document).ready(function(){
     //impedir que en el campo username se le puedan agregar signos especiales o numeros
     $("#username").on('input',function(){
         var valor=$(this).val();
-        var nuevo_valor=valor.replace(/[!@#$%^&*()_{}"'|<>?,.`~]/g,"");
+        var nuevo_valor=valor.replace(/[^\w\s]/g,"");
         $(this).val(nuevo_valor);
     
     });

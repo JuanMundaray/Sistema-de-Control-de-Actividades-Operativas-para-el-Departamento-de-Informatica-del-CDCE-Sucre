@@ -28,7 +28,7 @@
             <div class="contenedor_login form-signin">
                 <form class="form_login needs-validation" method="post" action="../Controller/controllerUsuario.php" novalidate>
                 <div class="text-center">
-                    <img src="./Resources/Imagenes/CDCE-logo-ministerio-de-educacion.webp" width="50"/>   
+                    <img src="./Resources/Imagenes/CDCE-logo-ministerio-de-educacion.png" width="50"/>   
 
                 </div> 
                 <h1>Ingresar al Sistema</h1>

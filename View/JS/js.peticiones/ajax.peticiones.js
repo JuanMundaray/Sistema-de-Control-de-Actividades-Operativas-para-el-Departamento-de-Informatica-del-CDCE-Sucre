@@ -112,6 +112,9 @@ function RellenarTablaPeticiones(msg){
                     <li>
                         <button class="dropdown-item" onclick="rechazarPeticion(${elemento['id_peticion']})">Rechazar</button>
                     </li>
+                    <li>
+                        <button class="dropdown-item" onclick="MostrarDetalles(${elemento['id_peticion']})">Ver Datos</button>
+                    </li>
                 </ul>
             </div>
         </td>

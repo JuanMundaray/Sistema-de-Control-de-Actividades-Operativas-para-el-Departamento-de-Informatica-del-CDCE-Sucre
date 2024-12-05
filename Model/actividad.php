@@ -1,26 +1,15 @@
 <?php
 require_once('DataBase.php');
-class actividad{
-    private $codigo_actividad;
-    private $nombre_actividad;
+require_once('datos_actividad.php');
+class actividad extends datos_actividad{
     private $dep_receptor;
     private $dep_emisor;
-    private $id_tipo_actividad;
-    private $fecha_registro;
-    private $day;
-    private $month;
-    private $year;
     private $nom_atendido;
     private $ape_atendido;
     private $ced_atendido;
-    private $estado_actividad;
-    private $observacion;
-    private $informe;
-    private $evidencia;
     private $id_usuario_responsable;
     private $ultima_modificacion;
     private $orden='DESC';
-    private $fecha_inicio;
     
     public function __construct()
     {
@@ -33,8 +22,8 @@ class actividad{
     {
         $resultado = false;
         try{
-            $codigo_actividad = $this->codigo_actividad;
-            $nombre_actividad = $this->nombre_actividad;
+            $codigo_actividad = $this->codigo;
+            $nombre_actividad = $this->nombre;
             $dep_receptor = $this->dep_receptor;
             $dep_emisor = $this->dep_emisor;
             $id_tipo_actividad = $this->id_tipo_actividad;
@@ -105,7 +94,7 @@ class actividad{
             "ultima_modificacion"=>$ultima_modificacion,
             "fecha_inicio"=>$fecha_inicio));
 
-            $this->registrarModificacion();
+            $this->registrarModificacion($fecha_inicio);
             
             $resultado = $resultadoPDO->rowCount();
             $resultadoPDO->closeCursor();
@@ -125,7 +114,7 @@ class actividad{
             $observacion=$this->observacion;
             $informe=$this->informe;
             $evidencia=$this->evidencia;
-            $codigo_actividad=$this->codigo_actividad;
+            $codigo_actividad=$this->codigo;
             $ultima_modificacion=date("Y-m-d H:i:s");
             $db = DataBase::getInstance();
 
@@ -159,11 +148,11 @@ class actividad{
         return $resultado; 
     }
 
-    private function registrarModificacion(){
+    private function registrarModificacion($inicio=false){
         $resultado = false;
         try{
             $estado_actividad=$this->estado_actividad;
-            $codigo_actividad=$this->codigo_actividad;
+            $codigo_actividad=$this->codigo;
             $db = DataBase::getInstance();
             
             //obtener el nombre del estado de actividad
@@ -181,9 +170,19 @@ class actividad{
             //guardar registro de modificacion
 
             date_default_timezone_set('America/Caracas');
-            $fecha_modificacion=date("Y-m-d");
-            
-            $hora_modificacion=date("H:i:s");
+
+            if($inicio!=false){
+                $fecha_modificacion=$inicio;
+                
+                $hora_modificacion=date("H:i:s");
+
+            }
+            if($inicio==false){
+                $fecha_modificacion=date("Y-m-d");
+                
+                $hora_modificacion=date("H:i:s");
+            }
+
             $consulta = "INSERT INTO actividades.registro_modificaciones_actividad
             (
                 codigo_actividad,
@@ -219,7 +218,7 @@ class actividad{
     {
         $resultado = false;
         try{
-            $codigo_actividad=$this->codigo_actividad;
+            $codigo_actividad=$this->codigo;
             $db=DataBase::getInstance();
             $consulta="UPDATE actividades.actividad SET estado_actividad=5 WHERE codigo_actividad=:codigo_actividad";
             $resultadoPDO = $db->prepare($consulta);
@@ -239,8 +238,8 @@ class actividad{
     {
         $resultado = false;
         try{
-            $codigo_actividad = $this->codigo_actividad;
-            $nombre_actividad = $this->nombre_actividad;
+            $codigo_actividad = $this->codigo;
+            $nombre_actividad = $this->nombre;
             $fecha_registro=$this->fecha_registro;
             $estado_actividad=$this->estado_actividad;
             $id_usuario_responsable = $this->id_usuario_responsable;
@@ -256,6 +255,8 @@ class actividad{
             actividad.codigo_actividad, 
             actividad.nombre_actividad, 
             TO_CHAR(actividad.fecha_registro,'DD-MM-YYYY') AS fecha_registro, 
+            TO_CHAR(actividad.fecha_registro,'HH24:MI:SS') AS hora_registro, 
+            TO_CHAR(actividad.fecha_inicio,'DD-MM-YYYY') AS fecha_inicio, 
             actividad.dep_emisor, 
             actividad.dep_receptor, 
             actividad.nom_atendido, 
@@ -355,7 +356,7 @@ class actividad{
     {
         $resultado = false;
         try{
-            $codigo_actividad = $this->codigo_actividad;
+            $codigo_actividad = $this->codigo;
 
             $db = DataBase::getInstance();  
             $orden=$this->orden;       
@@ -384,8 +385,8 @@ class actividad{
 
     public function contarNumRegistros($todas)
     {
-        $codigo_actividad = $this->codigo_actividad;
-        $nombre_actividad = $this->nombre_actividad;
+        $codigo_actividad = $this->codigo;
+        $nombre_actividad = $this->nombre;
         $fecha_registro=$this->fecha_registro;
         $estado_actividad=$this->estado_actividad;
         $id_usuario_responsable = $this->id_usuario_responsable;
@@ -462,12 +463,15 @@ class actividad{
     public function exportExcel($consulta,$todas=false){
         $salida=utf8_decode('
         <table>
-            <tbody>
+            <tbody >
+                <tr>
+                </tr>
                 <tr>
                     <th colspan=7>
                         <h2>TABLA DE ACTIVIDADES REGISTRADAS- REPORTE GENERADO '.date('Y-m-d').'</h2>
                     </th>
                 </tr>
+                <tr></tr>
                 
                 <tr>
                     <th colspan=7>Ministerio del Poder Popular para la Educación</th>
@@ -479,9 +483,12 @@ class actividad{
 
                 <tr>
                     <th colspan=7>Cumaná - Municipio Sucre - Estado Sucre</th>
-                </tr><tr></tr>
+                </tr>
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
                 
-                <tr style="text-align: center;">
+                <tr style="text-align: center; font-weight: bold;">
                     <td>Codigo de Actividad</td>
                     <td>Nombre de Actividad</td>
                     <td>Fecha de Registro</td>
@@ -520,13 +527,13 @@ class actividad{
         require('../Librarys/fpdf186/fpdf.php');
         $pdf = new FPDF('P','mm',array(400,400));
         $pdf->AddPage();
-        $pdf->SetMargins(25.4, 25.4, 25.4);
+        $pdf->SetMargins(20.4, 24.4, 20.4);
         // Logo
         $pdf->Image('../View/Resources/Imagenes/logo_ministerio.png', 5, 0, 100);
         $pdf->Image('../View/Resources/Imagenes/logo.jpg', 330, 0, 60);
         //titulo
         $pdf->SetFont('Arial','',12);
-        $pdf->Ln();
+        $pdf->Ln(5);
         $pdf->Cell(0,6,utf8_decode('Ministerio del Poder Popular para la Educación'),0,1,'C');
         $pdf->Cell(0,6,utf8_decode('República Bolivariana de Venezuela'),0,1,'C');
         $pdf->Cell(0,6,utf8_decode('Centro de Desarrollo de Calidad Educativa'),0,1,'C');
@@ -541,6 +548,7 @@ class actividad{
         $pdf->Cell(30,7,utf8_decode('Código de Actividad'),1,0,'C');
         $pdf->Cell(80,7,'Nombre de Actividad',1,0,'C');
         $pdf->Cell(25,7,'Fecha de Registro',1,0,'C');
+        $pdf->Cell(25,7,'Fecha de Inicio',1,0,'C');
         $pdf->Cell(25,7,'Estado de Actividad',1,0,'C');
         $pdf->Cell(60,7,'Responable del Registro',1,0,'C');
         $pdf->Cell(60,7,'Departamento Receptor',1,0,'C');
@@ -554,6 +562,7 @@ class actividad{
             $pdf->Cell(30,$font_size_fila,utf8_decode($fila['codigo_actividad']),1,0,'C');
             $pdf->Cell(80,$font_size_fila,utf8_decode($fila['nombre_actividad']),1,0,'C');
             $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1,0,'C');
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_inicio']),1,0,'C');
             $pdf->Cell(25,$font_size_fila,utf8_decode($fila['nombre_estado_actividad']),1,0,'C');
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['nombre_personal']).' '.utf8_decode($fila['apellido_personal']),1,0,'C');
             $pdf->Cell(60,$font_size_fila,utf8_decode($fila['dep_receptor']),1,0,'C');
@@ -561,7 +570,7 @@ class actividad{
         }
         // Sello y Firma
         for($i=0;$i<3;$i++){$pdf->Ln();}
-        $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', 160,null,90);
+        $pdf->Image('../View/Resources/firmas/firma_cdce.jpg', 160,null,90);
 
         $pdf->Output('I','Tabla de Actividades Registradas',true);
     }
@@ -570,7 +579,7 @@ class actividad{
         require('../Librarys/fpdf186/fpdf.php');
         $pdf = new FPDF('L');
         $pdf->AddPage();
-        $pdf->SetMargins(25.4, 25.4, 25.4);
+        $pdf->SetMargins(22.4, 22.4, 22.4);
         // Logo
         $pdf->Image('../View/Resources/Imagenes/logo_ministerio.png', 5, 0, 100);
         $pdf->Image('../View/Resources/Imagenes/logo.jpg', 230, 0, 60);
@@ -589,6 +598,7 @@ class actividad{
         $pdf->SetFont('Arial','B',7);
         $pdf->Cell(75,7,'Nombre de Actividad',1,0,'C');
         $pdf->Cell(25,7,'Fecha de Registro',1,0,'C');
+        $pdf->Cell(25,7,'Fecha de Inicio',1,0,'C');
         $pdf->Cell(25,7,'Estado de Actividad',1,0,'C');
         $pdf->Cell(70,7,'Departamento Receptor',1,0,'C');
         $pdf->Cell(0,7,'Departamento Emisor',1,0,'C');
@@ -600,6 +610,7 @@ class actividad{
             $pdf->Ln();
             $pdf->Cell(75,$font_size_fila,utf8_decode($fila['nombre_actividad']),1,0,'C');
             $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_registro']),1,0,'C');
+            $pdf->Cell(25,$font_size_fila,utf8_decode($fila['fecha_inicio']),1,0,'C');
             $pdf->Cell(25,$font_size_fila,utf8_decode($fila['nombre_estado_actividad']),1,0,'C');
             $pdf->Cell(70,$font_size_fila,utf8_decode($fila['dep_receptor']),1,0,'C');
             $pdf->Cell(0,$font_size_fila,utf8_decode($fila['dep_emisor']),1,0,'C');
@@ -618,24 +629,24 @@ class actividad{
             $pdf->SetFont('Arial','B',10);
             $pdf->Cell(0,7,'Informe de Actividad:',1,1,'L');
             $pdf->SetFont('Arial','',7);
-            $pdf->MultiCell(0,7,utf8_decode($fila['informe']),1,'J');
+            $pdf->MultiCell(0,7,utf8_decode($fila['informe']),1,'J');$pdf->Ln();
         }
+
+        /*if($fila['evidencia']!=''){
+
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(80,7,utf8_decode('Evidencia de Completación:'),1,1,'L');
+            $pdf->SetFont('Arial','',7);
+            $pdf->Image('../uploads/'.$fila['evidencia'], 22, null, 80);
+        }*/
         
         // Sello y Firma
-        $pdf->Image('../View/Resources/Imagenes/firma_sello_zona.jpg', 100,null,90);
+        $pdf->Image('../View/Resources/firmas/firma_cdce.jpg', 100,null,90);
 
         $pdf->Output('I','SCA_CDCE:REPORTE DE ACTIVIDAD '.$fila['codigo_actividad'],true);
     }
     //-----------------------------------funciones set
     
-    public function setCodigoActividad($codigo_actividad)
-    {
-        $this->codigo_actividad = trim($codigo_actividad);
-    }
-    public function setNombreActividad($nombre_actividad)
-    {
-        $this->nombre_actividad = trim($nombre_actividad);
-    }
     public function setDepReceptor($dep_receptor)
     {
         $this->dep_receptor = trim($dep_receptor);
@@ -643,11 +654,6 @@ class actividad{
     public function setDepEmisor($dep_emisor)
     {
         $this->dep_emisor = trim($dep_emisor);
-    }
-
-    public function setIdTipo($id_tipo_actividad)
-    {
-        $this->id_tipo_actividad = trim($id_tipo_actividad);
     }
     public function setNomAtendido($nom_atendido)
     {
@@ -663,58 +669,14 @@ class actividad{
     {
         $this->ced_atendido = trim($ced_atendido);
     }
-
-    public function setEstadoActividad($estado_actividad)
-    {
-        $this->estado_actividad = trim($estado_actividad);
-    }
-    public function setObservacion($observacion)
-    {
-        $this->observacion = trim($observacion);
-    }
-    public function setfechaRegistro($fecha_registro)
-    {
-        $this->fecha_registro = trim($fecha_registro);
-    }
-    public function setDay($day)
-    {
-        $this->day = trim($day);
-    }
-    public function setMonth($month)
-    {
-        $this->month = trim($month);
-    }
-    public function setYear($year)
-    {
-        $this->year = trim($year);
-    }
-    public function setInforme($informe)
-    {
-        $this->informe = trim($informe);
-    }
-    public function setEvidencia($evidencia){
-        $this->evidencia = trim($evidencia);
-    }
     public function setIdUsuario($id_usuario_responsable){
         $this->id_usuario_responsable = trim($id_usuario_responsable);
     }
     public function setUltimaModificacion($ultima_modificacion){
         $this->ultima_modificacion = trim($ultima_modificacion);
     }
-    public function setFechaInicio($fecha_inicio){
-        $this->fecha_inicio = trim($fecha_inicio);
-    }
-
     //-----------------------------------funciones get
     
-    public function getCodigo()
-    {
-        return $this->codigo_actividad;
-    }
-    public function getNombre()
-    {
-        return $this->nombre_actividad;
-    }
     public function getDepReceptor()
     {
         return $this->dep_receptor;
@@ -722,11 +684,6 @@ class actividad{
     public function getDepEmisor()
     {
         return $this->dep_emisor;
-    }
-
-    public function getIdTipo()
-    {
-        return $this->id_tipo_actividad;
     }
     public function getNomAtendido()
     {
@@ -742,45 +699,10 @@ class actividad{
     {
         return $this->ced_atendido;
     }
-
-    public function getEstado()
-    {
-        return $this->estado_actividad;
-    }
-    public function getObservacion()
-    {
-        return $this->observacion;
-    }
-    public function getfecha($fecha_registro)
-    {
-        return $this->fecha_registro;
-    }
-    public function getDay($day)
-    {
-        return $this->day;
-    }
-    public function getMonth($month)
-    {
-        return $this->month;
-    }
-    public function getYear($year)
-    {
-        return $this->year;
-    }
-    public function getInforme()
-    {
-        return $this->informe;
-    }
-    public function getEvidencia(){
-        return $this->evidencia;
-    }
     public function getIdUsuario(){
         return $this->id_usuario_responsable;
     }
     public function getUltimaModificaion(){
         return $this->ultima_modificacion;
-    }
-    public function getFechaInicio(){
-        return $this->fecha_inicio;
     }
 }

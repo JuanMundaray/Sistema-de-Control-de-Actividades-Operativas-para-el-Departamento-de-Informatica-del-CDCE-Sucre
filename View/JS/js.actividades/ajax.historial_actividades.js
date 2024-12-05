@@ -98,10 +98,11 @@ function RellenarTablaActividades(msg){
         tabla_part_1.append(
         `<tr class='align-middle'>
             <td>${index}</td>
-            <td>${elemento['fecha_registro']}</td>
             <td>${elemento['nombre_actividad']}</td>
-            <td>${elemento['nombre_tipo']}</td>
             <td><h5><span class="badge rounded-pill  ${bg_estilo}" style="width: 120px;">${elemento['nombre_estado_actividad']}</span><h5></td>
+            <td>${elemento['nombre_tipo']}</td>
+            <td>${elemento['fecha_registro']}</td>
+            <td>${elemento['hora_registro']}</td>
         </tr>
         `);
         tabla_part_2.append(`

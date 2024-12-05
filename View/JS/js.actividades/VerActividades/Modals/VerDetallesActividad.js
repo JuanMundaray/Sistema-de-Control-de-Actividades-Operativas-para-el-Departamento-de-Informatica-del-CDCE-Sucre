@@ -30,14 +30,14 @@ window.MostrarDetalles=function(codigo){
 
                 if(elemento["observacion"]!=""){
                     let div_observacion=$("#p_div_observacion");
-                    div_evidencia.empty();
+                    div_observacion.empty();
                     div_observacion.append('<label class="text-break col-md-12 form-label"><strong >Observacion:</strong></label>');
                     div_observacion.append(`<p style="text-align: justify;" id="observacion">${observacion}</p>`);
                 }
 
                 if((elemento["informe"]!="")){
                     let div_informe=$("#p_div_observacion");
-                    div_evidencia.empty();
+                    div_informe.empty();
                     div_informe.append('<label class="col-md-12 form-label"><strong>Informe:</strong></label>');
                     div_informe.append(`<p style="text-align: justify;" id="informe">${informe}</p>`);
                 }

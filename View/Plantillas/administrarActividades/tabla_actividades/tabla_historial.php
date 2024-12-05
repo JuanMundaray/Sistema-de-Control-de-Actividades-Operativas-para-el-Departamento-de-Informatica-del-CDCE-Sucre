@@ -21,10 +21,11 @@
                 <thead>
                     <tr>
                     <th scope='col'><label>Fila</label></th>
-                        <th scope='col'><label>Fecha de Registro</label></th>
                         <th scope='col'><label>Nombre</label></th>
-                        <th scope='col'><label>Tipo</label></th>
                         <th scope='col'><label>Estado</label></th>
+                        <th scope='col'><label>Tipo</label></th>
+                        <th scope='col'><label>Fecha de Registro</label></th>
+                        <th scope='col'><label>Hora de Registro</label></th>
                     </tr>
                 </thead>
 

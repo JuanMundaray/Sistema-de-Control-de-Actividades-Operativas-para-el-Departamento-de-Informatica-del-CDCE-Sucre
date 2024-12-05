@@ -1,0 +1,25 @@
+window.eliminarTipoActividad=function(id_TipoActividad){
+    $("#ModalEliminarTipoActividad").modal("show");
+    $("#confirmarEliminarTipoActividad").on("click",()=>{
+        $.ajax({
+            type:"POST",
+            url:"../Controller/controllerTipo_actividad.php",
+            data:{
+                option:'eliminar',
+                id_tipo:id_TipoActividad
+            },
+            dataType:'json',
+            success:function(msg){
+                console.log(msg);
+                if(msg==1){
+                    location.reload();
+                }
+                else{
+                    $("#ModalEliminarTipoActividad").modal("hide");
+                    $("#ModalErrorEliminar").modal("show");
+                }
+            }
+        });
+
+    });
+}

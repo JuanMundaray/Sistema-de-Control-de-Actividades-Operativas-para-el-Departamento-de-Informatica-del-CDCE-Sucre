@@ -3,7 +3,7 @@ $(document).ready(function(){
     let mensaje = new bootstrap.Toast(repetird);
     $("#nombre_departamento").on('input',function(){
         var valor=$(this).val();
-        var nuevo_valor=valor.replace(/[0-9!@#$%^&*()_{}"´'¡¿°:|<>?,.`~+=/;[-]/g,"");
+        var nuevo_valor=valor.replace(/[^a-zA-Z\s]/g,"");
         $(this).val(nuevo_valor);
 
     });

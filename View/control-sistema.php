@@ -39,9 +39,11 @@
                     <tr>
                         <td><a href="usuarios-administrar.php">Administrar Usuarios</a></td>
                     </tr>
+                    
                     <tr>
                         <td><a href="usuario-crear-1.php">Crear Usuarios</a></td>
                     </tr>
+                    
                     <tr>
                         <td><a href="usuarios-historial.php">Historial de Usuarios</a></td>
                     </tr>
@@ -60,9 +62,12 @@
                     <tr>
                         <td><a href="generar_reporte_peticiones.php">Generar Reportes de Peticiones</a></td>
                     </tr>
-                    <!--<tr>
-                        <td><a href="Generar Reportes de Usuarios.php">Generar Reportes de Usuarios</a></td>
-                    </tr>-->
+                    <tr>
+                        <td><a href="modificar_firma.php">Cambiar Firma del CDCE</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="modificar_logos.php">Modificar Logos del Sistema</a></td>
+                    </tr>
                 </table>
             </section>
         </div>

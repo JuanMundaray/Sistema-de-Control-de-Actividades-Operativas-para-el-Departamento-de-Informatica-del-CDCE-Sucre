@@ -77,7 +77,16 @@
                     <!--Tabla que muestra los tipos de actividad que existen-->
                     <div class="table-responsive">
                         <table id="tabla_tipo_actividad" class="table table-hover text-nowrap table_default">
-                            <!--Datos que mostrara la tabla actividades gracias a ajax.tipo_actividad.js-->
+                            <thead>
+                                <tr>
+                                    <th><label>ID</label></th>
+                                    <th><label>Tipo de Actividad</label></th>
+                                    <th><label>Acción</label></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--Datos que mostrara la tabla actividades gracias a ajax.tipo_actividad.js-->
+                            </tbody>
                         </table>
                     </div>
                     <div>
@@ -92,9 +101,10 @@
 
     <?php require_once("./Plantillas/administrarTipoActividad/modalRegistrarTipoActividad.php") ?>
     <?php require_once("./Plantillas/administrarTipoActividad/notificacionRegistro.php") ?>
+    <?php require_once("./Plantillas/administrarTipoActividad/modalEliminarTipoActividad.php") ?>
 
-    <script src="JS/js.tipo_actividad/sumit.tipo_actividad.js"></script>
     <script src="JS/js.tipo_actividad/modalTipoActividad.js"></script>
+    <script src="JS/js.tipo_actividad/modal_eliminarTipoActividad.js"></script>
     <script src="JS/validar.formularios.js"></script>
 </body>
 
